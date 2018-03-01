@@ -8,13 +8,15 @@ import './gutenberg/build/blocks/build/edit-blocks.css';
 import './gutenberg/build/editor/build/style.css';
 import './gutenberg/build/edit-post/build/style.css';
 
+import './index.css';
+
 import { initializeEditor } from './gutenberg/build/edit-post';
 import { registerCoreBlocks } from './gutenberg/build/blocks';
 
 const post = {
 	content: {},
 	templates: '',
-	title: { raw: 'Título do post AQUI' },
+	title: { raw: 'Title post' },
 	type: 'post'
 };
 const settings = {
@@ -22,7 +24,7 @@ const settings = {
 	availableTemplates: [],
 	blockTyoes: true,
 	disableCustomColors: false,
-	titlePlaceholder: 'Adicionar um titlo aqui!'
+	titlePlaceholder: 'Add a title here...'
 };
 
 registerCoreBlocks();
