@@ -1,6 +1,6 @@
 import _ from 'underscore';
 
-// import { apiSettings } from './vars';
+// import { apiSettings } from './settings';
 import collections from './apiCollections';
 import models from './apiModels';
 
@@ -13,7 +13,7 @@ function API() {
 	this.views = {};
 }
 
-const api = new API;
+const api = new API();
 api.models = models;
 api.collections = collections;
 

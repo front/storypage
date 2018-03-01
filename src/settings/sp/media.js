@@ -58,8 +58,8 @@ _.extend( media, {
 	frames: {}
 });
 
-const attachmentModel       = Backbone.Model.extend();
-const attachmentsCollection = Backbone.Collection.extend();
+const attachmentModel = Backbone.Model.extend();
+// const attachmentsCollection = Backbone.Collection.extend();
 
 media.model = attachmentModel.extend();
 media.model.Selection = attachmentModel.extend();

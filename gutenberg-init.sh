@@ -1,34 +1,27 @@
-# # Cloning Front/Gutenberg
-# # and installing its dependencies 
+# Cloning Front/Gutenberg
+# and installing its dependencies 
 
 cd src
 
-if test -d $(pwd)/gutenberg; then
-    # do something
+if test -d $(pwd)/gutenberg/blocks; then
     echo "* $(pwd)/gutenberg already exists"
 else
     # clone repo
     echo "* Cloning Gutenberg"
+    rm -rf gutenberg
     git clone git@github.com:front/gutenberg.git
 fi
 
 cd gutenberg
 
-echo "* Removing node_modules if exist"
+echo "* Removing node_modules if they exist"
 rm -rf node_modules
-
-# echo "* Installing nvm and npm"
-# npm install -g npm@>=5.0.0
-# nvm install >=8.0.0
 
 echo "* Runing npm install"
 npm install
 
 echo "* Runing npm run build"
 npm run build
-
-echo "* Removing node_modules"
-rm -rf node_modules
 
 # echo "* Removing build if exist"
 rm -rf build
@@ -38,13 +31,13 @@ mkdir build
 
 folders=("blocks" "components" "data" "date" "edit-post" "editor" "element" "i18n" "utils")
 
-for folder in ${folders[@]}
-do
-    #echo $folder
+for folder in ${folders[@]}; do
     cp -r $folder build
-    # rm -rf build/$folder/test build/$folder/**/test
-    find build -name test -exec rm -rf {} \;
+    find build -name test -exec rm -rf {} \; 2> /dev/null
 done
+
+echo "* Removing unnecessary folders"
+find . -maxdepth 1 \! \( -name build \) -exec rm -rf '{}' \; 2> /dev/null
 
 echo "* Adding missing imports to components"
 
@@ -52,15 +45,7 @@ wp_folders=("blocks" "components" "data" "date" "editor" "element" "i18n" "utils
 vars=("wpApiSettings" "userSettings" "_wpDateSettings" "jQuery")
 
 for file in $(find build -name "*.js"); do
-	# fix
-	# if grep -q " _( " "$file"; then
- #        sed -i -e 's,'" _( "','" __( "',g' $file
-
- #        rm -f "$file-e"
- #    fi
-
-
-	# add React and REact Dom imports
+	# add React and ReactDOM
     imports="import React from 'react';
 import ReactDOM from 'react-dom';"
 
@@ -73,8 +58,7 @@ import ReactDOM from 'react-dom';"
     done
 
     # add imports for vars
-    for var in ${vars[@]}
-    do
+    for var in ${vars[@]}; do
 	    if grep -q $var "$file"; then
 	        imports="$imports
 import { $var } from '$replace_str../../settings/config';"
@@ -94,8 +78,7 @@ import _ from 'underscore';"
 	fi
 
 	# replace @wp path with relative paths
-    for wp in ${wp_folders[@]}
-    do
+    for wp in ${wp_folders[@]}; do
         find_str="@wordpress/$wp"
 
         if grep -q $find_str "$file"; then
@@ -117,15 +100,3 @@ $(cat $file)" > $file
 done
 
 echo "* Finishing"
-
-# to_fix=("blocks/api/raw-handling/strip-attributes.js" "blocks/api/raw-handling/inline-content-converter.js" "blocks/index.js" )
-
-# # Check this after each Gutenberg update
-# echo "Don't forget to check"
-# for file in ${to_fix[@]}
-# do
-# 	echo "- $(pwd)/build/$file"
-# done
-# echo "files and fix imports order"
-
-
