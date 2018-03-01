@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
+
 body {
 	margin: 0px;
 	font-family: system-ui;
@@ -31,6 +33,10 @@ textarea {
 .edit-post-layout .components-notice-list .notice {
 	position: relative;
 	top: 56px;
+}
+
+.edit-post-visual-editor {
+	padding-top: 106px;
 }
 
 #bulk-titles div a:before, 
