@@ -46,8 +46,8 @@ vars=("wpApiSettings" "userSettings" "_wpDateSettings" "jQuery")
 
 for file in $(find build -name "*.js"); do
 	# add React and ReactDOM
-    imports="import React from 'react';
-import ReactDOM from 'react-dom';"
+    imports="import React from 'react';"
+# import ReactDOM from 'react-dom';"
 
     n="${file//[^\/]}"
 

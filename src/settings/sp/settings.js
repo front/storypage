@@ -1,7 +1,7 @@
 const apiSettings = {
-	root: "http:\/\/localhost:3000\/",
+	root: "http://localhost:3000/",
 	nonce: '123456789',
-	versionString: "wp\/v2\/",
+	versionString: "wp/v2/",
 	cacheSchema: true,
 	schema: {}
 };
