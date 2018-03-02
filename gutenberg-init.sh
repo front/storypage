@@ -66,9 +66,14 @@ import { $var } from '$replace_str../../settings/config';"
 	done
 
 	# add import for wp
-	if grep -q "wp\." "$file"; then
+	if grep -q " wp\." "$file"; then
 	    imports="$imports
 import { wp } from '$replace_str../../settings/config';"
+    else
+        if grep -q "\twp\." "$file"; then
+            imports="$imports
+import { wp } from '$replace_str../../settings/config';"
+        fi
 	fi
 
 	# add import for underscore
