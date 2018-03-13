@@ -1,33 +1,12 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
+
 import registerServiceWorker from './registerServiceWorker';
 
-import './gutenberg/build/blocks/build/style.css';
-import './gutenberg/build/components/build/style.css';
-import './gutenberg/build/blocks/build/edit-blocks.css';
-import './gutenberg/build/editor/build/style.css';
-import './gutenberg/build/edit-post/build/style.css';
+import Router from './components/router';
 
-import './index.css';
+import './css/style.css';
 
-import { initializeEditor } from './gutenberg/build/edit-post';
-import { registerCoreBlocks } from './gutenberg/build/blocks';
-
-const post = {
-	content: {},
-	templates: '',
-	title: { raw: 'Title post' },
-	type: 'post'
-};
-const settings = {
-	alignWide: false,
-	availableTemplates: [],
-	blockTyoes: true,
-	disableCustomColors: false,
-	titlePlaceholder: 'Add a title here...'
-};
-
-registerCoreBlocks();
-initializeEditor( 'editor', post, settings );
+ReactDOM.render(<Router />, document.querySelector('#root'));
 
 registerServiceWorker();

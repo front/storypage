@@ -1,7 +1,7 @@
 # Cloning Front/Gutenberg
 # and installing its dependencies 
 
-cd src
+cd src/components
 
 if test -d $(pwd)/gutenberg/blocks; then
     echo "* $(pwd)/gutenberg already exists"
@@ -79,7 +79,7 @@ import { wp } from '$replace_str../../settings/config';"
 	# add import for underscore
 	if grep -q " _\." "$file"; then
 	    imports="$imports
-import _ from 'underscore';"
+import _ from 'lodash';"
 	fi
 
 	# replace @wp path with relative paths
@@ -103,5 +103,8 @@ import _ from 'underscore';"
     echo "$imports
 $(cat $file)" > $file
 done
+
+mv build/* .
+rm -r build
 
 echo "* Finishing"

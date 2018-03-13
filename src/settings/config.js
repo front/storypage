@@ -11,7 +11,7 @@ import apiRequest from './sp/apiRequest';
 import media from './sp/media';
 import utils from './sp/utils';
 
-import { Component } from '../gutenberg/build/element'
+import { Component } from '../components/gutenberg/element'
 
 const wp = {
 	api,

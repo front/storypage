@@ -21,4 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # Gutenberg
-/src/gutenberg
+/src/components/gutenberg
