@@ -16,11 +16,19 @@ class PostsEdit extends React.Component {
 	}
 	
 	render() {
-		const { post } = this.props;
-
-		if (!post) {
+		if (!this.props.post) {
 			return <div>Loading...</div>;
 		}
+
+		const post = {
+			content: { raw: "<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->" } ,
+			templates: '',
+			title: { raw: this.props.post.title },
+			type: 'post',
+			id: this.props.post.id
+		};
+
+		// console.log(post);
 		
 		return (
 			<div>

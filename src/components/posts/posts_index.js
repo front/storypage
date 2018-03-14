@@ -17,7 +17,7 @@ class PostsIndex extends React.Component {
 						key={ post.id }
 						className="list-group-item"
 					>
-						<Link to={ `posts/${post.id}` }>{ post.title }</Link>
+						<Link to={ `/posts/${post.id}` }>{ post.title }</Link>
 					</li>
 				);
 			});

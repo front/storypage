@@ -1,6 +1,11 @@
 import React from 'react';
+import { createProvider } from 'react-redux';
 
-import { initializeEditor } from './gutenberg/edit-post';
+import { reinitializeEditor } from './gutenberg/edit-post';
+
+import { EditorProvider, ErrorBoundary } from './gutenberg/editor';
+import Layout from './gutenberg/edit-post/components/layout';
+import store from './gutenberg/edit-post/store';
 
 // Gutenberg style
 import './gutenberg/blocks/build/style.css';
@@ -18,14 +23,22 @@ const settings = {
 };
 
 class GutenbergEditor extends React.Component {
-	componentDidMount() {
-		initializeEditor( 'editor', this.props.post, settings );
-	}
-
 	render() {
+		const target = document.getElementById( 'editor' );
+		const reboot = reinitializeEditor.bind( null, target, settings );
+		const ReduxProvider = createProvider( 'edit-post' );
+
 		return (
 			<div className="gutenberg">
-      			<div id="editor" className="gutenberg__editor"></div>
+      			<div id="editor" className="gutenberg__editor">
+      				<EditorProvider settings={ settings } post={ this.props.post }>
+						<ErrorBoundary onError={ reboot }>
+							<ReduxProvider store={ store }>
+								<Layout />
+							</ReduxProvider>
+						</ErrorBoundary>
+					</EditorProvider>
+      			</div>
     		</div>
 		);
 	}

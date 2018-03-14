@@ -15,10 +15,10 @@ const baseModel = Backbone.Model.extend(
 				const post = this.attributes;
 				const res = savePost(post);
 
-				this.attributes.id = res.payload.id;
+				// this.attributes.id = res.payload.id;
 
 				if (res) {
-					dfd.resolve(this);
+					dfd.resolve(res.payload);
 				}
 			}).promise();
 		},

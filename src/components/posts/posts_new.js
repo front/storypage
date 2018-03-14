@@ -7,7 +7,7 @@ class PostsNew extends React.Component {
 	
 	render() {
 		const post = {
-			content: {},
+			content: { raw: ""},
 			templates: '',
 			title: { raw: '' },
 			type: 'post'
