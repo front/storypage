@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
+import _ from 'lodash';
 
 import { apiSettings } from './settings';
 

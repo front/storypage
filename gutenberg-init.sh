@@ -61,18 +61,18 @@ for file in $(find build -name "*.js"); do
     for var in ${vars[@]}; do
 	    if grep -q $var "$file"; then
 	        imports="$imports
-import { $var } from '$replace_str../../settings/config';"
+import { $var } from '$replace_str../../core';"
 	    fi
 	done
 
 	# add import for wp
 	if grep -q " wp\." "$file"; then
 	    imports="$imports
-import { wp } from '$replace_str../../settings/config';"
+import { wp } from '$replace_str../../core';"
     else
         if grep -q "\twp\." "$file"; then
             imports="$imports
-import { wp } from '$replace_str../../settings/config';"
+import { wp } from '$replace_str../../core';"
         fi
 	fi
 

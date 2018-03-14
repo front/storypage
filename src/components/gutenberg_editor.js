@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { initializeEditor } from './gutenberg/edit-post';
-import { registerCoreBlocks } from './gutenberg/blocks';
 
 // Gutenberg style
 import './gutenberg/blocks/build/style.css';
@@ -20,7 +19,6 @@ const settings = {
 
 class GutenbergEditor extends React.Component {
 	componentDidMount() {
-		registerCoreBlocks();
 		initializeEditor( 'editor', this.props.post, settings );
 	}
 
@@ -32,8 +30,6 @@ class GutenbergEditor extends React.Component {
 		);
 	}
 }
-
-
 
 export default GutenbergEditor;
 

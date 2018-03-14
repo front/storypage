@@ -4,12 +4,12 @@ import {
 	apiSettings,
 	dateSettings,
 	userSettings,
-} from './sp/settings';
+} from './settings';
 
-import api from './sp/api';
-import apiRequest from './sp/apiRequest';
-import media from './sp/media';
-import utils from './sp/utils';
+import api from './api';
+import apiRequest from './apiRequest';
+import media from './media';
+import utils from './utils';
 
 import { Component } from '../components/gutenberg/element'
 

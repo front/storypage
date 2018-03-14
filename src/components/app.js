@@ -1,20 +1,13 @@
 import React from 'react';
-
-import GutenbergEditor from './gutenberg_editor';
+import { Link } from 'react-router-dom';
 
 class App extends React.Component {
-	state = {
-		post: {
-			content: {},
-			templates: '',
-			title: { raw: 'Title post' },
-			type: 'post'
-		}
-	};
-
 	render() {
 		return (
-			<GutenbergEditor post={ this.state.post } />
+			<div>
+				<h1>Welcome to StoryPage</h1>
+				<Link to="/posts">Check all posts</Link>
+			</div>
 		);
 	}
 }
