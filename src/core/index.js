@@ -10,6 +10,7 @@ import api from './api';
 import apiRequest from './apiRequest';
 import media from './media';
 import utils from './utils';
+import { addQueryArgs } from './url';
 
 import { Component } from '../components/gutenberg/element'
 
@@ -32,4 +33,5 @@ export {
 	dateSettings as _wpDateSettings,
 	wp,
 	jQuery,
+	addQueryArgs,
 }

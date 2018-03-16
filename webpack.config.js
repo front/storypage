@@ -41,6 +41,15 @@ const extractConfig = {
 	],
 };
 
+const externals = {
+	react: 'React',
+	'react-dom': 'ReactDOM',
+	'react-dom/server': 'ReactDOMServer',
+	tinymce: 'tinymce',
+	moment: 'moment',
+	jquery: 'jQuery',
+};
+
 module.exports = {
 	entry: './src/index.js',
 	output: {
@@ -54,7 +63,8 @@ module.exports = {
     	blocksCSSPlugin,
 		editBlocksCSSPlugin,
 		mainCSSExtractTextPlugin,
-  	],
+  	],	
+  	externals,
   	resolve: {
 		modules: [
 			__dirname,

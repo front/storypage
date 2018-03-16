@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+import { get } from 'lodash';
 import _ from 'lodash';
 import jQuery from 'jquery';
 
@@ -14,8 +15,6 @@ const baseModel = Backbone.Model.extend(
 			return jQuery.Deferred(dfd => {
 				const post = this.attributes;
 				const res = savePost(post);
-
-				// this.attributes.id = res.payload.id;
 
 				if (res) {
 					dfd.resolve(res.payload);
