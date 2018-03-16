@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 
 import registerServiceWorker from './registerServiceWorker';
 
-// import { registerCoreBlocks } from './components/gutenberg/blocks';
+import { registerCoreBlocks } from './components/gutenberg/blocks';
 
 import Router from './components/router';
 import reducers from './reducers';
@@ -14,7 +14,7 @@ import './css/style.css';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
-// registerCoreBlocks();
+registerCoreBlocks();
 
 ReactDOM.render(
 	<Provider store={createStoreWithMiddleware(reducers)}>

@@ -1,5 +1,45 @@
+/**
+ * External dependencies
+ */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+
+// Main CSS loader for everything but blocks..
+const mainCSSExtractTextPlugin = new ExtractTextPlugin( {
+	filename: './[basename]/build/style.css',
+} );
+
+// CSS loader for styles specific to block editing.
+const editBlocksCSSPlugin = new ExtractTextPlugin( {
+	filename: './blocks/build/edit-blocks.css',
+} );
+
+// CSS loader for styles specific to blocks in general.
+const blocksCSSPlugin = new ExtractTextPlugin( {
+	filename: './blocks/build/style.css',
+} );
+
+// Configuration for the ExtractTextPlugin.
+const extractConfig = {
+	use: [
+		{ loader: 'raw-loader' },
+		{
+			loader: 'postcss-loader',
+			options: {
+				plugins: [
+					require( 'autoprefixer' ),
+				],
+			},
+		},
+		{
+			loader: 'sass-loader',
+			query: {
+				includePaths: [ 'src/components/gutenberg/edit-post/assets/stylesheets' ],
+				data: '@import "colors"; @import "admin-schemes"; @import "breakpoints"; @import "variables"; @import "mixins"; @import "animations";@import "z-index";',
+			},
+		},
+	],
+};
 
 module.exports = {
 	entry: './src/index.js',
@@ -11,8 +51,16 @@ module.exports = {
     	new HtmlWebpackPlugin({
       		template: './public/index.html',
     	}),
-    	// new ExtractTextPlugin('style.bundle.css'),
+    	blocksCSSPlugin,
+		editBlocksCSSPlugin,
+		mainCSSExtractTextPlugin,
   	],
+  	resolve: {
+		modules: [
+			__dirname,
+			'node_modules',
+		],
+	},
 	module: {
 		rules: [
 			{
@@ -25,25 +73,37 @@ module.exports = {
 				use: 'babel-loader',
 			},
 			{
-	            test: /\.(css|scss)$/,
+	            test: /\.css$/,
 	            use: [
 	            	{
 	                	loader: 'style-loader'
 	            	}, 
 	            	{
 	                	loader: 'css-loader'
-	            	}, 
-	            	{
-	                	loader: 'sass-loader'
 	            	}
 	            ]
 			},
-			// {
-			// 	test: /\.css$/,
-			// 	loader: ExtractTextPlugin.extract({
-			// 		use: 'css-loader',
-			// 	}),
-			// }
+			{
+				test: /style\.scss$/,
+				include: [
+					/blocks/,
+				],
+				use: blocksCSSPlugin.extract( extractConfig ),
+			},
+			{
+				test: /editor\.scss$/,
+				include: [
+					/blocks/,
+				],
+				use: editBlocksCSSPlugin.extract( extractConfig ),
+			},
+			{
+				test: /\.scss$/,
+				exclude: [
+					/blocks/,
+				],
+				use: mainCSSExtractTextPlugin.extract( extractConfig ),
+			},
 		]
 	},
 	devServer: {

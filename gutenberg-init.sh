@@ -23,8 +23,10 @@ npm install
 echo "* Runing npm run build"
 npm run build
 
-# echo "* Removing build if exist"
-rm -rf build
+echo "* Remove generated js"
+for file in $(find */build -name "*.js"); do
+    rm ${file}
+done
 
 echo "* Coping folders to build/"
 mkdir build
@@ -36,7 +38,7 @@ for folder in ${folders[@]}; do
     find build -name test -exec rm -rf {} \; 2> /dev/null
 done
 
-echo "* Removing unnecessary folders"
+echo "* Removing all folders except build"
 find . -maxdepth 1 \! \( -name build \) -exec rm -rf '{}' \; 2> /dev/null
 
 echo "* Adding missing imports to components"
@@ -47,7 +49,6 @@ vars=("wpApiSettings" "userSettings" "_wpDateSettings" "jQuery")
 for file in $(find build -name "*.js"); do
 	# add React and ReactDOM
     imports="import React from 'react';"
-# import ReactDOM from 'react-dom';"
 
     n="${file//[^\/]}"
 
@@ -93,7 +94,7 @@ import _ from 'lodash';"
         fi
     done
 
-    #remove !!sass-variables-loader!
+    # remove !!sass-variables-loader!
     if grep -q "!!sass-variables-loader!" "$file"; then
         sed -i -e 's,'"!!sass-variables-loader!"','',g' $file
 
