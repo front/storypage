@@ -10,8 +10,8 @@ export default function(state = {}, action) {
 		const post = action.payload;
 
 		return { ...state, [post.id]: post };
-	// case DELETE_POST:
-	// 	return _.omit(state, action.payload);
+	case DELETE_POST:
+		return _.omit(state, action.payload);
 	default:
 		return state;
 	}

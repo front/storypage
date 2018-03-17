@@ -4,7 +4,7 @@ import _ from 'lodash';
 import jQuery from 'jquery';
 
 import { apiSettings } from './settings';
-import { savePost } from '../actions';
+import { savePost, deletePost } from '../actions';
 
 // const trashableTypes = [ /*'Comment', 'Media', 'Comment', */'Post'/*, 'Page', 'Status', 'Taxonomy', 'Type' */];
 
@@ -21,6 +21,15 @@ const baseModel = Backbone.Model.extend(
 				}
 			}).promise();
 		},
+		destroy: function( options ) {
+			return jQuery.Deferred(dfd => {
+				const res = deletePost(this.id);
+
+				if (res) {
+					dfd.resolve();
+				}
+			}).promise();
+		}
 	}
 );
 

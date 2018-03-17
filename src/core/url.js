@@ -7,5 +7,5 @@
  * @return {String}       Updated URL
  */
 export function addQueryArgs( url, args ) {
-	return args.post;
+	return args.post ? args.post : 'new';
 }
