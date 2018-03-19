@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
+import _ from 'lodash';
 
 let MediaFrame = Backbone.View.extend( {
 	open: function() {

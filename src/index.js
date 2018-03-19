@@ -1,33 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+
 import registerServiceWorker from './registerServiceWorker';
 
-import './gutenberg/build/blocks/build/style.css';
-import './gutenberg/build/components/build/style.css';
-import './gutenberg/build/blocks/build/edit-blocks.css';
-import './gutenberg/build/editor/build/style.css';
-import './gutenberg/build/edit-post/build/style.css';
+import { registerCoreBlocks } from './components/gutenberg/blocks';
 
-import './index.css';
+import Router from './components/router';
+import reducers from './reducers';
 
-import { initializeEditor } from './gutenberg/build/edit-post';
-import { registerCoreBlocks } from './gutenberg/build/blocks';
+import './css/style.css';
 
-const post = {
-	content: {},
-	templates: '',
-	title: { raw: 'Title post' },
-	type: 'post'
-};
-const settings = {
-	alignWide: false,
-	availableTemplates: [],
-	blockTyoes: true,
-	disableCustomColors: false,
-	titlePlaceholder: 'Add a title here...'
-};
+const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 registerCoreBlocks();
-initializeEditor( 'editor', post, settings );
+
+ReactDOM.render(
+	<Provider store={createStoreWithMiddleware(reducers)}>
+		<Router />
+	</Provider>, document.querySelector('#root'));
 
 registerServiceWorker();

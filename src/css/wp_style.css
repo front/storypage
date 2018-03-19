@@ -1,20 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
-
-body {
-	margin: 0px;
-	font-family: system-ui;
-	font-size: 13px;
-}
-
-button, 
-input, 
-select, 
-textarea {
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-}
-
 .screen-reader-text, 
 .screen-reader-text span, 
 .ui-helper-hidden-accessible {
@@ -35,9 +18,9 @@ textarea {
 	top: 56px;
 }
 
-.edit-post-visual-editor {
+/*.edit-post-visual-editor {
 	padding-top: 106px;
-}
+}*/
 
 #bulk-titles div a:before, 
 .notice-dismiss:before, 
