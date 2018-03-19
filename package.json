@@ -132,9 +132,7 @@
     "webpack-rtl-plugin": "github:yoavf/webpack-rtl-plugin#develop"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "node scripts/start.js && watch-css",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "gutenberg-init": "bash gutenberg-init.sh"

@@ -15,6 +15,7 @@ const paths = require('./paths');
 const { reduce, escapeRegExp, castArray, get } = require('lodash');
 const { basename } = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -119,7 +120,7 @@ class CustomTemplatedPathPlugin {
 module.exports = {
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map', // 'cheap-module-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
@@ -204,12 +205,8 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          {
-              loader: 'style-loader'
-          }, 
-          {
-              loader: 'css-loader'
-          }
+          { loader: 'style-loader' }, 
+          { loader: 'css-loader' }
         ]
       },
       {
@@ -378,6 +375,11 @@ module.exports = {
     blocksCSSPlugin,
     editBlocksCSSPlugin,
     mainCSSExtractTextPlugin,
+    // Create RTL files with a -rtl suffix
+    new WebpackRTLPlugin( {
+      suffix: '-rtl',
+      minify: process.env.NODE_ENV === 'production' ? { safe: true } : false,
+    } ),
     new CustomTemplatedPathPlugin({
       basename( path, data ) {
         const rawRequest = get( data, [ 'chunk', 'entryModule', 'rawRequest' ] );

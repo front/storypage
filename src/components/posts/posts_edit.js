@@ -21,8 +21,8 @@ class PostsEdit extends React.Component {
 		}
 
 		const post = {
-			// content: { raw: this.props.content } ,
-			content: { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->' } ,
+			content: { raw: this.props.content } ,
+			// content: { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->' } ,
 			templates: '',
 			title: { raw: this.props.post.title },
 			type: 'post',
