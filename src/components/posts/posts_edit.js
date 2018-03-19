@@ -17,12 +17,11 @@ class PostsEdit extends React.Component {
 	
 	render() {
 		if (!this.props.post) {
-			return <div>Loading...</div>;
+			return <div>Loading post...</div>;
 		}
 
 		const post = {
-			content: { raw: this.props.content } ,
-			// content: { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->' } ,
+			content: { raw: this.props.post.content },
 			templates: '',
 			title: { raw: this.props.post.title },
 			type: 'post',

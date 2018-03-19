@@ -34,7 +34,11 @@ export function savePost(values) {
 
 		storedPosts = { 
 			...storedPosts, 
-			[values.id]: values 
+			[values.id]: {
+				id: values.id,
+				title: values.title || '', 
+				content: values.content || '' 
+			}
 		};
 	} 
 	// update
