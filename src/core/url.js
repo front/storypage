@@ -1,3 +1,5 @@
+import { apiSettings } from './settings';
+
 /**
  * Appends post id the url
  *
@@ -7,5 +9,12 @@
  * @return {String}       Updated URL
  */
 export function addQueryArgs( url, args ) {
-	return args.post ? args.post : 'new';
+	// reset path
+	window.history.replaceState(
+		{ },
+		' ',
+		`${apiSettings.root}posts/`
+	); 
+	
+	return args.post ? `${args.post}/edit` : 'new';
 }
