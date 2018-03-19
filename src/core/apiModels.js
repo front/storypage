@@ -11,6 +11,53 @@ import { savePost, deletePost } from '../actions';
 const models = {};
 const baseModel = Backbone.Model.extend(
 	{
+		// sync: function( method, model, options ) {
+		// 	var beforeSend;
+
+		// 	options = options || {};
+
+		// 	// Remove date_gmt if null.
+		// 	if ( _.isNull( model.get( 'date_gmt' ) ) ) {
+		// 		model.unset( 'date_gmt' );
+		// 	}
+
+		// 	// Remove slug if empty.
+		// 	if ( _.isEmpty( model.get( 'slug' ) ) ) {
+		// 		model.unset( 'slug' );
+		// 	}
+
+		// 	if ( _.isFunction( model.nonce ) && ! _.isUndefined( model.nonce() ) && ! _.isNull( model.nonce() ) ) {
+		// 		beforeSend = options.beforeSend;
+
+		// 		// @todo enable option for jsonp endpoints
+		// 		// options.dataType = 'jsonp';
+
+		// 		// Include the nonce with requests.
+		// 		options.beforeSend = function( xhr ) {
+		// 			xhr.setRequestHeader( 'X-WP-Nonce', model.nonce() );
+
+		// 			if ( beforeSend ) {
+		// 				return beforeSend.apply( this, arguments );
+		// 			}
+		// 		};
+
+		// 		// Update the nonce when a new nonce is returned with the response.
+		// 		options.complete = function( xhr ) {
+		// 			var returnedNonce = xhr.getResponseHeader( 'X-WP-Nonce' );
+
+		// 			if ( returnedNonce && _.isFunction( model.nonce ) && model.nonce() !== returnedNonce ) {
+		// 				model.endpointModel.set( 'nonce', returnedNonce );
+		// 			}
+		// 		};
+		// 	}
+
+		// 	// Add '?force=true' to use delete method when required.
+		// 	if ( this.requireForceForDelete && 'delete' === method ) {
+		// 		model.url = model.url() + '?force=true';
+		// 	}
+		// 	return Backbone.sync( method, model, options );
+		// },
+
 		save: function( attrs, options ) {
 			return jQuery.Deferred(dfd => {
 				const post = this.attributes;

@@ -52,7 +52,7 @@ export function savePost(values) {
 
 	return {
 		type: SAVE_POST,
-		payload: values
+		payload: storedPosts[values.id]
 	};
 }
 

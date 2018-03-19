@@ -15,7 +15,8 @@ const paths = require('./paths');
 const { reduce, escapeRegExp, castArray, get } = require('lodash');
 const { basename } = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
+const WebpackRTLPlugin = require('webpack-rtl-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -26,6 +27,10 @@ const publicPath = '/';
 const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+const distPath = {
+  js: 'static/js/'
+};
 
 // Main CSS loader for everything but blocks..
 const mainCSSExtractTextPlugin = new ExtractTextPlugin( {
@@ -150,9 +155,9 @@ module.exports = {
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
-    filename: 'static/js/bundle.js',
+    filename: `${distPath.js}bundle.js`,
     // There are also additional JS chunk files if you use code splitting.
-    chunkFilename: 'static/js/[name].chunk.js',
+    chunkFilename: `${distPath.js}[name].chunk.js`,
     // This is the URL that app is served from. We use "/" in development.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -390,6 +395,9 @@ module.exports = {
         return path;
       },
     }),
+    new CopyWebpackPlugin([
+      { from: 'node_modules/tinymce/plugins', to: `${distPath.js}plugins` }
+    ], {})
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
