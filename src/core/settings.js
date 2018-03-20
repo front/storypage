@@ -6,7 +6,8 @@ const apiSettings = {
 	schema: {},
 	mapping: {
 		models: {
-			'Posts': 'Post'
+			'Posts': 'Post',
+			'Media': 'Media',
 		}
 	}
 };

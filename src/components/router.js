@@ -6,6 +6,7 @@ import App from './app';
 import PostsIndex from './posts/posts_index';
 import PostsEdit from './posts/posts_edit';
 import PostsNew from './posts/posts_new';
+import PostsShow from './posts/posts_show';
 
 class Router extends React.Component {
   render() {
@@ -15,7 +16,8 @@ class Router extends React.Component {
           <Route exact path="/" component={ App } />
           <Route exact path="/posts" component={ PostsIndex } />
           <Route exact path="/posts/new" component={ PostsNew } />
-          <Route exact path="/posts/:id" component={ PostsEdit } />
+          <Route exact path="/posts/:id/edit" component={ PostsEdit } />
+          <Route exact path="/posts/:id" component={ PostsShow } />
           <Route component={ NotFound } />
         </Switch>
       </BrowserRouter>

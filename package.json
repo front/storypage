@@ -69,6 +69,7 @@
     "react-dev-utils": "^5.0.0",
     "react-dom": "16.2.0",
     "react-redux": "5.0.6",
+    "react-render-html": "^0.6.0",
     "react-router-dom": "^4.0.0",
     "redux": "3.7.2",
     "redux-multi": "0.1.12",

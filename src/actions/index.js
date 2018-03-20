@@ -3,21 +3,44 @@ export const SAVE_POST = 'save_post';
 export const FETCH_POST = 'fetch_post';
 export const DELETE_POST = 'delete_post';
 
-const LOCAL_STORAGE_KEY = 'storypage_posts';
+export const SAVE_MEDIA = 'save_media';
 
-function getPostsFromLocalStorage() {
+const LOCAL_STORAGE_KEY = 'storypage';
+const LOCAL_POSTS = 'posts';
+const LOCAL_MEDIA = 'media';
+
+function getFromLocalStorage(key = null) {
 	const data = localStorage.getItem(LOCAL_STORAGE_KEY);
 
 	if (data) {
-		return JSON.parse(data);
+		const resources = JSON.parse(data);
+
+		if (key) {
+			if (!resources[key]) {
+				resources[key] = [];
+				localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resources));
+			}
+
+			return resources[key];
+		} else {
+			return resources
+		}	
 	} 
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, []);
-	return {};	
+	// create for the first time
+	const storage = { 
+		[LOCAL_POSTS]: [],
+		[LOCAL_MEDIA]: [] 
+	};
+
+	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+
+	return storage;	
 }
 
+// Get all posts
 export function fetchPosts() {
-	const posts = getPostsFromLocalStorage();
+	const posts = getFromLocalStorage(LOCAL_POSTS);
 
 	return {
 		type: FETCH_POSTS,
@@ -25,15 +48,16 @@ export function fetchPosts() {
 	};
 }
 
+// Create or edit a post
 export function savePost(values) {
-	let storedPosts = getPostsFromLocalStorage();
+	const storage = getFromLocalStorage();
 
 	// create
 	if (!values.id) {
 		values.id = Date.now();
 
-		storedPosts = { 
-			...storedPosts, 
+		storage[LOCAL_POSTS] = { 
+			...storage[LOCAL_POSTS], 
 			[values.id]: {
 				id: values.id,
 				title: values.title || '', 
@@ -44,24 +68,25 @@ export function savePost(values) {
 	// update
 	else {
 		if (values.title) {
-			storedPosts[values.id].title = values.title;
+			storage[LOCAL_POSTS][values.id].title = values.title;
 		}
 
 		if (values.content) {
-			storedPosts[values.id].content = values.content;
+			storage[LOCAL_POSTS][values.id].content = values.content;
 		}		
 	}
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedPosts));
+	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
 
 	return {
 		type: SAVE_POST,
-		payload: storedPosts[values.id]
+		payload: storage[LOCAL_POSTS][values.id]
 	};
 }
 
+// Get a post
 export function fetchPost(id) {
-	const posts = getPostsFromLocalStorage();
+	const posts = getFromLocalStorage(LOCAL_POSTS);
 
 	return {
 		type: FETCH_POST,
@@ -69,15 +94,49 @@ export function fetchPost(id) {
 	};
 }
 
+// Delete a post
 export function deletePost(id) {
-	let storedPosts = getPostsFromLocalStorage();
+	const storage = getFromLocalStorage();
 
-	delete storedPosts[id]
+	delete storage[LOCAL_POSTS][id]
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedPosts));
+	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
 
 	return {
 		type: DELETE_POST,
 		payload: id
+	};
+}
+
+export function saveMedia(values) {
+	const storage = getFromLocalStorage();
+
+	// create
+	if (!values.id) {
+		values.id = Date.now();
+
+		console.log(values.data);
+
+		storage[LOCAL_MEDIA] = { 
+			...storage[LOCAL_MEDIA], 
+			[values.id]: {
+				id: values.id,
+				url: '',
+				link: ''
+			}
+		};
+	} 
+	// update
+	else {
+		if (values.data) {
+			storage[LOCAL_MEDIA][values.id].data = values.data;
+		}	
+	}
+
+	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+
+	return {
+		type: SAVE_MEDIA,
+		payload: storage[LOCAL_MEDIA][values.id]
 	};
 }

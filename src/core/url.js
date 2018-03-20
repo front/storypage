@@ -7,5 +7,12 @@
  * @return {String}       Updated URL
  */
 export function addQueryArgs( url, args ) {
-	return args.post ? args.post : 'new';
+	// reset path
+	window.history.replaceState(
+		{ },
+		' ',
+		`${window.location.origin}/posts/`
+	); 
+	
+	return args.post ? `${args.post}/edit` : 'new';
 }

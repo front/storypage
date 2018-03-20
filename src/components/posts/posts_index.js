@@ -6,24 +6,20 @@ import { fetchPosts } from '../../actions';
 
 class PostsIndex extends React.Component {
 	componentDidMount() {
-		this.props.fetchPosts()
+		this.props.fetchPosts();
 	}
 
 	renderPosts() {
-		if (this.props.posts) {
-			return _.map(this.props.posts, post => {
-				return (
-					<li 
-						key={ post.id }
-						className="list-group-item"
-					>
-						<Link to={ `/posts/${post.id}` }>{ post.title }</Link>
-					</li>
-				);
-			});
-		} else {
-			return <li>No results!</li>;
-		}
+		return _.map(this.props.posts, post => {
+			return (
+				<tr key={ post.id }>
+					<td>{ post.title }</td>
+					<td><Link to={ `/posts/${post.id}` }>show</Link></td>
+					<td><Link to={ `/posts/${post.id}/edit` }>edit</Link></td>
+					<td>delete</td>
+				</tr>
+			);
+		});
 	}
 
 	render() {
@@ -33,9 +29,20 @@ class PostsIndex extends React.Component {
 				<Link to="/">Go home!</Link>
 				<Link to="/posts/new">New Post</Link>
 
-				<ul>
-					{ this.renderPosts() }
-				</ul>
+				<br/>
+				<br/>
+
+				<table>
+					<thead>
+						<tr>
+							<td>Post</td>
+							<td colSpan="3">Actions</td>
+						</tr>
+					</thead>
+					<tbody>
+						{ this.renderPosts() }
+					</tbody>
+				</table>
 			</div>
 		)
 	}
