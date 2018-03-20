@@ -1,5 +1,3 @@
-import { apiSettings } from './settings';
-
 /**
  * Appends post id the url
  *
@@ -13,7 +11,7 @@ export function addQueryArgs( url, args ) {
 	window.history.replaceState(
 		{ },
 		' ',
-		`${apiSettings.root}posts/`
+		`${window.location.origin}/posts/`
 	); 
 	
 	return args.post ? `${args.post}/edit` : 'new';

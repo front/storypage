@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import renderHTML from 'react-render-html';
+
 import { fetchPost } from '../../actions';
 
 // Gutenberg imports
@@ -32,7 +34,7 @@ class PostsShow extends React.Component {
 
 				<div>
 					<h1>{ this.props.post.title }</h1>
-					{ this.props.post.content }
+					{ renderHTML(this.props.post.content) }
 				</div>
 			</div>
 		)
