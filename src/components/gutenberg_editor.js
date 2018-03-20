@@ -1,18 +1,18 @@
 import React from 'react';
 import { createProvider } from 'react-redux';
 
-import { reinitializeEditor } from './gutenberg/edit-post';
+import { reinitializeEditor } from '@wordpress/edit-post';
 
-import { EditorProvider, ErrorBoundary } from './gutenberg/editor';
-import Layout from './gutenberg/edit-post/components/layout';
-import store from './gutenberg/edit-post/store';
+import { EditorProvider, ErrorBoundary } from '@wordpress/editor';
+import Layout from '@wordpress/edit-post/components/layout';
+import store from '@wordpress/edit-post/store';
 
 // Gutenberg style
-import './gutenberg/blocks/build/style.css';
-import './gutenberg/components/build/style.css';
-import './gutenberg/blocks/build/edit-blocks.css';
-import './gutenberg/editor/build/style.css';
-import './gutenberg/edit-post/build/style.css';
+import '@wordpress/blocks/build/style.css';
+import '@wordpress/components/build/style.css';
+import '@wordpress/blocks/build/edit-blocks.css';
+import '@wordpress/editor/build/style.css';
+import '@wordpress/edit-post/build/style.css';
 
 const settings = {
 	alignWide: false,
