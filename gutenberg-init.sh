@@ -25,7 +25,7 @@ echo "* Coping folders to tmp/"
 mkdir tmp
 
 # gutenberg folders which contains components
-folders=("blocks" "components" "data" "date" "edit-post" "editor" "element" "i18n" "utils")
+folders=("blocks" "components" "data" "date" "edit-post" "editor" "element" "i18n" "utils" "viewport")
 
 for folder in ${folders[@]}; do
     cp -r $folder tmp
@@ -37,7 +37,7 @@ find . -maxdepth 1 \! \( -name tmp \) -exec rm -rf '{}' \; 2> /dev/null
 
 echo "* Adding missing imports to components"
 
-wp_folders=("blocks" "components" "data" "date" "editor" "element" "i18n" "utils")
+# wp_folders=("blocks" "components" "data" "date" "editor" "element" "i18n" "utils" "viewport")
 vars=("wpApiSettings" "userSettings" "_wpDateSettings" "jQuery")
 
 for file in $(find tmp -name "*.js"); do
@@ -78,15 +78,15 @@ import _ from 'lodash';"
 	fi
 
 	# replace @wp path with relative paths
-    for wp in ${wp_folders[@]}; do
-        find_str="@wordpress/$wp"
+    # for wp in ${wp_folders[@]}; do
+    #     find_str="@wordpress/$wp"
 
-        if grep -q $find_str "$file"; then
-            sed -i -e 's,'"$find_str"','"$replace_str$wp"',g' $file
+    #     if grep -q $find_str "$file"; then
+    #         sed -i -e 's,'"$find_str"','"$replace_str$wp"',g' $file
 
-            rm -f "$file-e"
-        fi
-    done
+    #         rm -f "$file-e"
+    #     fi
+    # done
 
     # replace @wp/url
     if grep -q "@wordpress/url" "$file"; then
