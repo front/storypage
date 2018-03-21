@@ -1,12 +1,12 @@
-export const FETCH_POSTS = 'fetch_posts';
-export const SAVE_POST = 'save_post';
-export const FETCH_POST = 'fetch_post';
-export const DELETE_POST = 'delete_post';
+export const FETCH_PAGES = 'fetch_pages';
+export const SAVE_PAGE = 'save_page';
+export const FETCH_PAGE = 'fetch_page';
+export const DELETE_PAGE = 'delete_page';
 
 export const SAVE_MEDIA = 'save_media';
 
 const LOCAL_STORAGE_KEY = 'storypage';
-const LOCAL_POSTS = 'posts';
+const LOCAL_PAGES = 'pages';
 const LOCAL_MEDIA = 'media';
 
 function getFromLocalStorage(key = null) {
@@ -29,7 +29,7 @@ function getFromLocalStorage(key = null) {
 
 	// create for the first time
 	const storage = { 
-		[LOCAL_POSTS]: [],
+		[LOCAL_PAGES]: [],
 		[LOCAL_MEDIA]: [] 
 	};
 
@@ -38,26 +38,26 @@ function getFromLocalStorage(key = null) {
 	return storage;	
 }
 
-// Get all posts
-export function fetchPosts() {
-	const posts = getFromLocalStorage(LOCAL_POSTS);
+// Get all pages
+export function fetchPages() {
+	const pages = getFromLocalStorage(LOCAL_PAGES);
 
 	return {
-		type: FETCH_POSTS,
-		payload: posts
+		type: FETCH_PAGES,
+		payload: pages
 	};
 }
 
-// Create or edit a post
-export function savePost(values) {
+// Create or edit a P+page
+export function savePage(values) {
 	const storage = getFromLocalStorage();
 
 	// create
 	if (!values.id) {
 		values.id = Date.now();
 
-		storage[LOCAL_POSTS] = { 
-			...storage[LOCAL_POSTS], 
+		storage[LOCAL_PAGES] = { 
+			...storage[LOCAL_PAGES], 
 			[values.id]: {
 				id: values.id,
 				title: values.title || '', 
@@ -68,42 +68,42 @@ export function savePost(values) {
 	// update
 	else {
 		if (values.title) {
-			storage[LOCAL_POSTS][values.id].title = values.title;
+			storage[LOCAL_PAGES][values.id].title = values.title;
 		}
 
 		if (values.content) {
-			storage[LOCAL_POSTS][values.id].content = values.content;
+			storage[LOCAL_PAGES][values.id].content = values.content;
 		}		
 	}
 
 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
 
 	return {
-		type: SAVE_POST,
-		payload: storage[LOCAL_POSTS][values.id]
+		type: SAVE_PAGE,
+		payload: storage[LOCAL_PAGES][values.id]
 	};
 }
 
-// Get a post
-export function fetchPost(id) {
-	const posts = getFromLocalStorage(LOCAL_POSTS);
+// Get a page
+export function fetchPage(id) {
+	const pages = getFromLocalStorage(LOCAL_PAGES);
 
 	return {
-		type: FETCH_POST,
-		payload: posts[id] || { }
+		type: FETCH_PAGE,
+		payload: pages[id] || { }
 	};
 }
 
-// Delete a post
-export function deletePost(id) {
+// Delete a page
+export function deletePage(id) {
 	const storage = getFromLocalStorage();
 
-	delete storage[LOCAL_POSTS][id]
+	delete storage[LOCAL_PAGES][id]
 
 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
 
 	return {
-		type: DELETE_POST,
+		type: DELETE_PAGE,
 		payload: id
 	};
 }
@@ -115,14 +115,12 @@ export function saveMedia(values) {
 	if (!values.id) {
 		values.id = Date.now();
 
-		console.log(values.data);
-
 		storage[LOCAL_MEDIA] = { 
 			...storage[LOCAL_MEDIA], 
 			[values.id]: {
 				id: values.id,
-				url: '',
-				link: ''
+				source_url: 'http://localhost:3000/sample.jpg',
+				link: 'http://localhost:3000/sample.jpg',
 			}
 		};
 	} 

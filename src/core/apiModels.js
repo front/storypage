@@ -4,25 +4,22 @@ import _ from 'lodash';
 import jQuery from 'jquery';
 
 import { apiSettings } from './settings';
-import { savePost, deletePost, saveMedia } from '../actions';
-
-// const trashableTypes = [ /*'Comment', 'Media', 'Comment', */'Post'/*, 'Page', 'Status', 'Taxonomy', 'Type' */];
+import { savePage, deletePage, saveMedia } from '../actions';
 
 const models = {};
 const baseModel = Backbone.Model.extend(
 	{
 		save: function( attrs, options ) {
 			if (!attrs && !options) {
-				// save post
+				// save page
 				return jQuery.Deferred(dfd => {
-					const res = savePost(this.attributes);
+					const res = savePage(this.attributes);
 
 					if (res) {
 						dfd.resolve(res.payload);
 					}
 				}).promise();
 			} else {
-
 				// save media
 				return jQuery.Deferred(dfd => {
 					const res = saveMedia(options);
@@ -40,7 +37,7 @@ const baseModel = Backbone.Model.extend(
 		},
 		destroy: function( options ) {
 			return jQuery.Deferred(dfd => {
-				const res = deletePost(this.id);
+				const res = deletePage(this.id);
 
 				if (res) {
 					dfd.resolve();

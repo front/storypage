@@ -3,6 +3,8 @@ import { createProvider } from 'react-redux';
 
 import { reinitializeEditor } from '@wordpress/edit-post';
 
+import { registerBlockType } from '@wordpress/blocks/api/registration';
+
 import { EditorProvider, ErrorBoundary } from '@wordpress/editor';
 import Layout from '@wordpress/edit-post/components/layout';
 import store from '@wordpress/edit-post/store';
