@@ -28,4 +28,8 @@ api.getPostTypeModel = function( postType ) {
   } );
 };
 
+api.getPostTypeRoute = function( postType ) {
+	return '';
+}
+
 export default api;

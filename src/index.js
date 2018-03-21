@@ -11,6 +11,7 @@ import { registerCustomBlocks } from './components/blocks';
 import Router from './components/router';
 import reducers from './reducers';
 
+// import './components/blocks/style.scss';
 import './css/style.css';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);

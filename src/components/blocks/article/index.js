@@ -12,11 +12,8 @@ import {
 
 import { __ } from '@wordpress/i18n';
 
-// cover image style
 import './editor.scss';
 import './style.scss';
-
-import { createBlock } from '@wordpress/blocks/api';
 
 import { 
 	AlignmentToolbar,
@@ -28,8 +25,6 @@ import {
 	MediaUpload,
 	RichText,
 } from '@wordpress/blocks';
-
-const validAlignments = [ 'left', 'center', 'right', 'wide', 'full' ];
 
 export const name = 'sp/article';
 
@@ -46,7 +41,7 @@ export const settings = {
         title: {
             type: 'array',
             source: 'children',
-            selector: 'h2',
+            selector: 'p',
         },
         url: {
 			type: 'string',
@@ -96,7 +91,7 @@ export const settings = {
 
         const style = url ? { backgroundImage: `url(${ url })` } : undefined;
 
-        const classes = classnames(className, dimRatioToClass( dimRatio ), {
+        const classes = classnames('wp-block-cover-image', dimRatioToClass( dimRatio ), {
 				'has-background-dim': dimRatio !== 0,
 				'has-parallax': hasParallax,
 			}
@@ -180,7 +175,7 @@ export const settings = {
 		const richText = (
 			<RichText
 			    key="title"
-				tagName="h2"
+				tagName="p"
 				placeholder={ __( 'Write a title…' ) }
 				value={ title }
 				style={ { 
@@ -222,19 +217,31 @@ export const settings = {
     },
 
     save( { attributes, className } ) {
-        const { title, alignment, url, id, hasParallax, dimRatio } = attributes;
-        const style = url ? { backgroundImage: `url(${ url })` } : undefined;
-
-        const classes = classnames(className, dimRatioToClass( dimRatio ), {
+    	const { url, title, textAlign, id, hasParallax, dimRatio, dropCap, textColor, backgroundColor, fontSize } = attributes;
+		
+        const imageStyle = url ? { backgroundImage: `url(${ url })` } : undefined;
+        const imageClasses = classnames('wp-block-cover-image', dimRatioToClass( dimRatio ), {
 				'has-background-dim': dimRatio !== 0,
 				'has-parallax': hasParallax,
 			},
 		);
 
+		const textStyle = {
+        	backgroundColor: backgroundColor,
+			color: textColor,
+			fontSize: fontSize ? fontSize + 'px' : undefined,
+			textAlign: textAlign 
+        };
+
+        const textClasses = classnames( {
+			'has-background': backgroundColor,
+			'has-drop-cap': dropCap,
+		} );
+
         return (
-        	<div>
-        		<section className={ classes } style={ style }></section>
-        		<h2 style={ { textAlign: alignment } }>{ title }</h2>
+        	<div className={ className }>
+        		<section className={ imageClasses } style={ imageStyle }></section>
+        		<p className={ textClasses } style={ textStyle }>{ title }</p>
         	</div>
         )
     },

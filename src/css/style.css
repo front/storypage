@@ -34,3 +34,7 @@ textarea {
     	top: 137px;
 	}
 }
+
+.edit-post-visual-editor .editor-block-list__block {
+	max-width: initial;
+}
