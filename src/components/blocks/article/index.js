@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import { 
 	IconButton,
 	PanelBody,
+	PanelColor,
 	RangeControl,
 	ToggleControl,
     Toolbar,
@@ -18,13 +19,14 @@ import './style.scss';
 import { createBlock } from '@wordpress/blocks/api';
 
 import { 
-	RichText,
 	AlignmentToolbar,
-	MediaUpload,
-	ImagePlaceholder,
-	BlockControls,
     BlockAlignmentToolbar,
+	BlockControls,
+	ColorPalette,
+	ImagePlaceholder,
     InspectorControls,
+	MediaUpload,
+	RichText,
 } from '@wordpress/blocks';
 
 const validAlignments = [ 'left', 'center', 'right', 'wide', 'full' ];
@@ -51,7 +53,7 @@ export const settings = {
 		},
 		textAlign: {
 			type: 'string',
-			default: 'center',
+			default: 'left',
 		},
 		id: {
 			type: 'number',
@@ -63,16 +65,34 @@ export const settings = {
 		dimRatio: {
 			type: 'number',
 			default: 0,
-		}
+		},	
+		dropCap: {
+			type: 'boolean',
+			default: false,
+		},
+		textColor: {
+			type: 'string',
+		},
+		backgroundColor: {
+			type: 'string',
+		},
+		fontSize: {
+			type: 'number',
+			default: 20
+		},
     },
 
     edit( { attributes, setAttributes, isSelected, className } ) {
-        const { url, title, textAlign, id, hasParallax, dimRatio } = attributes;
+        const { url, title, textAlign, id, hasParallax, dimRatio, dropCap, textColor, backgroundColor, fontSize } = attributes;
 		
+		// image events
 		const updateAlignment = ( nextAlign ) => setAttributes( { align: nextAlign } );
 		const onSelectImage = ( media ) => setAttributes( { url: media.url, id: media.id } );
 		const toggleParallax = () => setAttributes( { hasParallax: ! hasParallax } );
 		const setDimRatio = ( ratio ) => setAttributes( { dimRatio: ratio } );
+
+		// text events
+		const toggleDropCap = () => { setAttributes( { dropCap: ! dropCap } )};
 
         const style = url ? { backgroundImage: `url(${ url })` } : undefined;
 
@@ -125,9 +145,35 @@ export const settings = {
 					max={ 100 }
 					step={ 10 }
 				/>
-				<PanelBody title={ __( 'Text Alignment' ) }>
+				<PanelBody title={ __( 'Text Settings' ) }>
+					<ToggleControl
+						label={ __( 'Drop Cap' ) }
+						checked={ !! dropCap }
+						onChange={ toggleDropCap }
+					/>
+					<RangeControl
+						label={ __( 'Font Size' ) }
+						value={ fontSize || '' }
+						onChange={ ( value ) => setAttributes( { fontSize: value } ) }
+						min={ 10 }
+						max={ 200 }
+						beforeIcon="editor-textcolor"
+						allowReset
+					/>
 					{ alignmentToolbar }
 				</PanelBody>
+				<PanelColor title={ __( 'Background Color' ) } colorValue={ backgroundColor } initialOpen={ false }>
+					<ColorPalette
+						value={ backgroundColor }
+						onChange={ ( colorValue ) => setAttributes( { backgroundColor: colorValue } ) }
+					/>
+				</PanelColor>
+				<PanelColor title={ __( 'Text Color' ) } colorValue={ textColor } initialOpen={ false }>
+					<ColorPalette
+						value={ textColor }
+						onChange={ ( colorValue ) => setAttributes( { textColor: colorValue } ) }
+					/>
+				</PanelColor>
 			</InspectorControls>
 		];
 
@@ -135,9 +181,14 @@ export const settings = {
 			<RichText
 			    key="title"
 				tagName="h2"
-				placeholder={ __( 'Write title…' ) }
+				placeholder={ __( 'Write a title…' ) }
 				value={ title }
-				style={ { textAlign: textAlign } }
+				style={ { 
+					backgroundColor: backgroundColor,
+					color: textColor,
+					fontSize: fontSize ? fontSize + 'px' : undefined,
+					textAlign: textAlign 
+				} }
 				onChange={ ( value ) => setAttributes( { title: value } ) }
 				isSelected={ isSelected }
 				inlineToolbar
