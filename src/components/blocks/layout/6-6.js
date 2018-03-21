@@ -59,8 +59,7 @@ export const settings = {
 		const { align, columns } = attributes;
 		const classes = classnames( className, 'wp-block-columns', `has-${ columns }-columns` );
 
-
-		console.log(getColumnLayouts( columns ));
+		// console.log(getColumnLayouts( columns ));
 
 		return [
 			...focus ? [

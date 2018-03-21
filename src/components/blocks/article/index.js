@@ -60,10 +60,6 @@ export const settings = {
 		dimRatio: {
 			type: 'number',
 			default: 0,
-		},	
-		dropCap: {
-			type: 'boolean',
-			default: false,
 		},
 		textColor: {
 			type: 'string',
@@ -78,16 +74,13 @@ export const settings = {
     },
 
     edit( { attributes, setAttributes, isSelected, className } ) {
-        const { url, title, textAlign, id, hasParallax, dimRatio, dropCap, textColor, backgroundColor, fontSize } = attributes;
+        const { url, title, textAlign, id, hasParallax, dimRatio, textColor, backgroundColor, fontSize } = attributes;
 		
 		// image events
 		const updateAlignment = ( nextAlign ) => setAttributes( { align: nextAlign } );
 		const onSelectImage = ( media ) => setAttributes( { url: media.url, id: media.id } );
 		const toggleParallax = () => setAttributes( { hasParallax: ! hasParallax } );
 		const setDimRatio = ( ratio ) => setAttributes( { dimRatio: ratio } );
-
-		// text events
-		const toggleDropCap = () => { setAttributes( { dropCap: ! dropCap } )};
 
         const style = url ? { backgroundImage: `url(${ url })` } : undefined;
 
@@ -141,11 +134,6 @@ export const settings = {
 					step={ 10 }
 				/>
 				<PanelBody title={ __( 'Text Settings' ) }>
-					<ToggleControl
-						label={ __( 'Drop Cap' ) }
-						checked={ !! dropCap }
-						onChange={ toggleDropCap }
-					/>
 					<RangeControl
 						label={ __( 'Font Size' ) }
 						value={ fontSize || '' }
@@ -217,7 +205,7 @@ export const settings = {
     },
 
     save( { attributes, className } ) {
-    	const { url, title, textAlign, id, hasParallax, dimRatio, dropCap, textColor, backgroundColor, fontSize } = attributes;
+    	const { url, title, textAlign, id, hasParallax, dimRatio, textColor, backgroundColor, fontSize } = attributes;
 		
         const imageStyle = url ? { backgroundImage: `url(${ url })` } : undefined;
         const imageClasses = classnames('wp-block-cover-image', dimRatioToClass( dimRatio ), {
@@ -234,8 +222,7 @@ export const settings = {
         };
 
         const textClasses = classnames( {
-			'has-background': backgroundColor,
-			'has-drop-cap': dropCap,
+			'has-background': backgroundColor
 		} );
 
         return (
