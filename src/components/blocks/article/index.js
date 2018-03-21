@@ -1,26 +1,33 @@
 import React from 'react';
 import classnames from 'classnames';
 
-// import CoverImage from '@wordpress/blocks/library/cover-image/block';
-import { 
-	RichText,
-	ImagePlaceholder,
-	source,
-	BlockControls,
-    AlignmentToolbar,
-    BlockAlignmentToolbar,
-    MediaUpload,
-    InspectorControls
-} from '@wordpress/blocks';
-
 import { 
 	IconButton,
+	PanelBody,
 	RangeControl,
 	ToggleControl,
     Toolbar,
 } from '@wordpress/components';
 
 import { __ } from '@wordpress/i18n';
+
+// cover image style
+import './editor.scss';
+import './style.scss';
+
+import { createBlock } from '@wordpress/blocks/api';
+
+import { 
+	RichText,
+	AlignmentToolbar,
+	MediaUpload,
+	ImagePlaceholder,
+	BlockControls,
+    BlockAlignmentToolbar,
+    InspectorControls,
+} from '@wordpress/blocks';
+
+const validAlignments = [ 'left', 'center', 'right', 'wide', 'full' ];
 
 export const name = 'sp/article';
 
@@ -39,14 +46,12 @@ export const settings = {
             source: 'children',
             selector: 'h2',
         },
-        alignment: {
-            type: 'string',
-        },
         url: {
 			type: 'string',
 		},
-		align: {
+		textAlign: {
 			type: 'string',
+			default: 'center',
 		},
 		id: {
 			type: 'number',
@@ -57,40 +62,16 @@ export const settings = {
 		},
 		dimRatio: {
 			type: 'number',
-			default: 50,
+			default: 0,
 		}
     },
 
-    transforms: {
-		from: [
-			{
-				type: 'block',
-				blocks: [ 'core/heading' ],
-				transform: ( { content } ) => (
-					createBlock( 'sp/article', { title: content } )
-				),
-			},
-		],
-		to: [
-			{
-				type: 'block',
-				blocks: [ 'core/heading', 'core/cover-image' ],
-				transform: ( { title, url, align, id, hasParallax, dimRatio } ) => (
-					createBlock( 'core/cover-image', { title, url, align, id, hasParallax, dimRatio  } )
-				),
-			},
-		],
-	},
-
     edit( { attributes, setAttributes, isSelected, className } ) {
-        const { title, alignment, url, align, id, hasParallax, dimRatio } = attributes;
-
-        // Text events
-        // const onChangeTitleAlignment = ( nextAlign ) => { setAttributes( { alignment: nextAlign } )};
-
-        // Image events
-        const updateAlignment = ( nextAlign ) => setAttributes( { align: nextAlign } );
-        const onSelectImage = ( media ) => setAttributes( { url: media.url, id: media.id } );
+        const { url, title, textAlign, id, hasParallax, dimRatio } = attributes;
+		
+		const updateAlignment = ( nextAlign ) => setAttributes( { align: nextAlign } );
+		const onSelectImage = ( media ) => setAttributes( { url: media.url, id: media.id } );
+		const toggleParallax = () => setAttributes( { hasParallax: ! hasParallax } );
 		const setDimRatio = ( ratio ) => setAttributes( { dimRatio: ratio } );
 
         const style = url ? { backgroundImage: `url(${ url })` } : undefined;
@@ -101,19 +82,18 @@ export const settings = {
 			}
 		);
 
-		const richText = isSelected && [
-            <RichText
-                key="editable-text"
-                tagName="p"
-                className={ className }
-                style={ { textAlign: alignment } }
-                onChange={ ( title ) => { setAttributes( { title: title } ) } }
-                value={ title }
-            />
-        ];
+  		const alignmentToolbar	= (
+			<AlignmentToolbar
+				value={ textAlign }
+				onChange={ ( nextAlign ) => {
+					setAttributes( { textAlign: nextAlign } );
+				} }
+			/>
+		);
 
 		const controls = isSelected && [
 			<BlockControls key="controls">
+				{ alignmentToolbar }
 				<Toolbar>
 					<MediaUpload
 						onSelect={ onSelectImage }
@@ -131,11 +111,11 @@ export const settings = {
 				</Toolbar>
 			</BlockControls>,
 			<InspectorControls key="inspector">
-				<h2>{ __( 'Cover Image Settings a' ) }</h2>
+				<h2>{ __( 'Article Image Settings' ) }</h2>
 				<ToggleControl
 					label={ __( 'Fixed Background' ) }
 					checked={ !! hasParallax }
-					onChange={ () => setAttributes( { hasParallax: ! hasParallax } ) }
+					onChange={ toggleParallax }
 				/>
 				<RangeControl
 					label={ __( 'Background Dimness' ) }
@@ -145,45 +125,59 @@ export const settings = {
 					max={ 100 }
 					step={ 10 }
 				/>
+				<PanelBody title={ __( 'Text Alignment' ) }>
+					{ alignmentToolbar }
+				</PanelBody>
 			</InspectorControls>
 		];
 
+		const richText = (
+			<RichText
+			    key="title"
+				tagName="h2"
+				placeholder={ __( 'Write title…' ) }
+				value={ title }
+				style={ { textAlign: textAlign } }
+				onChange={ ( value ) => setAttributes( { title: value } ) }
+				isSelected={ isSelected }
+				inlineToolbar
+			/>
+		);
 
         if (!url) {
     		const icon = 'format-image';
     		const label = __( 'Article image' );
     		
     		return [
-    			// controls,
+    			controls,
     			<ImagePlaceholder
         			key="cover-image-placeholder"
         			{ ...{ className, icon, label, onSelectImage } }
         		/>,
-        		// richText
+        		richText
         	]
-    	} else {
-    		return [
-    			// controls,
-        		<section
-					key="preview"
-					data-url={ url }
-					style={ style }
-					className={ classes }
-				/>,
-				// richText
-			]
-    	}
+    	} 
+    	
+    	return [
+			controls,
+    		<section
+				key="preview"
+				data-url={ url }
+				style={ style }
+				className={ classes }
+			/ >,
+			(title || isSelected ? richText : null ),
+		]
     },
 
     save( { attributes, className } ) {
-        const { title, alignment, url, align, id, hasParallax, dimRatio } = attributes;
+        const { title, alignment, url, id, hasParallax, dimRatio } = attributes;
         const style = url ? { backgroundImage: `url(${ url })` } : undefined;
 
         const classes = classnames(className, dimRatioToClass( dimRatio ), {
 				'has-background-dim': dimRatio !== 0,
 				'has-parallax': hasParallax,
 			},
-			align ? `align${ align }` : null,
 		);
 
         return (
