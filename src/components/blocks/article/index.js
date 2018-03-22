@@ -1,7 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
+import { findKey, map } from 'lodash';
 
 import { 
+	Button,
+	ButtonGroup,
 	IconButton,
 	PanelBody,
 	PanelColor,
@@ -26,6 +29,13 @@ import {
 	RichText,
 } from '@wordpress/blocks';
 
+const FONT_SIZES = {
+	small: 14,
+	regular: 16,
+	large: 36,
+	larger: 48,
+};
+
 export const name = 'sp/article';
 
 export const settings = {
@@ -35,7 +45,7 @@ export const settings = {
 
 	icon: 'universal-access-alt',
 
-	category: 'layout',
+	category: 'common',
 
 	attributes: {
         title: {
@@ -68,19 +78,50 @@ export const settings = {
 			type: 'string',
 		},
 		fontSize: {
-			type: 'number',
-			default: 20
+			type: 'string',
+		},
+		customFontSize: {
+			type: 'number'
 		},
     },
 
     edit( { attributes, setAttributes, isSelected, className } ) {
-        const { url, title, textAlign, id, hasParallax, dimRatio, textColor, backgroundColor, fontSize } = attributes;
+        const { url, title, textAlign, id, hasParallax, dimRatio, textColor, backgroundColor, fontSize, customFontSize } = attributes;
 		
 		// image events
 		const updateAlignment = ( nextAlign ) => setAttributes( { align: nextAlign } );
 		const onSelectImage = ( media ) => setAttributes( { url: media.url, id: media.id } );
 		const toggleParallax = () => setAttributes( { hasParallax: ! hasParallax } );
 		const setDimRatio = ( ratio ) => setAttributes( { dimRatio: ratio } );
+
+
+		// text events
+		const getFontSize = () => {
+			if ( fontSize ) {
+				return FONT_SIZES[ fontSize ];
+			}
+
+			if ( customFontSize ) {
+				return customFontSize;
+			}
+		};
+
+		const setFontSize = ( fontSizeValue ) => {
+			console.log(fontSizeValue);
+			const thresholdFontSize = findKey( FONT_SIZES, ( size ) => size === fontSizeValue );
+			console.log(thresholdFontSize);
+			if ( thresholdFontSize ) {
+				setAttributes( {
+					fontSize: thresholdFontSize,
+					customFontSize: undefined,
+				} );
+				return;
+			}
+			setAttributes( {
+				fontSize: undefined,
+				customFontSize: fontSizeValue,
+			} );
+		};
 
         const style = url ? { backgroundImage: `url(${ url })` } : undefined;
 
@@ -134,14 +175,40 @@ export const settings = {
 					step={ 10 }
 				/>
 				<PanelBody title={ __( 'Text Settings' ) }>
+					<div className="blocks-font-size__main">
+						<ButtonGroup aria-label={ __( 'Font Size' ) }>
+							{ map( {
+								S: 'small',
+								M: 'regular',
+								L: 'large',
+								XL: 'larger',
+							}, ( size, label ) => (
+								<Button
+									key={ label }
+									isLarge
+									isPrimary={ fontSize === FONT_SIZES[ size ] }
+									aria-pressed={ fontSize === FONT_SIZES[ size ] }
+									onClick={ () => setFontSize( FONT_SIZES[ size ] ) }
+								>
+									{ label }
+								</Button>
+							) ) }
+						</ButtonGroup>
+						<Button
+							isLarge
+							onClick={ () => setFontSize( undefined ) }
+						>
+							{ __( 'Reset' ) }
+						</Button>
+					</div>
 					<RangeControl
-						label={ __( 'Font Size' ) }
+						label={ __( 'Custom Size' ) }
 						value={ fontSize || '' }
-						onChange={ ( value ) => setAttributes( { fontSize: value } ) }
-						min={ 10 }
-						max={ 200 }
+						onChange={ ( value ) => setFontSize( value ) }
+						min={ 12 }
+						max={ 100 }
 						beforeIcon="editor-textcolor"
-						allowReset
+						afterIcon="editor-textcolor"
 					/>
 					{ alignmentToolbar }
 				</PanelBody>
@@ -166,6 +233,9 @@ export const settings = {
 				tagName="p"
 				placeholder={ __( 'Write a title…' ) }
 				value={ title }
+				className={ classnames( 'wp-block-paragraph', className, {
+					'has-background': backgroundColor
+				} ) }
 				style={ { 
 					backgroundColor: backgroundColor,
 					color: textColor,
@@ -205,7 +275,7 @@ export const settings = {
     },
 
     save( { attributes, className } ) {
-    	const { url, title, textAlign, id, hasParallax, dimRatio, textColor, backgroundColor, fontSize } = attributes;
+    	const { url, title, textAlign, id, hasParallax, dimRatio, textColor, backgroundColor, fontSize, customFontSize } = attributes;
 		
         const imageStyle = url ? { backgroundImage: `url(${ url })` } : undefined;
         const imageClasses = classnames('wp-block-cover-image', dimRatioToClass( dimRatio ), {
@@ -217,18 +287,19 @@ export const settings = {
 		const textStyle = {
         	backgroundColor: backgroundColor,
 			color: textColor,
-			fontSize: fontSize ? fontSize + 'px' : undefined,
+			fontSize: ! fontSize && customFontSize ? customFontSize : undefined,
 			textAlign: textAlign 
         };
 
         const textClasses = classnames( {
-			'has-background': backgroundColor
+			'has-background': backgroundColor,
+			[ `is-${ fontSize }-text` ]: fontSize && FONT_SIZES[ fontSize ],
 		} );
 
         return (
         	<div className={ className }>
-        		<section className={ imageClasses } style={ imageStyle }></section>
-        		<p className={ textClasses } style={ textStyle }>{ title }</p>
+        		<section className={ imageClasses ? imageClasses : undefined } style={ imageStyle }></section>
+        		<p className={ textClasses ? textClasses : undefined } style={ textStyle }>{ title }</p>
         	</div>
         )
     },

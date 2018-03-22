@@ -28,12 +28,12 @@ const getColumnLayouts = memoize( ( columns ) => {
 	} ) );
 } );
 
-export const name = 'rows/col6-col6';
+export const name = 'rows/col4-col4-col4';
 
 export const settings = {
-	title: 'col6 x 2',
+	title: 'col4 x 3',
 
-	description: __( '2 eq columns layout' ),
+	description: __( '3 eq columns layout' ),
 
 	icon: 'columns',
 
@@ -42,7 +42,7 @@ export const settings = {
 	attributes: {
 		columns: {
 			type: 'number',
-			default: 2
+			default: 3
 		},
 		align: {
 			type: 'string'
@@ -78,7 +78,7 @@ export const settings = {
 	},
 
 
-	save( { attributes } ) {
+	save( {attributes} ) {
 		const { columns } = attributes;
 
 		return (
