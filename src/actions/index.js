@@ -61,7 +61,8 @@ export function savePage(values) {
 			[values.id]: {
 				id: values.id,
 				title: values.title || '', 
-				content: values.content || '' 
+				content: values.content || '',
+				type: 'page'
 			}
 		};
 	} 
