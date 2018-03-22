@@ -62,7 +62,8 @@ export function savePage(values) {
 				id: values.id,
 				title: values.title || '', 
 				content: values.content || '',
-				type: 'page'
+				type: 'page',
+				link: `${window.location.origin}/pages/${values.id}`
 			}
 		};
 	} 
