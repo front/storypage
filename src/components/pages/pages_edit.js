@@ -5,6 +5,14 @@ import { fetchPage } from '../../actions';
 
 import GutenbergEditor from '../gutenberg_editor';
 
+const settings = {
+	alignWide: false,
+	availableTemplates: [],
+	blockTyoes: true,
+	disableCustomColors: false,
+	titlePlaceholder: 'Add a title here...'
+};
+
 class PagesEdit extends React.Component {
 	componentDidMount() {
 		if (!this.props.page) {
@@ -32,7 +40,7 @@ class PagesEdit extends React.Component {
 			<div>
 				<h1>Edit!</h1>
 				<p><Link to="/pages">Go back!</Link></p>
-				<GutenbergEditor post={ page } />
+				<GutenbergEditor post={ page } settings={ settings } />
 			</div>
 		)
 	}

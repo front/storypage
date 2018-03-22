@@ -1,17 +1,3 @@
-const apiSettings = {
-	root: "http://localhost:3000/",
-	nonce: '123456789',
-	versionString: '',
-	cacheSchema: true,
-	schema: {},
-	mapping: {
-		models: {
-			'Posts': 'Post',
-			'Media': 'Media',
-		}
-	}
-};
-
 const dateSettings = { 
 	"l10n":{
 		"locale":"pt_PT",
@@ -49,7 +35,6 @@ const editorL10n = {
 };
 
 export { 
-	apiSettings, 
 	dateSettings, 
 	userSettings,
 	editorL10n,
