@@ -3,16 +3,11 @@ import { createProvider } from 'react-redux';
 
 import { reinitializeEditor } from '@wordpress/edit-post';
 
+import { registerBlockType } from '@wordpress/blocks/api/registration';
+
 import { EditorProvider, ErrorBoundary } from '@wordpress/editor';
 import Layout from '@wordpress/edit-post/components/layout';
 import store from '@wordpress/edit-post/store';
-
-// Gutenberg style
-import '@wordpress/blocks/build/style.css';
-import '@wordpress/components/build/style.css';
-import '@wordpress/blocks/build/edit-blocks.css';
-import '@wordpress/editor/build/style.css';
-import '@wordpress/edit-post/build/style.css';
 
 const settings = {
 	alignWide: false,

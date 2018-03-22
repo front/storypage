@@ -11,8 +11,16 @@ export function addQueryArgs( url, args ) {
 	window.history.replaceState(
 		{ },
 		' ',
-		`${window.location.origin}/posts/`
+		`${window.location.origin}/pages/`
 	); 
-	
-	return args.post ? `${args.post}/edit` : 'new';
+
+	if (args.post) {
+		return `${args.post}/${args.action}`;
+	}
+
+	if (args.preview) {
+		return url;
+	}
+
+	return 'new';
 }

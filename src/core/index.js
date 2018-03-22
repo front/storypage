@@ -4,6 +4,7 @@ import {
 	apiSettings,
 	dateSettings,
 	userSettings,
+	editorL10n,
 } from './settings';
 
 import api from './api';
@@ -19,13 +20,14 @@ const wp = {
 	apiRequest,
 	media,
 	element: { Component },
-	utils
+	utils,
 };
 
 window.wp = wp;
 window._wpDateSettings = dateSettings;
 window.userSettings = userSettings;
 window.jQuery = jQuery;
+window.wpEditorL10n = editorL10n;
 
 export {
 	apiSettings as wpApiSettings,

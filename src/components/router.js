@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import NotFound from './not_found';
 import App from './app';
-import PostsIndex from './posts/posts_index';
-import PostsEdit from './posts/posts_edit';
-import PostsNew from './posts/posts_new';
-import PostsShow from './posts/posts_show';
+import PagesIndex from './pages/pages_index';
+import PagesEdit from './pages/pages_edit';
+import PagesNew from './pages/pages_new';
+import PagesShow from './pages/pages_show';
 
 class Router extends React.Component {
   render() {
@@ -14,10 +14,10 @@ class Router extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ App } />
-          <Route exact path="/posts" component={ PostsIndex } />
-          <Route exact path="/posts/new" component={ PostsNew } />
-          <Route exact path="/posts/:id/edit" component={ PostsEdit } />
-          <Route exact path="/posts/:id" component={ PostsShow } />
+          <Route exact path="/pages" component={ PagesIndex } />
+          <Route exact path="/pages/new" component={ PagesNew } />
+          <Route exact path="/pages/:id/edit" component={ PagesEdit } />
+          <Route exact path="/pages/:id" component={ PagesShow } />
           <Route component={ NotFound } />
         </Switch>
       </BrowserRouter>

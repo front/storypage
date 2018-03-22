@@ -3,25 +3,26 @@ import { Link } from 'react-router-dom';
 
 import GutenbergEditor from '../gutenberg_editor';
 
-class PostsNew extends React.Component {
+class PagesNew extends React.Component {
 	
 	render() {
-		const post = {
+		const page = {
 			content: { raw: '' },
 			templates: '',
 			title: { raw: '' },
-			type: 'post'
+			type: 'page'
 		};
 		
 		return (
 			<div>
-				<h1>New Post</h1>
-				<Link to="/posts">Go Back!</Link>
-				<GutenbergEditor post={ post } />
+				<h1>New page</h1>
+				<p><Link to="/pages">Go back!</Link></p>
+				
+				<GutenbergEditor post={ page } />
 			</div>
 		)
 	}
 }
 
 
-export default PostsNew;
+export default PagesNew;

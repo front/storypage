@@ -12,7 +12,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
-const { reduce, escapeRegExp, castArray, get } = require('lodash');
+const { reduce, escapeRegExp, get } = require('lodash');
 const { basename } = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackRTLPlugin = require('webpack-rtl-plugin');
@@ -34,7 +34,7 @@ const distPath = {
 
 // Main CSS loader for everything but blocks..
 const mainCSSExtractTextPlugin = new ExtractTextPlugin( {
-  filename: './[basename]/build/style.css',
+  filename: './build/style.css',
 } );
 
 // CSS loader for styles specific to block editing.
@@ -72,16 +72,18 @@ const extractConfig = {
 };
 
 const gutenbergDependencies = [
-  "i18n",
-  "components",
-  "edit-post",
-  "element",
-  "blocks",
-  "utils",
-  "date",
-  "data",
-  "editor",
-  "viewport"
+  'blocks',
+  'components',
+  'date',
+  'editor',
+  'element',
+  'i18n',
+  'utils',
+  'data',
+  'viewport',
+  'core-data',
+  'plugins',
+  'edit-post',
 ];
 
 const alias = {};
@@ -90,54 +92,6 @@ gutenbergDependencies.forEach(dependency => {
   alias["@wordpress/" + dependency] = `${paths.appSrc}/components/gutenberg/${dependency}`;
   // alias["@wordpress/" + dependency] = `../src/components/gutenberg/${dependency}`;
 });
-
-/**
- * Webpack plugin for handling specific template tags in Webpack configuration
- * values like those supported in the base Webpack functionality (e.g. `name`).
- *
- * @see webpack.TemplatedPathPlugin
- */
-// class CustomTemplatedPathPlugin {
-//   /**
-//    * CustomTemplatedPathPlugin constructor. Initializes handlers as a tuple
-//    * set of RegExp, handler, where the regular expression is used in matching
-//    * a Webpack asset path.
-//    *
-//    * @param {Object.<string,Function>} handlers Object keyed by tag to match,
-//    *                                            with function value returning
-//    *                                            replacement string.
-//    *
-//    * @return {void}
-//    */
-//   constructor( handlers ) {
-//     this.handlers = reduce( handlers, ( result, handler, key ) => {
-//       const regexp = new RegExp( `\\[${ escapeRegExp( key ) }\\]`, 'gi' );
-//       return [ ...result, [ regexp, handler ] ];
-//     }, [] );
-//   }
-
-//   /**
-//    * Webpack plugin application logic.
-//    *
-//    * @param {Object} compiler Webpack compiler
-//    *
-//    * @return {void}
-//    */
-//   apply( compiler ) {
-//     compiler.plugin( 'compilation', ( compilation ) => {
-//       compilation.mainTemplate.plugin( 'asset-path', ( path, data ) => {
-//         for ( let i = 0; i < this.handlers.length; i++ ) {
-//           const [ regexp, handler ] = this.handlers[ i ];
-//           if ( regexp.test( path ) ) {
-//             return path.replace( regexp, handler( path, data ) );
-//           }
-//         }
-
-//         return path;
-//       } );
-//     } );
-//   }
-// }
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -400,21 +354,6 @@ module.exports = {
     blocksCSSPlugin,
     editBlocksCSSPlugin,
     mainCSSExtractTextPlugin,
-    // Create RTL files with a -rtl suffix
-    // new WebpackRTLPlugin( {
-    //   suffix: '-rtl',
-    //   minify: process.env.NODE_ENV === 'production' ? { safe: true } : false,
-    // } ),
-    // new CustomTemplatedPathPlugin({
-    //   basename( path, data ) {
-    //     const rawRequest = get( data, [ 'chunk', 'entryModule', 'rawRequest' ] );
-    //     if ( rawRequest ) {
-    //       return basename( rawRequest );
-    //     }
-
-    //     return path;
-    //   },
-    // }),
     new CopyWebpackPlugin([
       { from: 'node_modules/tinymce/plugins', to: `${distPath.js}plugins` }
     ], {})

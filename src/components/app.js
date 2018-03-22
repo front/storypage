@@ -6,7 +6,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<h1>Welcome to StoryPage</h1>
-				<Link to="/posts">Check all posts</Link>
+				<p><Link to="/pages">Check all pages</Link></p>
 			</div>
 		);
 	}

@@ -11,21 +11,21 @@ git clone git@github.com:front/gutenberg.git
 cd gutenberg
 
 echo "* Runing npm install"
-npm install
+# npm install
 
 echo "* Runing npm run build (to generate css)"
-npm run build
+# npm run build
 
 echo "* Remove generated js"
-for file in $(find */build -name "*.js"); do
-    rm ${file}
-done
+# for file in $(find */build -name "*.js"); do
+#     rm ${file}
+# done
 
 echo "* Coping folders to tmp/"
 mkdir tmp
 
 # gutenberg folders which contains components
-folders=("blocks" "components" "data" "date" "edit-post" "editor" "element" "i18n" "utils" "viewport")
+folders=("blocks" "components" "data" "date" "edit-post" "editor" "element" "i18n" "utils" "viewport" "core-data" "plugins")
 
 for folder in ${folders[@]}; do
     cp -r $folder tmp
