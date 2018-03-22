@@ -1,1 +1,3 @@
-Gutenberg JS: [Gutenberg](https://github.com/WordPress/gutenberg) components in a React app. No WP involved.
+# StoryPage
+
+A page builder that uses [Gutenberg by Front](https://github.com/front/gutenberg) editor.

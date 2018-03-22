@@ -91,7 +91,6 @@ const alias = {};
 
 gutenbergDependencies.forEach(dependency => {
   alias["@wordpress/" + dependency] = `${paths.appNodeModules}/gutenberg/${dependency}`;
-  // alias["@wordpress/" + dependency] = `../src/components/gutenberg/${dependency}`;
 });
 
 // This is the development configuration.
