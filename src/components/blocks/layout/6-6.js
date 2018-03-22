@@ -57,7 +57,7 @@ export const settings = {
 
 	edit( { attributes, setAttributes, className, focus } ) {
 		const { align, columns } = attributes;
-		const classes = classnames( className, 'wp-block-columns', `has-${ columns }-columns` );
+		const classes = classnames( className, 'wp-block-columns', `wp-block-columns has-${ columns }-columns` );
 
 		// console.log(getColumnLayouts( columns ));
 
@@ -84,7 +84,7 @@ export const settings = {
 		const { columns } = attributes;
 
 		return (
-			<div className={ `has-${ columns }-columns` }>
+			<div className={ `wp-block-columns has-${ columns }-columns` }>
 				<InnerBlocks.Content />
 			</div>
 		);

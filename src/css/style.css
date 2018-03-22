@@ -38,7 +38,10 @@ textarea {
 	}
 }
 
-
 .edit-post-visual-editor .editor-block-list__block {
+	max-width: initial;
+}
+
+.edit-post-visual-editor .editor-default-block-appender {
 	max-width: initial;
 }
