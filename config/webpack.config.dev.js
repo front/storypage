@@ -62,7 +62,7 @@ const extractConfig = {
     {
       loader: 'sass-loader',
       query: {
-        includePaths: [ 'src/components/gutenberg/edit-post/assets/stylesheets' ],
+        includePaths: [ 'node_modules/gutenberg/edit-post/assets/stylesheets' ],
         data: '@import "colors"; @import "admin-schemes"; @import "breakpoints"; @import "variables"; @import "mixins"; @import "animations";@import "z-index";',
         outputStyle: 'production' === process.env.NODE_ENV ?
           'compressed' : 'nested',
@@ -84,12 +84,13 @@ const gutenbergDependencies = [
   'core-data',
   'plugins',
   'edit-post',
+  'url',
 ];
 
 const alias = {};
 
 gutenbergDependencies.forEach(dependency => {
-  alias["@wordpress/" + dependency] = `${paths.appSrc}/components/gutenberg/${dependency}`;
+  alias["@wordpress/" + dependency] = `${paths.appNodeModules}/gutenberg/${dependency}`;
   // alias["@wordpress/" + dependency] = `../src/components/gutenberg/${dependency}`;
 });
 
@@ -178,7 +179,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /node_modules\/(?!(gutenberg)\/).*/,
         use: "babel-loader"
       },
       {

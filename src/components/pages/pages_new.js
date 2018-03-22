@@ -24,5 +24,4 @@ class PagesNew extends React.Component {
 	}
 }
 
-
 export default PagesNew;

@@ -5,13 +5,13 @@ import { createStore, applyMiddleware } from 'redux';
 
 import registerServiceWorker from './registerServiceWorker';
 
-import { registerCoreBlocks } from '@wordpress/blocks';
-import { registerCustomBlocks } from './components/blocks';
+import './core/index.js';
+import { registerCoreBlocks } from 'gutenberg';
+// import { registerCustomBlocks } from './components/blocks';
 
 import Router from './components/router';
 import reducers from './reducers';
 
-// import './components/blocks/style.scss';
 import './css/style.css';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
@@ -20,7 +20,7 @@ const createStoreWithMiddleware = applyMiddleware()(createStore);
 registerCoreBlocks();
 
 // register custom blocks
-registerCustomBlocks();
+// registerCustomBlocks();
 
 ReactDOM.render(
 	<Provider store={createStoreWithMiddleware(reducers)}>
