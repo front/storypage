@@ -3,8 +3,6 @@ import jQuery from 'jquery';
 import { savePage, deletePage, saveMedia } from '../actions';
 
 function apiRequest(options) {
-	// console.log(options);
-
 	const pathArray = options.path.split('/');
 	const resource = pathArray[3];
 	const method = options.method;

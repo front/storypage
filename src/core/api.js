@@ -11,8 +11,6 @@ function API() {
 
 const api = new API();
 
-// api.postTypeRestBaseMapping = {"post":"posts" /*,"page":"pages","attachment":"media","revision":"revision","nav_menu_item":"nav_menu_item","custom_css":"custom_css","customize_changeset":"customize_changeset","oembed_cache":"oembed_cache","wp_block":"blocks"*/};
-
 api.getPostTypeModel = function( postType ) {
   // var route = '/' + apiSettings.versionString + this.postTypeRestBaseMapping[ postType ] + '/(?P<id>[\\d]+)';
 
