@@ -1,0 +1,28 @@
+.gutenberg {
+	position: relative;
+
+	@media (min-width: 600px) {
+		.edit-post-header {
+			position: initial;
+		}
+
+		.edit-post-layout {
+			padding-top: 0px;
+		}
+	}
+
+	.edit-post-sidebar {
+		position: absolute;
+		top: 56px; 
+	}
+
+	.edit-post-visual-editor {
+		.editor-block-list__block {
+			max-width: initial;
+		}
+
+		.editor-default-block-appender {
+			max-width: initial;
+		}
+	}
+}
