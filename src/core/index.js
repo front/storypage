@@ -52,5 +52,29 @@ window.customGutenberg = {
 		{ slug: 'widgets', title: __( 'Widgets')  },
 		{ slug: 'embed', title: __( 'Embeds')  },
 		{ slug: 'shared', title: __( 'Shared Blocks' ) }, 
+	],
+	tabs: [
+		{
+			options: {
+				name: 'rows',
+				title: __( 'Rows' ),
+				className: 'editor-inserter__tab',
+			},
+			tabScrollTop: 0,
+			getItemsForTab() {
+				return ( item ) => item.category == 'rows';
+			}
+		},
+		{
+			options: {
+				name: 'blocks',
+				title: __( 'Blocks' ),
+				className: 'editor-inserter__tab',
+			},
+			tabScrollTop: 0,
+			getItemsForTab() {
+				return ( item ) => item.category !== 'embed' && item.category !== 'shared' && item.category !== 'rows';
+			}				
+		},
 	]
 };
