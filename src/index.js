@@ -12,7 +12,7 @@ import { registerCoreBlocks } from 'gutenberg';
 import Router from './components/router';
 import reducers from './reducers';
 
-import './css/style.css';
+import './style/style.scss';
 
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
