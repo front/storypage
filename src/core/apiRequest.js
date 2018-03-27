@@ -11,7 +11,7 @@ function apiRequest( options ) {
 		let res;
 
 		if ( resource === 'page' ) {
-			res = method == 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
+			res = method === 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
 		} else if ( resource === 'media' ) {
 			res = saveMedia( options );
 		}
@@ -20,8 +20,6 @@ function apiRequest( options ) {
 			dfd.resolve( res.payload );
 		}
 	} ).promise();
-
- 	// return jQuery.ajax(options);
 }
 
 export default apiRequest;

@@ -21,10 +21,10 @@ const wp = {
 	utils,
 	oldEditor: {
 		initialize: function( options ) {
-			console.log( 'oldEditor initialize', options );
+			// console.log( 'oldEditor initialize', options );
 		},
 		remove: function( options ) {
-			console.log( 'oldEditor remove', options );
+			// console.log( 'oldEditor remove', options );
 		},
 	},
 };
@@ -62,7 +62,7 @@ window.customGutenberg = {
 			},
 			tabScrollTop: 0,
 			getItemsForTab() {
-				return ( item ) => item.category == 'rows';
+				return ( item ) => item.category === 'rows';
 			},
 		},
 		{

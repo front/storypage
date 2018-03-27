@@ -27,11 +27,9 @@
  * @param {RegExp} settings.shortcodesRegExp                  Optional. Regular expression to find shortcodes.
  * @param {Object} settings.l10n                              Optional. Localization object containing specific
  *                                                            configuration for the current localization.
- * @param {String} settings.l10n.type                         Optional. Method of finding words to count.
+ * @param {string} settings.l10n.type                         Optional. Method of finding words to count.
  * @param {Array}  settings.l10n.shortcodes                   Optional. Array of shortcodes that should be removed
  *                                                            from the text.
- *
- * @return void
  */
 function WordCounter( settings ) {
 	let key,

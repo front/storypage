@@ -1,7 +1,6 @@
 module.exports = {
 	parser: 'babel-eslint',
 	extends: [
-		'wordpress',
 		'plugin:react/recommended',
 		'plugin:jsx-a11y/recommended',
 	],
@@ -17,18 +16,19 @@ module.exports = {
 		},
 	},
 	globals: {
-		wp: true,
 		window: true,
 		document: true,
+		wp: true,
+		localStorage: true,
+		alert: true,
 	},
 	plugins: [
-		'wordpress',
 		'react',
 		'jsx-a11y',
 	],
 	settings: {
 		react: {
-			pragma: 'wp',
+			pragma: 'React',
 		},
 	},
 	rules: {
@@ -119,6 +119,8 @@ module.exports = {
 		'react/jsx-indent': [ 'error', 'tab' ],
 		'react/jsx-indent-props': [ 'error', 'tab' ],
 		'react/jsx-key': 'error',
+		"react/jsx-uses-react": "error",
+		"react/jsx-uses-vars": "error",
 		'react/jsx-tag-spacing': 'error',
 		'react/no-children-prop': 'off',
 		'react/no-find-dom-node': 'warn',

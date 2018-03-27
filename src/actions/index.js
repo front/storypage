@@ -65,9 +65,7 @@ export function savePage( values ) {
 				link: `${ window.location.origin }/pages/${ values.id }`,
 			},
 		};
-	}
-	// update
-	else {
+	} else { // update
 		if ( values.title ) {
 			storage[ LOCAL_PAGES ][ values.id ].title = values.title;
 		}
@@ -126,9 +124,7 @@ export function saveMedia( values ) {
 				link: 'http://localhost:3000/sample.jpg',
 			},
 		};
-	}
-	// update
-	else if ( values.data ) {
+	} else if ( values.data ) { // update
 		storage[ LOCAL_MEDIA ][ values.id ].data = values.data;
 	}
 
