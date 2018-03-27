@@ -68,6 +68,8 @@
         "react-color": "2.13.4",
         "react-datepicker": "0.61.0",
         "react-dev-utils": "^5.0.0",
+        "react-dnd": "^2.6.0",
+        "react-dnd-html5-backend": "^2.6.0",
         "react-dom": "16.2.0",
         "react-redux": "5.0.6",
         "react-render-html": "^0.6.0",
@@ -142,7 +144,9 @@
     "scripts": {
         "start": "node scripts/start.js",
         "build": "node scripts/build.js",
-        "test": "node scripts/test.js --env=jsdom"
+        "test": "node scripts/test.js --env=jsdom",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "babel": {
         "presets": [

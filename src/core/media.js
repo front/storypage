@@ -1,32 +1,32 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
 
-let MediaFrame = Backbone.View.extend( {
+const MediaFrame = Backbone.View.extend( {
 	open: function() {
-		alert('open modal');
-	}
+		alert( 'open modal' );
+	},
 } );
 
-MediaFrame.Select          = MediaFrame.extend();
-MediaFrame.Post            = MediaFrame.Select.extend();
-MediaFrame.Manage          = MediaFrame.Select.extend();
-MediaFrame.ImageDetails    = MediaFrame.Select.extend();
-MediaFrame.AudioDetails    = MediaFrame.Select.extend();
-MediaFrame.VideoDetails    = MediaFrame.Select.extend();
+MediaFrame.Select = MediaFrame.extend();
+MediaFrame.Post = MediaFrame.Select.extend();
+MediaFrame.Manage = MediaFrame.Select.extend();
+MediaFrame.ImageDetails = MediaFrame.Select.extend();
+MediaFrame.AudioDetails = MediaFrame.Select.extend();
+MediaFrame.VideoDetails = MediaFrame.Select.extend();
 MediaFrame.EditAttachments = MediaFrame.Select.extend();
 
-let media = function( attributes ) {
+const media = function( attributes ) {
 	// console.log(attributes);
-	var MediaFrame = media.view.MediaFrame,
-	frame;
+	let MediaFrame = media.view.MediaFrame,
+		frame;
 
 	if ( ! MediaFrame ) {
 		return;
 	}
 
 	attributes = _.defaults( attributes || {}, {
-		frame: 'select'
-	});
+		frame: 'select',
+	} );
 
 	if ( 'select' === attributes.frame && MediaFrame.Select ) {
 		frame = new MediaFrame.Select( attributes );
@@ -49,14 +49,14 @@ let media = function( attributes ) {
 	media.frame = frame;
 
 	return frame;
-}
+};
 
-_.extend( media, { 
-	model: {}, 
-	view: { MediaFrame }, 
-	controller: {}, 
-	frames: {}
-});
+_.extend( media, {
+	model: {},
+	view: { MediaFrame },
+	controller: {},
+	frames: {},
+} );
 
 const attachmentModel = Backbone.Model.extend();
 // const attachmentsCollection = Backbone.Collection.extend();

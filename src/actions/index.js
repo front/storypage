@@ -9,134 +9,129 @@ const LOCAL_STORAGE_KEY = 'storypage';
 const LOCAL_PAGES = 'pages';
 const LOCAL_MEDIA = 'media';
 
-function getFromLocalStorage(key = null) {
-	const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+function getFromLocalStorage( key = null ) {
+	const data = localStorage.getItem( LOCAL_STORAGE_KEY );
 
-	if (data) {
-		const resources = JSON.parse(data);
+	if ( data ) {
+		const resources = JSON.parse( data );
 
-		if (key) {
-			if (!resources[key]) {
-				resources[key] = [];
-				localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(resources));
+		if ( key ) {
+			if ( ! resources[ key ] ) {
+				resources[ key ] = [];
+				localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( resources ) );
 			}
 
-			return resources[key];
-		} else {
-			return resources
-		}	
-	} 
+			return resources[ key ];
+		}
+		return resources;
+	}
 
 	// create for the first time
-	const storage = { 
-		[LOCAL_PAGES]: [],
-		[LOCAL_MEDIA]: [] 
+	const storage = {
+		[ LOCAL_PAGES ]: [],
+		[ LOCAL_MEDIA ]: [],
 	};
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
-	return storage;	
+	return storage;
 }
 
 // Get all pages
 export function fetchPages() {
-	const pages = getFromLocalStorage(LOCAL_PAGES);
+	const pages = getFromLocalStorage( LOCAL_PAGES );
 
 	return {
 		type: FETCH_PAGES,
-		payload: pages
+		payload: pages,
 	};
 }
 
-// Create or edit a P+page
-export function savePage(values) {
+// Create or edit a Ppage
+export function savePage( values ) {
 	const storage = getFromLocalStorage();
 
 	// create
-	if (!values.id) {
+	if ( ! values.id ) {
 		values.id = Date.now();
 
-		storage[LOCAL_PAGES] = { 
-			...storage[LOCAL_PAGES], 
-			[values.id]: {
+		storage[ LOCAL_PAGES ] = {
+			...storage[ LOCAL_PAGES ],
+			[ values.id ]: {
 				id: values.id,
-				title: values.title || '', 
+				title: values.title || '',
 				content: values.content || '',
 				type: 'page',
-				link: `${window.location.origin}/pages/${values.id}`
-			}
+				link: `${ window.location.origin }/pages/${ values.id }`,
+			},
 		};
-	} 
-	// update
-	else {
-		if (values.title) {
-			storage[LOCAL_PAGES][values.id].title = values.title;
+	} else { // update
+		if ( values.title ) {
+			storage[ LOCAL_PAGES ][ values.id ].title = values.title;
 		}
 
-		if (values.content) {
-			storage[LOCAL_PAGES][values.id].content = values.content;
-		}		
+		if ( values.content ) {
+			storage[ LOCAL_PAGES ][ values.id ].content = values.content;
+		}
+
+		// create a revision
 	}
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
 	return {
 		type: SAVE_PAGE,
-		payload: storage[LOCAL_PAGES][values.id]
+		payload: storage[ LOCAL_PAGES ][ values.id ],
 	};
 }
 
 // Get a page
-export function fetchPage(id) {
-	const pages = getFromLocalStorage(LOCAL_PAGES);
+export function fetchPage( id ) {
+	const pages = getFromLocalStorage( LOCAL_PAGES );
 
 	return {
 		type: FETCH_PAGE,
-		payload: pages[id] || { }
+		payload: pages[ id ] || { },
 	};
 }
 
 // Delete a page
-export function deletePage(id) {
+export function deletePage( id ) {
 	const storage = getFromLocalStorage();
 
-	delete storage[LOCAL_PAGES][id]
+	delete storage[ LOCAL_PAGES ][ id ];
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
 	return {
 		type: DELETE_PAGE,
-		payload: id
+		payload: id,
 	};
 }
 
-export function saveMedia(values) {
+export function saveMedia( values ) {
 	const storage = getFromLocalStorage();
 
 	// create
-	if (!values.id) {
+	if ( ! values.id ) {
 		values.id = Date.now();
 
-		storage[LOCAL_MEDIA] = { 
-			...storage[LOCAL_MEDIA], 
-			[values.id]: {
+		storage[ LOCAL_MEDIA ] = {
+			...storage[ LOCAL_MEDIA ],
+			[ values.id ]: {
 				id: values.id,
 				source_url: 'http://localhost:3000/sample.jpg',
 				link: 'http://localhost:3000/sample.jpg',
-			}
+			},
 		};
-	} 
-	// update
-	else {
-		if (values.data) {
-			storage[LOCAL_MEDIA][values.id].data = values.data;
-		}	
+	} else if ( values.data ) { // update
+		storage[ LOCAL_MEDIA ][ values.id ].data = values.data;
 	}
 
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
 	return {
 		type: SAVE_MEDIA,
-		payload: storage[LOCAL_MEDIA][values.id]
+		payload: storage[ LOCAL_MEDIA ][ values.id ],
 	};
 }

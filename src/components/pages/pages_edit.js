@@ -10,21 +10,21 @@ const settings = {
 	availableTemplates: [],
 	blockTyoes: true,
 	disableCustomColors: false,
-	titlePlaceholder: 'Add a title here...'
+	titlePlaceholder: 'Add a title here...',
 };
 
 class PagesEdit extends React.Component {
 	componentDidMount() {
-		if (!this.props.page) {
+		if ( ! this.props.page ) {
 			const { id } = this.props.match.params;
-			if (id) {
-				this.props.fetchPage(id);
+			if ( id ) {
+				this.props.fetchPage( id );
 			}
 		}
 	}
-	
+
 	render() {
-		if (!this.props.page) {
+		if ( ! this.props.page ) {
 			return <div>Loading page...</div>;
 		}
 
@@ -33,21 +33,21 @@ class PagesEdit extends React.Component {
 			templates: '',
 			title: { raw: this.props.page.title },
 			type: 'page',
-			id: this.props.page.id
+			id: this.props.page.id,
 		};
-		
+
 		return (
 			<div>
 				<h1>Edit!</h1>
 				<p><Link to="/pages">Go back!</Link></p>
 				<GutenbergEditor post={ page } settings={ settings } />
 			</div>
-		)
+		);
 	}
 }
 
-function mapStateToProps({ pages }, ownProps) {
-	return { page: pages[ownProps.match.params.id] };
+function mapStateToProps( { pages }, ownProps ) {
+	return { page: pages[ ownProps.match.params.id ] };
 }
 
-export default connect(mapStateToProps, { fetchPage })(PagesEdit);
+export default connect( mapStateToProps, { fetchPage } )( PagesEdit );

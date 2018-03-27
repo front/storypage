@@ -27,20 +27,17 @@
  * @param {RegExp} settings.shortcodesRegExp                  Optional. Regular expression to find shortcodes.
  * @param {Object} settings.l10n                              Optional. Localization object containing specific
  *                                                            configuration for the current localization.
- * @param {String} settings.l10n.type                         Optional. Method of finding words to count.
+ * @param {string} settings.l10n.type                         Optional. Method of finding words to count.
  * @param {Array}  settings.l10n.shortcodes                   Optional. Array of shortcodes that should be removed
  *                                                            from the text.
- *
- * @return void
  */
 function WordCounter( settings ) {
-	var key,
+	let key,
 		shortcodes;
 
 	// Apply provided settings to object settings.
 	if ( settings ) {
 		for ( key in settings ) {
-
 			// Only apply valid settings.
 			if ( settings.hasOwnProperty( key ) ) {
 				this.settings[ key ] = settings[ key ];
@@ -70,13 +67,13 @@ WordCounter.prototype.settings = {
 	removeRegExp: new RegExp( [
 		'[',
 
-			// Basic Latin (extract)
-			'\u0021-\u0040\u005B-\u0060\u007B-\u007E',
+		// Basic Latin (extract)
+		'\u0021-\u0040\u005B-\u0060\u007B-\u007E',
 
-			// Latin-1 Supplement (extract)
-			'\u0080-\u00BF\u00D7\u00F7',
+		// Latin-1 Supplement (extract)
+		'\u0080-\u00BF\u00D7\u00F7',
 
-			/*
+		/*
 			 * The following range consists of:
 			 * General Punctuation
 			 * Superscripts and Subscripts
@@ -103,11 +100,11 @@ WordCounter.prototype.settings = {
 			 * Supplemental Mathematical Operators
 			 * Miscellaneous Symbols and Arrows
 			 */
-			'\u2000-\u2BFF',
+		'\u2000-\u2BFF',
 
-			// Supplemental Punctuation
-			'\u2E00-\u2E7F',
-		']'
+		// Supplemental Punctuation
+		'\u2E00-\u2E7F',
+		']',
 	].join( '' ), 'g' ),
 
 	// Remove UTF-16 surrogate points, see https://en.wikipedia.org/wiki/UTF-16#U.2BD800_to_U.2BDFFF
@@ -127,7 +124,7 @@ WordCounter.prototype.settings = {
 	 * \u2029 = paragraph separator
 	 */
 	characters_including_spacesRegExp: /[^\f\n\r\t\v\u00AD\u2028\u2029]/g,
-	l10n: window.wordCountL10n || {}
+	l10n: window.wordCountL10n || {},
 };
 
 /**
@@ -144,7 +141,7 @@ WordCounter.prototype.settings = {
  * @return {Number} The number of items counted.
  */
 WordCounter.prototype.count = function( text, type ) {
-	var count = 0;
+	let count = 0;
 
 	// Use default type if none was provided.
 	type = type || this.settings.l10n.type;
@@ -173,7 +170,6 @@ WordCounter.prototype.count = function( text, type ) {
 		text = text.replace( this.settings.spaceRegExp, ' ' );
 
 		if ( type === 'words' ) {
-
 			// Remove HTML Entities.
 			text = text.replace( this.settings.HTMLEntityRegExp, '' );
 
@@ -183,7 +179,6 @@ WordCounter.prototype.count = function( text, type ) {
 			// Remove unwanted characters.
 			text = text.replace( this.settings.removeRegExp, '' );
 		} else {
-
 			// Convert HTML Entities to "a".
 			text = text.replace( this.settings.HTMLEntityRegExp, 'a' );
 
@@ -204,7 +199,7 @@ WordCounter.prototype.count = function( text, type ) {
 };
 
 const utils = {
-	WordCounter
+	WordCounter,
 };
 
 export default utils;
