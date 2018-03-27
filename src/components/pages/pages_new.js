@@ -8,27 +8,26 @@ const settings = {
 	availableTemplates: [],
 	blockTyoes: true,
 	disableCustomColors: false,
-	titlePlaceholder: 'Add a title here...'
+	titlePlaceholder: 'Add a title here...',
 };
 
 class PagesNew extends React.Component {
-	
 	render() {
 		const page = {
 			content: { raw: '' },
 			templates: '',
 			title: { raw: '' },
-			type: 'page'
+			type: 'page',
 		};
-		
+
 		return (
 			<div>
 				<h1>New page</h1>
 				<p><Link to="/pages">Go back!</Link></p>
-				
+
 				<GutenbergEditor post={ page } settings={ settings } />
 			</div>
-		)
+		);
 	}
 }
 

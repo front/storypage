@@ -10,15 +10,15 @@ class PagesIndex extends React.Component {
 	}
 
 	renderpages() {
-		return _.map(this.props.pages, page => {
+		return _.map( this.props.pages, page => {
 			return (
 				<tr key={ page.id }>
 					<td>{ page.title }</td>
-					<td><Link to={ `/pages/${page.id}` }>preview</Link></td>
-					<td><Link to={ `/pages/${page.id}/edit` }>edit</Link></td>
+					<td><Link to={ `/pages/${ page.id }` }>preview</Link></td>
+					<td><Link to={ `/pages/${ page.id }/edit` }>edit</Link></td>
 				</tr>
 			);
-		});
+		} );
 	}
 
 	render() {
@@ -28,8 +28,8 @@ class PagesIndex extends React.Component {
 				<p><Link to="/">Go home!</Link></p>
 				<p><Link to="/pages/new">New page</Link></p>
 
-				<br/>
-				<br/>
+				<br />
+				<br />
 
 				<table>
 					<thead>
@@ -43,12 +43,12 @@ class PagesIndex extends React.Component {
 					</tbody>
 				</table>
 			</div>
-		)
+		);
 	}
 }
 
-function mapStateToProps( { pages }) {
+function mapStateToProps( { pages } ) {
 	return { pages };
 }
 
-export default connect(mapStateToProps, { fetchPages })(PagesIndex);
+export default connect( mapStateToProps, { fetchPages } )( PagesIndex );

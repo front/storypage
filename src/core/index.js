@@ -19,14 +19,14 @@ const wp = {
 	media,
 	element: React,
 	utils,
-	oldEditor: { 
-		initialize: function(options) {
-			console.log('oldEditor initialize', options);
+	oldEditor: {
+		initialize: function( options ) {
+			console.log( 'oldEditor initialize', options );
 		},
-		remove: function(options) {
-			console.log('oldEditor remove', options);
-		}
-	}
+		remove: function( options ) {
+			console.log( 'oldEditor remove', options );
+		},
+	},
 };
 
 window.wp = wp;
@@ -36,22 +36,22 @@ window.jQuery = jQuery;
 window.wpEditorL10n = editorL10n;
 
 window.wpApiSettings = {
-	root: "http://localhost:3000/",
+	root: window.location.origin,
 	nonce: '123456789',
-	versionString: '',
-	cacheSchema: true,
-	schema: {}
+	// versionString: '',
+	// cacheSchema: true,
+	schema: {},
 };
 
 window.customGutenberg = {
-	categories: [ 
-		{ slug: 'rows', title: __( 'Rows Blocks')  },
-		{ slug: 'common', title: __( 'Common Blocks')  },
-		{ slug: 'formatting', title: __( 'Formatting')  },
-		{ slug: 'layout', title: __( 'Layout Elements')  },
-		{ slug: 'widgets', title: __( 'Widgets')  },
-		{ slug: 'embed', title: __( 'Embeds')  },
-		{ slug: 'shared', title: __( 'Shared Blocks' ) }, 
+	categories: [
+		{ slug: 'rows', title: __( 'Rows Blocks' ) },
+		{ slug: 'common', title: __( 'Common Blocks' ) },
+		{ slug: 'formatting', title: __( 'Formatting' ) },
+		{ slug: 'layout', title: __( 'Layout Elements' ) },
+		{ slug: 'widgets', title: __( 'Widgets' ) },
+		{ slug: 'embed', title: __( 'Embeds' ) },
+		{ slug: 'shared', title: __( 'Shared Blocks' ) },
 	],
 	tabs: [
 		{
@@ -63,7 +63,7 @@ window.customGutenberg = {
 			tabScrollTop: 0,
 			getItemsForTab() {
 				return ( item ) => item.category == 'rows';
-			}
+			},
 		},
 		{
 			options: {
@@ -74,7 +74,8 @@ window.customGutenberg = {
 			tabScrollTop: 0,
 			getItemsForTab() {
 				return ( item ) => item.category !== 'embed' && item.category !== 'shared' && item.category !== 'rows';
-			}				
+			},
 		},
-	]
+	],
+	panel: [ 'post-status', 'posts-list', 'settings-panel', 'last-revision' ],
 };

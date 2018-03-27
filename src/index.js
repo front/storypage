@@ -14,7 +14,7 @@ import reducers from './reducers';
 
 import './style/style.scss';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+const createStoreWithMiddleware = applyMiddleware()( createStore );
 
 // register default blocks
 registerCoreBlocks();
@@ -23,8 +23,8 @@ registerCoreBlocks();
 // registerCustomBlocks();
 
 ReactDOM.render(
-	<Provider store={createStoreWithMiddleware(reducers)}>
+	<Provider store={ createStoreWithMiddleware( reducers ) }>
 		<Router />
-	</Provider>, document.querySelector('#root'));
+	</Provider>, document.querySelector( '#root' ) );
 
 registerServiceWorker();

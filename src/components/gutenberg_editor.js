@@ -3,7 +3,7 @@ import { initializeEditor } from 'gutenberg';
 
 class GutenbergEditor extends React.Component {
 	componentDidMount() {
-		initializeEditor("editor", this.props.post, this.props.settings);
+		initializeEditor( 'editor', this.props.post, this.props.settings );
 	}
 
 	render() {
