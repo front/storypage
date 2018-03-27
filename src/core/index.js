@@ -78,4 +78,7 @@ window.customGutenberg = {
 		},
 	],
 	panel: [ 'post-status', 'posts-list', 'settings-panel', 'last-revision' ],
+	editor: {
+		hideTitle: true
+	},
 };
