@@ -12,11 +12,14 @@ export const SAVE_MEDIA = 'save_media';
 export const FETCH_ARTICLES = 'fetch_articles';
 export const FETCH_ARTICLE = 'fetch_article';
 
+export const FETCH_CATEGORIES = 'fetch_categories';
+
 // Module constants
 const LOCAL_STORAGE_KEY = 'storypage';
 const LOCAL_PAGES = 'pages';
 const LOCAL_MEDIA = 'media';
 const LOCAL_ARTICLES = 'articles';
+const LOCAL_CATEGORIES = 'categories';
 
 function getFromLocalStorage( key = null ) {
 	const data = localStorage.getItem( LOCAL_STORAGE_KEY );
@@ -40,6 +43,7 @@ function getFromLocalStorage( key = null ) {
 		[ LOCAL_PAGES ]: [],
 		[ LOCAL_MEDIA ]: [],
 		[ LOCAL_ARTICLES ]: [],
+		[ LOCAL_CATEGORIES ]: [],
 	};
 
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
@@ -172,5 +176,18 @@ export function fetchArticle( id ) {
 	return {
 		type: FETCH_ARTICLE,
 		payload: articles[ id ] || { },
+	};
+}
+
+/*
+ * Categories
+ */
+// Get all categories
+export function fetchCategories() {
+	const categories = getFromLocalStorage( LOCAL_CATEGORIES );
+
+	return {
+		type: FETCH_CATEGORIES,
+		payload: _.map( categories, category => category ),
 	};
 }

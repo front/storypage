@@ -1,6 +1,12 @@
 import jQuery from 'jquery';
 
-import { savePage, deletePage, saveMedia, fetchArticles } from '../../store/actions';
+import {
+	savePage,
+	deletePage,
+	saveMedia,
+	fetchArticles,
+	fetchCategories,
+} from '../../store/actions';
 
 function apiRequest( options ) {
 	const pathArray = options.path.split( '/' );
@@ -10,14 +16,20 @@ function apiRequest( options ) {
 	return jQuery.Deferred( dfd => {
 		let res;
 
-		// switch
-
-		if ( resource === 'page' ) {
-			res = method === 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
-		} else if ( resource === 'media' ) {
-			res = saveMedia( options );
-		} else if ( resource === 'articles' ) {
-			res = fetchArticles();
+		// Call actions by invoked resource  
+		switch ( resource ) {
+			case 'page':
+				res = method === 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
+				break;
+			case 'media':
+				res = saveMedia(options);
+				break;
+			case 'articles':
+				res = fetchArticles();
+				break;
+			case 'categories':
+				res = fetchCategories();
+				break;
 		}
 
 		if ( res ) {

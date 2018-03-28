@@ -26,7 +26,6 @@ export function pages( state = [], action ) {
 	}
 }
 
-
 export default combineReducers( {
 	pages,
-} );;
+} );
