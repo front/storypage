@@ -1,3 +1,6 @@
+// External dependences
+import _ from 'lodash';
+
 // Actions types
 export const FETCH_PAGES = 'fetch_pages';
 export const SAVE_PAGE = 'save_page';
@@ -53,7 +56,7 @@ export function fetchPages() {
 
 	return {
 		type: FETCH_PAGES,
-		payload: pages,
+		payload: _.map( pages, page => page ),
 	};
 }
 
@@ -159,7 +162,7 @@ export function fetchArticles() {
 
 	return {
 		type: FETCH_ARTICLES,
-		payload: articles,
+		payload: _.map( articles, article => article ),
 	};
 }
 // Get an article

@@ -13,7 +13,7 @@ class PagesIndex extends React.Component {
 	}
 
 	renderpages() {
-		return _.map( this.props.pages, page => {
+		return this.props.pages.map(page => {
 			return (
 				<tr key={ page.id }>
 					<td>{ page.title }</td>

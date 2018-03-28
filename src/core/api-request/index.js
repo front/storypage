@@ -1,6 +1,6 @@
 import jQuery from 'jquery';
 
-import { savePage, deletePage, saveMedia, fetchArticles } from '../../actions';
+import { savePage, deletePage, saveMedia, fetchArticles } from '../../store/actions';
 
 function apiRequest( options ) {
 	const pathArray = options.path.split( '/' );
