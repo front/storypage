@@ -1,8 +1,10 @@
+// External dependences
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPage } from '../../actions';
 
+// Internal dependences
+import { fetchPage } from '../../store/actions';
 import GutenbergEditor from '../gutenberg_editor';
 
 const settings = {

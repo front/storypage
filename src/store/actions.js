@@ -1,3 +1,4 @@
+// Actions types
 export const FETCH_PAGES = 'fetch_pages';
 export const SAVE_PAGE = 'save_page';
 export const FETCH_PAGE = 'fetch_page';
@@ -5,9 +6,14 @@ export const DELETE_PAGE = 'delete_page';
 
 export const SAVE_MEDIA = 'save_media';
 
+export const FETCH_ARTICLES = 'fetch_articles';
+export const FETCH_ARTICLE = 'fetch_article';
+
+// Module constants
 const LOCAL_STORAGE_KEY = 'storypage';
 const LOCAL_PAGES = 'pages';
 const LOCAL_MEDIA = 'media';
+const LOCAL_ARTICLES = 'articles';
 
 function getFromLocalStorage( key = null ) {
 	const data = localStorage.getItem( LOCAL_STORAGE_KEY );
@@ -30,6 +36,7 @@ function getFromLocalStorage( key = null ) {
 	const storage = {
 		[ LOCAL_PAGES ]: [],
 		[ LOCAL_MEDIA ]: [],
+		[ LOCAL_ARTICLES ]: [],
 	};
 
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
@@ -37,6 +44,9 @@ function getFromLocalStorage( key = null ) {
 	return storage;
 }
 
+/*
+ * Pages
+ */
 // Get all pages
 export function fetchPages() {
 	const pages = getFromLocalStorage( LOCAL_PAGES );
@@ -47,7 +57,7 @@ export function fetchPages() {
 	};
 }
 
-// Create or edit a Ppage
+// Create or update a page
 export function savePage( values ) {
 	const storage = getFromLocalStorage();
 
@@ -109,6 +119,10 @@ export function deletePage( id ) {
 	};
 }
 
+/*
+ * Media
+ */
+// Create or update media
 export function saveMedia( values ) {
 	const storage = getFromLocalStorage();
 
@@ -133,5 +147,27 @@ export function saveMedia( values ) {
 	return {
 		type: SAVE_MEDIA,
 		payload: storage[ LOCAL_MEDIA ][ values.id ],
+	};
+}
+
+/*
+ * Articles
+ */
+// Get all articles
+export function fetchArticles() {
+	const articles = getFromLocalStorage( LOCAL_ARTICLES );
+
+	return {
+		type: FETCH_ARTICLES,
+		payload: articles,
+	};
+}
+// Get an article
+export function fetchArticle( id ) {
+	const articles = getFromLocalStorage( LOCAL_ARTICLES );
+
+	return {
+		type: FETCH_ARTICLE,
+		payload: articles[ id ] || { },
 	};
 }

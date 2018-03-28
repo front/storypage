@@ -2,3 +2,4 @@
 
 config/*
 scripts/*
+src/registerServiceWorker.js

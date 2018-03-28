@@ -1,12 +1,11 @@
+// External dependences
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 
-import { fetchPage } from '../../actions';
-
-// Gutenberg imports
-// import ReactHtmlParser from 'react-html-parser';
+// Internal dependences
+import { fetchPage } from '../../store/actions';
 
 class PagesShow extends React.Component {
 	componentDidMount() {

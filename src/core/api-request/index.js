@@ -1,6 +1,6 @@
 import jQuery from 'jquery';
 
-import { savePage, deletePage, saveMedia } from '../actions';
+import { savePage, deletePage, saveMedia, fetchArticles } from '../../actions';
 
 function apiRequest( options ) {
 	const pathArray = options.path.split( '/' );
@@ -10,10 +10,14 @@ function apiRequest( options ) {
 	return jQuery.Deferred( dfd => {
 		let res;
 
+		// switch
+
 		if ( resource === 'page' ) {
 			res = method === 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
 		} else if ( resource === 'media' ) {
 			res = saveMedia( options );
+		} else if ( resource === 'articles' ) {
+			res = fetchArticles();
 		}
 
 		if ( res ) {

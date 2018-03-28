@@ -1,8 +1,15 @@
+// External dependences
 import _ from 'lodash';
+import { combineReducers } from 'redux';
 
-import { FETCH_PAGES, FETCH_PAGE, DELETE_PAGE } from '../actions';
+// Internal dependences
+import { 
+	FETCH_PAGES,
+	FETCH_PAGE,
+	DELETE_PAGE,
+} from './actions';
 
-export default function( state = {}, action ) {
+export function pages( state = {}, action ) {
 	switch ( action.type ) {
 		case FETCH_PAGES:
 			return action.payload;
@@ -16,3 +23,8 @@ export default function( state = {}, action ) {
 			return state;
 	}
 }
+
+
+export default combineReducers( {
+	pages,
+} );;
