@@ -47,10 +47,10 @@ function getFromLocalStorage( key = null ) {
 		[ LOCAL_PAGES ]: [],
 		[ LOCAL_MEDIA ]: [],
 		[ LOCAL_ARTICLES ]: {
-			1: { id: '1', title: 'First article title' },
-			2: { id: '2', title: 'Second article title' },
-			3: { id: '3', title: 'Third article title' },
-			4: { id: '4', title: 'Fourth article title' },
+			1: { id: '1', title: 'First article title', category_id: 4 },
+			2: { id: '2', title: 'Second article title', category_id: 3  },
+			3: { id: '3', title: 'Third article title', category_id: 2  },
+			4: { id: '4', title: 'Fourth article title', category_id: 1  },
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
 			1: { id: '1', name: 'Category 1' },
