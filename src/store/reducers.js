@@ -9,7 +9,7 @@ import {
 	DELETE_PAGE,
 } from './actions';
 
-export function pages( state = [], action ) {
+export function pages( state = { }, action ) {
 	switch ( action.type ) {
 		case FETCH_PAGES:
 			return action.payload;

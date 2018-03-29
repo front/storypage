@@ -22,7 +22,7 @@ function apiRequest( options ) {
 				res = method === 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
 				break;
 			case 'media':
-				res = saveMedia(options);
+				res = saveMedia( options );
 				break;
 			case 'articles':
 				res = fetchArticles();
