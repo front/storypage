@@ -1,6 +1,8 @@
+// External dependences
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Internal dependences
 import GutenbergEditor from '../gutenberg_editor';
 
 // make templates dynamic

@@ -1,15 +1,18 @@
-import React from 'react';
+// External dependences
 import _ from 'lodash';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPages } from '../../actions';
+
+// Internal dependences
+import { fetchPages } from '../../store/actions';
 
 class PagesIndex extends React.Component {
 	componentDidMount() {
 		this.props.fetchPages();
 	}
 
-	renderpages() {
+	renderPages() {
 		return _.map( this.props.pages, page => {
 			return (
 				<tr key={ page.id }>
@@ -39,7 +42,7 @@ class PagesIndex extends React.Component {
 						</tr>
 					</thead>
 					<tbody>
-						{ this.renderpages() }
+						{ this.renderPages() }
 					</tbody>
 				</table>
 			</div>

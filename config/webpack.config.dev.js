@@ -85,12 +85,17 @@ const gutenbergDependencies = [
 	'plugins',
 	'edit-post',
 	'url',
+	'api-request',
 ];
 
 const alias = {};
 
 gutenbergDependencies.forEach( dependency => {
-	alias[ '@wordpress/' + dependency ] = `${ paths.appNodeModules }/gutenberg/${ dependency }`;
+	if ( dependency === 'api-request' || dependency === 'url' ) {
+		alias[ '@wordpress/' + dependency ] = `${ paths.appSrc }/core/${ dependency }`;
+	} else {
+		alias[ '@wordpress/' + dependency ] = `${ paths.appNodeModules }/gutenberg/${ dependency }`;
+	}
 } );
 
 // This is the development configuration.

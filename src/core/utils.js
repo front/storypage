@@ -135,10 +135,10 @@ WordCounter.prototype.settings = {
  * @since    2.6.0
  * @memberof wp.utils.wordcounter
  *
- * @param {String}  text Text to count elements in.
- * @param {String}  type Optional. Specify type to use.
+ * @param {string}  text Text to count elements in.
+ * @param {string}  type Optional. Specify type to use.
  *
- * @return {Number} The number of items counted.
+ * @return {number} The number of items counted.
  */
 WordCounter.prototype.count = function( text, type ) {
 	let count = 0;

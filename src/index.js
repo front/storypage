@@ -10,7 +10,7 @@ import { registerCoreBlocks } from 'gutenberg';
 // import { registerCustomBlocks } from './components/blocks';
 
 import Router from './components/router';
-import reducers from './reducers';
+import reducers from './store/reducers';
 
 import './style/style.scss';
 

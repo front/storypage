@@ -9,7 +9,7 @@ import {
 } from './settings';
 
 import api from './api';
-import apiRequest from './apiRequest';
+import apiRequest from './api-request';
 import media from './media';
 import utils from './utils';
 
@@ -21,10 +21,10 @@ const wp = {
 	utils,
 	oldEditor: {
 		initialize: function( options ) {
-			// console.log( 'oldEditor initialize', options );
+			console.log( 'oldEditor initialize', options );
 		},
 		remove: function( options ) {
-			// console.log( 'oldEditor remove', options );
+			console.log( 'oldEditor remove', options );
 		},
 	},
 };
@@ -77,8 +77,8 @@ window.customGutenberg = {
 			},
 		},
 	],
-	panel: [ 'post-status', 'posts-list', 'settings-panel', 'last-revision' ],
+	panel: [ 'post-status', 'articles-list', 'settings-panel', 'last-revision' ],
 	editor: {
-		hideTitle: true
+		hideTitle: true,
 	},
 };
