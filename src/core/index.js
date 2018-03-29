@@ -80,5 +80,6 @@ window.customGutenberg = {
 	panel: [ 'post-status', 'articles-list', 'settings-panel', 'last-revision' ],
 	editor: {
 		hideTitle: true,
+		noMediaLibrary: true,
 	},
 };
