@@ -38,7 +38,22 @@ window.wpApiSettings = {
 	nonce: '123456789',
 	// versionString: '',
 	// cacheSchema: true,
-	schema: {},
+	schema: {
+		routes: {
+			"\/wp\/v2\/categories": {
+				methods: [ 'GET' ]
+			},
+			"\/wp\/v2\/posts": {
+				methods: [ 'GET' ]
+			},
+			// '/wp/v2/articles': {
+			// 	methods: [ 'GET' ]
+			// },
+			"\/wp\/v2\/articles\/(?P<id>[\\d]+)": {
+				methods: [ 'GET' ]
+			}
+		}
+	},
 };
 
 window.customGutenberg = {

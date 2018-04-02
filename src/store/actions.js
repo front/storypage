@@ -204,11 +204,11 @@ export function saveMedia( media ) {
 /**
  * Get all articles
  *
- * @param  {Object}	data	Search data
+ * @param  {Object}	data	Optional. Search data
  * 
  * @return {Object}	Action type and array of articles
  */
-export function fetchArticles( data ) {
+export function fetchArticles( data = { }) {
 	const { category_id, s } = data;
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
