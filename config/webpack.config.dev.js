@@ -12,7 +12,6 @@ const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
 const getClientEnvironment = require( './env' );
 const paths = require( './paths' );
 
-const { reduce, escapeRegExp, get } = require( 'lodash' );
 const { basename } = require( 'path' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );

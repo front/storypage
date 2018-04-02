@@ -4,3 +4,14 @@ A page builder using the [Gutenberg](https://github.com/front/gutenberg) editor 
 
 `npm install` to install dependences
 `npm start` to run the app
+
+## Core
+### API Request
+### URL
+### Other settings
+
+## Store
+### Actions
+### Reducer
+### Effects - TODO
+### Selectors

@@ -10,23 +10,21 @@ import {
 
 import api from './api';
 import apiRequest from './api-request';
-import media from './media';
 import utils from './utils';
 
 const wp = {
 	api,
 	apiRequest,
-	media,
 	element: React,
 	utils,
-	oldEditor: {
-		initialize: function( options ) {
-			console.log( 'oldEditor initialize', options );
-		},
-		remove: function( options ) {
-			console.log( 'oldEditor remove', options );
-		},
-	},
+	// oldEditor: {
+	// 	initialize: function( options ) {
+	// 		console.log( 'oldEditor initialize', options );
+	// 	},
+	// 	remove: function( options ) {
+	// 		console.log( 'oldEditor remove', options );
+	// 	},
+	// },
 };
 
 window.wp = wp;
@@ -80,5 +78,6 @@ window.customGutenberg = {
 	panel: [ 'post-status', 'articles-list', 'settings-panel', 'last-revision' ],
 	editor: {
 		hideTitle: true,
+		noMediaLibrary: true,
 	},
 };
