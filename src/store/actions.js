@@ -56,10 +56,11 @@ function getFromLocalStorage( key = null ) {
 			4: { id: '4', title: 'Fourth article title', category_id: '1' },
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
-			1: { id: '1', name: 'Category 1' },
-			2: { id: '2', name: 'Category 2' },
-			3: { id: '3', name: 'Category 3' },
-			4: { id: '4', name: 'Category 4' },
+			// count, description, id, link, meta, name, parent, slug, taxonomy
+			1: { id: '1', name: 'Category 1', parent: 0 },
+			2: { id: '2', name: 'Category 2', parent: 0 },
+			3: { id: '3', name: 'Category 3', parent: 0 },
+			4: { id: '4', name: 'Category 4', parent: 0 },
 		}, // fake categories
 	};
 

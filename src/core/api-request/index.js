@@ -15,6 +15,9 @@ function apiRequest( options ) {
 	const resource = pathArray[ 3 ];
 	const method = options.method;
 
+	// console.log('resource', resource);
+	// console.log('options', options);
+
 	return jQuery.Deferred( dfd => {
 		let res;
 
