@@ -1,5 +1,7 @@
+// External dependences
 import jQuery from 'jquery';
 
+// Internal dependences
 import {
 	savePage,
 	deletePage,
@@ -25,7 +27,7 @@ function apiRequest( options ) {
 				res = saveMedia( options );
 				break;
 			case 'articles':
-				res = fetchArticles();
+				res = fetchArticles( options.data );
 				break;
 			case 'categories':
 				res = fetchCategories();

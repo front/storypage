@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 // Internal dependences
 import { fetchPage } from '../../store/actions';
+import { getPage } from '../../store/selectors';
+
 import GutenbergEditor from '../gutenberg_editor';
 
 const settings = {
@@ -48,8 +50,8 @@ class PagesEdit extends React.Component {
 	}
 }
 
-function mapStateToProps( { pages }, ownProps ) {
-	return { page: pages[ ownProps.match.params.id ] };
+function mapStateToProps( state, ownProps ) {
+	return { page: getPage( state, ownProps.match.params.id ) };
 }
 
 export default connect( mapStateToProps, { fetchPage } )( PagesEdit );

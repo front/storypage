@@ -1,3 +1,6 @@
+// External dependences
+import { filter } from 'lodash';
+
 // Actions types
 export const FETCH_PAGES = 'fetch_pages';
 export const SAVE_PAGE = 'save_page';
@@ -47,10 +50,10 @@ function getFromLocalStorage( key = null ) {
 		[ LOCAL_PAGES ]: [],
 		[ LOCAL_MEDIA ]: [],
 		[ LOCAL_ARTICLES ]: {
-			1: { id: '1', title: 'First article title', category_id: 4 },
-			2: { id: '2', title: 'Second article title', category_id: 3  },
-			3: { id: '3', title: 'Third article title', category_id: 2  },
-			4: { id: '4', title: 'Fourth article title', category_id: 1  },
+			1: { id: '1', title: 'First article title', category_id: '4' },
+			2: { id: '2', title: 'Second article title', category_id: '3'  },
+			3: { id: '3', title: 'Third article title', category_id: '2'  },
+			4: { id: '4', title: 'Fourth article title', category_id: '1'  },
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
 			1: { id: '1', name: 'Category 1' },
@@ -199,12 +202,28 @@ export function saveMedia( media ) {
 
 /**
  * Get all articles
+ *
+ * @param  {object}	data	Search data
  * 
  * @return {Object}	Action type and array of articles
  */
-export function fetchArticles() {
-	const articles = getFromLocalStorage( LOCAL_ARTICLES );
+export function fetchArticles( data ) {
+	const { category_id, s } = data;
+	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
+	if ( category_id ) {
+		articles = filter(articles, { category_id } );
+	} 
+
+	if ( s ) {
+		articles = filter(articles, article => {
+			const term = s.toLowerCase();
+			const title = article.title.toLowerCase();
+
+			return title.indexOf( term ) !== -1;
+		});
+	}
+	
 	return {
 		type: FETCH_ARTICLES,
 		payload: articles,

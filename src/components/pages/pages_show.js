@@ -6,6 +6,7 @@ import renderHTML from 'react-render-html';
 
 // Internal dependences
 import { fetchPage } from '../../store/actions';
+import { getPage } from '../../store/selectors';
 
 class PagesShow extends React.Component {
 	componentDidMount() {
@@ -38,8 +39,8 @@ class PagesShow extends React.Component {
 	}
 }
 
-function mapStateToProps( { pages }, ownProps ) {
-	return { page: pages[ ownProps.match.params.id ] };
+function mapStateToProps( state, ownProps ) {
+	return { page: getPage( state, ownProps.match.params.id ) };
 }
 
 export default connect( mapStateToProps, { fetchPage } )( PagesShow );
