@@ -10,10 +10,17 @@ import {
 	fetchCategories,
 } from '../../store/actions';
 
+/**
+ * @param  {Object}
+ * @return {[type]}
+ */
 function apiRequest( options ) {
 	const pathArray = options.path.split( '/' );
-	const resource = pathArray[ 3 ];
+	const resource = pathArray[ 3 ].split( '?' )[0];
 	const method = options.method;
+
+	console.log('resource', resource);
+	console.log('options', options);
 
 	return jQuery.Deferred( dfd => {
 		let res;
@@ -26,6 +33,7 @@ function apiRequest( options ) {
 			case 'media':
 				res = saveMedia( options );
 				break;
+			case 'posts':
 			case 'articles':
 				res = fetchArticles( options.data );
 				break;
