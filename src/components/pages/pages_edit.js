@@ -35,7 +35,7 @@ class PagesEdit extends React.Component {
 		const page = {
 			content: { raw: this.props.page.content },
 			templates: '',
-			title: { raw: this.props.page.title },
+			title: { raw: this.props.page.title.rendered },
 			type: 'page',
 			id: this.props.page.id,
 		};

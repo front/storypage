@@ -16,7 +16,7 @@ class PagesIndex extends React.Component {
 		return map( this.props.pages, page => {
 			return (
 				<tr key={ page.id }>
-					<td>{ page.title }</td>
+					<td>{ page.title.rendered }</td>
 					<td><Link to={ `/pages/${ page.id }` }>preview</Link></td>
 					<td><Link to={ `/pages/${ page.id }/edit` }>edit</Link></td>
 				</tr>
