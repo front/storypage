@@ -8,6 +8,7 @@ export const FETCH_PAGE = 'fetch_page';
 export const DELETE_PAGE = 'delete_page';
 
 export const SAVE_MEDIA = 'save_media';
+export const FETCH_MEDIA = 'fecth_media';
 
 export const FETCH_ARTICLES = 'fetch_articles';
 export const FETCH_ARTICLE = 'fetch_article';
@@ -51,36 +52,36 @@ function getFromLocalStorage( key = null ) {
 		[ LOCAL_MEDIA ]: [],
 		[ LOCAL_ARTICLES ]: {
 			1: { 
-				id: '1',
+				id: 1,
 				title: { rendered: 'First article title' },
 				date_gmt: (new Date()).toISOString(),
-				category_id: '4',
+				category_id: 4,
 			},
 			2: {
-				id: '2',
+				id: 2,
 				title: { rendered: 'Second article title' },
 				date_gmt: (new Date()).toISOString(),
-				category_id: '3',
+				category_id: 3,
 			},
 			3: {
-				id: '3',
+				id: 3,
 				title: { rendered: 'Third article title' },
 				date_gmt: (new Date()).toISOString(),
-				category_id: '2',
+				category_id: 2,
 			},
 			4: {
-				id: '4',
+				id: 4,
 				title: { rendered: 'Fourth article title' },
 				date_gmt: (new Date()).toISOString(),
-				category_id: '1',
+				category_id: 1,
 			},
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
 			// count, description, id, link, meta, name, parent, slug, taxonomy
-			1: { id: '1', name: 'Category 1', parent: 0 },
-			2: { id: '2', name: 'Category 2', parent: 0 },
-			3: { id: '3', name: 'Category 3', parent: 0 },
-			4: { id: '4', name: 'Category 4', parent: 0 },
+			1: { id: 1, name: 'Category 1', parent: 0 },
+			2: { id: 2, name: 'Category 2', parent: 0 },
+			3: { id: 3, name: 'Category 3', parent: 0 },
+			4: { id: 4, name: 'Category 4', parent: 0 },
 		}, // fake categories
 	};
 

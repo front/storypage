@@ -76,7 +76,9 @@ function apiRequest( options ) {
 			// faking a request				
 			const url = singleResource ? `/${resource}/${res.payload.id}` : `/${resource}`;
 			const xhr = new XMLHttpRequest();
-			xhr.open( method, url, false );
+
+			// always a GET (changes are already done)
+			xhr.open( 'GET', url, false );
 			xhr.responseType = 'json';
 			xhr.send( null );
 
