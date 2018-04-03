@@ -54,26 +54,44 @@ function getFromLocalStorage( key = null ) {
 			1: { 
 				id: 1,
 				title: { rendered: 'First article title' },
-				date_gmt: (new Date()).toISOString(),
+				date_gmt: ( new Date() ).toISOString(),
 				category_id: 4,
+				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			2: {
 				id: 2,
 				title: { rendered: 'Second article title' },
-				date_gmt: (new Date()).toISOString(),
+				date_gmt: ( new Date() ).toISOString(),
 				category_id: 3,
+				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			3: {
 				id: 3,
 				title: { rendered: 'Third article title' },
-				date_gmt: (new Date()).toISOString(),
+				date_gmt: ( new Date() ).toISOString(),
 				category_id: 2,
+				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			4: {
 				id: 4,
-				title: { rendered: 'Fourth article title' },
-				date_gmt: (new Date()).toISOString(),
+				title: { rendered: '4th article title' },
+				date_gmt: ( new Date() ).toISOString(),
 				category_id: 1,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			5: {
+				id: 5,
+				title: { rendered: '5th article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 2,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			6: {
+				id: 6,
+				title: { rendered: 'Last article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 1,
+				image_url: 'http://localhost:3000/sample.jpg',
 			},
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
@@ -229,7 +247,7 @@ export function saveMedia( media ) {
  * 
  * @return {Object}	Action type and array of articles
  */
-export function fetchArticles( data = { }) {
+export function fetchArticles( data = { } ) {
 	const { category_id, s } = data;
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 

@@ -1,7 +1,7 @@
 // External dependences
 import FakeRest from 'fakerest';
 import sinon from 'sinon';
-// import jQuery from 'jquery';
+import jQuery from 'jquery';
 import { map } from 'lodash';
 
 // Internal dependences
@@ -15,12 +15,14 @@ import {
 } from '../../store/actions';
 
 /**
- * @param  {Object}
- * @return {[type]}
+ * Aqpi request
+ *
+ * @param  {Object} options Options to request
+ * @return {Object}	Request result (promise)
  */
 function apiRequest( options ) {
 	const pathArray = options.path.split( '/' );
-	const resource = pathArray[ 3 ].split( '?' )[0];
+	const resource = pathArray[ 3 ].split( '?' )[ 0 ];
 	const method = options.method || 'GET';
 
 	// console.log('resource', resource);
@@ -49,7 +51,7 @@ function apiRequest( options ) {
 			case 'articles':
 				if ( pathArray[ 4 ] ) {
 					singleResource = true;
-					res = fetchArticle(pathArray[ 4 ]);
+					res = fetchArticle( pathArray[ 4 ] );
 				} else {
 					res = fetchArticles( options.data );
 				}
@@ -60,9 +62,9 @@ function apiRequest( options ) {
 		}
 
 		if ( res ) {
-			// fake REST server only need expected data on response					
+			// fake REST server only need expected data on response
 			const data = {
-				[resource]: singleResource ? [ res.payload ] : map( res.payload ),
+				[ resource ]: singleResource ? [ res.payload ] : map( res.payload ),
 			};
 
 			// initialize fake REST server
@@ -71,10 +73,10 @@ function apiRequest( options ) {
 
 			// use sinon.js to monkey-patch XmlHttpRequest
 			const server = sinon.fakeServer.create();
-			server.respondWith(restServer.getHandler());
+			server.respondWith( restServer.getHandler() );
 
 			// faking a request				
-			const url = singleResource ? `/${resource}/${res.payload.id}` : `/${resource}`;
+			const url = singleResource ? `/${ resource }/${ res.payload.id }` : `/${ resource }`;
 			const xhr = new XMLHttpRequest();
 
 			// always a GET (changes are already done)
@@ -89,7 +91,7 @@ function apiRequest( options ) {
 		} else {
 			dfd.resolveWith( { }, [ { }, 404, { } ] );
 		}
-	} );// .promise();
+	} );
 }
 
 export default apiRequest;
