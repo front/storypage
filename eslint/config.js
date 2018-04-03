@@ -21,6 +21,7 @@ module.exports = {
 		wp: true,
 		localStorage: true,
 		alert: true,
+		XMLHttpRequest: true,
 	},
 	plugins: [
 		'react',

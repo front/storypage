@@ -8,6 +8,7 @@ export const FETCH_PAGE = 'fetch_page';
 export const DELETE_PAGE = 'delete_page';
 
 export const SAVE_MEDIA = 'save_media';
+export const FETCH_MEDIA = 'fecth_media';
 
 export const FETCH_ARTICLES = 'fetch_articles';
 export const FETCH_ARTICLE = 'fetch_article';
@@ -50,17 +51,55 @@ function getFromLocalStorage( key = null ) {
 		[ LOCAL_PAGES ]: [],
 		[ LOCAL_MEDIA ]: [],
 		[ LOCAL_ARTICLES ]: {
-			1: { id: '1', title: 'First article title', category_id: '4' },
-			2: { id: '2', title: 'Second article title', category_id: '3' },
-			3: { id: '3', title: 'Third article title', category_id: '2' },
-			4: { id: '4', title: 'Fourth article title', category_id: '1' },
+			1: { 
+				id: 1,
+				title: { rendered: 'First article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 4,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			2: {
+				id: 2,
+				title: { rendered: 'Second article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 3,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			3: {
+				id: 3,
+				title: { rendered: 'Third article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 2,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			4: {
+				id: 4,
+				title: { rendered: '4th article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 1,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			5: {
+				id: 5,
+				title: { rendered: '5th article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 2,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
+			6: {
+				id: 6,
+				title: { rendered: 'Last article title' },
+				date_gmt: ( new Date() ).toISOString(),
+				category_id: 1,
+				image_url: 'http://localhost:3000/sample.jpg',
+			},
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
 			// count, description, id, link, meta, name, parent, slug, taxonomy
-			1: { id: '1', name: 'Category 1', parent: 0 },
-			2: { id: '2', name: 'Category 2', parent: 0 },
-			3: { id: '3', name: 'Category 3', parent: 0 },
-			4: { id: '4', name: 'Category 4', parent: 0 },
+			1: { id: 1, name: 'Category 1', parent: 0 },
+			2: { id: 2, name: 'Category 2', parent: 0 },
+			3: { id: 3, name: 'Category 3', parent: 0 },
+			4: { id: 4, name: 'Category 4', parent: 0 },
 		}, // fake categories
 	};
 
@@ -162,7 +201,7 @@ export function deletePage( id ) {
 
 	return {
 		type: DELETE_PAGE,
-		payload: id,
+		payload: { id },
 	};
 }
 
@@ -208,7 +247,7 @@ export function saveMedia( media ) {
  * 
  * @return {Object}	Action type and array of articles
  */
-export function fetchArticles( data = { }) {
+export function fetchArticles( data = { } ) {
 	const { category_id, s } = data;
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 

@@ -7,6 +7,7 @@ import {
 	FETCH_PAGES,
 	FETCH_PAGE,
 	DELETE_PAGE,
+	FETCH_ARTICLES,
 } from './actions';
 
 export function pages( state = { }, action ) {
@@ -26,6 +27,17 @@ export function pages( state = { }, action ) {
 	}
 }
 
+export function articles( state = { }, action ) {
+	switch ( action.type ) {
+		case FETCH_ARTICLES:
+			return action.payload;
+
+		default:
+			return state;
+	}
+}
+
 export default combineReducers( {
 	pages,
+	articles,
 } );
