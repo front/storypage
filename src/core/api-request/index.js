@@ -11,6 +11,7 @@ import {
 	saveMedia,
 	fetchArticles,
 	fetchCategories,
+	fetchArticle,
 } from '../../store/actions';
 
 /**
@@ -22,25 +23,36 @@ function apiRequest( options ) {
 	const resource = pathArray[ 3 ].split( '?' )[0];
 	const method = options.method || 'GET';
 
-
-
 	// console.log('resource', resource);
 	// console.log('options', options);
 
 	return jQuery.Deferred( dfd => {
 		let res;
+		let singleResource = false;
 
 		// Call actions by invoked resource  
 		switch ( resource ) {
 			case 'page':
-				res = method === 'DELETE' ? deletePage( pathArray[ 4 ] ) : savePage( options.data );
+				if ( method === 'DELETE' ) {
+					singleResource = true;
+					res = deletePage( pathArray[ 4 ] );
+				} else {
+					singleResource = true;
+					res = savePage( options.data );
+				}				
 				break;
 			case 'media':
+				singleResource = true;
 				res = saveMedia( options );
 				break;
 			case 'posts':
 			case 'articles':
-				res = fetchArticles( options.data );
+				if ( pathArray[ 4 ] ) {
+					singleResource = true;
+					res = fetchArticle(pathArray[ 4 ]);
+				} else {
+					res = fetchArticles( options.data );
+				}
 				break;
 			case 'categories':
 				res = fetchCategories();
@@ -50,7 +62,7 @@ function apiRequest( options ) {
 		if ( res ) {
 			// fake REST server only need expected data on response					
 			const data = {
-				[resource]: res.payload.id ? [ res.payload ] : map( res.payload ),
+				[resource]: singleResource ? [ res.payload ] : map( res.payload ),
 			};
 
 			// initialize fake REST server
@@ -62,7 +74,7 @@ function apiRequest( options ) {
 			server.respondWith(restServer.getHandler());
 
 			// faking a request				
-			const url = method === 'PUT' ? `/${resource}/${res.payload.id}` : `/${resource}`;
+			const url = singleResource ? `/${resource}/${res.payload.id}` : `/${resource}`;
 			const xhr = new XMLHttpRequest();
 			xhr.open( method, url, false );
 			xhr.responseType = 'json';

@@ -50,10 +50,30 @@ function getFromLocalStorage( key = null ) {
 		[ LOCAL_PAGES ]: [],
 		[ LOCAL_MEDIA ]: [],
 		[ LOCAL_ARTICLES ]: {
-			1: { id: '1', title: { rendered: 'First article title' }, category_id: '4' },
-			2: { id: '2', title: { rendered: 'Second article title' }, category_id: '3' },
-			3: { id: '3', title: { rendered: 'Third article title' }, category_id: '2' },
-			4: { id: '4', title: { rendered: 'Fourth article title' }, category_id: '1' },
+			1: { 
+				id: '1',
+				title: { rendered: 'First article title' },
+				date_gmt: (new Date()).toISOString(),
+				category_id: '4',
+			},
+			2: {
+				id: '2',
+				title: { rendered: 'Second article title' },
+				date_gmt: (new Date()).toISOString(),
+				category_id: '3',
+			},
+			3: {
+				id: '3',
+				title: { rendered: 'Third article title' },
+				date_gmt: (new Date()).toISOString(),
+				category_id: '2',
+			},
+			4: {
+				id: '4',
+				title: { rendered: 'Fourth article title' },
+				date_gmt: (new Date()).toISOString(),
+				category_id: '1',
+			},
 		}, // fake articles
 		[ LOCAL_CATEGORIES ]: {
 			// count, description, id, link, meta, name, parent, slug, taxonomy

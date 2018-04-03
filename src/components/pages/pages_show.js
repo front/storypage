@@ -25,7 +25,7 @@ class PagesShow extends React.Component {
 
 		return (
 			<div>
-				<h1><em>{ this.props.page.title.rendered }</em> Preview!</h1>
+				<h1><em>{ this.props.page.title }</em> Preview!</h1>
 				<p><Link to="/pages">Go back!</Link></p>
 				<p><Link to={ `/pages/${ this.props.page.id }/edit` }>Edit</Link></p>
 
