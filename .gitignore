@@ -19,6 +19,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Gutenberg
-/src/components/gutenberg
+package-lock.json

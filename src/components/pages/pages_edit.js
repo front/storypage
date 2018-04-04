@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 // Internal Dependencies
 import { fetchPage } from '../../store/actions';
 import { getPage } from '../../store/selectors';
-
 import GutenbergEditor from '../gutenberg_editor';
 
 const settings = {
@@ -42,8 +41,10 @@ class PagesEdit extends React.Component {
 
 		return (
 			<div>
-				<h1>Edit!</h1>
-				<p><Link to="/pages">Go back!</Link></p>
+				<h1 
+					style={ { margin: 0, height: '32px' } }>
+					Editor! <small><Link to="/pages">Go back!</Link></small>
+				</h1>
 				<GutenbergEditor post={ page } settings={ settings } />
 			</div>
 		);
