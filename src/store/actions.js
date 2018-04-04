@@ -1,5 +1,5 @@
-// External dependences
-import { filter } from 'lodash';
+// External Dependencies
+import { filter, orderBy } from 'lodash';
 
 // Actions types
 export const FETCH_PAGES = 'fetch_pages';
@@ -54,42 +54,48 @@ function getFromLocalStorage( key = null ) {
 			1: { 
 				id: 1,
 				title: { rendered: 'First article title' },
-				date_gmt: ( new Date() ).toISOString(),
+				date_gmt: ( new Date( '2018-04-01' ) ).toISOString(),
+				date: ( new Date( '2018-04-01' ) ).toISOString(),
 				category_id: 4,
 				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			2: {
 				id: 2,
 				title: { rendered: 'Second article title' },
-				date_gmt: ( new Date() ).toISOString(),
+				date_gmt: ( new Date( '2018-04-02' ) ).toISOString(),
+				date: ( new Date( '2018-04-02' ) ).toISOString(),
 				category_id: 3,
 				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			3: {
 				id: 3,
 				title: { rendered: 'Third article title' },
-				date_gmt: ( new Date() ).toISOString(),
+				date_gmt: ( new Date( '2018-04-03' ) ).toISOString(),
+				date: ( new Date( '2018-04-03' ) ).toISOString(),
 				category_id: 2,
 				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			4: {
 				id: 4,
 				title: { rendered: '4th article title' },
-				date_gmt: ( new Date() ).toISOString(),
+				date_gmt: ( new Date( '2018-04-04' ) ).toISOString(),
+				date: ( new Date( '2018-04-04' ) ).toISOString(),
 				category_id: 1,
 				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			5: {
 				id: 5,
 				title: { rendered: '5th article title' },
-				date_gmt: ( new Date() ).toISOString(),
+				date_gmt: ( new Date( '2018-04-05' ) ).toISOString(),
+				date: ( new Date( '2018-04-05' ) ).toISOString(),
 				category_id: 2,
 				image_url: 'http://localhost:3000/sample.jpg',
 			},
 			6: {
 				id: 6,
 				title: { rendered: 'Last article title' },
-				date_gmt: ( new Date() ).toISOString(),
+				date_gmt: ( new Date( '2018-04-06' ) ).toISOString(),
+				date: ( new Date( '2018-04-06' ) ).toISOString(),
 				category_id: 1,
 				image_url: 'http://localhost:3000/sample.jpg',
 			},
@@ -248,20 +254,28 @@ export function saveMedia( media ) {
  * @return {Object}	Action type and array of articles
  */
 export function fetchArticles( data = { } ) {
-	const { category_id, s } = data;
+	const { s, order } = data;
+	const categoryId = parseInt( data.category_id );
+	const orderByField = data.orderBy;
+
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
-	if ( category_id ) {
-		articles = filter( articles, { category_id } );
+	if ( categoryId ) {
+		articles = filter( articles, { category_id: categoryId } );
 	} 
 
 	if ( s ) {
 		articles = filter( articles, article => {
 			const term = s.toLowerCase();
-			const title = article.title.toLowerCase();
+			const title = article.title.rendered.toLowerCase();
 
 			return title.indexOf( term ) !== -1;
 		} );
+	}
+
+	// TODO: validate order and orderByField values
+	if ( order && orderByField ) {
+		articles = orderBy( articles, [ orderByField ], [ order ] );
 	}
 	
 	return {

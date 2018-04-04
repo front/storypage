@@ -1,3 +1,4 @@
+// External Dependencies
 import React from 'react';
 import { initializeEditor } from 'gutenberg';
 

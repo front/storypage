@@ -1,21 +1,21 @@
-// External dependences
+// External Dependencies
 import React from 'react';
-import { isEmpty, map, orderBy } from 'lodash';
+import { isEmpty, map } from 'lodash';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// Internal dependences
+// Internal Dependencies
 import { fetchArticles } from '../../store/actions';
 import GutenbergEditor from '../gutenberg_editor';
 
 class PagesNew extends React.Component {
 	componentWillMount() {
-		this.props.fetchArticles();
+		this.props.fetchArticles( { order: 'desc', orderBy: 'date' } );
 	}
 
 	render() {
 		// TODO orderBy on action side
-		const articles = orderBy( map( this.props.articles ), [ 'id' ], [ 'desc' ] );
+		const articles = map( this.props.articles );
 
 		const template = isEmpty( articles ) ? [ ] : [
 			[ 'rows/col4-col4-col4', { }, [ 

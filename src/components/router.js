@@ -1,6 +1,8 @@
+// External Dependencies
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+// Internal Dependencies
 import NotFound from './not_found';
 import App from './app';
 import PagesIndex from './pages/pages_index';

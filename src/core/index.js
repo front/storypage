@@ -1,13 +1,14 @@
+// External Dependencies
 import React from 'react';
 import jQuery from 'jquery';
 import { __ } from '@wordpress/i18n';
 
+// Internal Dependencies
 import {
 	dateSettings,
 	userSettings,
 	editorL10n,
 } from './settings';
-
 import api from './api';
 import apiRequest from './api-request';
 import utils from './utils';
@@ -90,7 +91,7 @@ window.customGutenberg = {
 			},
 		},
 	],
-	panel: [ 'post-status', 'articles-list', 'settings-panel', 'last-revision' ],
+	panel: [ 'post-status', 'articles-panel', 'settings-panel', 'last-revision' ],
 	editor: {
 		hideTitle: true,
 		noMediaLibrary: true,

@@ -1,9 +1,9 @@
-// External dependences
+// External Dependencies
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// Internal dependences
+// Internal Dependencies
 import { fetchPage } from '../../store/actions';
 import { getPage } from '../../store/selectors';
 

@@ -1,8 +1,8 @@
-// External dependences
+// External Dependencies
 import _ from 'lodash';
 import { combineReducers } from 'redux';
 
-// Internal dependences
+// Internal Dependencies
 import { 
 	FETCH_PAGES,
 	FETCH_PAGE,
