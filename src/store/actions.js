@@ -1,6 +1,9 @@
 // External Dependencies
 import { filter, orderBy } from 'lodash';
 
+// Internal Dependencies
+import { bundling } from './query-helpers';
+
 // Actions types
 export const FETCH_PAGES = 'fetch_pages';
 export const SAVE_PAGE = 'save_page';
@@ -119,8 +122,8 @@ function getFromLocalStorage( key = null ) {
  * 
  * @return {Object}	Action type and array of pages
  */
-export function fetchPages() {
-	const pages = getFromLocalStorage( LOCAL_PAGES );
+export function fetchPages( options = { } ) {
+	const pages = bundling( getFromLocalStorage( LOCAL_PAGES ), options );
 
 	return {
 		type: FETCH_PAGES,
@@ -149,7 +152,7 @@ export function savePage( page ) {
 			...storage[ LOCAL_PAGES ],
 			[ page.id ]: {
 				id: page.id,
-				title: page.title || '',
+				title: page.title || `Page ${ page.id }`,
 				content: page.content || '',
 				type: 'page',
 				link: `${ window.location.origin }/pages/${ page.id }`,
@@ -253,10 +256,10 @@ export function saveMedia( media ) {
  * 
  * @return {Object}	Action type and array of articles
  */
-export function fetchArticles( data = { } ) {
-	const { s, order } = data;
-	const categoryId = parseInt( data.category_id );
-	const orderByField = data.orderBy;
+export function fetchArticles( options = { } ) {
+	const { s, order } = options;
+	const categoryId = parseInt( options.category_id );
+	const orderByField = options.orderBy;
 
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
@@ -273,10 +276,7 @@ export function fetchArticles( data = { } ) {
 		} );
 	}
 
-	// TODO: validate order and orderByField values
-	if ( order && orderByField ) {
-		articles = orderBy( articles, [ orderByField ], [ order ] );
-	}
+	articles = bundling( articles, options );
 	
 	return {
 		type: FETCH_ARTICLES,
@@ -305,8 +305,8 @@ export function fetchArticle( id ) {
  * 
  * @return {Object}	Action type and array of categories
  */
-export function fetchCategories() {
-	const categories = getFromLocalStorage( LOCAL_CATEGORIES );
+export function fetchCategories( options ) {
+	const categories = bundling( getFromLocalStorage( LOCAL_CATEGORIES ) );
 
 	return {
 		type: FETCH_CATEGORIES,
