@@ -1,10 +1,10 @@
-// External dependences
+// External Dependencies
 import { map } from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// Internal dependences
+// Internal Dependencies
 import { fetchPages } from '../../store/actions';
 
 class PagesIndex extends React.Component {

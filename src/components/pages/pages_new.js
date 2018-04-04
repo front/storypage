@@ -1,10 +1,10 @@
-// External dependences
+// External Dependencies
 import React from 'react';
 import { isEmpty, map, orderBy } from 'lodash';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-// Internal dependences
+// Internal Dependencies
 import { fetchArticles } from '../../store/actions';
 import GutenbergEditor from '../gutenberg_editor';
 

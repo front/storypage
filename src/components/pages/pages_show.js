@@ -1,10 +1,10 @@
-// External dependences
+// External Dependencies
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
 
-// Internal dependences
+// Internal Dependencies
 import { fetchPage } from '../../store/actions';
 import { getPage } from '../../store/selectors';
 

@@ -1,4 +1,4 @@
-// External dependences
+// External Dependencies
 import { filter } from 'lodash';
 
 // Actions types
@@ -248,17 +248,19 @@ export function saveMedia( media ) {
  * @return {Object}	Action type and array of articles
  */
 export function fetchArticles( data = { } ) {
-	const { category_id, s } = data;
+	const { s } = data;
+	const categoryId = parseInt( data.category_id );
+
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
-	if ( category_id ) {
-		articles = filter( articles, { category_id } );
+	if ( categoryId ) {
+		articles = filter( articles, { category_id: categoryId } );
 	} 
 
 	if ( s ) {
 		articles = filter( articles, article => {
 			const term = s.toLowerCase();
-			const title = article.title.toLowerCase();
+			const title = article.title.rendered.toLowerCase();
 
 			return title.indexOf( term ) !== -1;
 		} );

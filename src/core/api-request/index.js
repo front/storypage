@@ -1,10 +1,10 @@
-// External dependences
+// External Dependencies
 import FakeRest from 'fakerest';
 import sinon from 'sinon';
 import jQuery from 'jquery';
 import { map } from 'lodash';
 
-// Internal dependences
+// Internal Dependencies
 import {
 	savePage,
 	deletePage,
