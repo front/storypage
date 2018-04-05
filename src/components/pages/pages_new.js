@@ -54,6 +54,8 @@ class PagesNew extends React.Component {
 			] ],
 		];
 
+		// const template = [];
+
 		const page = {
 			content: { raw: '' },
 			title: { raw: 'A new page' },
@@ -72,8 +74,10 @@ class PagesNew extends React.Component {
 
 		return (
 			<div>
-				<h1>New page</h1>
-				<p><Link to="/pages">Go back!</Link></p>
+				<h1 
+					style={ { margin: 0, height: '32px' } }>
+					Editor! <small><Link to="/pages">Go back!</Link></small>
+				</h1>
 
 				{ ( ! isEmpty( articles ) && <GutenbergEditor post={ page } settings={ settings } /> ) }
 			</div>

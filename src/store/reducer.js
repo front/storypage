@@ -1,5 +1,5 @@
 // External Dependencies
-import _ from 'lodash';
+import { omit } from 'lodash';
 import { combineReducers } from 'redux';
 
 // Internal Dependencies
@@ -20,9 +20,9 @@ export function pages( state = { }, action ) {
 			return { ...state, [ page.id ]: page };
 
 		case DELETE_PAGE:
-			return _.omit( state, action.payload );
+			return omit( state, action.payload.id );
 
-		default:
+		default: 
 			return state;
 	}
 }

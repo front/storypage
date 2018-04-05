@@ -1,5 +1,8 @@
 // External Dependencies
-import { filter, orderBy } from 'lodash';
+import { filter } from 'lodash';
+
+// Internal Dependencies
+import { bundling } from './query-helpers';
 
 // Actions types
 export const FETCH_PAGES = 'fetch_pages';
@@ -117,10 +120,11 @@ function getFromLocalStorage( key = null ) {
 /**
  * Get all pages
  * 
+ * @param  {Object}	options			Query options
  * @return {Object}	Action type and array of pages
  */
-export function fetchPages() {
-	const pages = getFromLocalStorage( LOCAL_PAGES );
+export function fetchPages( options = { } ) {
+	const pages = bundling( getFromLocalStorage( LOCAL_PAGES ), options );
 
 	return {
 		type: FETCH_PAGES,
@@ -149,7 +153,7 @@ export function savePage( page ) {
 			...storage[ LOCAL_PAGES ],
 			[ page.id ]: {
 				id: page.id,
-				title: page.title || '',
+				title: page.title || `Page ${ page.id }`,
 				content: page.content || '',
 				type: 'page',
 				link: `${ window.location.origin }/pages/${ page.id }`,
@@ -249,14 +253,13 @@ export function saveMedia( media ) {
 /**
  * Get all articles
  *
- * @param  {Object}	data	Optional. Search data
+ * @param  {Object}	options	Optional. Search data
  * 
  * @return {Object}	Action type and array of articles
  */
-export function fetchArticles( data = { } ) {
-	const { s, order } = data;
-	const categoryId = parseInt( data.category_id );
-	const orderByField = data.orderBy;
+export function fetchArticles( options = { } ) {
+	const { s } = options;
+	const categoryId = parseInt( options.category_id );
 
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
@@ -273,10 +276,7 @@ export function fetchArticles( data = { } ) {
 		} );
 	}
 
-	// TODO: validate order and orderByField values
-	if ( order && orderByField ) {
-		articles = orderBy( articles, [ orderByField ], [ order ] );
-	}
+	articles = bundling( articles, options );
 	
 	return {
 		type: FETCH_ARTICLES,
@@ -303,10 +303,14 @@ export function fetchArticle( id ) {
 /**
  * Get all categories
  * 
+ * @param  {Object}	options	Optional. Search data
+ * 
  * @return {Object}	Action type and array of categories
  */
-export function fetchCategories() {
-	const categories = getFromLocalStorage( LOCAL_CATEGORIES );
+export function fetchCategories( options = { } ) {
+	let categories = bundling( getFromLocalStorage( LOCAL_CATEGORIES ) );
+
+	categories = bundling( categories, options );
 
 	return {
 		type: FETCH_CATEGORIES,
