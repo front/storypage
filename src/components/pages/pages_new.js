@@ -54,6 +54,8 @@ class PagesNew extends React.Component {
 			] ],
 		];
 
+		// const template = [];
+
 		const page = {
 			content: { raw: '' },
 			title: { raw: 'A new page' },

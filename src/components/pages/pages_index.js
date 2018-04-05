@@ -11,11 +11,11 @@ class PagesIndex extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		this.onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
+		this.onDeleteButtonClick = this.onDeleteButtonClick.bind( this );
 	}
 	componentDidMount() {
 		// this.props.fetchPages( { _fields: 'id,title', per_page: 1 } );
-		this.props.fetchPages( { _fields: 'id,title' } );
+		this.props.fetchPages();
 	}
 
 	onDeleteButtonClick( event ) {
@@ -24,9 +24,8 @@ class PagesIndex extends React.Component {
 	}
 
 	renderPages() {
-
 		if ( isEmpty( this.props.pages ) ) {
-			return <tr><td colSpan="3">No pages</td></tr>
+			return <tr><td colSpan="3">No pages</td></tr>;
 		}
 
 		return map( this.props.pages, page => {

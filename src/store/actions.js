@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, orderBy } from 'lodash';
+import { filter } from 'lodash';
 
 // Internal Dependencies
 import { bundling } from './query-helpers';
@@ -120,6 +120,7 @@ function getFromLocalStorage( key = null ) {
 /**
  * Get all pages
  * 
+ * @param  {Object}	options			Query options
  * @return {Object}	Action type and array of pages
  */
 export function fetchPages( options = { } ) {
@@ -252,14 +253,13 @@ export function saveMedia( media ) {
 /**
  * Get all articles
  *
- * @param  {Object}	data	Optional. Search data
+ * @param  {Object}	options	Optional. Search data
  * 
  * @return {Object}	Action type and array of articles
  */
 export function fetchArticles( options = { } ) {
-	const { s, order } = options;
+	const { s } = options;
 	const categoryId = parseInt( options.category_id );
-	const orderByField = options.orderBy;
 
 	let articles = getFromLocalStorage( LOCAL_ARTICLES );
 
@@ -303,10 +303,14 @@ export function fetchArticle( id ) {
 /**
  * Get all categories
  * 
+ * @param  {Object}	options	Optional. Search data
+ * 
  * @return {Object}	Action type and array of categories
  */
-export function fetchCategories( options ) {
-	const categories = bundling( getFromLocalStorage( LOCAL_CATEGORIES ) );
+export function fetchCategories( options = { } ) {
+	let categories = bundling( getFromLocalStorage( LOCAL_CATEGORIES ) );
+
+	categories = bundling( categories, options );
 
 	return {
 		type: FETCH_CATEGORIES,
