@@ -47,10 +47,10 @@ window.wpApiSettings = {
 			"\/wp\/v2\/posts": {
 				methods: [ 'GET' ],
 			},
-			// '/wp/v2/articles': {
-			// 	methods: [ 'GET' ]
-			// },
 			"\/wp\/v2\/articles\/(?P<id>[\\d]+)": {
+				methods: [ 'GET' ],
+			},
+			"\/wp\/v2\/articles": {
 				methods: [ 'GET' ],
 			},
 		},

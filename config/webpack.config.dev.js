@@ -1,6 +1,8 @@
 'use strict';
 
+// external
 const path = require( 'path' );
+const { basename } = require( 'path' );
 const webpack = require( 'webpack' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const CaseSensitivePathsPlugin = require( 'case-sensitive-paths-webpack-plugin' );
@@ -8,13 +10,15 @@ const InterpolateHtmlPlugin = require( 'react-dev-utils/InterpolateHtmlPlugin' )
 const WatchMissingNodeModulesPlugin = require( 'react-dev-utils/WatchMissingNodeModulesPlugin' );
 const eslintFormatter = require( 'react-dev-utils/eslintFormatter' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
-const getClientEnvironment = require( './env' );
-const paths = require( './paths' );
 
-const { basename } = require( 'path' );
+// external gutenberg
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+
+// internal
+const getClientEnvironment = require( './env' );
+const paths = require( './paths' );
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -29,6 +33,10 @@ const env = getClientEnvironment( publicUrl );
 const distPath = {
 	js: 'static/js/',
 };
+
+// const localGutenberg = process.argv.includes( '-lg' );
+
+const gutenbergPath = /*localGutenberg ? path.resolve( '../gutenberg' ) : */`${ paths.appNodeModules }/gutenberg`;
 
 // Main CSS loader for everything but blocks..
 const mainCSSExtractTextPlugin = new ExtractTextPlugin( {
@@ -60,7 +68,7 @@ const extractConfig = {
 		{
 			loader: 'sass-loader',
 			query: {
-				includePaths: [ 'node_modules/gutenberg/edit-post/assets/stylesheets' ],
+				includePaths: [ `${ gutenbergPath }/edit-post/assets/stylesheets` ],
 				data: '@import "colors"; @import "admin-schemes"; @import "breakpoints"; @import "variables"; @import "mixins"; @import "animations";@import "z-index";',
 				outputStyle: 'production' === process.env.NODE_ENV ?
 					'compressed' : 'nested',
@@ -88,11 +96,15 @@ const gutenbergDependencies = [
 
 const alias = {};
 
+// if ( localGutenberg ) {
+// 	alias['gutenberg'] = gutenbergPath;
+// }
+
 gutenbergDependencies.forEach( dependency => {
 	if ( dependency === 'api-request' || dependency === 'url' ) {
 		alias[ '@wordpress/' + dependency ] = `${ paths.appSrc }/core/${ dependency }`;
 	} else {
-		alias[ '@wordpress/' + dependency ] = `${ paths.appNodeModules }/gutenberg/${ dependency }`;
+		alias[ '@wordpress/' + dependency ] = `${ gutenbergPath }/${ dependency }`;
 	}
 } );
 

@@ -3,6 +3,7 @@ import FakeRest from 'fakerest';
 import sinon from 'sinon';
 import jQuery from 'jquery';
 import { map } from 'lodash';
+import { parse } from 'querystringify';
 
 // Internal Dependencies
 import {
@@ -21,8 +22,10 @@ import {
  * @return {Object}	Request result (promise)
  */
 function apiRequest( options ) {
-	const pathArray = options.path.split( '/' );
-	const resource = pathArray[ 3 ].split( '?' )[ 0 ];
+	const pathArray = options.path.split( '?' );
+	const resource = pathArray[ 0 ].split( '/' )[ 3 ];
+	const queryStringOptions = parse( pathArray[ 1 ] );
+
 	const method = options.method || 'GET';
 
 	// console.log('resource', resource);
@@ -53,7 +56,7 @@ function apiRequest( options ) {
 					singleResource = true;
 					res = fetchArticle( pathArray[ 4 ] );
 				} else {
-					res = fetchArticles( options.data );
+					res = fetchArticles( queryStringOptions );
 				}
 				break;
 			case 'categories':
