@@ -1,0 +1,9 @@
+{
+    "presets": [
+        "react-app",
+        "@wordpress/default"
+    ],
+    "plugins": [
+        "transform-async-generator-functions"
+    ]
+}

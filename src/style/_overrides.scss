@@ -2,12 +2,11 @@
 	position: relative;
 
 	.edit-post-visual-editor {
-		.editor-block-list__block {
-			max-width: initial;
-		}
-
+		.editor-post-title,
+		.editor-block-list__block,
 		.editor-default-block-appender {
 			max-width: initial;
 		}
 	}
 }
+
