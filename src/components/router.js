@@ -5,10 +5,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Internal Dependencies
 import NotFound from './not_found';
 import App from './app';
-import PagesIndex from './pages/pages_index';
-import PagesEdit from './pages/pages_edit';
-import PagesNew from './pages/pages_new';
-import PagesShow from './pages/pages_show';
+import PagesIndex from './pages/index';
+import PagesEdit from './pages/edit';
+import PagesNew from './pages/new';
+import PagesShow from './pages/show';
 
 class Router extends React.Component {
 	render() {
