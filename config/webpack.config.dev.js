@@ -83,7 +83,6 @@ const gutenbergDependencies = [
 	'date',
 	'editor',
 	'element',
-	'i18n',
 	'utils',
 	'data',
 	'viewport',
