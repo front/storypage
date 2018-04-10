@@ -21,6 +21,7 @@ class ArticlesIndex extends React.Component {
 				<tr key={ article.id }>
 					<td>{ article.id }</td>
 					<td>{ article.title.rendered }</td>
+					<td style={ { textAlign: 'right' } }>{ article.category_id }</td>
 				</tr>
 			);
 		} );
@@ -35,6 +36,7 @@ class ArticlesIndex extends React.Component {
 						<tr>
 							<th style={ { textAlign: 'left' } }>ID</th>
 							<th style={ { textAlign: 'left' } }>Title</th>
+							<th style={ { textAlign: 'left' } }>Category_id</th>
 						</tr>
 					</thead>
 					<tbody>
