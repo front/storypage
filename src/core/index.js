@@ -67,6 +67,14 @@ window.customGutenberg = {
 		{ slug: 'embed', title: __( 'Embeds' ) },
 		{ slug: 'shared', title: __( 'Shared Blocks' ) },
 	],
+	rows: [
+		{ cols: [ 6, 6 ], title: 'col6 x 2', description: __( '2 eq columns layout' ) },
+		{ cols: [ 4, 4, 4 ], title: 'col4 x 3', description: __( '3 eq columns layout' ) },
+		{ cols: [ 7, 5 ], title: 'col7-col5', description: __( 'A col7 and a col5' ) },
+		{ cols: [ 5, 7 ], title: 'col5-col7', description: __( 'A col5 and a col7' ) },
+		{ cols: [ 1, 10, 1 ], title: 'col1-col10-col1', description: __( 'A col1, a col10 and a col1' ) },
+		{ cols: [ 2, 8, 2 ], title: 'col2-col8-col2', description: __( 'A col2, a col8 and a col2' ) },
+	],
 	tabs: [
 		{
 			options: {
