@@ -1,6 +1,10 @@
 // External Dependencies
 import React from 'react';
-import { initializeEditor } from 'gutenberg';
+import { initializeEditor } from '@frontkom/gutenberg';
+
+import '@frontkom/gutenberg/dist/blocks/style.css'; // blocks
+import '@frontkom/gutenberg/dist/blocks/edit-blocks.css'; // edit-blocks
+import '@frontkom/gutenberg/dist/style.css'; // componnets, editor, edit-post
 
 class GutenbergEditor extends React.Component {
 	componentDidMount() {

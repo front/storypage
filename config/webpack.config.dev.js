@@ -2,7 +2,6 @@
 
 // external
 const path = require( 'path' );
-const { basename } = require( 'path' );
 const webpack = require( 'webpack' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const CaseSensitivePathsPlugin = require( 'case-sensitive-paths-webpack-plugin' );
@@ -10,10 +9,6 @@ const InterpolateHtmlPlugin = require( 'react-dev-utils/InterpolateHtmlPlugin' )
 const WatchMissingNodeModulesPlugin = require( 'react-dev-utils/WatchMissingNodeModulesPlugin' );
 const eslintFormatter = require( 'react-dev-utils/eslintFormatter' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
-
-// external gutenberg
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
 // internal
@@ -33,79 +28,6 @@ const env = getClientEnvironment( publicUrl );
 const distPath = {
 	js: 'static/js/',
 };
-
-// const localGutenberg = process.argv.includes( '-lg' );
-
-const gutenbergPath = /*localGutenberg ? path.resolve( '../gutenberg' ) : */`${ paths.appNodeModules }/gutenberg`;
-
-// Main CSS loader for everything but blocks..
-const mainCSSExtractTextPlugin = new ExtractTextPlugin( {
-	filename: './build/style.css',
-} );
-
-// CSS loader for styles specific to block editing.
-const editBlocksCSSPlugin = new ExtractTextPlugin( {
-	filename: './blocks/build/edit-blocks.css',
-} );
-
-// CSS loader for styles specific to blocks in general.
-const blocksCSSPlugin = new ExtractTextPlugin( {
-	filename: './blocks/build/style.css',
-} );
-
-// Configuration for the ExtractTextPlugin.
-const extractConfig = {
-	use: [
-		{ loader: 'raw-loader' },
-		{
-			loader: 'postcss-loader',
-			options: {
-				plugins: [
-					require( 'autoprefixer' ),
-				],
-			},
-		},
-		{
-			loader: 'sass-loader',
-			query: {
-				includePaths: [ `${ gutenbergPath }/edit-post/assets/stylesheets` ],
-				data: '@import "colors"; @import "admin-schemes"; @import "breakpoints"; @import "variables"; @import "mixins"; @import "animations";@import "z-index";',
-				outputStyle: 'production' === process.env.NODE_ENV ?
-					'compressed' : 'nested',
-			},
-		},
-	],
-};
-
-const gutenbergDependencies = [
-	'blocks',
-	'components',
-	'date',
-	'editor',
-	'element',
-	'utils',
-	'data',
-	'viewport',
-	'core-data',
-	'plugins',
-	'edit-post',
-	'url',
-	'api-request',
-];
-
-const alias = {};
-
-// if ( localGutenberg ) {
-// 	alias['gutenberg'] = gutenbergPath;
-// }
-
-gutenbergDependencies.forEach( dependency => {
-	if ( dependency === 'api-request' || dependency === 'url' ) {
-		alias[ '@wordpress/' + dependency ] = `${ paths.appSrc }/core/${ dependency }`;
-	} else {
-		alias[ '@wordpress/' + dependency ] = `${ gutenbergPath }/${ dependency }`;
-	}
-} );
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -152,6 +74,7 @@ module.exports = {
 		devtoolModuleFilenameTemplate: info =>
 			path.resolve( info.absoluteResourcePath ).replace( /\\/g, '/' ),
 	},
+	// externals,
 	resolve: {
 		// This allows you to set a fallback for where Webpack should look for modules.
 		// We placed these paths second because we want `node_modules` to "win"
@@ -167,9 +90,8 @@ module.exports = {
 		// https://github.com/facebookincubator/create-react-app/issues/290
 		// `web` extension prefixes have been added for better support
 		// for React Native Web.
-		extensions: [ '.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx' ],
+		extensions: [ '.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', '.css' ],
 		alias: {
-			...alias,
 			// Support React Native Web
 			// https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
 			'react-native': 'react-native-web',
@@ -203,41 +125,25 @@ module.exports = {
               //   include: paths.appSrc,
       		  // },
 			{
-				test: /\.pegjs/,
-				use: 'pegjs-loader',
-			},
-			{
 				test: /\.js$/,
-				exclude: /node_modules\/(?!(gutenberg)\/).*/,
+				include: paths.appSrc,
 				use: 'babel-loader',
 			},
 			{
 				test: /\.css$/,
-				use: [
-					{ loader: 'style-loader' },
-					{ loader: 'css-loader' },
-				],
-			},
-			{
-				test: /style\.scss$/,
-				include: [
-					/blocks/,
-				],
-				use: blocksCSSPlugin.extract( extractConfig ),
-			},
-			{
-				test: /editor\.scss$/,
-				include: [
-					/blocks/,
-				],
-				use: editBlocksCSSPlugin.extract( extractConfig ),
-			},
+        		use: [
+					{ loader: "style-loader" },
+					{ loader: "css-loader" }
+        		]
+        	},
 			{
 				test: /\.scss$/,
-				exclude: [
-					/blocks/,
+				include: paths.appSrc,
+				use: [
+					{ loader: 'style-loader' }, // creates style nodes from JS strings
+					{ loader: 'css-loader' },   // translates CSS into CommonJS
+					{ loader: 'sass-loader' },  // compiles Sass to CSS
 				],
-				use: mainCSSExtractTextPlugin.extract( extractConfig ),
 			},
 			// ** STOP ** Are you adding a new loader?
 			// Make sure to add the new loader(s) before the "file" loader.
@@ -276,9 +182,9 @@ module.exports = {
 		// https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
 		// You can remove this if you don't use Moment.js:
 		new webpack.IgnorePlugin( /^\.\/locale$/, /moment$/ ),
-		blocksCSSPlugin,
-		editBlocksCSSPlugin,
-		mainCSSExtractTextPlugin,
+		// blocksCSSPlugin,
+		// editBlocksCSSPlugin,
+		// mainCSSExtractTextPlugin,
 		new CopyWebpackPlugin( [
 			{ from: 'node_modules/tinymce/plugins', to: `${ distPath.js }plugins` },
 		], {} ),

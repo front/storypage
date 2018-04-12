@@ -5,11 +5,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
 // Internal Dependencies
-import registerServiceWorker from './registerServiceWorker';
-
 import './core/index.js';
-import { registerCoreBlocks } from 'gutenberg';
+import { registerCoreBlocks } from '@frontkom/gutenberg';
 
+import registerServiceWorker from './registerServiceWorker';
 import Router from './components/router';
 import reducers from './store/reducer';
 
