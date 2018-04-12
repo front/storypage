@@ -1,5 +1,5 @@
 /**
- * Appends post id the url
+ * Appends arguments to the query string of the url
  *
  * @param  {string}	url   URL
  * @param  {Object}	args  Query Args
