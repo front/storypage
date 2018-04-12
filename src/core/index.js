@@ -1,67 +1,15 @@
-// External Dependencies
-import React from 'react';
-import jQuery from 'jquery';
-
 // Internal Dependencies
-import {
-	dateSettings,
-	userSettings,
-	editorL10n,
-} from './settings';
-import api from './api';
 import apiRequest from './api-request';
 import { addQueryArgs } from './url';
 
-const wp = {
-	api,
-	apiRequest,
-	element: React,
+window.wp = {
+	apiRequest, 
 	url: { addQueryArgs },
-	// oldEditor: {
-	// 	initialize: function( options ) {
-	// 		console.log( 'oldEditor initialize', options );
-	// 	},
-	// 	remove: function( options ) {
-	// 		console.log( 'oldEditor remove', options );
-	// 	},
-	// },
-};
-// 
-// window.wp = window.wp || {};
-// window.wp.apiRequest = apiRequest;
-// window.wp.url = { addQueryArgs };
-// window.wp.element = React;
-// window.wp.api = api;
-// 
-window.wp = wp;
-window._wpDateSettings = dateSettings;
-window.userSettings = userSettings;
-window.jQuery = jQuery;
-window.wpEditorL10n = editorL10n;
-
-window.wpApiSettings = {
-	root: window.location.origin,
-	nonce: '123456789',
-	// versionString: '',
-	// cacheSchema: true,
-	schema: {
-		routes: {
-			"\/wp\/v2\/categories": {
-				methods: [ 'GET' ],
-			},
-			"\/wp\/v2\/posts": {
-				methods: [ 'GET' ],
-			},
-			"\/wp\/v2\/articles\/(?P<id>[\\d]+)": {
-				methods: [ 'GET' ],
-			},
-			"\/wp\/v2\/articles": {
-				methods: [ 'GET' ],
-			},
-		},
-	},
 };
 
+// window._wpDateSettings = { l10n: { locale: 'pt_PT' } };
+
+// customize Gutenberg
 window.customGutenberg = {
 	categories: [
 		{ slug: 'rows', title: 'Rows Blocks' },
@@ -104,7 +52,7 @@ window.customGutenberg = {
 			},
 		},
 	],
-	panel: [ 'post-status', 'articles-panel', 'settings-panel', 'last-revision' ],
+	panels: [ 'post-status', 'articles-panel', 'settings-panel', 'last-revision' ],
 	editor: {
 		hideTitle: true,
 		noMediaLibrary: true,
