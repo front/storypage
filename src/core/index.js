@@ -10,11 +10,13 @@ import {
 } from './settings';
 import api from './api';
 import apiRequest from './api-request';
+import { addQueryArgs } from './url';
 
 const wp = {
 	api,
 	apiRequest,
 	element: React,
+	url: { addQueryArgs },
 	// oldEditor: {
 	// 	initialize: function( options ) {
 	// 		console.log( 'oldEditor initialize', options );
@@ -24,7 +26,13 @@ const wp = {
 	// 	},
 	// },
 };
-
+// 
+// window.wp = window.wp || {};
+// window.wp.apiRequest = apiRequest;
+// window.wp.url = { addQueryArgs };
+// window.wp.element = React;
+// window.wp.api = api;
+// 
 window.wp = wp;
 window._wpDateSettings = dateSettings;
 window.userSettings = userSettings;
