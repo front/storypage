@@ -20,34 +20,34 @@ class PagesNew extends React.Component {
 		const template = isEmpty( articles ) ? [ ] : [
 			[ 'rows/col4-col4-col4', { }, [ 
 				[ 'dynamic/article', { 
-					layout: 'column-1',
+					layout: 'column-1 col4',
 					title: [ articles[ 0 ].title.rendered ],
 					url: [ articles[ 0 ].image_url ],
 				} ],
 				[ 'dynamic/article', { 
-					layout: 'column-2',
+					layout: 'column-2 col4',
 					title: [ articles[ 1 ].title.rendered ],
 					url: [ articles[ 1 ].image_url ],
 				} ],
 				[ 'dynamic/article', { 
-					layout: 'column-3',
+					layout: 'column-3 col4',
 					title: [ articles[ 2 ].title.rendered ],
 					url: [ articles[ 2 ].image_url ],
 				} ],
 			] ],		
 			[ 'rows/col4-col4-col4', { }, [ 
 				[ 'dynamic/article', { 
-					layout: 'column-1',
+					layout: 'column-1 col4',
 					title: [ articles[ 3 ].title.rendered ],
 					url: [ articles[ 3 ].image_url ],
 				} ],
 				[ 'dynamic/article', { 
-					layout: 'column-2',
+					layout: 'column-2 col4',
 					title: [ articles[ 4 ].title.rendered ],
 					url: [ articles[ 4 ].image_url ],
 				} ],
 				[ 'dynamic/article', { 
-					layout: 'column-3',
+					layout: 'column-3 col4',
 					title: [ articles[ 5 ].title.rendered ],
 					url: [ articles[ 5 ].image_url ],
 				} ],
