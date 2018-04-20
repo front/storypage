@@ -7,6 +7,10 @@
  * @return {string}       Updated URL
  */
 export function addQueryArgs( url, args ) {
+	if ( args.preview ) {
+		return url;
+	}
+
 	// reset path
 	window.history.replaceState(
 		{ },
@@ -16,10 +20,6 @@ export function addQueryArgs( url, args ) {
 
 	if ( args.post ) {
 		return `${ args.post }/${ args.action }`;
-	}
-
-	if ( args.preview ) {
-		return url;
 	}
 
 	return 'new';

@@ -6,8 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 
 // Internal Dependencies
 import './core/index.js';
-import { registerCoreBlocks } from '@frontkom/gutenberg';
-
+import { registerCoreBlocks } from '@frontkom/gutenberg'; // always after core/index.js
 import registerServiceWorker from './registerServiceWorker';
 import Router from './components/router';
 import reducers from './store/reducer';
