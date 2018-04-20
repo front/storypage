@@ -13,6 +13,7 @@ import {
 	fetchArticles,
 	fetchCategories,
 	fetchArticle,
+	fetchType,
 } from '../../store/actions';
 
 /**
@@ -28,8 +29,8 @@ function apiRequest( options ) {
 
 	const method = options.method || 'GET';
 
-	// console.log('resource', resource);
-	// console.log('options', options);
+	// console.log( 'resource', resource );
+	// console.log( 'options', options );
 
 	return jQuery.Deferred( dfd => {
 		let res;
@@ -38,11 +39,13 @@ function apiRequest( options ) {
 		// Call actions by invoked resource  
 		switch ( resource ) {
 			case 'page':
+			case 'post':
 				if ( method === 'DELETE' ) {
 					singleResource = true;
 					res = deletePage( pathArray[ 4 ] );
 				} else {
 					singleResource = true;
+					options.data.type = resource;
 					res = savePage( options.data );
 				}				
 				break;
@@ -61,6 +64,9 @@ function apiRequest( options ) {
 				break;
 			case 'categories':
 				res = fetchCategories();
+				break;
+			case 'types':
+				res = fetchType( pathArray[ 0 ].split( '/' )[ 4 ] );
 				break;
 		}
 

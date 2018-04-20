@@ -18,12 +18,16 @@ export const FETCH_ARTICLE = 'fetch_article';
 
 export const FETCH_CATEGORIES = 'fetch_categories';
 
+export const FETCH_TYPES = 'fetch_types';
+export const FETCH_TYPE = 'fetch_type';
+
 // Module constants
 const LOCAL_STORAGE_KEY = 'storypage';
 const LOCAL_PAGES = 'pages';
 const LOCAL_MEDIA = 'media';
 const LOCAL_ARTICLES = 'articles';
 const LOCAL_CATEGORIES = 'categories';
+const LOCAL_TYPES = 'types';
 
 /**
  * Returns app resources storaged on local storage by key
@@ -110,11 +114,48 @@ function getFromLocalStorage( key = null ) {
 			3: { id: 3, name: 'Category 3', parent: 0 },
 			4: { id: 4, name: 'Category 4', parent: 0 },
 		}, // fake categories
+		[ LOCAL_TYPES ]: {
+			// capabilities, description, hierarchical, labels, name, rest_base, slug, supports, taxonomies, _links
+			1: {
+				id: 1,
+				name: 'Pages', rest_base: 'pages', slug: 'page',
+				supports: {
+					articles: true, // *
+					author: true,
+					comments: false, // hide discussion-panel
+					'custom-fields': true,
+					editor: true,
+					'media-library': false, // *
+					'page-attributes': false, // hide page-attributes panel
+					revisions: true,
+					'template-settings': true, // *
+					thumbnail: false, // hide featured-image panel
+					title: false, // hide title on editor
+				},
+			},
+			2: {
+				id: 2,
+				name: 'Post', rest_base: 'posts', slug: 'post',
+				supports: {
+					articles: true, // *
+					author: true,
+					comments: false, // hide discussion-panel
+					'custom-fields': true,
+					editor: true,
+					'media-library': false, // *
+					'page-attributes': false, // hide page-attributes panel
+					revisions: true,
+					'template-settings': true, // *
+					thumbnail: false, // hide featured-image panel
+					title: true, // show title on editor
+				},
+			},
+		},
 	};
 
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
-	return storage;
+	return key ? storage[ key ] : storage;
 }
 
 /**
@@ -153,9 +194,9 @@ export function savePage( page ) {
 			...storage[ LOCAL_PAGES ],
 			[ page.id ]: {
 				id: page.id,
-				title: page.title || `Page ${ page.id }`,
+				title: page.title || `${ page.type } ${ page.id }`,
 				content: page.content || '',
-				type: 'page',
+				type: page.type || 'page',
 				link: `${ window.location.origin }/pages/${ page.id }`,
 			},
 		};
@@ -315,5 +356,39 @@ export function fetchCategories( options = { } ) {
 	return {
 		type: FETCH_CATEGORIES,
 		payload: categories,
+	};
+}
+
+/**
+ * Get all types
+ * 
+ * @param  {Object}	options	Optional. Search data
+ * 
+ * @return {Object}	Action type and array of types
+ */
+export function fetchTypes( options = { } ) {
+	let types = bundling( getFromLocalStorage( LOCAL_TYPES ) );
+
+	types = bundling( types, options );
+
+	return {
+		type: FETCH_TYPES,
+		payload: types,
+	};
+}
+
+/**
+ * Get a type
+ *
+ * @param  {string}	slug	Article id
+ * 
+ * @return {Object}	Action type and article
+ */
+export function fetchType( slug ) {
+	const type = filter( getFromLocalStorage( LOCAL_TYPES ), { slug } );
+
+	return {
+		type: FETCH_TYPE,
+		payload: type || { },
 	};
 }

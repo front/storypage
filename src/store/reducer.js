@@ -9,6 +9,8 @@ import {
 	DELETE_PAGE,
 	FETCH_ARTICLES,
 	FETCH_CATEGORIES,
+	FETCH_TYPES,
+	FETCH_TYPE,
 } from './actions';
 
 export function pages( state = { }, action ) {
@@ -48,8 +50,23 @@ export function categories( state = { }, action ) {
 	}
 }
 
+export function types( state = { }, action ) {
+	switch ( action.type ) {
+		case FETCH_TYPES:
+			return action.payload;
+
+		case FETCH_TYPE:
+			const type = action.payload;
+			return { ...state, [ type.id ]: type };
+
+		default:
+			return state;
+	}
+}
+
 export default combineReducers( {
 	pages,
 	articles,
 	categories,
+	types,
 } );

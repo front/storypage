@@ -17,6 +17,12 @@ function isOrderValid( order ) {
 	return includes( [ 'asc', 'desc' ], order );
 }
 
+/**
+ * Handling with common options: order, orderBy, per_page, _fields
+ * @param  {[type]} bundle  [description]
+ * @param  {Object} options [description]
+ * @return {[type]}         [description]
+ */
 export function bundling( bundle, options = {} ) {
 	const { order } = options;
 	const orderByField = options.orderBy;
