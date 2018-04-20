@@ -29,12 +29,14 @@ class PagesIndex extends React.Component {
 		}
 
 		return map( this.props.pages, page => {
+			const badgeType = page.type === 'page' ? 'secondary' : 'info';
 			return (
 				<tr key={ page.id }>
+					<td><span className={ `badge badge-${ badgeType }` }>{ page.type }</span></td>
 					<td>{ page.title }</td>
-					<td><Link to={ `/pages/${ page.id }` }>preview</Link></td>
-					<td><Link to={ `/pages/${ page.id }/edit` }>edit</Link></td>
-					<td><button value={ page.id } onClick={ this.onDeleteButtonClick }>delete</button></td>
+					<td><Link className="btn btn-sm btn-outline-success" to={ `/pages/${ page.id }` }>Preview</Link></td>
+					<td><Link className="btn btn-sm btn-outline-primary" to={ `/pages/${ page.id }/edit` }>Edit</Link></td>
+					<td><button className="btn btn-sm btn-outline-danger" value={ page.id } onClick={ this.onDeleteButtonClick }>Delete</button></td>
 				</tr>
 			);
 		} );
@@ -42,19 +44,24 @@ class PagesIndex extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<h1>Pages index!</h1>
-				<nav>					
-					<Link to="/">Go home!</Link> | <Link to="/pages/new">New page</Link>
-				</nav>
+			<div className="container">
+				<section>
+					<h1>Pages and Posts</h1>
+					<p className="text-right">					
+						<Link className="btn btn-outline-secondary float-left" to="/">Go home!</Link>{ " " }
+						<Link className="btn btn-secondary" to="/pages/new?type=page">New page</Link>{ " " }
+						<Link className="btn btn-info" to="/pages/new?type=post">New post</Link>
+					</p>
+				</section>
 
 				<br />
 
-				<table>
+				<table className="table ">
 					<thead>
 						<tr>
-							<th style={ { textAlign: 'left' } }>Page</th>
-							<th style={ { textAlign: 'left' } } colSpan="3">Actions</th>
+							<th>Type</th>
+							<th>Title</th>
+							<th colSpan="3">Actions</th>
 						</tr>
 					</thead>
 					<tbody>

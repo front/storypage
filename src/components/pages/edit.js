@@ -9,7 +9,6 @@ import { getPage } from '../../store/selectors';
 import GutenbergEditor from '../gutenberg_editor';
 
 const settings = {
-	alignWide: false,
 	availableTemplates: [],
 	blockTyoes: true,
 	disableCustomColors: false,
@@ -35,16 +34,17 @@ class PagesEdit extends React.Component {
 			content: { raw: this.props.page.content },
 			templates: '',
 			title: { raw: this.props.page.title },
-			type: 'page',
+			type: this.props.page.type,
 			id: this.props.page.id,
 		};
 
 		return (
 			<div>
-				<h1 
-					style={ { margin: 0, height: '32px' } }>
-					Editor! <small><Link to="/pages">Go back!</Link></small>
-				</h1>
+				<div style={ { margin: 0, height: '32px', backgroundColor: 'black' } }>
+					<div className="container text-center">
+						<Link className="btn btn-sm btn-outline-light" to="/pages">Go to list</Link>
+					</div>
+				</div>
 				<GutenbergEditor post={ page } settings={ settings } />
 			</div>
 		);
