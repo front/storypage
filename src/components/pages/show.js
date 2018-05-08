@@ -3,37 +3,44 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import renderHTML from 'react-render-html';
+import { isEmpty } from 'lodash';
 
 // Internal Dependencies
-import { fetchPage } from '../../store/actions';
-import { getPage } from '../../store/selectors';
+import { fetchPost } from '../../store/actions';
+import { getPost } from '../../store/selectors';
+import Loading from '../loading';
 
 class PagesShow extends React.Component {
 	componentDidMount() {
-		if ( ! this.props.page ) {
+		if ( ! this.props.post ) {
 			const { id } = this.props.match.params;
 			if ( id ) {
-				this.props.fetchPage( id );
+				this.props.fetchPost( id );
 			}
 		}
 	}
 
-	render() {
-		if ( ! this.props.page ) {
-			return <div>Loading page...</div>;
+	render() {		
+		if ( isEmpty( this.props.post ) ) {
+			return <Loading />
 		}
+
+		const { content, title, type, id } = this.props.post;
 
 		return (
 			<div>
-				<h1><em>{ this.props.page.title }</em> Preview!</h1>
-				<nav>
-					<Link to="/pages">Go back!</Link> | <Link to={ `/pages/${ this.props.page.id }/edit` }>Edit</Link>
-				</nav>
-
-				<hr />
+				<section className="jumbotron">
+					<div className="container">
+						<h1>{ title.rendered }</h1>
+						<p className="text-right">					
+							<Link className="btn btn-outline-secondary float-left" to="/stories">Go to Stories</Link>
+							<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }`} to={ `/${ type }s/${ id }/edit` }>Edit</Link>
+						</p>			
+					</div>
+				</section>			
 
 				<div>
-					{ renderHTML( this.props.page.content ) }
+					{ renderHTML( content.raw ) }
 				</div>
 			</div>
 		);
@@ -41,7 +48,7 @@ class PagesShow extends React.Component {
 }
 
 function mapStateToProps( state, ownProps ) {
-	return { page: getPage( state, ownProps.match.params.id ) };
+	return { post: getPost( state, ownProps.match.params.id ) };
 }
 
-export default connect( mapStateToProps, { fetchPage } )( PagesShow );
+export default connect( mapStateToProps, { fetchPost } )( PagesShow );

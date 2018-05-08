@@ -1,11 +1,6 @@
-import { 
-	orderBy,
-	take,
-	map,
-	pick,
-	fromPairs,
-	includes,
-} from 'lodash';
+// External Dependencies
+import { orderBy, take, map, pick, fromPairs, includes } from 'lodash';
+import stripHtmlComments from 'strip-html-comments';
 
 /**
  * Checks is order value is valid
@@ -19,36 +14,33 @@ function isOrderValid( order ) {
 
 /**
  * Handling with common options: order, orderBy, per_page, _fields
- * @param  {[type]} bundle  [description]
+ * @param  {[type]} collection  [description]
  * @param  {Object} options [description]
  * @return {[type]}         [description]
  */
-export function bundling( bundle, options = {} ) {
+export function bundling( collection, options = {} ) {
 	const { order } = options;
 	const orderByField = options.orderBy;
 	const perPage = parseInt( options.per_page );
 	const _fields = options._fields && options._fields.split( ',' );
 
-	// convert it to array
-	bundle = map( bundle );
-
 	if ( order && isOrderValid && orderByField ) {
-		bundle = orderBy( bundle, [ orderByField ], [ order ] );
+		collection = orderBy( collection, [ orderByField ], [ order ] );
 	}
 
 	if ( perPage ) {
-		bundle = take( bundle, perPage );
+		collection = take( collection, perPage );
 	}
 
 	if ( _fields ) {
-		bundle = map( bundle, item => {
+		collection = map( collection, item => {
 			return pick( item, _fields );
 		} );
 	}
 
-	// convert to object again
-	bundle = fromPairs( bundle.map( item => [ item.id, item ] ) );
-
-	return bundle;
+	return collection;
 }
 
+export function getRenderedContent( content ) {
+	return content;
+}

@@ -5,7 +5,21 @@ import { addQueryArgs } from './url';
 window.wp = {
 	apiRequest, 
 	url: { addQueryArgs },
+	// media: function() { 
+	// 	var frame;
+	// 	return frame;
+	// },
 };
+
+// window.wpApiSettings = {
+// 	schema: {
+// 		routes: { 
+// 			// '\/wp\/v2\/categories': { methods: [ 'GET' ] },
+// 			'\/wp\/v2\/articles\/(?P<id>[\\d]+)': { methods: [ 'GET' ] },
+// 			'\/wp\/v2\/articles': { methods: [ 'GET' ] },
+// 		},
+// 	},
+// };
 
 // window._wpDateSettings = { l10n: { locale: 'pt_PT' } };
 
@@ -52,9 +66,4 @@ window.customGutenberg = {
 			},
 		},
 	],
-	panels: [ 'post-status', 'articles-panel', 'settings-panel', 'last-revision' ],
-	editor: {
-		hideTitle: true,
-		noMediaLibrary: true,
-	},
 };

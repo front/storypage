@@ -1,41 +1,35 @@
 // External Dependencies
-import { omit } from 'lodash';
+import { omit, findKey } from 'lodash';
 import { combineReducers } from 'redux';
 
 // Internal Dependencies
 import { 
-	FETCH_PAGES,
-	FETCH_PAGE,
-	DELETE_PAGE,
-	FETCH_ARTICLES,
+	FETCH_POSTS,
+	FETCH_POST,
+	DELETE_POST,
 	FETCH_CATEGORIES,
 	FETCH_TYPES,
 	FETCH_TYPE,
 } from './actions';
 
-export function pages( state = { }, action ) {
+export function posts( state = { }, action ) {
 	switch ( action.type ) {
-		case FETCH_PAGES:
+		case FETCH_POSTS:
 			return action.payload;
 
-		case FETCH_PAGE:
-			const page = action.payload;
-			return { ...state, [ page.id ]: page };
+		case FETCH_POST:
+			const post = action.payload;
+			const pK = findKey( state, { 'id': parseInt( post.id ) } );
 
-		case DELETE_PAGE:
-			return omit( state, action.payload.id );
+			if ( ! pK ) {
+				return { ...state, [ Date.now() ]: post };
+			}		
+
+		case DELETE_POST:
+			const postKey = findKey( state, { 'id': parseInt( action.payload.id ) } );
+			return omit( state, postKey );
 
 		default: 
-			return state;
-	}
-}
-
-export function articles( state = { }, action ) {
-	switch ( action.type ) {
-		case FETCH_ARTICLES:
-			return action.payload;
-
-		default:
 			return state;
 	}
 }
@@ -65,8 +59,7 @@ export function types( state = { }, action ) {
 }
 
 export default combineReducers( {
-	pages,
-	articles,
+	posts,
 	categories,
 	types,
 } );

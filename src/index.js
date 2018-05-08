@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 // Internal Dependencies
 import './core/index.js';
 import { registerCoreBlocks } from '@frontkom/gutenberg'; // always after core/index.js

@@ -3,6 +3,7 @@ import { map, isEmpty, startCase, keys } from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 
 // Internal Dependencies
 import * as Actions from '../../store/actions';
@@ -92,7 +93,7 @@ class ResourcesIndex extends React.Component {
 	render() {
 		return (
 			<section key={ this.props.key }>			
-				<h3>{ startCase( this.props.type ) }</h3>
+				<h3>{ startCase( this.props.type ) } <small>(<Link target="_blank" to={ `https://v2.wp-api.org/reference/${ this.props.type }` }>WP documentation</Link>)</small></h3>
 
 				{ this.renderRequests() }				
 

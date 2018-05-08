@@ -2,19 +2,11 @@
 import FakeRest from 'fakerest';
 import sinon from 'sinon';
 import jQuery from 'jquery';
-import { map } from 'lodash';
+import { map, merge } from 'lodash';
 import { parse } from 'querystringify';
 
 // Internal Dependencies
-import {
-	savePage,
-	deletePage,
-	saveMedia,
-	fetchArticles,
-	fetchCategories,
-	fetchArticle,
-	fetchType,
-} from '../../store/actions';
+import * as Actions from '../../store/actions';
 
 /**
  * Aqpi request
@@ -23,14 +15,21 @@ import {
  * @return {Object}	Request result (promise)
  */
 function apiRequest( options ) {
-	const pathArray = options.path.split( '?' );
-	const resource = pathArray[ 0 ].split( '/' )[ 3 ];
+	let pathArray = options.path.split( '?' );
 	const queryStringOptions = parse( pathArray[ 1 ] );
+
+	pathArray = pathArray[ 0 ].split( '/' );
+
+	const resource = pathArray[ 3 ];
+	const resoureceId = pathArray[ 4 ];
 
 	const method = options.method || 'GET';
 
-	// console.log( 'resource', resource );
-	// console.log( 'options', options );
+	if ( queryStringOptions ) {
+		options.data = merge( options.data, queryStringOptions );
+	}	
+
+	console.log( 'apiRequest options', options );
 
 	return jQuery.Deferred( dfd => {
 		let res;
@@ -38,35 +37,46 @@ function apiRequest( options ) {
 
 		// Call actions by invoked resource  
 		switch ( resource ) {
+			case 'articles':
+			case 'pages':
+			case 'posts':
+				options.data.type = resource.slice(0, -1);
+
+				if ( method === 'GET' ) {
+					if ( resoureceId ) {
+						singleResource = true;
+						res = Actions.fetchPost( resoureceId, options.data );
+					} else {
+						res = Actions.fetchPosts( options.data );
+					}
+				}
+				break;
 			case 'page':
 			case 'post':
+				options.data.type = resource;
+				singleResource = true;
+
 				if ( method === 'DELETE' ) {
-					singleResource = true;
-					res = deletePage( pathArray[ 4 ] );
+					res = Actions.deletePost( resoureceId );
 				} else {
-					singleResource = true;
-					options.data.type = resource;
-					res = savePage( options.data );
+					res = Actions.savePost( options.data );
 				}				
 				break;
 			case 'media':
 				singleResource = true;
-				res = saveMedia( options );
-				break;
-			case 'posts':
-			case 'articles':
-				if ( pathArray[ 4 ] ) {
-					singleResource = true;
-					res = fetchArticle( pathArray[ 4 ] );
-				} else {
-					res = fetchArticles( queryStringOptions );
+
+				if ( resoureceId ) {					
+					res = Actions.fetchMedia( resoureceId );
+				} else {					
+					res = Actions.saveMedia( options );
 				}
 				break;
 			case 'categories':
-				res = fetchCategories();
+				res = Actions.fetchCategories();
 				break;
 			case 'types':
-				res = fetchType( pathArray[ 0 ].split( '/' )[ 4 ] );
+				singleResource = true;
+				res = Actions.fetchType( resoureceId );
 				break;
 		}
 
@@ -95,6 +105,8 @@ function apiRequest( options ) {
 
 			// restore native XHR constructor
 			server.restore();
+
+			console.log( 'response', xhr.response );
 
 			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
 		} else {
