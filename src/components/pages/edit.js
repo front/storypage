@@ -11,10 +11,14 @@ import GutenbergEditor from '../gutenberg_editor';
 import Loading from '../loading';
 
 const settings = {
-	// availableTemplates: [],
-	// blockTypes: true,
-	// disableCustomColors: false,
-	// titlePlaceholder: 'Add a title here...',
+	alignWide: false,
+	availableTemplates: [],
+	allowedBlockTypes: true, 
+	disableCustomColors: false, 
+	disablePostFormats: false,
+	titlePlaceholder: "Add title",
+	bodyPlaceholder: "Write your story",
+	isRTL: false,
 };
 
 class PagesEdit extends React.Component {
@@ -60,7 +64,7 @@ class PagesEdit extends React.Component {
 		const { content, title, type, id } = this.props.post || {};
 
 		const post = {
-			content: content || { raw: '' },
+			content: content || { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', rendered: '<p>Hello</p>' },
 			templates: '',
 			title: title || { raw: '' },
 			type: this.getType(),
