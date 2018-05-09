@@ -52,4 +52,12 @@ window.customGutenberg = {
 			},
 		},
 	],
+	// events: {
+	// 	'OPEN_GENERAL_SIDEBAR': function( action, store ) {
+	// 		console.log( 'OPEN_GENERAL_SIDEBAR', action, store );
+	// 	},
+	// 	'CLOSE_GENERAL_SIDEBAR': function( action, store ) {
+	// 		console.log( 'CLOSE_GENERAL_SIDEBAR', action, store );
+	// 	},
+	// },
 };

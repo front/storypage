@@ -8,6 +8,8 @@ import { parse } from 'querystringify';
 // Internal Dependencies
 import * as Actions from '../../store/actions';
 
+const apiRoot = '/wp/v2';
+
 /**
  * Aqpi request
  *
@@ -16,6 +18,8 @@ import * as Actions from '../../store/actions';
  */
 function apiRequest( options ) {
 	let pathArray = options.path.split( '?' );
+
+	const path = pathArray[ 0 ];
 	const queryStringOptions = parse( pathArray[ 1 ] );
 
 	pathArray = pathArray[ 0 ].split( '/' );
@@ -29,17 +33,16 @@ function apiRequest( options ) {
 		options.data = merge( options.data, queryStringOptions );
 	}	
 
-	console.log( 'apiRequest options', options );
+	console.log( 'apiRequest options', options, path );
 
 	return jQuery.Deferred( dfd => {
 		let res;
 		let singleResource = false;
 
-		// Call actions by invoked resource  
-		switch ( resource ) {
-			case 'articles':
-			case 'pages':
-			case 'posts':
+		// Call actions by invoked path  
+		switch ( path ) {
+			case `${ apiRoot }/pages`:
+			case `${ apiRoot }/posts`:
 				options.data.type = resource.slice(0, -1);
 
 				if ( method === 'GET' ) {
@@ -51,8 +54,8 @@ function apiRequest( options ) {
 					}
 				}
 				break;
-			case 'page':
-			case 'post':
+			case `${ apiRoot }/page`:
+			case `${ apiRoot }/post`:
 				options.data.type = resource;
 				singleResource = true;
 
@@ -62,7 +65,7 @@ function apiRequest( options ) {
 					res = Actions.savePost( options.data );
 				}				
 				break;
-			case 'media':
+			case `${ apiRoot }/media`:
 				singleResource = true;
 
 				if ( resoureceId ) {					
@@ -71,13 +74,20 @@ function apiRequest( options ) {
 					res = Actions.saveMedia( options );
 				}
 				break;
-			case 'categories':
+			case `${ apiRoot }/categories`:
 				res = Actions.fetchCategories();
 				break;
-			case 'types':
+			case `${ apiRoot }/types/${ resoureceId }`:
 				singleResource = true;
 				res = Actions.fetchType( resoureceId );
 				break;
+			// case `${ apiRoot }/users/`:
+			// 	// TODO
+			// 	break;
+			case '/':
+				singleResource = true;
+				res = Actions.fetchIndex();
+			break;
 		}
 
 		if ( res ) {

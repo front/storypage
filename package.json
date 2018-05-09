@@ -7,7 +7,7 @@
         "npm": ">=5.0.0"
     },
     "dependencies": {
-        "@frontkom/gutenberg": "0.0.10",
+        "@frontkom/gutenberg": "0.0.12",
         "bootstrap": "^4.1.0",
         "case-sensitive-paths-webpack-plugin": "2.1.1",
         "chalk": "1.1.3",

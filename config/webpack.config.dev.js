@@ -187,6 +187,8 @@ module.exports = {
 		// mainCSSExtractTextPlugin,
 		new CopyWebpackPlugin( [
 			{ from: 'node_modules/tinymce/plugins', to: `${ distPath.js }plugins` },
+			{ from: 'node_modules/tinymce/themes', to: `${ distPath.js }themes` },
+			{ from: 'node_modules/tinymce/skins', to: `${ distPath.js }skins` },
 		], {} ),
 	],
 	// Some libraries import Node modules but don't use them in the browser.

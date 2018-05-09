@@ -6,6 +6,8 @@ import { generatePosts, generateImages, generateCategories } from './generators'
 import { bundling } from './query-helpers';
 
 // Actions types
+export const FETCH_INDEX = 'fetch_index';
+
 export const FETCH_POSTS = 'fetch_posts';
 export const SAVE_POST = 'save_post';
 export const FETCH_POST = 'fetch_post';
@@ -21,6 +23,7 @@ export const FETCH_TYPE = 'fetch_type';
 
 // Module constants
 const LOCAL_STORAGE_KEY = 'storypage';
+const LOCAL_INDEX = 'index';
 const LOCAL_MEDIA = 'media';
 const LOCAL_LIBRARY = 'library';
 const LOCAL_CATEGORIES = 'categories';
@@ -29,6 +32,58 @@ const LOCAL_TYPES = 'types';
 const N_IMAGES = 4;
 const N_CATEGORIES = 4;
 const N_POSTS = 6;
+
+const storage = {
+	[ LOCAL_MEDIA ]: generateImages( N_IMAGES ),
+	[ LOCAL_LIBRARY ]: generatePosts( N_POSTS, { N_IMAGES, N_CATEGORIES } ),
+	[ LOCAL_CATEGORIES ]: generateCategories( N_CATEGORIES ),
+	[ LOCAL_TYPES ]: [
+		// capabilities, description, hierarchical, labels, name, rest_base, slug, supports, taxonomies, viewable
+		{
+			id: 1,
+			name: 'Pages', rest_base: 'pages', slug: 'page',
+			labels: { posts: 'Stories' },
+			supports: {
+				posts: true, // *
+				author: true,
+				comments: false, // hide discussion-panel
+				'custom-fields': true,
+				editor: true,
+				'media-library': false, // *
+				'page-attributes': false, // hide page-attributes panel
+				revisions: true,
+				'template-settings': true, // *
+				thumbnail: false, // hide featured-image panel
+				title: false, // hide title on editor
+			},
+			viewable: true,
+		},
+		{
+			id: 2,
+			name: 'Post', rest_base: 'posts', slug: 'post',
+			supports: {
+				posts: false, // *
+				author: true,
+				comments: false, // hide discussion-panel
+				'custom-fields': true,
+				editor: true,
+				'media-library': false, // *
+				'page-attributes': false, // hide page-attributes panel
+				revisions: true,
+				'template-settings': false, // *
+				thumbnail: true, // featured-image panel
+				title: true, // show title on editor
+			},
+			viewable: true,
+		},
+	],
+	[ LOCAL_INDEX ]: {
+		theme_supports: {
+			formats: [ 'standard', 'aside', 'image', 'video', 'quote', 'link', 'gallery', 'audio' ],
+			'post-thumbnails': true,
+		},
+	}
+};
 
 /**
  * Returns app resources storaged on local storage by key
@@ -45,7 +100,7 @@ function getFromLocalStorage( key = null ) {
 
 		if ( key ) {
 			if ( ! resources[ key ] ) {
-				resources[ key ] = [];
+				resources[ key ] = storage[ key ];
 				localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( resources ) );
 			}
 
@@ -55,53 +110,18 @@ function getFromLocalStorage( key = null ) {
 	}
 
 	// create for the first time
-	const storage = {
-		[ LOCAL_MEDIA ]: generateImages( N_IMAGES ),
-		[ LOCAL_LIBRARY ]: generatePosts( N_POSTS, { N_IMAGES, N_CATEGORIES } ),
-		[ LOCAL_CATEGORIES ]: generateCategories( N_CATEGORIES ),
-		[ LOCAL_TYPES ]: [
-			// capabilities, description, hierarchical, labels, name, rest_base, slug, supports, taxonomies, _links
-			{
-				id: 1,
-				name: 'Pages', rest_base: 'pages', slug: 'page',
-				labels: { posts: 'Stories' },
-				supports: {
-					posts: true, // *
-					author: true,
-					comments: false, // hide discussion-panel
-					'custom-fields': true,
-					editor: true,
-					'media-library': false, // *
-					'page-attributes': false, // hide page-attributes panel
-					revisions: true,
-					'template-settings': true, // *
-					thumbnail: false, // hide featured-image panel
-					title: false, // hide title on editor
-				},
-			},
-			{
-				id: 2,
-				name: 'Post', rest_base: 'posts', slug: 'post',
-				supports: {
-					posts: false, // *
-					author: true,
-					comments: false, // hide discussion-panel
-					'custom-fields': true,
-					editor: true,
-					'media-library': false, // *
-					'page-attributes': false, // hide page-attributes panel
-					revisions: true,
-					'template-settings': false, // *
-					thumbnail: true, // featured-image panel
-					title: true, // show title on editor
-				},
-			},
-		],
-	};
-
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
 	return key ? storage[ key ] : storage;
+}
+
+export function fetchIndex() {
+	const index = getFromLocalStorage( LOCAL_INDEX );;
+
+	return {
+		type: FETCH_INDEX,
+		payload: index,
+	};
 }
 
 /**
@@ -111,7 +131,7 @@ function getFromLocalStorage( key = null ) {
  * @return {Object}	Action type and array of posts
  */
 export function fetchPosts( options = { } ) {
-	let posts =  getFromLocalStorage( LOCAL_LIBRARY );
+	let posts = getFromLocalStorage( LOCAL_LIBRARY );
 
 	const { type, s } = options;
 	const categoryId = parseInt( options.category_id );

@@ -10,7 +10,20 @@ import {
 	FETCH_CATEGORIES,
 	FETCH_TYPES,
 	FETCH_TYPE,
+	FETCH_INDEX,
 } from './actions';
+
+export function index( state = {}, action ) {
+	// console.log( action.type );
+
+	switch ( action.type ) {
+		case FETCH_INDEX:
+		// console.log( action.payload );
+			return action.payload;
+		default: 
+			return state;
+	}
+}
 
 export function posts( state = { }, action ) {
 	switch ( action.type ) {
@@ -59,6 +72,7 @@ export function types( state = { }, action ) {
 }
 
 export default combineReducers( {
+	index,
 	posts,
 	categories,
 	types,
