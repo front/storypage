@@ -205,6 +205,7 @@ export function savePost( post_data ) {
 			status,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
+			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
 		} );
 	} else { 
 		// update an old post

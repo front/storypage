@@ -22,6 +22,7 @@ export function generatePosts( n = 1, options = {} ) {
 			date,
 			categories: [ random(1, N_CATEGORIES) ],
 			featured_media: random(1, N_IMAGES),
+			permalink_template: `${ window.location.origin }/posts/${ id }`,
 		}
 	} );
 }

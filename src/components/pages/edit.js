@@ -61,15 +61,19 @@ class PagesEdit extends React.Component {
 			return <Loading />;
 		}
 
-		const { content, title, type, id } = this.props.post || {};
+		// const { content, title, type, id } = this.props.post || {};
 
-		const post = {
-			content: content || { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', rendered: '<p>Hello</p>' },
-			templates: '',
-			title: title || { raw: '' },
-			type: this.getType(),
-			id,
-		};
+		// const post = {
+		// 	content: content || { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', rendered: '<p>Hello</p>' },
+		// 	templates: '',
+		// 	title: title || { raw: '' },
+		// 	type: this.getType(),
+		// 	id,
+		// };
+		
+		const { post } = this.props;
+
+		console.log( 'post', post );
 
 		return (
 			<div>
