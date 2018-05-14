@@ -48,6 +48,7 @@ const storage = {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
+				document: false, // hide document tab
 				editor: true,
 				'media-library': false, // *
 				'page-attributes': false, // hide page-attributes panel
@@ -66,6 +67,7 @@ const storage = {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
+				document: false, // hide document tab
 				editor: true,
 				'media-library': false, // *
 				'page-attributes': false, // hide page-attributes panel

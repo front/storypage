@@ -54,8 +54,8 @@ function apiRequest( options ) {
 					}
 				}
 				break;
-			case `${ apiRoot }/page`:
-			case `${ apiRoot }/post`:
+			case `${ apiRoot }/page/${ resoureceId }`:
+			case `${ apiRoot }/post/${ resoureceId }`:
 				options.data.type = resource;
 				singleResource = true;
 
