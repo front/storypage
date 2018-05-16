@@ -65,7 +65,7 @@ function apiRequest( options ) {
 					res = Actions.savePost( options.data );
 				}				
 				break;
-			case `${ apiRoot }/media`:
+			case `${ apiRoot }/media/${ resoureceId }`:
 				singleResource = true;
 
 				if ( resoureceId ) {					
