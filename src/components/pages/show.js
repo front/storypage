@@ -22,7 +22,7 @@ class PagesShow extends React.Component {
 
 	render() {		
 		if ( isEmpty( this.props.post ) ) {
-			return <Loading />
+			return <Loading />;
 		}
 
 		const { content, title, type, id } = this.props.post;
@@ -34,7 +34,7 @@ class PagesShow extends React.Component {
 						<h1>{ title.rendered }</h1>
 						<p className="text-right">					
 							<Link className="btn btn-outline-secondary float-left" to="/stories">Go to Stories</Link>
-							<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }`} to={ `/${ type }s/${ id }/edit` }>Edit</Link>
+							<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }` } to={ `/${ type }s/${ id }/edit` }>Edit</Link>
 						</p>			
 					</div>
 				</section>			

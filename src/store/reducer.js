@@ -34,7 +34,7 @@ export function posts( state = { }, action ) {
 			const post = action.payload;
 
 			if ( post ) {
-				const pK = findKey( state, { 'id': parseInt( post.id ) } );
+				const pK = findKey( state, { id: parseInt( post.id ) } );
 
 				if ( ! pK ) {
 					return { ...state, [ Date.now() ]: post };
@@ -44,7 +44,7 @@ export function posts( state = { }, action ) {
 			return state;					
 
 		case DELETE_POST:
-			const postKey = findKey( state, { 'id': parseInt( action.payload.id ) } );
+			const postKey = findKey( state, { id: parseInt( action.payload.id ) } );
 			return omit( state, postKey );
 
 		default: 

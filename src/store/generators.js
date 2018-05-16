@@ -1,5 +1,5 @@
 // External Dependencies
-import { times, map, fromPairs, random } from 'lodash';
+import { times, random } from 'lodash';
 
 /**
  * [generatePosts description]
@@ -15,21 +15,21 @@ export function generatePosts( n = 1, options = {} ) {
 		const date = ( new Date( `2018-04-${ id }` ) ).toISOString();
 		return {
 			id,
-			title: { raw: `Generated post number ${ id }`, rendered: `Generated post number ${ id  }`},
+			title: { raw: `Generated post number ${ id }`, rendered: `Generated post number ${ id }` },
 			content: { raw: '', rendered: '' },
 			type: 'post',
 			date_gmt: date,
 			date,
-			categories: [ random(1, N_CATEGORIES) ],
-			featured_media: random(1, N_IMAGES),
+			categories: [ random( 1, N_CATEGORIES ) ],
+			featured_media: random( 1, N_IMAGES ),
 			permalink_template: `${ window.location.origin }/posts/${ id }`,
-		}
+		};
 	} );
 }
 
 /**
  * [generateImages description]
- * @param  {Number} n [description]
+ * @param  {number} n [description]
  * @return {[type]}   [description]
  */
 export function generateImages( n = 1 ) {
@@ -44,15 +44,13 @@ export function generateImages( n = 1 ) {
 			link: `http://localhost:3000/sample${ id }.jpg`,
 			media_type: 'image',
 			source_url: `http://localhost:3000/sample${ id }.jpg`,
-		}
+		};
 	} );
-
-	return makePairs( images );
 }
 
 /**
  * [generateCategories description]
- * @param  {Number} n [description]
+ * @param  {number} n [description]
  * @return {[type]}   [description]
  */
 export function generateCategories( n = 1 ) {
@@ -63,6 +61,6 @@ export function generateCategories( n = 1 ) {
 			id,
 			name: `Category ${ id }`,
 			parent: 0,
-		}
+		};
 	} );
 }

@@ -33,7 +33,7 @@ function apiRequest( options ) {
 		options.data = merge( options.data, queryStringOptions );
 	}	
 
-	console.log( 'apiRequest options', options, path );
+	// console.log( 'apiRequest options', options, path );
 
 	return jQuery.Deferred( dfd => {
 		let res;
@@ -43,7 +43,7 @@ function apiRequest( options ) {
 		switch ( path ) {
 			case `${ apiRoot }/pages`:
 			case `${ apiRoot }/posts`:
-				options.data.type = resource.slice(0, -1);
+				options.data.type = resource.slice( 0, -1 );
 
 				if ( method === 'GET' ) {
 					if ( resoureceId ) {
@@ -87,7 +87,7 @@ function apiRequest( options ) {
 			case '/':
 				singleResource = true;
 				res = Actions.fetchIndex();
-			break;
+				break;
 		}
 
 		if ( res ) {
@@ -116,7 +116,7 @@ function apiRequest( options ) {
 			// restore native XHR constructor
 			server.restore();
 
-			console.log( 'response', xhr.response );
+			// console.log( 'response', xhr.response );
 
 			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
 		} else {

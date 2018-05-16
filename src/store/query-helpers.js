@@ -1,6 +1,5 @@
 // External Dependencies
-import { orderBy, take, map, pick, fromPairs, includes } from 'lodash';
-import stripHtmlComments from 'strip-html-comments';
+import { orderBy, take, map, pick, includes } from 'lodash';
 
 /**
  * Checks is order value is valid
