@@ -15,12 +15,10 @@ export function addQueryArgs( url, args ) {
 		const path = window.location.pathname.split( '/' );
 		resetPath( path[ 1 ] );
 
-
 		if ( path[ 2 ] === 'new' ) {
 			return `${ args.post }/${ args.action }`;
-		} else {
-			return `${ path[ 2 ] }/${ path[ 3 ] }`;
-		}
+		} 
+		return `${ path[ 2 ] }/${ path[ 3 ] }`;
 	}
 
 	// reset path

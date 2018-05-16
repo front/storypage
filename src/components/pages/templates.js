@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 
 export default function getTemplates( { type, posts } ) {
-	if ( type == 'page' && ! isEmpty( posts ) ) {
+	if ( type === 'page' && ! isEmpty( posts ) ) {
 		return [
 			[ 'rows/col4-col4-col4', { }, [
 				[ 'custom/post', {
@@ -21,7 +21,7 @@ export default function getTemplates( { type, posts } ) {
 				} ],
 			] ],	
 			[ 'rows/col4-col4-col4', { }, [ 
-				['custom/post', { 
+				[ 'custom/post', { 
 					layout: 'column-1 col4',
 					title: [ posts[ 3 ].title.rendered ],
 					mediaId: posts[ 3 ].featured_media,
@@ -41,4 +41,4 @@ export default function getTemplates( { type, posts } ) {
 	}
 
 	return '';
-};
+}

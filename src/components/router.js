@@ -22,4 +22,4 @@ export default () => {
 			</Switch>
 		</BrowserRouter>
 	);
-}
+};

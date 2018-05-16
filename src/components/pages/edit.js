@@ -39,7 +39,7 @@ class PagesEdit extends React.Component {
 
 		if ( ! type ) {
 			// get type from url
-			type = this.props.match.params[ 0 ].slice(0, -1);
+			type = this.props.match.params[ 0 ].slice( 0, -1 );
 		}
 
 		// check if type exists
@@ -52,14 +52,12 @@ class PagesEdit extends React.Component {
 
 	render() {
 		if ( isEmpty( this.props.types ) || isEmpty( this.props.posts ) ) {
-			console.log('loading types');
 			return <Loading />;
 		}
 
 		if ( this.props.match.params.id && isEmpty( this.props.post ) ) {
-			console.log('loading post', this.props.match.params.id, this.props.post);
 			return <Loading />;
-		}		
+		}
 		
 		const type = this.getType();
 		const badgeType = type === 'page' ? 'info' : 'secondary';
@@ -67,7 +65,7 @@ class PagesEdit extends React.Component {
 		const newPost = {
 			content: { 
 				raw: type === 'page' ? '' : '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', 
-				rendered: type === 'page' ? '' : '<p>Hello</p>' 
+				rendered: type === 'page' ? '' : '<p>Hello</p>', 
 			},
 			title: { raw: 'New', rendered: 'New' },
 			type,

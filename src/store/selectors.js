@@ -9,7 +9,7 @@ import { findKey } from 'lodash';
  * @return  {Object}       	State of post.
  */
 export function getPost( state, id ) {
-	const postKey = findKey( state.posts, { 'id': parseInt( id ) } );
+	const postKey = findKey( state.posts, { id: parseInt( id ) } );
 	return state.posts[ postKey ];
 }
 

@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, times, random, fromPairs, map, find, findKey, omit, includes, has } from 'lodash';
+import { filter, find, findKey, includes, has } from 'lodash';
 
 // Internal Dependencies
 import { generatePosts, generateImages, generateCategories } from './generators';
@@ -33,7 +33,7 @@ const N_IMAGES = 4;
 const N_CATEGORIES = 4;
 const N_POSTS = 6;
 
-const storage = {
+const DEFAULT_STORAGE = {
 	[ LOCAL_MEDIA ]: generateImages( N_IMAGES ),
 	[ LOCAL_LIBRARY ]: generatePosts( N_POSTS, { N_IMAGES, N_CATEGORIES } ),
 	[ LOCAL_CATEGORIES ]: generateCategories( N_CATEGORIES ),
@@ -90,7 +90,7 @@ const storage = {
 			'has-fixed-toolbar': true, // *
 			'post-thumbnails': true,
 		},
-	}
+	},
 };
 
 /**
@@ -108,7 +108,7 @@ function getFromLocalStorage( key = null ) {
 
 		if ( key ) {
 			if ( ! resources[ key ] ) {
-				resources[ key ] = storage[ key ];
+				resources[ key ] = DEFAULT_STORAGE[ key ];
 				localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( resources ) );
 			}
 
@@ -118,13 +118,13 @@ function getFromLocalStorage( key = null ) {
 	}
 
 	// create for the first time
-	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
+	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( DEFAULT_STORAGE ) );
 
-	return key ? storage[ key ] : storage;
+	return key ? DEFAULT_STORAGE[ key ] : DEFAULT_STORAGE;
 }
 
 export function fetchIndex() {
-	const index = getFromLocalStorage( LOCAL_INDEX );;
+	const index = getFromLocalStorage( LOCAL_INDEX );
 
 	return {
 		type: FETCH_INDEX,
@@ -150,7 +150,7 @@ export function fetchPosts( options = { } ) {
 
 	if ( categoryId ) {
 		posts = filter( posts, post => {
-			return includes( post.categories, categoryId);
+			return includes( post.categories, categoryId );
 		} );
 	} 
 
@@ -163,7 +163,7 @@ export function fetchPosts( options = { } ) {
 		} );
 	}
 
-	posts = bundling( posts , options );
+	posts = bundling( posts, options );
 
 	return {
 		type: FETCH_POSTS,
@@ -174,22 +174,22 @@ export function fetchPosts( options = { } ) {
 /**
  * Create or update a post
  *
- * @param  {Object}	post			Post data
- * @param  {number}	post.id			(Optional) Post id
- * @param  {string}	post.title		(Optional) Post title
- * @param  {string}	post.content	(Optional) Post content
+ * @param  {Object}	postData			Post data
+ * @param  {number}	postData.id		(Optional) Post id
+ * @param  {string}	postData.title		(Optional) Post title
+ * @param  {string}	postData.content	(Optional) Post content
  * 
  * @return {Object}	Action type and post
  */
-export function savePost( post_data ) {
+export function savePost( postData ) {
 	const { 
 		title,
 		content,
 		type,
-		sttaus,
-	} = post_data;	
+		status,
+	} = postData;	
 
-	let { id } = post_data;
+	let { id } = postData;
 
 	const storage = getFromLocalStorage();
 	const date = ( new Date() ).toISOString();
@@ -217,8 +217,8 @@ export function savePost( post_data ) {
 		} );
 	} else { 
 		// update an old post
-		const post = find( storage[ LOCAL_LIBRARY ], { 'id': parseInt( id ) } );
-		const postKey = findKey( storage[ LOCAL_LIBRARY ], { 'id': parseInt( id ) } );
+		const post = find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
+		const postKey = findKey( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 
 		if ( title ) {
 			post.title = {
@@ -233,7 +233,6 @@ export function savePost( post_data ) {
 				rendered: content,
 			};
 		}
-
 
 		if ( has( post, 'status' ) ) {
 			post.status = status;
@@ -251,14 +250,15 @@ export function savePost( post_data ) {
 
 	return {
 		type: SAVE_POST,
-		payload: find( storage[ LOCAL_LIBRARY ], { 'id': parseInt( id ) } ),
+		payload: find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } ),
 	};
 }
 
 /**
  * Get a post
  *
- * @param  {number}	id	Post id
+ * @param  {number}	id		Post id
+ * @param  {Object}	options	Query options
  * 
  * @return {Object}	Action type and post
  */
@@ -274,7 +274,7 @@ export function fetchPost( id, options = {} ) {
 		};
 	}
 
-	const post = find( storage, { 'id': parseInt( id ) }, ...otherOptions );
+	const post = find( storage, { id: parseInt( id ) }, ...otherOptions );
 
 	return {
 		type: FETCH_POST,
@@ -291,9 +291,9 @@ export function fetchPost( id, options = {} ) {
  */
 export function deletePost( id ) {
 	const storage = getFromLocalStorage();
-	const postKey = findKey( storage[ LOCAL_LIBRARY ], { 'id': parseInt( id ) } );
+	const postKey = findKey( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 
-	storage[ LOCAL_LIBRARY ].splice( postKey, 1);
+	storage[ LOCAL_LIBRARY ].splice( postKey, 1 );
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
 	return {
@@ -305,14 +305,14 @@ export function deletePost( id ) {
 /**
  * Create or update a media (fake)
  *
- * @param  {Object}	media			Media data
- * @param  {number}	media.id		(Optional) Media id
+ * @param  {Object}	mediaData			Media data
+ * @param  {number}	mediaData.id		(Optional) Media id
  * 
  * @return {Object}	Action type and media
  */
-export function saveMedia( media_data ) {
-	const { data } = media_data;
-	let { id } = media_data;
+export function saveMedia( mediaData ) {
+	const { data } = mediaData;
+	let { id } = mediaData;
 
 	const storage = getFromLocalStorage();
 	const date = ( new Date() ).toISOString();
@@ -328,8 +328,8 @@ export function saveMedia( media_data ) {
 			link: 'http://localhost:3000/sample1.jpg',
 		} );
 	} else if ( data ) { // update
-		const media = find( storage[ LOCAL_MEDIA ], { 'id': parseInt( id ) } );
-		const mediaKey = findKey( storage[ LOCAL_MEDIA ], { 'id': parseInt( id ) } );
+		const media = find( storage[ LOCAL_MEDIA ], { id: parseInt( id ) } );
+		const mediaKey = findKey( storage[ LOCAL_MEDIA ], { id: parseInt( id ) } );
 
 		media.data = data;
 
@@ -343,7 +343,7 @@ export function saveMedia( media_data ) {
 
 	return {
 		type: SAVE_MEDIA,
-		payload: find( storage[ LOCAL_MEDIA ], { 'id': parseInt( id ) } ),
+		payload: find( storage[ LOCAL_MEDIA ], { id: parseInt( id ) } ),
 	};
 }
 
@@ -355,7 +355,7 @@ export function saveMedia( media_data ) {
  * @return {Object}	Action type and media
  */
 export function fetchMedia( id ) {
-	const media = find( getFromLocalStorage( LOCAL_MEDIA ), { 'id': parseInt( id ) } );
+	const media = find( getFromLocalStorage( LOCAL_MEDIA ), { id: parseInt( id ) } );
 
 	return {
 		type: FETCH_MEDIA,
