@@ -7,7 +7,7 @@ window.wp = {
 	url: { addQueryArgs },
 };
 
-// window._wpDateSettings = { l10n: { locale: 'pt_PT' } };
+window._wpDateSettings = { l10n: { locale: 'pt_PT' } };
 
 // customize Gutenberg
 window.customGutenberg = {
@@ -52,9 +52,12 @@ window.customGutenberg = {
 			},
 		},
 	],
-	panels: [ 'post-status', 'articles-panel', 'settings-panel', 'last-revision' ],
-	editor: {
-		hideTitle: true,
-		noMediaLibrary: true,
-	},
+	// events: {
+	// 	'OPEN_GENERAL_SIDEBAR': function( action, store ) {
+	// 		console.log( 'OPEN_GENERAL_SIDEBAR', action, store );
+	// 	},
+	// 	'CLOSE_GENERAL_SIDEBAR': function( action, store ) {
+	// 		console.log( 'CLOSE_GENERAL_SIDEBAR', action, store );
+	// 	},
+	// },
 };

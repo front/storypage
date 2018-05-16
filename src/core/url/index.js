@@ -7,20 +7,38 @@
  * @return {string}       Updated URL
  */
 export function addQueryArgs( url, args ) {
-	// reset path
-	window.history.replaceState(
-		{ },
-		' ',
-		`${ wpApiSettings.root }/pages/`
-	);
-
-	if ( args.post ) {
-		return `${ args.post }/${ args.action }`;
-	}
-
 	if ( args.preview ) {
 		return url;
 	}
 
-	return 'new';
+	if ( args.post && args.action ) {
+		const path = window.location.pathname.split( '/' );
+		resetPath( path[ 1 ] );
+
+
+		if ( path[ 2 ] === 'new' ) {
+			return `${ args.post }/${ args.action }`;
+		} else {
+			return `${ path[ 2 ] }/${ path[ 3 ] }`;
+		}
+	}
+
+	// reset path
+	if ( args.trashed ) {
+		resetPath( `${ args.post_type }s` );
+
+		return 'new';
+	}
+}
+
+/**
+ * [resetPath description]
+ * @param  {string} pathname [description]
+ */
+function resetPath( pathname ) {
+	window.history.replaceState(
+		{ },
+		' ',
+		`${ wpApiSettings.root }/${ pathname }/`,
+	);
 }

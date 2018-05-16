@@ -1,11 +1,11 @@
 // External Dependencies
-import { map, isEmpty } from 'lodash';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { map, isEmpty } from 'lodash';
 
 // Internal Dependencies
-import { fetchPages, deletePage } from '../../store/actions';
+import { fetchPosts, deletePost } from '../../store/actions';
 
 class PagesIndex extends React.Component {
 	constructor( props ) {
@@ -14,27 +14,31 @@ class PagesIndex extends React.Component {
 		this.onDeleteButtonClick = this.onDeleteButtonClick.bind( this );
 	}
 	componentDidMount() {
-		// this.props.fetchPages( { _fields: 'id,title', per_page: 1 } );
-		this.props.fetchPages();
+		this.props.fetchPosts( { order: 'desc', orderBy: 'id' } );
 	}
 
 	onDeleteButtonClick( event ) {
-		const pageId = event.target.value;
-		this.props.deletePage( pageId );
+		const postId = event.target.value;
+		this.props.deletePost( postId );
 	}
 
-	renderPages() {
-		if ( isEmpty( this.props.pages ) ) {
-			return <tr><td colSpan="3">No pages</td></tr>;
+	renderPosts() {
+		if ( isEmpty( this.props.posts ) ) {
+			return <tr><td colSpan="3">No results</td></tr>;
 		}
 
-		return map( this.props.pages, page => {
+		return map( this.props.posts, post => {
+			const badgeType = post.type === 'page' ? 'info' : 'secondary';
+
 			return (
-				<tr key={ page.id }>
-					<td>{ page.title }</td>
-					<td><Link to={ `/pages/${ page.id }` }>preview</Link></td>
-					<td><Link to={ `/pages/${ page.id }/edit` }>edit</Link></td>
-					<td><button value={ page.id } onClick={ this.onDeleteButtonClick }>delete</button></td>
+				<tr key={ post.id }>
+					<td><span className={ `badge badge-${ badgeType }` }>{ post.type }</span></td>
+					<td>{ post.title.rendered }</td>
+					<td className="text-right">
+						<Link className="btn btn-sm btn-outline-secondary " to={ `/${ post.type }s/${ post.id }` }>Preview</Link>{ " " }
+						<Link className="btn btn-sm btn-outline-secondary " to={ `/${ post.type }s/${ post.id }/edit` }>Edit</Link>{ " " }
+						<button className="btn btn-sm btn-outline-danger" value={ post.id } onClick={ this.onDeleteButtonClick }>Delete</button>
+					</td>
 				</tr>
 			);
 		} );
@@ -43,31 +47,38 @@ class PagesIndex extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Pages index!</h1>
-				<nav>					
-					<Link to="/">Go home!</Link> | <Link to="/pages/new">New page</Link>
-				</nav>
+				<section className="jumbotron">
+					<div className="container">
+						<h1>Stories</h1>
+						<p className="text-right">					
+							<Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
+							<Link className="btn btn-secondary" to="/posts/new">New post</Link>{ " " }
+							<Link className="btn btn-info" to="/pages/new">New page</Link>
+						</p>
+					</div>
+				</section>
 
-				<br />
-
-				<table>
-					<thead>
-						<tr>
-							<th style={ { textAlign: 'left' } }>Page</th>
-							<th style={ { textAlign: 'left' } } colSpan="3">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{ this.renderPages() }
-					</tbody>
-				</table>
+				<section className="container">
+					<table className="table">
+						<thead>
+							<tr>
+								<th>Type</th>
+								<th>Title</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{ this.renderPosts() }
+						</tbody>
+					</table>
+				</section>
 			</div>
 		);
 	}
 }
 
-function mapStateToProps( { pages } ) {
-	return { pages };
+function mapStateToProps( { posts } ) {
+	return { posts };
 }
 
-export default connect( mapStateToProps, { fetchPages, deletePage } )( PagesIndex );
+export default connect( mapStateToProps, { fetchPosts, deletePost } )( PagesIndex );

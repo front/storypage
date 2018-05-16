@@ -2,18 +2,13 @@
 import FakeRest from 'fakerest';
 import sinon from 'sinon';
 import jQuery from 'jquery';
-import { map } from 'lodash';
+import { map, merge } from 'lodash';
 import { parse } from 'querystringify';
 
 // Internal Dependencies
-import {
-	savePage,
-	deletePage,
-	saveMedia,
-	fetchArticles,
-	fetchCategories,
-	fetchArticle,
-} from '../../store/actions';
+import * as Actions from '../../store/actions';
+
+const apiRoot = '/wp/v2';
 
 /**
  * Aqpi request
@@ -22,46 +17,77 @@ import {
  * @return {Object}	Request result (promise)
  */
 function apiRequest( options ) {
-	const pathArray = options.path.split( '?' );
-	const resource = pathArray[ 0 ].split( '/' )[ 3 ];
+	let pathArray = options.path.split( '?' );
+
+	const path = pathArray[ 0 ];
 	const queryStringOptions = parse( pathArray[ 1 ] );
+
+	pathArray = pathArray[ 0 ].split( '/' );
+
+	const resource = pathArray[ 3 ];
+	const resoureceId = pathArray[ 4 ];
 
 	const method = options.method || 'GET';
 
-	// console.log('resource', resource);
-	// console.log('options', options);
+	if ( queryStringOptions ) {
+		options.data = merge( options.data, queryStringOptions );
+	}	
+
+	console.log( 'apiRequest options', options, path );
 
 	return jQuery.Deferred( dfd => {
 		let res;
 		let singleResource = false;
 
-		// Call actions by invoked resource  
-		switch ( resource ) {
-			case 'page':
-				if ( method === 'DELETE' ) {
-					singleResource = true;
-					res = deletePage( pathArray[ 4 ] );
-				} else {
-					singleResource = true;
-					res = savePage( options.data );
-				}				
-				break;
-			case 'media':
-				singleResource = true;
-				res = saveMedia( options );
-				break;
-			case 'posts':
-			case 'articles':
-				if ( pathArray[ 4 ] ) {
-					singleResource = true;
-					res = fetchArticle( pathArray[ 4 ] );
-				} else {
-					res = fetchArticles( queryStringOptions );
+		// Call actions by invoked path  
+		switch ( path ) {
+			case `${ apiRoot }/pages`:
+			case `${ apiRoot }/posts`:
+				options.data.type = resource.slice(0, -1);
+
+				if ( method === 'GET' ) {
+					if ( resoureceId ) {
+						singleResource = true;
+						res = Actions.fetchPost( resoureceId, options.data );
+					} else {
+						res = Actions.fetchPosts( options.data );
+					}
 				}
 				break;
-			case 'categories':
-				res = fetchCategories();
+			case `${ apiRoot }/page/${ resoureceId }`:
+			case `${ apiRoot }/post/${ resoureceId }`:
+				options.data.type = resource;
+				singleResource = true;
+
+				if ( method === 'DELETE' ) {
+					res = Actions.deletePost( resoureceId );
+				} else {
+					res = Actions.savePost( options.data );
+				}				
 				break;
+			case `${ apiRoot }/media/${ resoureceId }`:
+				singleResource = true;
+
+				if ( resoureceId ) {					
+					res = Actions.fetchMedia( resoureceId );
+				} else {					
+					res = Actions.saveMedia( options );
+				}
+				break;
+			case `${ apiRoot }/categories`:
+				res = Actions.fetchCategories();
+				break;
+			case `${ apiRoot }/types/${ resoureceId }`:
+				singleResource = true;
+				res = Actions.fetchType( resoureceId );
+				break;
+			// case `${ apiRoot }/users/`:
+			// 	// TODO
+			// 	break;
+			case '/':
+				singleResource = true;
+				res = Actions.fetchIndex();
+			break;
 		}
 
 		if ( res ) {
@@ -89,6 +115,8 @@ function apiRequest( options ) {
 
 			// restore native XHR constructor
 			server.restore();
+
+			console.log( 'response', xhr.response );
 
 			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
 		} else {
