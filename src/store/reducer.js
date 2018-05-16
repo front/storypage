@@ -32,11 +32,16 @@ export function posts( state = { }, action ) {
 
 		case FETCH_POST:
 			const post = action.payload;
-			const pK = findKey( state, { 'id': parseInt( post.id ) } );
 
-			if ( ! pK ) {
-				return { ...state, [ Date.now() ]: post };
-			}		
+			if ( post ) {
+				const pK = findKey( state, { 'id': parseInt( post.id ) } );
+
+				if ( ! pK ) {
+					return { ...state, [ Date.now() ]: post };
+				}
+			}
+
+			return state;					
 
 		case DELETE_POST:
 			const postKey = findKey( state, { 'id': parseInt( action.payload.id ) } );

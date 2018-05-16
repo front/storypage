@@ -44,44 +44,50 @@ const storage = {
 			name: 'Pages', rest_base: 'pages', slug: 'page',
 			labels: { posts: 'Stories' },
 			supports: {
-				posts: true, // *
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				document: false, // hide document tab
+				document: true, // * hide document tab
 				editor: true,
-				'media-library': false, // *
+				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
+				posts: true, // * show posts-panel
+				// 'saved-state': true, // * show saved-state
 				revisions: true,
-				'template-settings': true, // *
+				'template-settings': true, // * show template-settings panel
 				thumbnail: false, // hide featured-image panel
 				title: false, // hide title on editor
 			},
 			viewable: true,
+			publishable: true, // * hide publish toggle
+			saveable: true, // * hide save button
 		},
 		{
 			id: 2,
 			name: 'Post', rest_base: 'posts', slug: 'post',
 			supports: {
-				posts: false, // *
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				document: false, // hide document tab
+				document: false, // * hide document tab
 				editor: true,
-				'media-library': false, // *
+				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
+				posts: false, // * hide posts-panel
 				revisions: true,
-				'template-settings': false, // *
+				'template-settings': false, // * hide template-settings panel
 				thumbnail: true, // featured-image panel
 				title: true, // show title on editor
 			},
 			viewable: true,
+			// publishable: false, // * show publish toggle
+			// saveable: false, // * show save button
 		},
 	],
 	[ LOCAL_INDEX ]: {
 		theme_supports: {
 			formats: [ 'standard', 'aside', 'image', 'video', 'quote', 'link', 'gallery', 'audio' ],
+			'has-fixed-toolbar': true, // *
 			'post-thumbnails': true,
 		},
 	}

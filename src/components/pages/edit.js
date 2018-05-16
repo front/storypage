@@ -2,37 +2,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { includes, map, isEmpty } from 'lodash';
+import { includes, map, isEmpty, filter } from 'lodash';
 
 // Internal Dependencies
-import { fetchTypes, fetchPost } from '../../store/actions';
-import { getTypes, getPost } from '../../store/selectors';
+import { fetchTypes, fetchPost, fetchPosts } from '../../store/actions';
+import { getTypes, getPost, getPosts } from '../../store/selectors';
 import GutenbergEditor from '../gutenberg_editor';
 import Loading from '../loading';
+import getTemplates from './templates';
 
-const settings = {
-	alignWide: false,
-	availableTemplates: [],
-	allowedBlockTypes: true, 
-	disableCustomColors: false, 
-	disablePostFormats: false,
+let settings = {
+	alignWide: true,
+	// availableTemplates: [],
+	// allowedBlockTypes: true, 
+	// disableCustomColors: false, 
+	// disablePostFormats: false,
 	titlePlaceholder: "Add title",
 	bodyPlaceholder: "Write your story",
-	isRTL: false,
+	// isRTL: false,
 };
 
 class PagesEdit extends React.Component {
 	componentWillMount() {
 		this.props.fetchTypes();
-	}
+		this.props.fetchPosts( { type: 'post', order: 'desc', orderBy: 'date' } );
 
-	componentDidMount() {
-		if ( ! this.props.post ) {
-			const { id } = this.props.match.params;
+		const { id } = this.props.match.params;
 
-			if ( id ) {
-				this.props.fetchPost( id );
-			}
+		if ( id ) {
+			this.props.fetchPost( id );
 		}
 	}
 
@@ -53,32 +51,43 @@ class PagesEdit extends React.Component {
 	}
 
 	render() {
-		if ( isEmpty( this.props.types ) ) {
+		if ( isEmpty( this.props.types ) || isEmpty( this.props.posts ) ) {
+			console.log('loading types');
 			return <Loading />;
 		}
 
-		if ( this.props.match.params.id && ! this.props.post ) {
+		if ( this.props.match.params.id && isEmpty( this.props.post ) ) {
+			console.log('loading post', this.props.match.params.id, this.props.post);
 			return <Loading />;
-		}
-
-		// const { content, title, type, id } = this.props.post || {};
-
-		// const post = {
-		// 	content: content || { raw: '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', rendered: '<p>Hello</p>' },
-		// 	templates: '',
-		// 	title: title || { raw: '' },
-		// 	type: this.getType(),
-		// 	id,
-		// };
+		}		
 		
-		const { post } = this.props;
+		const type = this.getType();
+		const badgeType = type === 'page' ? 'info' : 'secondary';
 
-		console.log( 'post', post );
+		const newPost = {
+			content: { 
+				raw: type === 'page' ? '' : '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', 
+				rendered: type === 'page' ? '' : '<p>Hello</p>' 
+			},
+			title: { raw: 'New', rendered: 'New' },
+			type,
+			permalink_template: '',
+		};
+
+		const { id } = this.props.match.params;		
+		const post = id ? this.props.post : newPost;
+		const posts = filter( this.props.posts, { type: 'post' } );
+
+		settings = { 
+			...settings,
+			template: getTemplates( { type, posts } ),
+		};
 
 		return (
 			<div>
-				<div style={ { margin: 0, height: '32px' } } className="">
-					<Link className="btn btn-primary btn-lg btn-block" to="/stories">Go to Stories</Link>
+				<div className="" style={ { margin: 0, height: '32px' } }>
+					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p>
+					<Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
 				</div>
 				<GutenbergEditor post={ post } settings={ settings } />
 			</div>
@@ -87,10 +96,11 @@ class PagesEdit extends React.Component {
 }
 
 function mapStateToProps( state, ownProps ) {
-	return { 
-		types: getTypes( state ), 
-		post: getPost( state, ownProps.match.params.id ) 
+	return {
+		post: getPost( state, ownProps.match.params.id ),
+		types: getTypes( state ),
+		posts: getPosts( state ),
 	};
 }
 
-export default connect( mapStateToProps, { fetchTypes, fetchPost } )( PagesEdit );
+export default connect( mapStateToProps, { fetchTypes, fetchPosts, fetchPost } )( PagesEdit );

@@ -22,3 +22,13 @@ export function getPost( state, id ) {
 export function getTypes( state ) {
 	return state.types;
 }
+
+/**
+ * Returns the state of posts.
+ *
+ * @param   {Object} state 	Global application state.
+ * @return  {Object}       	State of posts.
+ */
+export function getPosts( state ) {
+	return state.posts;
+}
