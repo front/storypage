@@ -8,9 +8,7 @@ import '@frontkom/gutenberg/dist/style.css'; // componnets, editor, edit-post
 
 class GutenbergEditor extends React.Component {
 	componentDidMount() {
-		// const editor = 
 		initializeEditor( 'editor', this.props.post, this.props.settings );
-		// editor.initializeMetaBoxes( { "side": false, "normal": false, "advanced": false } );
 	}
 
 	render() {
