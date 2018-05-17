@@ -67,12 +67,13 @@ function apiRequest( options ) {
 				break;
 			case `${ apiRoot }/media/${ resoureceId }`:
 				singleResource = true;
-
-				if ( resoureceId ) {					
-					res = Actions.fetchMedia( resoureceId );
-				} else {					
-					res = Actions.saveMedia( options );
-				}
+					
+				res = Actions.fetchMedia( resoureceId );
+				break;
+			case `${ apiRoot }/media`:
+				singleResource = true;
+			
+				res = Actions.saveMedia( options );
 				break;
 			case `${ apiRoot }/categories`:
 				res = Actions.fetchCategories();

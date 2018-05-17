@@ -15,11 +15,19 @@ export function generatePosts( n = 1, options = {} ) {
 		const date = ( new Date( `2018-04-${ id }` ) ).toISOString();
 		return {
 			id,
-			title: { raw: `Generated post number ${ id }`, rendered: `Generated post number ${ id }` },
-			content: { raw: '', rendered: '' },
-			type: 'post',
-			date_gmt: date,
+			content: { 
+				raw: '',
+				rendered: '',
+			},
 			date,
+			date_gmt: date,			
+			title: { 
+				raw: `Generated post number ${ id }`, 
+				rendered: `Generated post number ${ id }`,
+			},
+			status: '',
+			type: 'post',
+			link: `${ window.location.origin }/posts/${ id }`,
 			categories: [ random( 1, N_CATEGORIES ) ],
 			featured_media: random( 1, N_IMAGES ),
 			permalink_template: `${ window.location.origin }/posts/${ id }`,

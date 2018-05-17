@@ -7,11 +7,11 @@
  * @return {string}       Updated URL
  */
 export function addQueryArgs( url, args ) {
-	if ( args.preview ) {
+	if ( args && args.preview ) {
 		return url;
 	}
 
-	if ( args.post && args.action ) {
+	if ( args && args.post && args.action ) {
 		const path = window.location.pathname.split( '/' );
 		resetPath( path[ 1 ] );
 
@@ -22,7 +22,7 @@ export function addQueryArgs( url, args ) {
 	}
 
 	// reset path
-	if ( args.trashed ) {
+	if ( args && args.trashed ) {
 		resetPath( `${ args.post_type }s` );
 
 		return 'new';
