@@ -60,7 +60,7 @@ const DEFAULT_STORAGE = {
 			},
 			viewable: true,
 			publishable: true, // * hide publish toggle
-			saveable: true, // * hide save button
+			saveable: false, // * hide save button
 		},
 		{
 			id: 2,
@@ -200,15 +200,15 @@ export function savePost( postData ) {
 
 		storage[ LOCAL_LIBRARY ].push( {
 			id,
+			content: { 
+				raw: content || '',
+				rendered: content || '',
+			},
 			date,
 			date_gmt: date,
 			title: { 
 				raw: title || `${ type } ${ id }`,
 				rendered: title || `${ type } ${ id }`,
-			},
-			content: { 
-				raw: content || '',
-				rendered: content || '',
 			},
 			status,
 			type,
