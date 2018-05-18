@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
-
 body {
 	margin: 0px;
 	font-family: system-ui;
@@ -29,4 +27,78 @@ textarea {
     position: absolute;
     width: 1px;
     word-wrap: normal!important;
+}
+
+.edit-post-visual-editor { 
+    font-family: system-ui;
+    font-size: 13px;
+
+    p {
+        font-family: system-ui;
+        font-size: 13px;
+    }
+
+    .editor-block-list__layout {
+        padding-left: 0;
+        padding-right: 0;
+
+        .editor-block-list__block {
+            padding-left: 0;
+            padding-right: 0;
+
+            .editor-block-list__block-draggable {
+                left: 0;
+                right: 0;
+            }
+
+            .editor-block-drop-zone {
+                top: 0;
+                bottom: 0;
+                margin: 0;
+            }
+
+            .editor-block-list__block-edit {
+                margin-top: 0;
+                margin-bottom: 0;
+                margin-left: 0;
+                margin-right: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+
+                &::before {
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 1;
+                    outline-width: 1px;
+                }
+            }
+
+            &.is-selected,
+            &.is-hovered  {
+                outline-width: 0;
+
+                .editor-block-contextual-toolbar, 
+                .editor-block-list__breadcrumb {
+                    margin-top: -37px;
+                    margin-bottom: 0;
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+            }
+
+            // &.is-selected,
+            // &.is-hovered {
+            //     .editor-block-list__block-edit {
+            //         margin-top: 0;
+            //         margin-bottom: 0;
+            //         margin-left: 0;
+            //         margin-right: 0;
+            //         padding-top: 0;
+            //         padding-bottom: 0;
+            //     }
+            // }
+        }
+    }
 }

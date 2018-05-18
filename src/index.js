@@ -12,7 +12,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Router from './components/router';
 import reducers from './store/reducer';
 
-import './style/style.scss';
+// import './style/style.scss';
 
 const createStoreWithMiddleware = applyMiddleware()( createStore );
 

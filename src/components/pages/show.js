@@ -40,7 +40,7 @@ class PagesShow extends React.Component {
 				</section>			
 
 				<div>
-					{ renderHTML( content.raw ) }
+					{ renderHTML( content.rendered ) }
 				</div>
 			</div>
 		);

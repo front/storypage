@@ -16,13 +16,14 @@ export function generatePosts( n = 1, options = {} ) {
 		return {
 			id,
 			content: { 
-				raw: '',
-				rendered: '',
+				
+				raw: `<!-- wp:paragraph --><p>Content of Generated post number ${ id }</p><!-- /wp:paragraph -->`,
+				rendered: `<p>Content of Generated post number ${ id }</p>`,
 			},
 			date,
 			date_gmt: date,			
 			title: { 
-				raw: `Generated post number ${ id }`, 
+				raw: `Generated post number ${ id }`,
 				rendered: `Generated post number ${ id }`,
 			},
 			status: '',

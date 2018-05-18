@@ -60,7 +60,7 @@ const DEFAULT_STORAGE = {
 			},
 			viewable: true,
 			publishable: true, // * hide publish toggle
-			saveable: false, // * hide save button
+			saveable: true, // * hide save button
 		},
 		{
 			id: 2,
@@ -194,6 +194,8 @@ export function savePost( postData ) {
 	const storage = getFromLocalStorage();
 	const date = ( new Date() ).toISOString();
 
+	const reg = /(\<!--.*?\-->)/g;
+
 	if ( ! id ) {
 		// create a new post
 		id = Date.now();		
@@ -202,13 +204,13 @@ export function savePost( postData ) {
 			id,
 			content: { 
 				raw: content || '',
-				rendered: content || '',
+				rendered: ( content && content.replace( reg, '' ) ) || '',
 			},
 			date,
 			date_gmt: date,
 			title: { 
 				raw: title || `${ type } ${ id }`,
-				rendered: title || `${ type } ${ id }`,
+				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
 			},
 			status,
 			type,
@@ -223,14 +225,14 @@ export function savePost( postData ) {
 		if ( title ) {
 			post.title = {
 				raw: title,
-				rendered: title,
+				rendered: title.replace( reg, '' ),
 			};
 		}
 
 		if ( has( post, 'content' ) ) {
 			post.content = {
 				raw: content,
-				rendered: content,
+				rendered: content.replace( reg, '' ),
 			};
 		}
 
