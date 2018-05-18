@@ -26,7 +26,7 @@ export function generatePosts( n = 1, options = {} ) {
 				raw: `Generated post number ${ id }`,
 				rendered: `Generated post number ${ id }`,
 			},
-			status: '',
+			status: 'publish', // 'draft',
 			type: 'post',
 			link: `${ window.location.origin }/posts/${ id }`,
 			categories: [ random( 1, N_CATEGORIES ) ],

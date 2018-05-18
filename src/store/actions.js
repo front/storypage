@@ -42,12 +42,12 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories' },
+			labels: { posts: 'Stories', 'template-settings': 'Template Settings' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				document: true, // * hide document tab
+				// document: true, // * show document tab (default)
 				editor: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
@@ -59,7 +59,7 @@ const DEFAULT_STORAGE = {
 				title: false, // hide title on editor
 			},
 			viewable: true,
-			publishable: true, // * hide publish toggle
+			publishable: false, // * hide publish toggle
 			saveable: true, // * hide save button
 		},
 		{
@@ -69,7 +69,7 @@ const DEFAULT_STORAGE = {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				document: false, // * hide document tab
+				// document: false, // * hide document tab
 				editor: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
@@ -80,7 +80,7 @@ const DEFAULT_STORAGE = {
 				title: true, // show title on editor
 			},
 			viewable: true,
-			// publishable: false, // * show publish toggle
+			publishable: false, // * hide publish toggle
 			// saveable: false, // * show save button
 		},
 	],
@@ -142,10 +142,15 @@ export function fetchPosts( options = { } ) {
 	let posts = getFromLocalStorage( LOCAL_LIBRARY );
 
 	const { type, s } = options;
+	let { status } = options;
 	const categoryId = parseInt( options.category_id );
 
 	if ( type ) {
 		posts = filter( posts, { type } );
+	}	
+
+	if ( ( status || ( status = 'publish' ) ) && status != 'all' ) {
+		posts = filter( posts, { status } );
 	}
 
 	if ( categoryId ) {

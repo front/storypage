@@ -37,7 +37,7 @@ class PagesShow extends React.Component {
 							<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }` } to={ `/${ type }s/${ id }/edit` }>Edit</Link>
 						</p>			
 					</div>
-				</section>			
+				</section>
 
 				<div>
 					{ renderHTML( content.rendered ) }
