@@ -192,7 +192,10 @@ export function savePost( postData ) {
 		content,
 		type,
 		status,
-	} = postData;	
+		theme_style,
+		header,
+		footer,
+	} = postData;
 
 	let { id } = postData;
 
@@ -213,11 +216,14 @@ export function savePost( postData ) {
 			},
 			date,
 			date_gmt: date,
+			footer: footer || false,
+			header: header || false,
 			title: { 
 				raw: title || `${ type } ${ id }`,
 				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
 			},
-			status,
+			status: status || 'draft',
+			theme_style: theme_style || false,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
@@ -234,15 +240,27 @@ export function savePost( postData ) {
 			};
 		}
 
-		if ( has( post, 'content' ) ) {
+		if ( has( postData, 'content' ) ) {
 			post.content = {
 				raw: content,
 				rendered: content.replace( reg, '' ),
 			};
 		}
 
-		if ( has( post, 'status' ) ) {
+		if ( has( postData, 'status' ) ) {
 			post.status = status;
+		}
+
+		if ( has( postData, 'theme_style' ) ) {
+			post.theme_style = theme_style;
+		}
+
+		if ( has( postData, 'header' ) ) {
+			post.header = header;
+		}
+
+		if ( has( postData, 'footer' ) ) {
+			post.footer = footer;
 		}
 
 		post.modified = date;
