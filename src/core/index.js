@@ -5,6 +5,11 @@ import { addQueryArgs } from './url';
 window.wp = {
 	apiRequest, 
 	url: { addQueryArgs },
+	// media: function( attributes ) {
+	// 	console.log( attributes );
+	// 	const frame = {}
+	// 	return frame; 
+	// },
 };
 
 window._wpDateSettings = { l10n: { locale: 'pt_PT' } };

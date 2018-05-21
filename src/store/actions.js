@@ -149,7 +149,7 @@ export function fetchPosts( options = { } ) {
 		posts = filter( posts, { type } );
 	}	
 
-	if ( ( status || ( status = 'publish' ) ) && status != 'all' ) {
+	if ( ( status || ( status = 'publish' ) ) && status !== 'all' ) {
 		posts = filter( posts, { status } );
 	}
 
@@ -192,10 +192,11 @@ export function savePost( postData ) {
 		content,
 		type,
 		status,
-		theme_style,
 		header,
 		footer,
-	} = postData;
+	} = postData;	
+
+	const themeStyle = postData.theme_style;
 
 	let { id } = postData;
 
@@ -223,7 +224,7 @@ export function savePost( postData ) {
 				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
 			},
 			status: status || 'draft',
-			theme_style: theme_style || false,
+			theme_style: themeStyle || false,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
@@ -252,7 +253,7 @@ export function savePost( postData ) {
 		}
 
 		if ( has( postData, 'theme_style' ) ) {
-			post.theme_style = theme_style;
+			post.theme_style = themeStyle;
 		}
 
 		if ( has( postData, 'header' ) ) {

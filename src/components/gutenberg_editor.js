@@ -2,8 +2,8 @@
 import React from 'react';
 import { initializeEditor } from '@frontkom/gutenberg';
 
-import '@frontkom/gutenberg/dist/css/blocks/style.css'; // blocks
-import '@frontkom/gutenberg/dist/css/blocks/edit-blocks.css'; // edit-blocks
+import '@frontkom/gutenberg/dist/css/core-blocks/style.css'; // blocks
+import '@frontkom/gutenberg/dist/css/core-blocks/edit-blocks.css'; // edit-blocks
 import '@frontkom/gutenberg/dist/css/style.css'; // componnets, editor, edit-post
 
 class GutenbergEditor extends React.Component {
