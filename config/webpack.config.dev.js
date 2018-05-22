@@ -10,6 +10,8 @@ const WatchMissingNodeModulesPlugin = require( 'react-dev-utils/WatchMissingNode
 const eslintFormatter = require( 'react-dev-utils/eslintFormatter' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+const autoprefixer = require('autoprefixer');
 
 // internal
 const getClientEnvironment = require( './env' );
@@ -27,6 +29,7 @@ const env = getClientEnvironment( publicUrl );
 
 const distPath = {
 	js: 'static/js/',
+	css: 'static/css/',
 };
 
 // This is the development configuration.
@@ -108,22 +111,6 @@ module.exports = {
 	module: {
 		strictExportPresence: true,
 		rules: [
-		    // First, run the linter.
-      		// It's important to do this before Babel processes the JS.
-      		// {
-		      //   test: /\.(js|jsx|mjs)$/,
-		      //   enforce: 'pre',
-		      //   use: [
-		      //     	{
-		      //       	options: {
-		      //         		formatter: eslintFormatter,
-		      //         		eslintPath: require.resolve('eslint'),
-		      //       	},
-		      //       	loader: require.resolve('eslint-loader'),
-		      //     	},
-		      //   ],
-              //   include: paths.appSrc,
-      		  // },
 			{
 				test: /\.js$/,
 				include: paths.appSrc,
@@ -138,12 +125,29 @@ module.exports = {
         	},
 			{
 				test: /\.scss$/,
-				include: paths.appSrc,
+				exclude: paths.appSrc,
 				use: [
 					{ loader: 'style-loader' }, // creates style nodes from JS strings
 					{ loader: 'css-loader' },   // translates CSS into CommonJS
 					{ loader: 'sass-loader' },  // compiles Sass to CSS
 				],
+			},
+			{
+				test: /style.scss$/,
+				include: paths.appSrc,
+				use: ExtractTextPlugin.extract( {
+					fallback: 'style-loader',
+					use: [
+						'css-loader',
+						{
+							loader: 'postcss-loader',
+							options: {
+								plugins: [ autoprefixer() ]
+							}
+						},
+						'sass-loader',
+					],
+				} ),
 			},
 			// ** STOP ** Are you adding a new loader?
 			// Make sure to add the new loader(s) before the "file" loader.
@@ -190,6 +194,7 @@ module.exports = {
 			{ from: 'node_modules/tinymce/themes', to: `${ distPath.js }themes` },
 			{ from: 'node_modules/tinymce/skins', to: `${ distPath.js }skins` },
 		], {} ),
+		new ExtractTextPlugin( `${ distPath.css }style.css` ),
 	],
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.
