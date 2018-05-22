@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, find, findKey, includes, has } from 'lodash';
+import { filter, find, findKey, includes, has, clone, reject } from 'lodash';
 
 // Internal Dependencies
 import { generatePosts, generateImages, generateCategories } from './generators';
@@ -145,6 +145,8 @@ export function fetchPosts( options = { } ) {
 	let { status } = options;
 	const categoryId = parseInt( options.category_id );
 
+	posts = reject( posts, { type: 'revision' } );
+
 	if ( type ) {
 		posts = filter( posts, { type } );
 	}	
@@ -224,13 +226,15 @@ export function savePost( postData ) {
 				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
 			},
 			status: status || 'draft',
+			revisions: { count: 0, last_id: 0 },
+			parent: 0,
 			theme_style: themeStyle || false,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
 		} );
 	} else { 
-		// update an old post
+		// update an existent post
 		const post = find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 		const postKey = findKey( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 
@@ -267,9 +271,20 @@ export function savePost( postData ) {
 		post.modified = date;
 		post.modified_gmt = date;
 
-		storage[ LOCAL_LIBRARY ][ postKey ] = post;
 
-		// TODO: create a revision
+		// Create a revision
+		let revision = clone( post );
+		revision.type = 'revision';
+		revision.parent = post.id;
+		revision.id = Date.now();
+		revision.date = date;
+		revision.date_gmt = date;
+
+		post.revisions.count = post.revisions.count + 1;
+		post.revisions.last_id = revision.id;
+
+		storage[ LOCAL_LIBRARY ][ postKey ] = post;
+		storage[ LOCAL_LIBRARY ].push( revision );
 	}
 
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
