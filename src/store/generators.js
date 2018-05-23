@@ -58,6 +58,10 @@ export function generateImages( n = 1 ) {
 			link: `http://localhost:3000/sample${ id }.jpg`,
 			media_type: 'image',
 			source_url: `http://localhost:3000/sample${ id }.jpg`,
+			data: {
+				entity_type: 'file',
+				entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${ id }`,
+			},
 		};
 	} );
 }

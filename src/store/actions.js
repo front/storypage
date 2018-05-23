@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, find, findKey, includes, has, clone, reject } from 'lodash';
+import { filter, find, findKey, includes, has, clone, reject, random } from 'lodash';
 
 // Internal Dependencies
 import { generatePosts, generateImages, generateCategories } from './generators';
@@ -357,6 +357,8 @@ export function saveMedia( mediaData ) {
 
 	const storage = getFromLocalStorage();
 	const date = ( new Date() ).toISOString();
+
+	const image = random( 1, N_IMAGES );
 	// create
 	if ( ! id ) {
 		id = Date.now();
@@ -365,8 +367,12 @@ export function saveMedia( mediaData ) {
 			id,
 			date,
 			date_gmt: date,
-			source_url: 'http://localhost:3000/sample1.jpg', // fake
-			link: 'http://localhost:3000/sample1.jpg',
+			source_url: `http://localhost:3000/sample${ image }.jpg`,
+			link: `http://localhost:3000/sample${ image }.jpg`,
+			data: {
+				entity_type: 'file',
+				entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${ id }`,
+			},
 		} );
 	} else if ( data ) { // update
 		const media = find( storage[ LOCAL_MEDIA ], { id: parseInt( id ) } );
