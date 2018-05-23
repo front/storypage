@@ -14,7 +14,7 @@ class PagesIndex extends React.Component {
 		this.onDeleteButtonClick = this.onDeleteButtonClick.bind( this );
 	}
 	componentDidMount() {
-		this.props.fetchPosts( { order: 'desc', orderBy: 'id' } );
+		this.props.fetchPosts( { status: 'all', order: 'desc', orderBy: 'id' } );
 	}
 
 	onDeleteButtonClick( event ) {

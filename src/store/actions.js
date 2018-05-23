@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, find, findKey, includes, has } from 'lodash';
+import { filter, find, findKey, includes, has, clone, reject, random } from 'lodash';
 
 // Internal Dependencies
 import { generatePosts, generateImages, generateCategories } from './generators';
@@ -42,12 +42,12 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories' },
+			labels: { posts: 'Stories', 'template-settings': 'Template Settings' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				document: true, // * hide document tab
+				// document: true, // * show document tab (default)
 				editor: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
@@ -59,8 +59,8 @@ const DEFAULT_STORAGE = {
 				title: false, // hide title on editor
 			},
 			viewable: true,
-			publishable: true, // * hide publish toggle
-			saveable: false, // * hide save button
+			publishable: false, // * hide publish toggle
+			saveable: true, // * hide save button
 		},
 		{
 			id: 2,
@@ -69,7 +69,7 @@ const DEFAULT_STORAGE = {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				document: false, // * hide document tab
+				// document: false, // * hide document tab
 				editor: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
@@ -80,7 +80,7 @@ const DEFAULT_STORAGE = {
 				title: true, // show title on editor
 			},
 			viewable: true,
-			// publishable: false, // * show publish toggle
+			publishable: false, // * hide publish toggle
 			// saveable: false, // * show save button
 		},
 	],
@@ -142,10 +142,17 @@ export function fetchPosts( options = { } ) {
 	let posts = getFromLocalStorage( LOCAL_LIBRARY );
 
 	const { type, s } = options;
+	let { status } = options;
 	const categoryId = parseInt( options.category_id );
+
+	posts = reject( posts, { type: 'revision' } );
 
 	if ( type ) {
 		posts = filter( posts, { type } );
+	}	
+
+	if ( ( status || ( status = 'publish' ) ) && status !== 'all' ) {
+		posts = filter( posts, { status } );
 	}
 
 	if ( categoryId ) {
@@ -187,12 +194,18 @@ export function savePost( postData ) {
 		content,
 		type,
 		status,
+		header,
+		footer,
 	} = postData;	
+
+	const themeStyle = postData.theme_style;
 
 	let { id } = postData;
 
 	const storage = getFromLocalStorage();
 	const date = ( new Date() ).toISOString();
+
+	const reg = /(\<!--.*?\-->)/g;
 
 	if ( ! id ) {
 		// create a new post
@@ -202,48 +215,76 @@ export function savePost( postData ) {
 			id,
 			content: { 
 				raw: content || '',
-				rendered: content || '',
+				rendered: ( content && content.replace( reg, '' ) ) || '',
 			},
 			date,
 			date_gmt: date,
+			footer: footer || false,
+			header: header || false,
 			title: { 
 				raw: title || `${ type } ${ id }`,
-				rendered: title || `${ type } ${ id }`,
+				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
 			},
-			status,
+			status: status || 'draft',
+			revisions: { count: 0, last_id: 0 },
+			parent: 0,
+			theme_style: themeStyle || false,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
 		} );
 	} else { 
-		// update an old post
+		// update an existent post
 		const post = find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 		const postKey = findKey( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 
 		if ( title ) {
 			post.title = {
 				raw: title,
-				rendered: title,
+				rendered: title.replace( reg, '' ),
 			};
 		}
 
-		if ( has( post, 'content' ) ) {
+		if ( has( postData, 'content' ) ) {
 			post.content = {
 				raw: content,
-				rendered: content,
+				rendered: content.replace( reg, '' ),
 			};
 		}
 
-		if ( has( post, 'status' ) ) {
+		if ( has( postData, 'status' ) ) {
 			post.status = status;
+		}
+
+		if ( has( postData, 'theme_style' ) ) {
+			post.theme_style = themeStyle;
+		}
+
+		if ( has( postData, 'header' ) ) {
+			post.header = header;
+		}
+
+		if ( has( postData, 'footer' ) ) {
+			post.footer = footer;
 		}
 
 		post.modified = date;
 		post.modified_gmt = date;
 
-		storage[ LOCAL_LIBRARY ][ postKey ] = post;
 
-		// TODO: create a revision
+		// Create a revision
+		let revision = clone( post );
+		revision.type = 'revision';
+		revision.parent = post.id;
+		revision.id = Date.now();
+		revision.date = date;
+		revision.date_gmt = date;
+
+		post.revisions.count = post.revisions.count + 1;
+		post.revisions.last_id = revision.id;
+
+		storage[ LOCAL_LIBRARY ][ postKey ] = post;
+		storage[ LOCAL_LIBRARY ].push( revision );
 	}
 
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
@@ -316,6 +357,8 @@ export function saveMedia( mediaData ) {
 
 	const storage = getFromLocalStorage();
 	const date = ( new Date() ).toISOString();
+
+	const image = random( 1, N_IMAGES );
 	// create
 	if ( ! id ) {
 		id = Date.now();
@@ -324,8 +367,12 @@ export function saveMedia( mediaData ) {
 			id,
 			date,
 			date_gmt: date,
-			source_url: 'http://localhost:3000/sample1.jpg', // fake
-			link: 'http://localhost:3000/sample1.jpg',
+			source_url: `http://localhost:3000/sample${ image }.jpg`,
+			link: `http://localhost:3000/sample${ image }.jpg`,
+			data: {
+				entity_type: 'file',
+				entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${ id }`,
+			},
 		} );
 	} else if ( data ) { // update
 		const media = find( storage[ LOCAL_MEDIA ], { id: parseInt( id ) } );

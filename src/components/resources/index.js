@@ -97,7 +97,7 @@ class ResourcesIndex extends React.Component {
 
 				{ this.renderRequests() }				
 
-				<table className="table table-striped">
+				<table className="table table-striped table-responsive">
 					{ this.renderHeaders() }					
 					{ this.renderBody() }
 				</table>

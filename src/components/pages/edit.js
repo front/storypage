@@ -51,7 +51,7 @@ class PagesEdit extends React.Component {
 	}
 
 	render() {
-		if ( isEmpty( this.props.types ) || isEmpty( this.props.posts ) ) {
+		if ( isEmpty( this.props.types ) ) {
 			return <Loading />;
 		}
 
@@ -83,8 +83,8 @@ class PagesEdit extends React.Component {
 
 		return (
 			<div>
-				<div className="" style={ { margin: 0, height: '32px' } }>
-					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p>
+				<div className="clearfix">
+					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p> 
 					<Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
 				</div>
 				<GutenbergEditor post={ post } settings={ settings } />

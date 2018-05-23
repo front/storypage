@@ -25,7 +25,7 @@ class PagesShow extends React.Component {
 			return <Loading />;
 		}
 
-		const { content, title, type, id } = this.props.post;
+		const { content, title, type, id, header, footer, theme_style } = this.props.post;
 
 		return (
 			<div>
@@ -37,11 +37,21 @@ class PagesShow extends React.Component {
 							<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }` } to={ `/${ type }s/${ id }/edit` }>Edit</Link>
 						</p>			
 					</div>
-				</section>			
+				</section>
 
+				{
+					header && <div className="text-center">TODO: Header</div>
+				}
 				<div>
-					{ renderHTML( content.raw ) }
+					{ renderHTML( content.rendered ) }
 				</div>
+				{
+					footer && <div className="text-center">TODO: Footer</div>
+				}
+
+				{
+					theme_style && <link rel="stylesheet" href="http://localhost:3000/style.css" type="text/css" />
+				}
 			</div>
 		);
 	}

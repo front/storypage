@@ -16,16 +16,22 @@ export function generatePosts( n = 1, options = {} ) {
 		return {
 			id,
 			content: { 
-				raw: '',
-				rendered: '',
+				
+				raw: `<!-- wp:paragraph --><p>Content of Generated post number ${ id }</p><!-- /wp:paragraph -->`,
+				rendered: `<p>Content of Generated post number ${ id }</p>`,
 			},
 			date,
-			date_gmt: date,			
+			date_gmt: date,
+			footer: false,
+			header: false,
 			title: { 
-				raw: `Generated post number ${ id }`, 
+				raw: `Generated post number ${ id }`,
 				rendered: `Generated post number ${ id }`,
 			},
-			status: '',
+			status: 'publish', // 'draft',			
+			revisions: { count: 0, last_id: 0 },
+			parent: 0,
+			theme_style: false,
 			type: 'post',
 			link: `${ window.location.origin }/posts/${ id }`,
 			categories: [ random( 1, N_CATEGORIES ) ],
@@ -52,6 +58,10 @@ export function generateImages( n = 1 ) {
 			link: `http://localhost:3000/sample${ id }.jpg`,
 			media_type: 'image',
 			source_url: `http://localhost:3000/sample${ id }.jpg`,
+			data: {
+				entity_type: 'file',
+				entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${ id }`,
+			},
 		};
 	} );
 }
