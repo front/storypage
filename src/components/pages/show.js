@@ -25,7 +25,7 @@ class PagesShow extends React.Component {
 			return <Loading />;
 		}
 
-		const { content, title, type, id, header, footer } = this.props.post;
+		const { content, title, type, id, header, footer, theme_style } = this.props.post;
 
 		return (
 			<div>
@@ -40,13 +40,17 @@ class PagesShow extends React.Component {
 				</section>
 
 				{
-					header && ( <div className="text-center">TODO: Header</div> )
+					header && <div className="text-center">TODO: Header</div>
 				}
 				<div>
 					{ renderHTML( content.rendered ) }
 				</div>
 				{
-					footer && ( <div className="text-center">TODO: Footer</div> )
+					footer && <div className="text-center">TODO: Footer</div>
+				}
+
+				{
+					theme_style && <link rel="stylesheet" href="http://localhost:3000/style.css" type="text/css" />
 				}
 			</div>
 		);
