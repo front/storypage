@@ -123,16 +123,16 @@ module.exports = {
 					{ loader: "css-loader" }
         		]
         	},
-			{
-				test: /\.scss$/,
-				exclude: paths.appSrc,
-				use: [
-					{ loader: 'style-loader' }, // creates style nodes from JS strings
-					{ loader: 'css-loader' },   // translates CSS into CommonJS
-					{ loader: 'sass-loader' },  // compiles Sass to CSS
-				],
-			},
-			{
+			// {
+			// 	test: /\.scss$/,
+			// 	exclude: paths.appSrc,
+			// 	use: [
+			// 		{ loader: 'style-loader' }, // creates style nodes from JS strings
+			// 		{ loader: 'css-loader' },   // translates CSS into CommonJS
+			// 		{ loader: 'sass-loader' },  // compiles Sass to CSS
+			// 	],
+			// },
+			/*{
 				test: /style.scss$/,
 				include: paths.appSrc,
 				use: ExtractTextPlugin.extract( {
@@ -148,7 +148,7 @@ module.exports = {
 						'sass-loader',
 					],
 				} ),
-			},
+			},*/
 			// ** STOP ** Are you adding a new loader?
 			// Make sure to add the new loader(s) before the "file" loader.
 		],
