@@ -31,7 +31,7 @@ const LOCAL_TYPES = 'types';
 
 const N_IMAGES = 4;
 const N_CATEGORIES = 4;
-const N_POSTS = 6;
+const N_POSTS = 10;
 
 const DEFAULT_STORAGE = {
 	[ LOCAL_MEDIA ]: generateImages( N_IMAGES ),
@@ -42,7 +42,7 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories', 'template-settings': 'Template Settings' },
+			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
@@ -220,7 +220,7 @@ export function savePost( postData ) {
 			date,
 			date_gmt: date,
 			footer: footer || false,
-			header: header || false,
+			header: header || true,
 			title: { 
 				raw: title || `${ type } ${ id }`,
 				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
@@ -228,10 +228,11 @@ export function savePost( postData ) {
 			status: status || 'draft',
 			revisions: { count: 0, last_id: 0 },
 			parent: 0,
-			theme_style: themeStyle || false,
+			theme_style: themeStyle || true,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
+			preview_link: `${ window.location.origin }/${ type }s/${ id }`,
 		} );
 	} else { 
 		// update an existent post
@@ -271,9 +272,8 @@ export function savePost( postData ) {
 		post.modified = date;
 		post.modified_gmt = date;
 
-
 		// Create a revision
-		let revision = clone( post );
+		const revision = clone( post );
 		revision.type = 'revision';
 		revision.parent = post.id;
 		revision.id = Date.now();
