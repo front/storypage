@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 
 export default function getTemplates( { type, posts } ) {
-	if ( type === 'page' && ! isEmpty( posts ) && posts.length === 6 ) {
+	if ( type === 'page' && ! isEmpty( posts ) && posts.length >= 6 ) {
 		return [
 			[ 'rows/col4-col4-col4', { }, [
 				[ 'custom/post', {
