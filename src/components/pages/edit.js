@@ -8,7 +8,7 @@ import { select, dispatch } from '@frontkom/gutenberg';
 // Internal Dependencies
 import { fetchTypes, fetchPost, fetchPosts } from '../../store/actions';
 import { getTypes, getPost, getPosts } from '../../store/selectors';
-import GutenbergEditor from '../gutenberg_editor';
+import Editor from '../editor';
 import Loading from '../loading';
 import getTemplates from './templates';
 
@@ -82,16 +82,20 @@ class PagesEdit extends React.Component {
 			template: getTemplates( { type, posts } ),
 		};
 
+		console.log( 'type', type );
+		console.log( 'posts', posts );
+		console.log( 'settings', settings );
+
 		return (
 			<div>
 				<div className="clearfix">
 					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p>
 					<button onClick={ () => dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/block' ) } >Open sidebar</button>
 					<button onClick={ () => dispatch( 'core/edit-post' ).closeGeneralSidebar() } >Close sidebar</button>
-					<button onClick={ () => console.log( select( 'core/editor' ).getEditedPostContent() ) } >Get content</button>
+					<button onClick={ () => /*console.log( */select( 'core/editor' ).getEditedPostContent()/* )*/ } >Get content</button>
 					<Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
 				</div>
-				<GutenbergEditor post={ post } settings={ settings } />
+				<Editor post={ post } settings={ settings } />
 			</div>
 		);
 	}
