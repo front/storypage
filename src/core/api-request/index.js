@@ -122,7 +122,7 @@ function apiRequest( options ) {
 			// console.log( 'response', xhr.response );
 
 			dfd.abort = () => {
-				console.log( 'abort' );
+				// console.log( 'abort' );
 			};
 
 			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );

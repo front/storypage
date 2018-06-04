@@ -206,7 +206,7 @@ export function savePost( postData ) {
 	let { id } = postData;
 	const storage = getFromLocalStorage();
 
-	const post = id ? storage[ LOCAL_LIBRARY ].find( post => ( post.id === parseInt( id ) ) ) : false;
+	const post = id ? storage[ LOCAL_LIBRARY ].find( item => ( item.id === parseInt( id ) ) ) : false;
 
 	const date = ( new Date() ).toISOString();
 
@@ -295,7 +295,7 @@ export function savePost( postData ) {
 
 	return {
 		type: SAVE_POST,
-		payload: storage[ LOCAL_LIBRARY ].find( post => ( post.id === parseInt( id ) ) ),
+		payload: storage[ LOCAL_LIBRARY ].find( item => ( item.id === parseInt( id ) ) ),
 	};
 }
 

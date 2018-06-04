@@ -17,7 +17,7 @@ export default () => (
 			<Route exact path="/(posts|pages)/new" component={ PagesEdit } />
 			<Route exact path="/(posts|pages)/:id/edit" component={ PagesEdit } />
 			<Route exact path="/(posts|pages)/:id/(preview)" component={ PagesShow } />
-			<Route exact path="/(posts|pages)/:id" component={ PagesShow} />
+			<Route exact path="/(posts|pages)/:id" component={ PagesShow } />
 			<Route component={ NotFound } />
 		</Switch>
 	</BrowserRouter>
