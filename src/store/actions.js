@@ -42,13 +42,14 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings' },
+			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
 				// document: true, // * show document tab (default)
 				editor: true,
+				extras: false,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
 				posts: true, // * show posts-panel
@@ -60,7 +61,8 @@ const DEFAULT_STORAGE = {
 			},
 			viewable: true,
 			publishable: false, // * hide publish toggle
-			saveable: true, // * hide save button
+			saveable: true, // * show save button
+			autosaveable: false, // * disable autosave
 		},
 		{
 			id: 2,
@@ -71,17 +73,19 @@ const DEFAULT_STORAGE = {
 				'custom-fields': true,
 				// document: false, // * hide document tab
 				editor: true,
+				extras: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
 				posts: false, // * hide posts-panel
 				revisions: true,
 				'template-settings': false, // * hide template-settings panel
-				thumbnail: true, // featured-image panel
+				thumbnail: false, // featured-image panel
 				title: true, // show title on editor
 			},
 			viewable: true,
 			publishable: false, // * hide publish toggle
 			// saveable: false, // * show save button
+			// autosaveable: false, // * disable autosave
 		},
 	],
 	[ LOCAL_INDEX ]: {
@@ -141,7 +145,7 @@ export function fetchIndex() {
 export function fetchPosts( options = { } ) {
 	let posts = getFromLocalStorage( LOCAL_LIBRARY );
 
-	const { type, s } = options;
+	const { type, search } = options;
 	let { status } = options;
 	const categoryId = parseInt( options.category_id );
 
@@ -161,9 +165,9 @@ export function fetchPosts( options = { } ) {
 		} );
 	} 
 
-	if ( s ) {
+	if ( search ) {
 		posts = filter( posts, post => {
-			const term = s.toLowerCase();
+			const term = search.toLowerCase();
 			const title = post.title.rendered.toLowerCase();
 
 			return title.indexOf( term ) !== -1;
@@ -232,7 +236,7 @@ export function savePost( postData ) {
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
-			preview_link: `${ window.location.origin }/${ type }s/${ id }`,
+			preview_link: `${ window.location.origin }/${ type }s/${ id }/preview`,
 		} );
 	} else { 
 		// update an existent post

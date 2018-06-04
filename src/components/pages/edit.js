@@ -10,6 +10,7 @@ import { fetchTypes, fetchPost, fetchPosts } from '../../store/actions';
 import { getTypes, getPost, getPosts } from '../../store/selectors';
 import Editor from '../editor';
 import Loading from '../loading';
+import NotFound from '../not_found';
 import getTemplates from './templates';
 
 let settings = {
@@ -57,7 +58,7 @@ class PagesEdit extends React.Component {
 		}
 
 		if ( this.props.match.params.id && isEmpty( this.props.post ) ) {
-			return <Loading />;
+			return <NotFound />;
 		}
 		
 		const type = this.getType();
@@ -81,10 +82,6 @@ class PagesEdit extends React.Component {
 			...settings,
 			template: getTemplates( { type, posts } ),
 		};
-
-		console.log( 'type', type );
-		console.log( 'posts', posts );
-		console.log( 'settings', settings );
 
 		return (
 			<div>

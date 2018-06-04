@@ -9,17 +9,16 @@ import PagesIndex from './pages/index';
 import PagesEdit from './pages/edit';
 import PagesShow from './pages/show';
 
-export default () => {
-	return (
-		<BrowserRouter>
-			<Switch>
-				<Route exact path="/" component={ App } />
-				<Route exact path="/stories" component={ PagesIndex } />
-				<Route exact path="/(posts|pages)/new" component={ PagesEdit } />
-				<Route exact path="/(posts|pages)/:id/edit" component={ PagesEdit } />
-				<Route exact path="/(posts|pages)/:id" component={ PagesShow } />
-				<Route component={ NotFound } />
-			</Switch>
-		</BrowserRouter>
-	);
-};
+export default () => (
+	<BrowserRouter>
+		<Switch>
+			<Route exact path="/" component={ App } />
+			<Route exact path="/stories" component={ PagesIndex } />
+			<Route exact path="/(posts|pages)/new" component={ PagesEdit } />
+			<Route exact path="/(posts|pages)/:id/edit" component={ PagesEdit } />
+			<Route exact path="/(posts|pages)/:id/(preview)" component={ PagesShow } />
+			<Route exact path="/(posts|pages)/:id" component={ PagesShow} />
+			<Route component={ NotFound } />
+		</Switch>
+	</BrowserRouter>
+);
