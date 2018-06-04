@@ -15,13 +15,14 @@ import getTemplates from './templates';
 
 let settings = {
 	alignWide: true,
-	// availableTemplates: [],
-	// allowedBlockTypes: true, 
-	// disableCustomColors: false, 
-	// disablePostFormats: false,
+	availableTemplates: [],
+	allowedBlockTypes: true, 
+	disableCustomColors: false, 
+	disablePostFormats: false,
 	titlePlaceholder: "Add title",
 	bodyPlaceholder: "Write your story",
-	// isRTL: false,
+	isRTL: false,
+	autosaveInterval: 10,
 };
 
 class PagesEdit extends React.Component {
@@ -72,6 +73,7 @@ class PagesEdit extends React.Component {
 			title: { raw: 'New', rendered: 'New' },
 			type,
 			permalink_template: '',
+			id: Date.now(),
 		};
 
 		const { id } = this.props.match.params;		

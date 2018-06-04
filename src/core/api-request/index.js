@@ -33,7 +33,7 @@ function apiRequest( options ) {
 		options.data = merge( options.data, queryStringOptions );
 	}	
 
-	console.log( 'apiRequest options', options, path );
+	// console.log( 'apiRequest options', options, path );
 
 	return jQuery.Deferred( dfd => {
 		let res;
@@ -119,7 +119,7 @@ function apiRequest( options ) {
 			// restore native XHR constructor
 			server.restore();
 
-			console.log( 'response', xhr.response );
+			// console.log( 'response', xhr.response );
 
 			dfd.abort = () => {
 				console.log( 'abort' );

@@ -61,8 +61,8 @@ const DEFAULT_STORAGE = {
 			},
 			viewable: true,
 			publishable: false, // * hide publish toggle
-			saveable: true, // * show save button
-			autosaveable: false, // * disable autosave
+			// saveable: true, // * show save button
+			// autosaveable: false, // * disable autosave
 		},
 		{
 			id: 2,
@@ -193,7 +193,7 @@ export function fetchPosts( options = { } ) {
  * @return {Object}	Action type and post
  */
 export function savePost( postData ) {
-	const { 
+	const {
 		title,
 		content,
 		type,
@@ -203,15 +203,16 @@ export function savePost( postData ) {
 	} = postData;	
 
 	const themeStyle = postData.theme_style;
-
 	let { id } = postData;
-
 	const storage = getFromLocalStorage();
+
+	const post = id ? storage[ LOCAL_LIBRARY ].find( post => ( post.id === parseInt( id ) ) ) : false;
+
 	const date = ( new Date() ).toISOString();
 
 	const reg = /(\<!--.*?\-->)/g;
 
-	if ( ! id ) {
+	if ( ! id || ! post ) {
 		// create a new post
 		id = Date.now();		
 
@@ -240,7 +241,6 @@ export function savePost( postData ) {
 		} );
 	} else { 
 		// update an existent post
-		const post = find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 		const postKey = findKey( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 
 		if ( title ) {
@@ -295,7 +295,7 @@ export function savePost( postData ) {
 
 	return {
 		type: SAVE_POST,
-		payload: find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } ),
+		payload: storage[ LOCAL_LIBRARY ].find( post => ( post.id === parseInt( id ) ) ),
 	};
 }
 
