@@ -55,7 +55,7 @@
         "eslint-plugin-react": "7.7.0",
         "extract-text-webpack-plugin": "3.0.2",
         "html-webpack-plugin": "2.29.0",
-        "node-sass": "^4.9.0",
+        "node-sass": "git://github.com/sass/node-sass.git#v4.7.0",
         "postcss-flexbugs-fixes": "3.2.0",
         "postcss-loader": "^2.1.5",
         "react-test-renderer": "16.3.0",
