@@ -27,30 +27,40 @@ class PagesShow extends React.Component {
 
 		const { content, title, type, id, header, footer, theme_style } = this.props.post;
 
+		const isPreview = this.props.match.params[ 1 ] && this.props.match.params[ 1 ] === 'preview';
+		
+		const previewHeader = (
+			<section className="jumbotron">
+				<div className="container">
+					<h1>{ title.rendered }</h1>
+					<p className="text-right">					
+						<Link className="btn btn-outline-secondary float-left" to="/stories">Go to Stories</Link>
+						<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }` } to={ `/${ type }s/${ id }/edit` }>Edit</Link>
+					</p>			
+				</div>
+			</section>
+		);
+
 		return (
 			<div>
-				<section className="jumbotron">
-					<div className="container">
-						<h1>{ title.rendered }</h1>
-						<p className="text-right">					
-							<Link className="btn btn-outline-secondary float-left" to="/stories">Go to Stories</Link>
-							<Link className={ `btn btn-${ type === 'page' ? 'info' : 'secondary' }` } to={ `/${ type }s/${ id }/edit` }>Edit</Link>
-						</p>			
-					</div>
-				</section>
+				{
+					isPreview && previewHeader
+				}	
 
 				{
-					header && <div className="text-center">TODO: Header</div>
-				}
-				<div>
-					{ renderHTML( content.rendered ) }
-				</div>
-				{
-					footer && <div className="text-center">TODO: Footer</div>
+					header && <div className="text-center">[ TODO: Header ]</div>
 				}
 
 				{
-					theme_style && <link rel="stylesheet" href="http://localhost:3000/style.css" type="text/css" />
+					renderHTML( content.rendered ) 
+				}
+
+				{
+					footer && <div className="text-center">[ TODO: Footer ]</div>
+				}
+
+				{
+					// theme_style && <link rel="stylesheet" href="http://localhost:3000/style.css" type="text/css" />
 				}
 			</div>
 		);
@@ -61,4 +71,5 @@ function mapStateToProps( state, ownProps ) {
 	return { post: getPost( state, ownProps.match.params.id ) };
 }
 
-export default connect( mapStateToProps, { fetchPost } )( PagesShow );
+export default connect( mapStateToProps, { fetchPost } )( PagesShow
+ );

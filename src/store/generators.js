@@ -23,7 +23,7 @@ export function generatePosts( n = 1, options = {} ) {
 			date,
 			date_gmt: date,
 			footer: false,
-			header: false,
+			header: true,
 			title: { 
 				raw: `Generated post number ${ id }`,
 				rendered: `Generated post number ${ id }`,
@@ -31,12 +31,13 @@ export function generatePosts( n = 1, options = {} ) {
 			status: 'publish', // 'draft',			
 			revisions: { count: 0, last_id: 0 },
 			parent: 0,
-			theme_style: false,
+			theme_style: true,
 			type: 'post',
 			link: `${ window.location.origin }/posts/${ id }`,
 			categories: [ random( 1, N_CATEGORIES ) ],
 			featured_media: random( 1, N_IMAGES ),
 			permalink_template: `${ window.location.origin }/posts/${ id }`,
+			preview_link: `${ window.location.origin }/posts/${ id }/preview`,
 		};
 	} );
 }

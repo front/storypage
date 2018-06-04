@@ -3,23 +3,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { includes, map, isEmpty, filter } from 'lodash';
+import { select, dispatch } from '@frontkom/gutenberg';
 
 // Internal Dependencies
 import { fetchTypes, fetchPost, fetchPosts } from '../../store/actions';
 import { getTypes, getPost, getPosts } from '../../store/selectors';
-import GutenbergEditor from '../gutenberg_editor';
+import Editor from '../editor';
 import Loading from '../loading';
+import NotFound from '../not_found';
 import getTemplates from './templates';
 
 let settings = {
 	alignWide: true,
-	// availableTemplates: [],
-	// allowedBlockTypes: true, 
-	// disableCustomColors: false, 
-	// disablePostFormats: false,
+	availableTemplates: [],
+	allowedBlockTypes: true, 
+	disableCustomColors: false, 
+	disablePostFormats: false,
 	titlePlaceholder: "Add title",
 	bodyPlaceholder: "Write your story",
-	// isRTL: false,
+	isRTL: false,
+	autosaveInterval: 10,
 };
 
 class PagesEdit extends React.Component {
@@ -56,7 +59,7 @@ class PagesEdit extends React.Component {
 		}
 
 		if ( this.props.match.params.id && isEmpty( this.props.post ) ) {
-			return <Loading />;
+			return <NotFound />;
 		}
 		
 		const type = this.getType();
@@ -70,6 +73,7 @@ class PagesEdit extends React.Component {
 			title: { raw: 'New', rendered: 'New' },
 			type,
 			permalink_template: '',
+			id: Date.now(),
 		};
 
 		const { id } = this.props.match.params;		
@@ -84,10 +88,13 @@ class PagesEdit extends React.Component {
 		return (
 			<div>
 				<div className="clearfix">
-					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p> 
+					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p>
+					<button onClick={ () => dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/block' ) } >Open sidebar</button>
+					<button onClick={ () => dispatch( 'core/edit-post' ).closeGeneralSidebar() } >Close sidebar</button>
+					<button onClick={ () => /*console.log( */select( 'core/editor' ).getEditedPostContent()/* )*/ } >Get content</button>
 					<Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
 				</div>
-				<GutenbergEditor post={ post } settings={ settings } />
+				<Editor post={ post } settings={ settings } />
 			</div>
 		);
 	}

@@ -35,7 +35,7 @@ class PagesIndex extends React.Component {
 					<td><span className={ `badge badge-${ badgeType }` }>{ post.type }</span></td>
 					<td>{ post.title.rendered }</td>
 					<td className="text-right">
-						<Link className="btn btn-sm btn-outline-secondary " to={ `/${ post.type }s/${ post.id }` }>Preview</Link>{ " " }
+						<a className="btn btn-sm btn-outline-secondary " href={ post.preview_link }>Preview</a>{ " " }
 						<Link className="btn btn-sm btn-outline-secondary " to={ `/${ post.type }s/${ post.id }/edit` }>Edit</Link>{ " " }
 						<button className="btn btn-sm btn-outline-danger" value={ post.id } onClick={ this.onDeleteButtonClick }>Delete</button>
 					</td>

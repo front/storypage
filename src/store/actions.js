@@ -31,7 +31,7 @@ const LOCAL_TYPES = 'types';
 
 const N_IMAGES = 4;
 const N_CATEGORIES = 4;
-const N_POSTS = 6;
+const N_POSTS = 10;
 
 const DEFAULT_STORAGE = {
 	[ LOCAL_MEDIA ]: generateImages( N_IMAGES ),
@@ -42,13 +42,14 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories', 'template-settings': 'Template Settings' },
+			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
 				// document: true, // * show document tab (default)
 				editor: true,
+				extras: false,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
 				posts: true, // * show posts-panel
@@ -60,7 +61,8 @@ const DEFAULT_STORAGE = {
 			},
 			viewable: true,
 			publishable: false, // * hide publish toggle
-			saveable: true, // * hide save button
+			// saveable: true, // * show save button
+			// autosaveable: false, // * disable autosave
 		},
 		{
 			id: 2,
@@ -71,17 +73,19 @@ const DEFAULT_STORAGE = {
 				'custom-fields': true,
 				// document: false, // * hide document tab
 				editor: true,
+				extras: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
 				posts: false, // * hide posts-panel
 				revisions: true,
 				'template-settings': false, // * hide template-settings panel
-				thumbnail: true, // featured-image panel
+				thumbnail: false, // featured-image panel
 				title: true, // show title on editor
 			},
 			viewable: true,
 			publishable: false, // * hide publish toggle
 			// saveable: false, // * show save button
+			// autosaveable: false, // * disable autosave
 		},
 	],
 	[ LOCAL_INDEX ]: {
@@ -141,7 +145,7 @@ export function fetchIndex() {
 export function fetchPosts( options = { } ) {
 	let posts = getFromLocalStorage( LOCAL_LIBRARY );
 
-	const { type, s } = options;
+	const { type, search } = options;
 	let { status } = options;
 	const categoryId = parseInt( options.category_id );
 
@@ -161,9 +165,9 @@ export function fetchPosts( options = { } ) {
 		} );
 	} 
 
-	if ( s ) {
+	if ( search ) {
 		posts = filter( posts, post => {
-			const term = s.toLowerCase();
+			const term = search.toLowerCase();
 			const title = post.title.rendered.toLowerCase();
 
 			return title.indexOf( term ) !== -1;
@@ -189,7 +193,7 @@ export function fetchPosts( options = { } ) {
  * @return {Object}	Action type and post
  */
 export function savePost( postData ) {
-	const { 
+	const {
 		title,
 		content,
 		type,
@@ -199,15 +203,16 @@ export function savePost( postData ) {
 	} = postData;	
 
 	const themeStyle = postData.theme_style;
-
 	let { id } = postData;
-
 	const storage = getFromLocalStorage();
+
+	const post = id ? storage[ LOCAL_LIBRARY ].find( post => ( post.id === parseInt( id ) ) ) : false;
+
 	const date = ( new Date() ).toISOString();
 
 	const reg = /(\<!--.*?\-->)/g;
 
-	if ( ! id ) {
+	if ( ! id || ! post ) {
 		// create a new post
 		id = Date.now();		
 
@@ -220,7 +225,7 @@ export function savePost( postData ) {
 			date,
 			date_gmt: date,
 			footer: footer || false,
-			header: header || false,
+			header: header || true,
 			title: { 
 				raw: title || `${ type } ${ id }`,
 				rendered: ( title && title.replace( reg, '' ) ) || `${ type } ${ id }`,
@@ -228,14 +233,14 @@ export function savePost( postData ) {
 			status: status || 'draft',
 			revisions: { count: 0, last_id: 0 },
 			parent: 0,
-			theme_style: themeStyle || false,
+			theme_style: themeStyle || true,
 			type,
 			link: `${ window.location.origin }/${ type }s/${ id }`,
 			permalink_template: `${ window.location.origin }/${ type }s/${ id }`,
+			preview_link: `${ window.location.origin }/${ type }s/${ id }/preview`,
 		} );
 	} else { 
 		// update an existent post
-		const post = find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 		const postKey = findKey( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } );
 
 		if ( title ) {
@@ -271,9 +276,8 @@ export function savePost( postData ) {
 		post.modified = date;
 		post.modified_gmt = date;
 
-
 		// Create a revision
-		let revision = clone( post );
+		const revision = clone( post );
 		revision.type = 'revision';
 		revision.parent = post.id;
 		revision.id = Date.now();
@@ -291,7 +295,7 @@ export function savePost( postData ) {
 
 	return {
 		type: SAVE_POST,
-		payload: find( storage[ LOCAL_LIBRARY ], { id: parseInt( id ) } ),
+		payload: storage[ LOCAL_LIBRARY ].find( post => ( post.id === parseInt( id ) ) ),
 	};
 }
 

@@ -55,7 +55,9 @@ function apiRequest( options ) {
 				}
 				break;
 			case `${ apiRoot }/page/${ resoureceId }`:
+			case `${ apiRoot }/page/${ resoureceId }/autosaves`:
 			case `${ apiRoot }/post/${ resoureceId }`:
+			case `${ apiRoot }/post/${ resoureceId }/autosaves`:
 				options.data.type = resource;
 				singleResource = true;
 
@@ -118,6 +120,10 @@ function apiRequest( options ) {
 			server.restore();
 
 			// console.log( 'response', xhr.response );
+
+			dfd.abort = () => {
+				console.log( 'abort' );
+			};
 
 			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
 		} else {
