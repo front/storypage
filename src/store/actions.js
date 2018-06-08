@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, find, findKey, includes, has, clone, reject, random } from 'lodash';
+import { filter, find, findKey, includes, has, clone, reject, random, mapKeys } from 'lodash';
 
 // Internal Dependencies
 import { generatePosts, generateImages, generateCategories } from './generators';
@@ -42,48 +42,58 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
+			// labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
 				// document: true, // * show document tab (default)
 				editor: true,
-				extras: false,
+				// extras: false, // *
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
-				posts: true, // * show posts-panel
+				// posts: true, // * show posts-panel
 				// 'saved-state': true, // * show saved-state
 				revisions: true,
-				'template-settings': true, // * show template-settings panel
+				// 'template-settings': true, // * show template-settings panel
 				thumbnail: false, // hide featured-image panel
 				title: false, // hide title on editor
 			},
 			viewable: true,
-			publishable: false, // * hide publish toggle
+			// publishable: false, // * hide publish toggle
 			// saveable: true, // * show save button
 			// autosaveable: false, // * disable autosave
 		},
 		{
 			id: 2,
-			name: 'Post', rest_base: 'posts', slug: 'post',
+			name: 'Posts', rest_base: 'posts', slug: 'post',
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
 				// document: false, // * hide document tab
 				editor: true,
-				extras: true,
+				// extras: true, // *
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
-				posts: false, // * hide posts-panel
+				// posts: false, // * hide posts-panel
 				revisions: true,
-				'template-settings': false, // * hide template-settings panel
+				// 'template-settings': false, // * hide template-settings panel
 				thumbnail: false, // featured-image panel
-				title: true, // show title on editor
+				title: true, 
 			},
 			viewable: true,
-			publishable: false, // * hide publish toggle
+			// publishable: false, // * hide publish toggle
+			// saveable: false, // * show save button
+			// autosaveable: false, // * disable autosave
+		},
+		{
+			id: 3,
+			description: '',
+			hierarchical: false,
+			name: 'Media', rest_base: 'media', slug: 'attachment',
+			taxonomies: [],
+			// publishable: false, // * hide publish toggle
 			// saveable: false, // * show save button
 			// autosaveable: false, // * disable autosave
 		},
@@ -91,7 +101,6 @@ const DEFAULT_STORAGE = {
 	[ LOCAL_INDEX ]: {
 		theme_supports: {
 			formats: [ 'standard', 'aside', 'image', 'video', 'quote', 'link', 'gallery', 'audio' ],
-			'has-fixed-toolbar': true, // *
 			'post-thumbnails': true,
 		},
 	},
@@ -203,10 +212,10 @@ export function savePost( postData ) {
 	} = postData;	
 
 	const themeStyle = postData.theme_style;
-	let { id } = postData;
+	let id = parseInt( postData.id );
 	const storage = getFromLocalStorage();
 
-	const post = id ? storage[ LOCAL_LIBRARY ].find( item => ( item.id === parseInt( id ) ) ) : false;
+	const post = id ? storage[ LOCAL_LIBRARY ].find( item => ( item.id === id ) ) : false;
 
 	const date = ( new Date() ).toISOString();
 
@@ -214,7 +223,7 @@ export function savePost( postData ) {
 
 	if ( ! id || ! post ) {
 		// create a new post
-		id = Date.now();		
+		id = id ? id : Date.now();
 
 		storage[ LOCAL_LIBRARY ].push( {
 			id,
@@ -277,25 +286,25 @@ export function savePost( postData ) {
 		post.modified_gmt = date;
 
 		// Create a revision
-		const revision = clone( post );
-		revision.type = 'revision';
-		revision.parent = post.id;
-		revision.id = Date.now();
-		revision.date = date;
-		revision.date_gmt = date;
+		// const revision = clone( post );
+		// revision.type = 'revision';
+		// revision.parent = post.id;
+		// revision.id = Date.now();
+		// revision.date = date;
+		// revision.date_gmt = date;
 
-		post.revisions.count = post.revisions.count + 1;
-		post.revisions.last_id = revision.id;
+		// post.revisions.count = post.revisions.count + 1;
+		// post.revisions.last_id = revision.id;
 
-		storage[ LOCAL_LIBRARY ][ postKey ] = post;
-		storage[ LOCAL_LIBRARY ].push( revision );
+		// storage[ LOCAL_LIBRARY ][ postKey ] = post;
+		// storage[ LOCAL_LIBRARY ].push( revision );
 	}
 
 	localStorage.setItem( LOCAL_STORAGE_KEY, JSON.stringify( storage ) );
 
 	return {
 		type: SAVE_POST,
-		payload: storage[ LOCAL_LIBRARY ].find( item => ( item.id === parseInt( id ) ) ),
+		payload: storage[ LOCAL_LIBRARY ].find( item => ( item.id === id ) ),
 	};
 }
 
@@ -443,6 +452,8 @@ export function fetchTypes( options = { } ) {
 	let types = bundling( getFromLocalStorage( LOCAL_TYPES ) );
 
 	types = bundling( types, options );
+
+	types =  mapKeys( types, ( { slug } ) => ( slug ) );
 
 	return {
 		type: FETCH_TYPES,

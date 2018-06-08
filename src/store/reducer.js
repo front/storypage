@@ -10,20 +10,21 @@ import {
 	FETCH_CATEGORIES,
 	FETCH_TYPES,
 	FETCH_TYPE,
-	FETCH_INDEX,
+	// FETCH_INDEX,
+	SAVE_POST,
 } from './actions';
 
-export function index( state = {}, action ) {
-	// console.log( action.type );
+// export function index( state = {}, action ) {
+// 	// console.log( action.type );
 
-	switch ( action.type ) {
-		case FETCH_INDEX:
-		// console.log( action.payload );
-			return action.payload;
-		default: 
-			return state;
-	}
-}
+// 	switch ( action.type ) {
+// 		case FETCH_INDEX:
+// 		// console.log( action.payload );
+// 			return action.payload;
+// 		default: 
+// 			return state;
+// 	}
+// }
 
 export function posts( state = { }, action ) {
 	switch ( action.type ) {
@@ -46,6 +47,12 @@ export function posts( state = { }, action ) {
 		case DELETE_POST:
 			const postKey = findKey( state, { id: parseInt( action.payload.id ) } );
 			return omit( state, postKey );
+
+		case SAVE_POST:
+			return {
+				...state,
+				[ action.payload.id ]: action.payload
+			}
 
 		default: 
 			return state;
@@ -77,7 +84,7 @@ export function types( state = { }, action ) {
 }
 
 export default combineReducers( {
-	index,
+	// index,
 	posts,
 	categories,
 	types,
