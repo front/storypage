@@ -6,8 +6,8 @@ import { includes, map, isEmpty, filter } from 'lodash';
 import { select, dispatch } from '@frontkom/gutenberg';
 
 // Internal Dependencies
-import { fetchTypes, fetchPost, fetchPosts } from '../../store/actions';
-import { getTypes, getPost, getPosts } from '../../store/selectors';
+import { fetchTypes, fetchPost, fetchPosts, savePost } from '../../store/actions';
+import { /*getTypes,*/ getPost, getPosts } from '../../store/selectors';
 import Editor from '../editor';
 import Loading from '../loading';
 import NotFound from '../not_found';
@@ -23,61 +23,65 @@ let settings = {
 	bodyPlaceholder: "Write your story",
 	isRTL: false,
 	autosaveInterval: 10,
+	hasFixedToolbar: true,
 };
 
 class PagesEdit extends React.Component {
+	state = {
+		id: null,
+		type: null,
+	};
+
 	componentWillMount() {
 		this.props.fetchTypes();
 		this.props.fetchPosts( { type: 'post', order: 'desc', orderBy: 'date' } );
 
-		const { id } = this.props.match.params;
+		let { id } = this.props.match.params;
+		const type = this.getType();
 
 		if ( id ) {
 			this.props.fetchPost( id );
+		} else {
+			id = Date.now();
+			this.props.savePost( { id, type } );
 		}
+
+		this.setState( { id, type } );
 	}
 
 	getType() {
-		let { type } = this.props.post || {};
+		// let { type } = this.props.post || {};
 
-		if ( ! type ) {
+		// if ( ! type ) {
 			// get type from url
-			type = this.props.match.params[ 0 ].slice( 0, -1 );
-		}
+			const type = this.props.match.params[ 0 ].slice( 0, -1 );
+		// }
 
 		// check if type exists
-		if ( ! includes( map( this.props.types, 'slug' ), type ) ) {
-			type = 'post';
-		}
+		// if ( ! includes( map( this.props.types, 'slug' ), type ) ) {
+		// 	type = 'post';
+		// }
 
 		return type;
 	}
 
 	render() {
-		if ( isEmpty( this.props.types ) ) {
-			return <Loading />;
-		}
+		// if ( isEmpty( this.props.types ) ) {
+		// 	return <Loading />;
+		// }
+		const { id, type } = this.state;
 
 		if ( this.props.match.params.id && isEmpty( this.props.post ) ) {
 			return <NotFound />;
 		}
+
+		if ( ! id || ! type ) {
+			return <Loading />;
+		}
 		
-		const type = this.getType();
+
 		const badgeType = type === 'page' ? 'info' : 'secondary';
-
-		const newPost = {
-			content: { 
-				raw: type === 'page' ? '' : '<!-- wp:paragraph --><p>Hello</p><!-- /wp:paragraph -->', 
-				rendered: type === 'page' ? '' : '<p>Hello</p>', 
-			},
-			title: { raw: 'New', rendered: 'New' },
-			type,
-			permalink_template: '',
-			id: Date.now(),
-		};
-
-		const { id } = this.props.match.params;		
-		const post = id ? this.props.post : newPost;
+		
 		const posts = filter( this.props.posts, { type: 'post' } );
 
 		settings = { 
@@ -85,13 +89,19 @@ class PagesEdit extends React.Component {
 			template: getTemplates( { type, posts } ),
 		};
 
+		const post = {
+			id,
+			type,
+			...this.props.post,
+		};
+
 		return (
 			<div>
 				<div className="clearfix">
-					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ post.type }</span>!</p>
+					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ type }</span>!</p>
 					<button onClick={ () => dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/block' ) } >Open sidebar</button>
 					<button onClick={ () => dispatch( 'core/edit-post' ).closeGeneralSidebar() } >Close sidebar</button>
-					<button onClick={ () => /*console.log( */select( 'core/editor' ).getEditedPostContent()/* )*/ } >Get content</button>
+					<button onClick={ () => console.log( select( 'core/editor' ).getEditedPostContent() )} >Get content</button>
 					<Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
 				</div>
 				<Editor post={ post } settings={ settings } />
@@ -103,9 +113,9 @@ class PagesEdit extends React.Component {
 function mapStateToProps( state, ownProps ) {
 	return {
 		post: getPost( state, ownProps.match.params.id ),
-		types: getTypes( state ),
+		// types: getTypes( state ),
 		posts: getPosts( state ),
 	};
 }
 
-export default connect( mapStateToProps, { fetchTypes, fetchPosts, fetchPost } )( PagesEdit );
+export default connect( mapStateToProps, { fetchTypes, fetchPosts, fetchPost, savePost } )( PagesEdit );

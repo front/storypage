@@ -15,7 +15,7 @@ window.customGutenberg = {
 		// { slug: 'formatting', title: 'Formatting' },
 		{ slug: 'layout', title: 'Layout Elements' },
 		// { slug: 'widgets', title: 'Widgets' },
-		// { slug: 'embed', title: 'Embeds' },
+		{ slug: 'embed', title: 'Embeds' },
 		// { slug: 'shared', title: 'Shared Blocks' },
 	],
 	// rows: [
@@ -37,6 +37,9 @@ window.customGutenberg = {
 	// 	},
 	// 	'CLOSE_GENERAL_SIDEBAR': function( action, store ) {
 	// 		console.log( 'CLOSE_GENERAL_SIDEBAR', action, store );
+	// 	},
+	// 	'REMOVE_BLOCKS': function( action, store ) {
+	// 		console.log( 'REMOVE_BLOCKS', action, store );
 	// 	},
 	// },
 };

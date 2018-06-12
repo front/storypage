@@ -55,10 +55,13 @@ function apiRequest( options ) {
 				}
 				break;
 			case `${ apiRoot }/page/${ resoureceId }`:
+			case `${ apiRoot }/pages/${ resoureceId }`:
 			case `${ apiRoot }/page/${ resoureceId }/autosaves`:
 			case `${ apiRoot }/post/${ resoureceId }`:
+			case `${ apiRoot }/posts/${ resoureceId }`:
 			case `${ apiRoot }/post/${ resoureceId }/autosaves`:
 				options.data.type = resource;
+				options.data.id = options.data.id ? options.data.id : resoureceId;
 				singleResource = true;
 
 				if ( method === 'DELETE' ) {
@@ -84,9 +87,16 @@ function apiRequest( options ) {
 				singleResource = true;
 				res = Actions.fetchType( resoureceId );
 				break;
+			case `${ apiRoot }/types`:
+				singleResource = true;
+				res = Actions.fetchTypes( );
+				break;
 			// case `${ apiRoot }/users/`:
 			// 	// TODO
 			// 	break;
+			case '/oembed/1.0/proxy':
+				// console.log( 'queryStringOptions', queryStringOptions );
+				break
 			case '/':
 				singleResource = true;
 				res = Actions.fetchIndex();
@@ -107,6 +117,9 @@ function apiRequest( options ) {
 			const server = sinon.fakeServer.create();
 			server.respondWith( restServer.getHandler() );
 
+			// console.log( 'resource', resource);
+			// console.log( 'res.payload.id', res.payload.id);
+
 			// faking a request				
 			const url = singleResource ? `/${ resource }/${ res.payload.id }` : `/${ resource }`;
 			const xhr = new XMLHttpRequest();
@@ -119,10 +132,14 @@ function apiRequest( options ) {
 			// restore native XHR constructor
 			server.restore();
 
+			if ( xhr.response.id === 0 ) {
+				delete xhr.response.id;
+			}
+
 			// console.log( 'response', xhr.response );
 
 			dfd.abort = () => {
-				console.log( 'abort' );
+				// console.log( 'abort' );
 			};
 
 			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
