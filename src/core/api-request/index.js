@@ -35,6 +35,13 @@ function apiRequest( options ) {
 
 	// console.log( 'apiRequest options', options, path );
 
+	if ( path === '/oembed/1.0/proxy' ) {
+		// https://twitter.com/mikescollins/status/1006351423796318209?s=19
+		return jQuery.ajax( {
+			url: `http://open.iframe.ly/api/oembed?url=${ options.data.url }&origin=qwerty`,
+		} );
+	}
+
 	return jQuery.Deferred( dfd => {
 		let res;
 		let singleResource = false;
@@ -94,9 +101,26 @@ function apiRequest( options ) {
 			// case `${ apiRoot }/users/`:
 			// 	// TODO
 			// 	break;
-			case '/oembed/1.0/proxy':
+			/*case '/oembed/1.0/proxy':
+				singleResource = true;
 				// console.log( 'queryStringOptions', queryStringOptions );
-				break
+				res = { 
+					payload: {
+						id: 12,
+						author_name: "Mike Scollins",
+						author_url: "https://twitter.com/mikescollins",
+						cache_age: "3153600000",
+						height: null,
+						html: '<blockquote class="twitter-tweet" data-width="525" data-dnt="true"><p lang="en" dir="ltr">When you&#39;re almost done picking teams in gym class. <a href="https://t.co/HjblABuKsm">pic.twitter.com/HjblABuKsm</a></p>&mdash; Mike Scollins (@mikescollins) <a href="https://twitter.com/mikescollins/status/1006351423796318209?ref_src=twsrc%5Etfw">June 12, 2018</a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>',
+						provider_name: "Twitter",
+						provider_url: "https://twitter.com",
+						type: "rich",
+						url: "https://twitter.com/mikescollins/status/1006351423796318209",
+						version: "1.0",
+						width: 550,
+					},
+				};
+				break*/
 			case '/':
 				singleResource = true;
 				res = Actions.fetchIndex();

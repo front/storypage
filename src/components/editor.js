@@ -1,15 +1,16 @@
 // External Dependencies
 import React from 'react';
 import {
-	initializeEditor,
-	registerBlockType,
-	RichText,
-    BlockControls,
-    AlignmentToolbar,
+ 	blocks,
+ 	components,
+ 	data,
+ 	editPost,
+ 	editor,
+ 	plugins,
 } from '@frontkom/gutenberg';
 
 import '@frontkom/gutenberg/build/css/core-blocks/style.css'; // blocks
-import '@frontkom/gutenberg/build/css/style.css'; // componnets, editor, edit-post
+import '@frontkom/gutenberg/build/css/style.css'; // components, editor, edit-post
 import '@frontkom/gutenberg/build/css/core-blocks/edit-blocks.css'; // edit-blocks
 import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; // edit-blocks
 
@@ -18,142 +19,185 @@ class Editor extends React.Component {
 		const { type, id } = this.props.post;
 		const overridePost = { };
 
-		initializeEditor( 'editor', type, id, this.props.settings, overridePost );
+		editPost.initializeEditor( 'editor', type, id, this.props.settings, overridePost );
 
-		// const blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
+		const blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
 
-		// // step 1
-		// registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-01', {
-		//     title: 'Hello World (Step 1)',
-		//     icon: 'universal-access-alt',
-		//     category: 'layout',
-		//     edit() {
-		//         return <p style={ blockStyle }>Hello editor.</p>;
-		//     },
+		// step 1
+		blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-01', {
+		    title: 'Hello World (Step 1)',
+		    icon: 'universal-access-alt',
+		    category: 'layout',
+		    edit() {
+		        return <p style={ blockStyle }>Hello editor.</p>;
+		    },
 
-		//     save() {
-		//         return <p style={ blockStyle }>Hello saved content.</p>;
-		//     },
-		// } );
+		    save() {
+		        return <p style={ blockStyle }>Hello saved content.</p>;
+		    },
+		} );
 
-		// // step 2
-		// registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-02', {
-		//     title: 'Hello World (Step 2)',
+		// step 2
+		blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-02', {
+		    title: 'Hello World (Step 2)',
 
-		//     icon: 'universal-access-alt',
+		    icon: 'universal-access-alt',
 
-		//     category: 'layout',
+		    category: 'layout',
 
-		//     edit( { className } ) {
-		//         return <p className={ className }>Hello editor.</p>;
-		//     },
+		    edit( { className } ) {
+		        return <p className={ className }>Hello editor.</p>;
+		    },
 
-		//     save( { className } ) {
-		//         return <p className={ className }>Hello saved content.</p>;
-		//     },
-		// } );
+		    save( { className } ) {
+		        return <p className={ className }>Hello saved content.</p>;
+		    },
+		} );
 
-		// // step 3
-		// registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-03', {
-		//     title: 'Hello World (Step 3)',
+		// step 3
+		blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-03', {
+		    title: 'Hello World (Step 3)',
 
-		//     icon: 'universal-access-alt',
+		    icon: 'universal-access-alt',
 
-		//     category: 'layout',
+		    category: 'layout',
 
-		//     attributes: {
-		//         content: {
-		//             type: 'array',
-		//             source: 'children',
-		//             selector: 'p',
-		//         },
-		//     },
+		    attributes: {
+		        content: {
+		            type: 'array',
+		            source: 'children',
+		            selector: 'p',
+		        },
+		    },
 
-		//     edit( { attributes, className, setAttributes } ) {
-		//         const { content } = attributes;
+		    edit( { attributes, className, setAttributes } ) {
+		        const { content } = attributes;
 
-		//         function onChangeContent( newContent ) {
-		//             setAttributes( { content: newContent } );
-		//         }
+		        function onChangeContent( newContent ) {
+		            setAttributes( { content: newContent } );
+		        }
 
-		//         return (
-		//             <RichText
-		//                 tagName="p"
-		//                 className={ className }
-		//                 onChange={ onChangeContent }
-		//                 value={ content }
-		//             />
-		//         );
-		//     },
+		        return (
+		            <RichText
+		                tagName="p"
+		                className={ className }
+		                onChange={ onChangeContent }
+		                value={ content }
+		            />
+		        );
+		    },
 
-		//     save( { attributes, className } ) {
-		//         const { content } = attributes;
+		    save( { attributes, className } ) {
+		        const { content } = attributes;
 
-		//         return (
-		//             <RichText.Content tagName="p" className={ className } value={ content } />
-		//         );
-		//     },
-		// } );
+		        return (
+		            <RichText.Content tagName="p" className={ className } value={ content } />
+		        );
+		    },
+		} );
 
-		// // step 4
-		// registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-04', {
-		//     title: 'Hello World (Step 4)',
+		const { RichText, BlockControls, AlignmentToolbar } = editor;
+		BlockControls
+		// step 4
+		blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-04', {
+		    title: 'Hello World (Step 4)',
 
-		//     icon: 'universal-access-alt',
+		    icon: 'universal-access-alt',
 
-		//     category: 'layout',
+		    category: 'layout',
 
-		//     attributes: {
-		//         content: {
-		//             type: 'array',
-		//             source: 'children',
-		//             selector: 'p',
-		//         },
-		//         alignment: {
-		//             type: 'string',
-		//         },
-		//     },
+		    attributes: {
+		        content: {
+		            type: 'array',
+		            source: 'children',
+		            selector: 'p',
+		        },
+		        alignment: {
+		            type: 'string',
+		        },
+		    },
 
-		//     edit( { attributes, className, setAttributes } ) {
-		//         const { content, alignment } = attributes;
+		    edit( { attributes, className, setAttributes } ) {
+		        const { content, alignment } = attributes;
 
-		//         function onChangeContent( newContent ) {
-		//             setAttributes( { content: newContent } );
-		//         }
+		        function onChangeContent( newContent ) {
+		            setAttributes( { content: newContent } );
+		        }
 
-		//         function onChangeAlignment( newAlignment ) {
-		//             setAttributes( { alignment: newAlignment } );
-		//         }
+		        function onChangeAlignment( newAlignment ) {
+		            setAttributes( { alignment: newAlignment } );
+		        }
 
-		//         return [
-		//             <BlockControls>
-		//                 <AlignmentToolbar
-		//                     value={ alignment }
-		//                     onChange={ onChangeAlignment }
-		//                 />
-		//             </BlockControls>,
-		//             <RichText
-		//                 tagName="p"
-		//                 className={ className }
-		//                 style={ { textAlign: alignment } }
-		//                 onChange={ onChangeContent }
-		//                 value={ content }
-		//             />
-		//         ];
-		//     },
+		        return [
+		            <BlockControls>
+		                <AlignmentToolbar
+		                    value={ alignment }
+		                    onChange={ onChangeAlignment }
+		                />
+		            </BlockControls>,
+		            <RichText
+		                tagName="p"
+		                className={ className }
+		                style={ { textAlign: alignment } }
+		                onChange={ onChangeContent }
+		                value={ content }
+		            />
+		        ];
+		    },
 
-		//     save( { attributes, className } ) {
-		//         const { content, alignment } = attributes;
+		    save( { attributes, className } ) {
+		        const { content, alignment } = attributes;
 
-		//         return (
-		//             <RichText.Content
-		//                 className={ className }
-		//                 style={ { textAlign: alignment } }
-		//                 value={ content }
-		//             />
-		//         );
-		//     },
-		// } );
+		        return (
+		            <RichText.Content
+		                className={ className }
+		                style={ { textAlign: alignment } }
+		                value={ content }
+		            />
+		        );
+		    },
+		} );
+		
+		// Sidebar Plugin
+		const { PluginSidebarMoreMenuItem, PluginSidebar } = editPost;
+		const { PanelBody } = components;
+
+		const MyPluginSidebar = () => (
+			<React.Fragment>
+				<PluginSidebarMoreMenuItem
+					target="sidebar-name"
+				>
+					Extra stuff here
+				</PluginSidebarMoreMenuItem>
+				<PluginSidebar
+					name="sidebar-name"
+					title="Extra stuff here"
+					icon="smiley"
+				>
+					<PanelBody>
+						My Content of the sidebar
+					</PanelBody>
+				</PluginSidebar>
+			</React.Fragment>
+		);
+
+		// console.log( 'MyPluginSidebar', MyPluginSidebar );
+
+		plugins.registerPlugin( 'plugin-name', {
+			icon: 'smiley',
+			render: MyPluginSidebar,
+		} );
+	}
+
+	componentWillUnmount() {
+		// Unregister blocks and plugins
+		const registeredBlocks = data.select( 'core/blocks' ).getBlockTypes();
+
+		registeredBlocks.forEach( block => {
+			blocks.unregisterBlockType( block.name );
+		} );
+		
+		plugins.unregisterPlugin( 'plugin-name' );
 	}
 
 	render() {

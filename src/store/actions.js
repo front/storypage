@@ -42,17 +42,15 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			// labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
+			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				// document: true, // * show document tab (default)
 				editor: true,
-				// extras: false, // *
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
-				// posts: true, // * show posts-panel
+				posts: true, // * show posts-panel
 				// 'saved-state': true, // * show saved-state
 				revisions: true,
 				// 'template-settings': true, // * show template-settings panel
@@ -60,8 +58,8 @@ const DEFAULT_STORAGE = {
 				title: false, // hide title on editor
 			},
 			viewable: true,
-			// publishable: false, // * hide publish toggle
-			// saveable: true, // * show save button
+			publishable: false, // * hide publish toggle
+			// saveable: false, // * hide save button
 			// autosaveable: false, // * disable autosave
 		},
 		{
@@ -71,9 +69,7 @@ const DEFAULT_STORAGE = {
 				author: true,
 				comments: false, // hide discussion-panel
 				'custom-fields': true,
-				// document: false, // * hide document tab
 				editor: true,
-				// extras: true, // *
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
 				// posts: false, // * hide posts-panel
@@ -87,16 +83,16 @@ const DEFAULT_STORAGE = {
 			// saveable: false, // * show save button
 			// autosaveable: false, // * disable autosave
 		},
-		{
-			id: 3,
-			description: '',
-			hierarchical: false,
-			name: 'Media', rest_base: 'media', slug: 'attachment',
-			taxonomies: [],
-			// publishable: false, // * hide publish toggle
-			// saveable: false, // * show save button
-			// autosaveable: false, // * disable autosave
-		},
+		// {
+		// 	id: 3,
+		// 	description: '',
+		// 	hierarchical: false,
+		// 	name: 'Media', rest_base: 'media', slug: 'attachment',
+		// 	taxonomies: [],
+		// 	// publishable: false, // * hide publish toggle
+		// 	// saveable: false, // * show save button
+		// 	// autosaveable: false, // * disable autosave
+		// },
 	],
 	[ LOCAL_INDEX ]: {
 		theme_supports: {

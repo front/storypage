@@ -62,31 +62,35 @@ class ResourcesIndex extends React.Component {
 		const requests = {
 			types: [
 				// { path: '/wp/v2/types', description: 'Get all types' },
-				{ path: '/wp/v2/types[slug]', description: 'Get one type by slug' },
+				{ path: '/wp/v2/types/[slug]', description: 'Get one type by slug' },
 			],
 		};
 
 		const reqs = requests[ this.props.type ];
 
 		if ( ! isEmpty( reqs ) ) {	
-			return ( <table className="table table-bordered">
-				<thead>
-					<tr>
-						<th>apiRequest</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{
-						map( reqs, req => {
-							return ( <tr key={ `req-${ req.path }` }>
-								<td><code>{ req.path }</code></td>
-								<td>{ req.description }</td>
-							</tr> );
-						} )
-					}
-				</tbody>
-			</table> );
+			return ( 
+				<table className="table table-bordered">
+					<thead>
+						<tr>
+							<th>apiRequest</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						{
+							map( reqs, req => {
+								return ( 
+									<tr key={ `req-${ req.path }` }>
+										<td><code>{ req.path }</code></td>
+										<td>{ req.description }</td>
+									</tr>
+								);
+							} )
+						}
+					</tbody>
+				</table>
+			);
 		}
 	}
 
