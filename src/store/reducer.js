@@ -51,8 +51,8 @@ export function posts( state = { }, action ) {
 		case SAVE_POST:
 			return {
 				...state,
-				[ action.payload.id ]: action.payload
-			}
+				[ action.payload.id ]: action.payload,
+			};
 
 		default: 
 			return state;

@@ -1,14 +1,14 @@
 // External Dependencies
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { map } from 'lodash';
+// import { map } from 'lodash';
 
 // Internal Dependencies
-import ResourcesIndex from './resources';
+// import ResourcesIndex from './resources';
 
 class App extends React.Component {
 	render() {
-		const resources = [ 'types', 'posts', 'categories' ];
+		// const resources = [ 'types', 'posts', 'categories' ];
 
 		return (
 			<div>
@@ -19,18 +19,18 @@ class App extends React.Component {
 						<code>npm install @frontkom/gutenberg</code>
 						<p className="text-right"><Link className="btn btn-primary" to="/stories">Try it!</Link></p>
 
-						<hr className="my-4" />
+						{ /* <hr className="my-4" />
 
 						<p>
 							Some resources like <b>Types</b>, <b>Post</b> and <b>Categories</b> are required so editor can work.<br />
 							Here are the requests and the data structure of those resources:
-						</p>						
+						</p> */ }					
 					</div>
 				</section>
 
-				<section className="container">
+				{ /* <section className="container">
 					{ map( resources, resource => <ResourcesIndex key={ `resource-${ resource }` } type={ resource } /> ) }
-				</section>
+				</section> */ }
 			</div>
 		);
 	}
