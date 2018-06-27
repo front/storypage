@@ -7,6 +7,7 @@ import { parse } from 'querystringify';
 
 // Internal Dependencies
 import * as Actions from '../../store/actions';
+import { resetPath } from '../url';
 
 const apiRoot = '/wp/v2';
 
@@ -67,7 +68,7 @@ function apiRequest( options ) {
 			case `${ apiRoot }/post/${ resoureceId }`:
 			case `${ apiRoot }/posts/${ resoureceId }`:
 			case `${ apiRoot }/post/${ resoureceId }/autosaves`:
-				options.data.type = resource;
+				options.data.type = resource.endsWith( 's' ) ? resource.slice( 0, -1 ) : resource;
 				options.data.id = options.data.id ? options.data.id : resoureceId;
 				singleResource = true;
 
@@ -75,7 +76,10 @@ function apiRequest( options ) {
 					res = Actions.deletePost( resoureceId );
 				} else {
 					res = Actions.savePost( options.data );
-				}				
+				}
+
+				resetPath( `${ options.data.type }s/${ options.data.id }/edit` );
+
 				break;
 			case `${ apiRoot }/media/${ resoureceId }`:
 				singleResource = true;

@@ -1,12 +1,13 @@
 // External Dependencies
 import React from 'react';
 import {
- 	blocks,
- 	components,
- 	data,
- 	editPost,
- 	editor,
- 	plugins,
+	blocks,
+	components,
+	data,
+	editPost,
+	// editor,
+	plugins,
+	storypage,
 } from '@frontkom/gutenberg';
 
 import '@frontkom/gutenberg/build/css/core-blocks/style.css'; // blocks
@@ -17,14 +18,13 @@ import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; // edit-blocks
 class Editor extends React.Component {
 	componentDidMount() {
 		const { type, id } = this.props.post;
-		const overridePost = { };
+		const overridePost = {};
 
-		editPost.initializeEditor( 'editor', type, id, this.props.settings, overridePost );
-
-		const blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
+		// Registering Blocks
+		// const blockStyle = { backgroundColor: '#900', color: '#fff', padding: '20px' };
 
 		// step 1
-		blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-01', {
+		/*blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-01', {
 		    title: 'Hello World (Step 1)',
 		    icon: 'universal-access-alt',
 		    category: 'layout',
@@ -35,15 +35,15 @@ class Editor extends React.Component {
 		    save() {
 		        return <p style={ blockStyle }>Hello saved content.</p>;
 		    },
-		} );
+		} );*/
 
 		// step 2
-		blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-02', {
+		/*blocks.registerBlockType( 'gutenberg-boilerplate-esnext/hello-world-step-02', {
 		    title: 'Hello World (Step 2)',
 
 		    icon: 'universal-access-alt',
 
-		    category: 'layout',
+		    category: 'hello',
 
 		    edit( { className } ) {
 		        return <p className={ className }>Hello editor.</p>;
@@ -156,8 +156,12 @@ class Editor extends React.Component {
 		            />
 		        );
 		    },
-		} );
-		
+		} );*/
+
+		blocks.registerBlockType( storypage.blocks.post.name, storypage.blocks.post.settings );
+		blocks.registerBlockType( storypage.blocks.section.name, storypage.blocks.section.settings );
+		blocks.registerBlockType( storypage.blocks.row.name, storypage.blocks.row.settings );
+
 		// Sidebar Plugin
 		const { PluginSidebarMoreMenuItem, PluginSidebar } = editPost;
 		const { PanelBody } = components;
@@ -181,23 +185,103 @@ class Editor extends React.Component {
 			</React.Fragment>
 		);
 
-		// console.log( 'MyPluginSidebar', MyPluginSidebar );
-
 		plugins.registerPlugin( 'plugin-name', {
 			icon: 'smiley',
 			render: MyPluginSidebar,
 		} );
+
+		// PluginDocumentSidebarPanel
+		const { PluginDocumentSidebarPanel } = editPost;
+		const { PostsPanel, TemplateSettingsPanel } = storypage.components;
+
+		const MyPluginDocumentSidebarPanel = () => {
+			return (
+				<React.Fragment>
+					<PluginDocumentSidebarPanel
+						className="my-plugin-post-publish-panel"
+						title={ 'My Stories' }
+						initialOpen={ true }
+					>
+						<PostsPanel />		        
+					</PluginDocumentSidebarPanel>
+					<PluginDocumentSidebarPanel
+						className="my-plugin-post-publish-panel"
+						title={ 'Template Settings' }
+						initialOpen={ false }
+					>
+						<TemplateSettingsPanel />
+					</PluginDocumentSidebarPanel>
+				</React.Fragment>
+			);
+		};
+
+		plugins.registerPlugin( 'plugin-document-sidebar', {
+			// icon: 'smiley',
+			render: MyPluginDocumentSidebarPanel,
+		} );
+
+		// rewriting actions
+		
+		// const { registerActions, dispatch, subscribe } = data;
+		// console.log( 'data', data );
+		// const actions = dispatch( 'core/editor' );
+
+		// console.log( 'actions', actions );
+
+		// // const { removeBlocks } = dispatch( 'core/editor' );
+
+		// console.log( 'a dispatch', dispatch( 'core/editor' ) );
+		// // console.log( 'removeBlocks', removeBlocks );
+
+		// registerActions( 'core/editor', { });
+		// console.log( 'b dispatch', dispatch( 'core/editor' ) );
+
+		// registerActions( 'core/editor', {
+		//  	...actions,
+		//  	// removeBlocks: ( uids, selectPrevious = true ) => {
+		//  	// 	console.log( 'removeBlocks' );
+
+		//  	// 	return removeBlocks( uids, selectPrevious );
+		//  	// },
+		// } );
+
+		// console.log( 'c dispatch', dispatch( 'core/editor' ) );
+		//
+		//
+		/*const { Store } = editor;
+		console.log( Store );
+		const unsubscribe = Store.default.subscribe( ( ) => {
+			console.log( 'subscribe' ); 
+			console.log( 'store.getState()', Store.default.getState() );
+			// You could use this opportunity to test whether the derived result of a
+			// selector has subsequently changed as the result of a state update.
+		} );*/
+
+		// Later, if necessary...
+		// unsubscribe();
+
+		editPost.initializeEditor( 'editor', type, id, this.props.settings, overridePost );
+
+		data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
 	}
 
 	componentWillUnmount() {
 		// Unregister blocks and plugins
 		const registeredBlocks = data.select( 'core/blocks' ).getBlockTypes();
 
-		registeredBlocks.forEach( block => {
-			blocks.unregisterBlockType( block.name );
-		} );
-		
-		plugins.unregisterPlugin( 'plugin-name' );
+		if ( registeredBlocks ) {
+			registeredBlocks.forEach( ( { name } ) => {
+				blocks.unregisterBlockType( name );
+			} );
+		}
+
+		const registeredPlugins = plugins.getPlugins();
+
+		if ( registeredPlugins ) {
+			registeredPlugins.forEach( plugin => {
+				plugins.unregisterPlugin( plugin.name );
+			} );
+		}
 	}
 
 	render() {

@@ -45,7 +45,7 @@ export function addQueryArgs( url, args ) {
  * [resetPath description]
  * @param  {string} pathname [description]
  */
-function resetPath( pathname ) {
+export function resetPath( pathname ) {
 	window.history.replaceState(
 		{ },
 		' ',

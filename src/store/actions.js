@@ -1,5 +1,5 @@
 // External Dependencies
-import { filter, find, findKey, includes, has, clone, reject, random, mapKeys } from 'lodash';
+import { filter, find, findKey, includes, has, /*clone, */reject, random, mapKeys } from 'lodash';
 
 // Internal Dependencies
 import { generatePosts, generateImages, generateCategories } from './generators';
@@ -42,7 +42,6 @@ const DEFAULT_STORAGE = {
 		{
 			id: 1,
 			name: 'Pages', rest_base: 'pages', slug: 'page',
-			labels: { posts: 'Stories', 'template-settings': 'StoryPage Settings', extras: 'Extrasssss' },
 			supports: {
 				author: true,
 				comments: false, // hide discussion-panel
@@ -50,17 +49,11 @@ const DEFAULT_STORAGE = {
 				editor: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
-				posts: true, // * show posts-panel
-				// 'saved-state': true, // * show saved-state
 				revisions: true,
-				// 'template-settings': true, // * show template-settings panel
 				thumbnail: false, // hide featured-image panel
 				title: false, // hide title on editor
 			},
 			viewable: true,
-			publishable: false, // * hide publish toggle
-			// saveable: false, // * hide save button
-			// autosaveable: false, // * disable autosave
 		},
 		{
 			id: 2,
@@ -72,16 +65,11 @@ const DEFAULT_STORAGE = {
 				editor: true,
 				'media-library': false, // * hide media library
 				'page-attributes': false, // hide page-attributes panel
-				// posts: false, // * hide posts-panel
 				revisions: true,
-				// 'template-settings': false, // * hide template-settings panel
 				thumbnail: false, // featured-image panel
 				title: true, 
 			},
 			viewable: true,
-			// publishable: false, // * hide publish toggle
-			// saveable: false, // * show save button
-			// autosaveable: false, // * disable autosave
 		},
 		// {
 		// 	id: 3,
@@ -292,7 +280,7 @@ export function savePost( postData ) {
 		// post.revisions.count = post.revisions.count + 1;
 		// post.revisions.last_id = revision.id;
 
-		// storage[ LOCAL_LIBRARY ][ postKey ] = post;
+		storage[ LOCAL_LIBRARY ][ postKey ] = post;
 		// storage[ LOCAL_LIBRARY ].push( revision );
 	}
 
@@ -449,7 +437,7 @@ export function fetchTypes( options = { } ) {
 
 	types = bundling( types, options );
 
-	types =  mapKeys( types, ( { slug } ) => ( slug ) );
+	types = mapKeys( types, ( { slug } ) => ( slug ) );
 
 	return {
 		type: FETCH_TYPES,

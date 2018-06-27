@@ -2,8 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { includes, map, isEmpty, filter } from 'lodash';
-import { select, dispatch } from '@frontkom/gutenberg';
+import { /*includes, map, */isEmpty/*, filter*/ } from 'lodash';
 
 // Internal Dependencies
 import { fetchTypes, fetchPost, fetchPosts, savePost } from '../../store/actions';
@@ -20,10 +19,13 @@ let settings = {
 	disableCustomColors: false, 
 	disablePostFormats: false,
 	titlePlaceholder: "Add title",
-	bodyPlaceholder: "Write your story",
+	bodyPlaceholder: "Add content",
 	isRTL: false,
 	autosaveInterval: 10,
 	hasFixedToolbar: true,
+	canPublish: false,
+	// canSave: false,
+	// canAutosave: false,
 };
 
 class PagesEdit extends React.Component {
@@ -53,8 +55,8 @@ class PagesEdit extends React.Component {
 		// let { type } = this.props.post || {};
 
 		// if ( ! type ) {
-			// get type from url
-			const type = this.props.match.params[ 0 ].slice( 0, -1 );
+		// get type from url
+		const type = this.props.match.params[ 0 ].slice( 0, -1 );
 		// }
 
 		// check if type exists
@@ -78,15 +80,14 @@ class PagesEdit extends React.Component {
 		if ( ! id || ! type ) {
 			return <Loading />;
 		}
-		
 
 		const badgeType = type === 'page' ? 'info' : 'secondary';
 		
-		const posts = filter( this.props.posts, { type: 'post' } );
+		// const posts = filter( this.props.posts, { type: 'post' } );
 
 		settings = { 
 			...settings,
-			template: getTemplates( { type, posts } ),
+			template: getTemplates( { type } ),
 		};
 
 		const post = {
@@ -99,9 +100,6 @@ class PagesEdit extends React.Component {
 			<div>
 				<div className="clearfix">
 					<p className="float-left">This is a <span className={ `badge badge-${ badgeType }` }>{ type }</span>!</p>
-					<button onClick={ () => dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/block' ) } >Open sidebar</button>
-					<button onClick={ () => dispatch( 'core/edit-post' ).closeGeneralSidebar() } >Close sidebar</button>
-					<button onClick={ () => console.log( select( 'core/editor' ).getEditedPostContent() )} >Get content</button>
 					<Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
 				</div>
 				<Editor post={ post } settings={ settings } />
