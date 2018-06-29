@@ -19,11 +19,11 @@ function isOrderValid( order ) {
  */
 export function bundling( collection, options = {} ) {
 	const { order } = options;
-	const orderByField = options.orderBy;
+	const orderByField = options.orderby;
 	const perPage = parseInt( options.per_page );
 	const _fields = options._fields && options._fields.split( ',' );
 
-	if ( order && isOrderValid && orderByField ) {
+	if ( order && isOrderValid( order ) && orderByField ) {
 		collection = orderBy( collection, [ orderByField ], [ order ] );
 	}
 
