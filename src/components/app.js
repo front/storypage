@@ -15,7 +15,7 @@ class App extends React.Component {
 				<section className="jumbotron">
 					<div className="container">
 						<h1>Welcome to StoryPage POC</h1>
-						<p>This is a POC using <Link target="_blank" to="https://www.npmjs.com/package/@frontkom/gutenberg">Gutenberg</Link> package.</p>
+						<p>This is a ReactJS POC using <Link target="_blank" to="https://www.npmjs.com/package/@frontkom/gutenberg">Gutenberg</Link> package.</p>
 						<code>npm install @frontkom/gutenberg</code>
 						<p className="text-right"><Link className="btn btn-primary" to="/stories">Try it!</Link></p>
 

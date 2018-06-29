@@ -39,7 +39,3 @@ export function bundling( collection, options = {} ) {
 
 	return collection;
 }
-
-export function getRenderedContent( content ) {
-	return content;
-}

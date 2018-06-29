@@ -29,20 +29,12 @@ class Editor extends React.Component {
 
 		const MyPluginDocumentSidebarPanel = () => {
 			return (
-				<React.Fragment>
-					<PluginDocumentSidebarPanel
-						title={ 'My Stories' }
-						initialOpen={ true }
-					>
-						<PostsPanel />		        
-					</PluginDocumentSidebarPanel>
-					{ /* <PluginDocumentSidebarPanel
-						title={ 'Template Settings' }
-						initialOpen={ false }
-					>
-						<TemplateSettingsPanel />
-					</PluginDocumentSidebarPanel> */ }
-				</React.Fragment>
+				<PluginDocumentSidebarPanel
+					title={ 'My Stories' }
+					initialOpen={ true }
+				>
+					<PostsPanel />		        
+				</PluginDocumentSidebarPanel>
 			);
 		};
 
