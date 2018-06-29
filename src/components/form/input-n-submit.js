@@ -34,12 +34,12 @@ class InputNSubmit extends React.Component {
 				/>
 				<div className="input-group-append">
 					<button 
-						className="btn btn-outline-secondary" 
+						className="btn btn-outline-success" 
 						type="button"
 						onClick={ () => onSubmit( inputValue ) }
 					>Ok</button>
 					<button 
-						className="btn btn-outline-secondary" 
+						className="btn btn-outline-danger" 
 						type="button"
 						onClick={ onCancel }
 					>Cancel</button>

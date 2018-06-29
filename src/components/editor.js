@@ -13,6 +13,9 @@ import '@frontkom/gutenberg/build/css/style.css'; // components, editor, edit-po
 import '@frontkom/gutenberg/build/css/core-blocks/edit-blocks.css'; // edit-blocks
 import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; // edit-blocks
 
+// Internal Dependencies
+import { SectionBackground } from '../blocks';
+
 class Editor extends React.Component {
 	componentDidMount() {
 		const { type, id } = this.props.post;
@@ -22,6 +25,9 @@ class Editor extends React.Component {
 		blocks.registerBlockType( storypage.blocks.post.name, storypage.blocks.post.settings );
 		blocks.registerBlockType( storypage.blocks.section.name, storypage.blocks.section.settings );
 		blocks.registerBlockType( storypage.blocks.row.name, storypage.blocks.row.settings );
+
+		// Registering MyBlocks
+		blocks.registerBlockType( SectionBackground.name, SectionBackground.settings );
 
 		// PluginDocumentSidebarPanel
 		const { PluginDocumentSidebarPanel } = editPost;
