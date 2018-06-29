@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash';
 // Internal Dependencies
 import { fetchPost } from '../../store/actions';
 import { getPost } from '../../store/selectors';
-import Loading from '../loading';
+import Loading from './loading';
 
 class PagesShow extends React.Component {
 	componentDidMount() {

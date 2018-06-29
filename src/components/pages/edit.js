@@ -8,8 +8,8 @@ import { isEmpty } from 'lodash';
 import { fetchPost, savePost } from '../../store/actions';
 import { getPost } from '../../store/selectors';
 import Editor from '../editor';
-import Loading from '../loading';
-import NotFound from '../not_found';
+import Loading from './loading';
+import NotFound from './not_found';
 import getTemplates from './templates';
 
 let settings = {

@@ -3,11 +3,11 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Internal Dependencies
-import NotFound from './not_found';
 import App from './app';
 import PagesIndex from './pages/index';
 import PagesEdit from './pages/edit';
 import PagesShow from './pages/show';
+import NotFound from './pages/not_found';
 
 export default () => (
 	<BrowserRouter>
