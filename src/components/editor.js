@@ -2,7 +2,6 @@
 import React from 'react';
 import {
 	blocks,
-	components,
 	data,
 	editPost,
 	plugins,

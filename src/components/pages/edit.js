@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 
 // Internal Dependencies
 import { fetchPost, savePost } from '../../store/actions';
-import { getPost, getPosts } from '../../store/selectors';
+import { getPost } from '../../store/selectors';
 import Editor from '../editor';
 import Loading from '../loading';
 import NotFound from '../not_found';

@@ -34,7 +34,7 @@ function apiRequest( options ) {
 		options.data = merge( options.data, queryStringOptions );
 	}	
 
-	console.log( 'apiRequest options', options, path );
+	// console.log( 'apiRequest options', options, path );
 
 	if ( path === '/oembed/1.0/proxy' ) {
 		// https://twitter.com/mikescollins/status/1006351423796318209?s=19
@@ -74,7 +74,7 @@ function apiRequest( options ) {
 
 				if ( method === 'DELETE' ) {
 					res = Actions.deletePost( resoureceId );
-				} else if ( method === 'POST' ||  method === 'PUT' ) {
+				} else if ( method === 'POST' || method === 'PUT' ) {
 					res = Actions.savePost( options.data );
 
 					resetPath( `${ options.data.type }s/${ options.data.id }/edit` );
@@ -116,7 +116,7 @@ function apiRequest( options ) {
 				[ resource ]: singleResource ? [ res.payload ] : map( res.payload ),
 			};
 
-			if (data) {
+			if ( data ) {
 				// initialize fake REST server
 				const restServer = new FakeRest.Server();
 				restServer.init( data );
@@ -147,7 +147,7 @@ function apiRequest( options ) {
 				// console.log( 'response', xhr.response );
 
 				dfd.abort = () => {
-					console.log( 'abort' );
+					// console.log( 'abort' );
 				};
 
 				dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );

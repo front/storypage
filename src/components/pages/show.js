@@ -25,7 +25,7 @@ class PagesShow extends React.Component {
 			return <Loading />;
 		}
 
-		const { content, title, type, id, header, footer } = this.props.post;
+		const { content, title, type, id/*, header, footer*/ } = this.props.post;
 
 		const isPreview = this.props.match.params[ 1 ] && this.props.match.params[ 1 ] === 'preview';
 		
