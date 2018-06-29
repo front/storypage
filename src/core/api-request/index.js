@@ -74,11 +74,13 @@ function apiRequest( options ) {
 
 				if ( method === 'DELETE' ) {
 					res = Actions.deletePost( resoureceId );
-				} else {
+				} else if ( method === 'POST' || method === 'PUT' ) {
 					res = Actions.savePost( options.data );
-				}
 
-				resetPath( `${ options.data.type }s/${ options.data.id }/edit` );
+					resetPath( `${ options.data.type }s/${ options.data.id }/edit` );
+				} else if ( method === 'GET' ) {
+					res = Actions.fetchPost( resoureceId, options.data );
+				}
 
 				break;
 			case `${ apiRoot }/media/${ resoureceId }`:
@@ -102,29 +104,6 @@ function apiRequest( options ) {
 				singleResource = true;
 				res = Actions.fetchTypes( );
 				break;
-			// case `${ apiRoot }/users/`:
-			// 	// TODO
-			// 	break;
-			/*case '/oembed/1.0/proxy':
-				singleResource = true;
-				// console.log( 'queryStringOptions', queryStringOptions );
-				res = { 
-					payload: {
-						id: 12,
-						author_name: "Mike Scollins",
-						author_url: "https://twitter.com/mikescollins",
-						cache_age: "3153600000",
-						height: null,
-						html: '<blockquote class="twitter-tweet" data-width="525" data-dnt="true"><p lang="en" dir="ltr">When you&#39;re almost done picking teams in gym class. <a href="https://t.co/HjblABuKsm">pic.twitter.com/HjblABuKsm</a></p>&mdash; Mike Scollins (@mikescollins) <a href="https://twitter.com/mikescollins/status/1006351423796318209?ref_src=twsrc%5Etfw">June 12, 2018</a></blockquote><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>',
-						provider_name: "Twitter",
-						provider_url: "https://twitter.com",
-						type: "rich",
-						url: "https://twitter.com/mikescollins/status/1006351423796318209",
-						version: "1.0",
-						width: 550,
-					},
-				};
-				break*/
 			case '/':
 				singleResource = true;
 				res = Actions.fetchIndex();
@@ -137,40 +116,42 @@ function apiRequest( options ) {
 				[ resource ]: singleResource ? [ res.payload ] : map( res.payload ),
 			};
 
-			// initialize fake REST server
-			const restServer = new FakeRest.Server();
-			restServer.init( data );
+			if ( data ) {
+				// initialize fake REST server
+				const restServer = new FakeRest.Server();
+				restServer.init( data );
 
-			// use sinon.js to monkey-patch XmlHttpRequest
-			const server = sinon.fakeServer.create();
-			server.respondWith( restServer.getHandler() );
+				// use sinon.js to monkey-patch XmlHttpRequest
+				const server = sinon.fakeServer.create();
+				server.respondWith( restServer.getHandler() );
 
-			// console.log( 'resource', resource);
-			// console.log( 'res.payload.id', res.payload.id);
+				// console.log( 'resource', resource);
+				// console.log( 'res.payload.id', res.payload.id);
 
-			// faking a request				
-			const url = singleResource ? `/${ resource }/${ res.payload.id }` : `/${ resource }`;
-			const xhr = new XMLHttpRequest();
+				// faking a request				
+				const url = singleResource ? `/${ resource }/${ res.payload.id }` : `/${ resource }`;
+				const xhr = new XMLHttpRequest();
 
-			// always a GET (changes are already done)
-			xhr.open( 'GET', url, false );
-			xhr.responseType = 'json';
-			xhr.send( null );
+				// always a GET (changes are already done)
+				xhr.open( 'GET', url, false );
+				xhr.responseType = 'json';
+				xhr.send( null );
 
-			// restore native XHR constructor
-			server.restore();
+				// restore native XHR constructor
+				server.restore();
 
-			if ( xhr.response.id === 0 ) {
-				delete xhr.response.id;
+				if ( xhr.response.id === 0 ) {
+					delete xhr.response.id;
+				}
+
+				// console.log( 'response', xhr.response );
+
+				dfd.abort = () => {
+					// console.log( 'abort' );
+				};
+
+				dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
 			}
-
-			// console.log( 'response', xhr.response );
-
-			dfd.abort = () => {
-				// console.log( 'abort' );
-			};
-
-			dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
 		} else {
 			dfd.resolveWith( { }, [ { }, 404, { } ] );
 		}

@@ -25,7 +25,7 @@ class PagesShow extends React.Component {
 			return <Loading />;
 		}
 
-		const { content, title, type, id, header, footer } = this.props.post;
+		const { content, title, type, id/*, header, footer*/ } = this.props.post;
 
 		const isPreview = this.props.match.params[ 1 ] && this.props.match.params[ 1 ] === 'preview';
 		
@@ -48,7 +48,7 @@ class PagesShow extends React.Component {
 				}	
 
 				{
-					header && <div className="text-center">[ TODO: Header ]</div>
+					// header && <div className="text-center">[ TODO: Header ]</div>
 				}
 
 				{
@@ -56,7 +56,7 @@ class PagesShow extends React.Component {
 				}
 
 				{
-					footer && <div className="text-center">[ TODO: Footer ]</div>
+					// footer && <div className="text-center">[ TODO: Footer ]</div>
 				}
 			</div>
 		);
@@ -67,5 +67,4 @@ function mapStateToProps( state, ownProps ) {
 	return { post: getPost( state, ownProps.match.params.id ) };
 }
 
-export default connect( mapStateToProps, { fetchPost } )( PagesShow
-);
+export default connect( mapStateToProps, { fetchPost } )( PagesShow );

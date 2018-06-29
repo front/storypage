@@ -25,8 +25,3 @@ We implemented `wp.url.addQueryArgs` to we handle with those 3 paths, according 
 
 As we don't have a real API, our data is stored at **localStorage**.
 
-### Actions
-
-### Reducer
-
-### Selectors

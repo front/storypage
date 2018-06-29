@@ -10,7 +10,6 @@ const WatchMissingNodeModulesPlugin = require( 'react-dev-utils/WatchMissingNode
 const eslintFormatter = require( 'react-dev-utils/eslintFormatter' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const autoprefixer = require('autoprefixer');
 
 // internal
@@ -131,23 +130,6 @@ module.exports = {
 					{ loader: 'sass-loader' },  // compiles Sass to CSS
 				],
 			},
-			/*{
-				test: /style.scss$/,
-				include: paths.appSrc,
-				use: ExtractTextPlugin.extract( {
-					fallback: 'style-loader',
-					use: [
-						'css-loader',
-						{
-							loader: 'postcss-loader',
-							options: {
-								plugins: [ autoprefixer() ]
-							}
-						},
-						'sass-loader',
-					],
-				} ),
-			},*/
 			// ** STOP ** Are you adding a new loader?
 			// Make sure to add the new loader(s) before the "file" loader.
 		],
@@ -185,15 +167,11 @@ module.exports = {
 		// https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
 		// You can remove this if you don't use Moment.js:
 		new webpack.IgnorePlugin( /^\.\/locale$/, /moment$/ ),
-		// blocksCSSPlugin,
-		// editBlocksCSSPlugin,
-		// mainCSSExtractTextPlugin,
 		new CopyWebpackPlugin( [
 			{ from: 'node_modules/tinymce/plugins', to: `${ distPath.js }plugins` },
 			{ from: 'node_modules/tinymce/themes', to: `${ distPath.js }themes` },
 			{ from: 'node_modules/tinymce/skins', to: `${ distPath.js }skins` },
 		], {} ),
-		new ExtractTextPlugin( `${ distPath.css }style.css` ),
 	],
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.
