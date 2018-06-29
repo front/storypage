@@ -27,6 +27,7 @@ import {
 // }
 
 export function posts( state = { }, action ) {
+	let postKey; 
 	switch ( action.type ) {
 		case FETCH_POSTS:
 			return action.payload;
@@ -45,13 +46,15 @@ export function posts( state = { }, action ) {
 			return state;					
 
 		case DELETE_POST:
-			const postKey = findKey( state, { id: parseInt( action.payload.id ) } );
+			postKey = findKey( state, { id: parseInt( action.payload.id ) } );
 			return omit( state, postKey );
 
 		case SAVE_POST:
+			postKey = findKey( state, { id: parseInt( action.payload.id ) } );
+			
 			return {
 				...state,
-				[ action.payload.id ]: action.payload,
+				[ postKey ]: action.payload,
 			};
 
 		default: 
