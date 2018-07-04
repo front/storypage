@@ -1,0 +1,106 @@
+@import "variables";
+// @import "type";
+
+$selector: '[class^="wp-block-"]';
+
+#{ $selector } {
+	font-family: $font-family-base;
+	line-height: 1.58;
+	font-size: 118.75%;
+
+	h1 {
+		font-size: 2em;
+		line-height: 1.1;
+		font-weight: 600;
+	}
+
+	h2 {
+    	font-size: 1.36842em;
+		line-height: 1.15;
+		font-weight: 700;
+	}
+
+	&.container,
+	.container {
+		max-width: 1182px;
+		margin-left: 19px;
+		margin-right: 19px;
+		padding: 0px;
+
+		@media (min-width: 1220px) {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	.editor-rich-text__tinymce.mce-content-body {
+		line-height: 1.1;
+	}
+
+
+	.minerva-article-category {
+		text-transform: uppercase;
+		display: inline-block;
+		font-size: 11.4px;
+		line-height: 1;
+
+		span {
+			background-color: black;
+			color: white;
+			padding: 2px 9.5px;
+		}				
+	}
+
+	.minerva-article-title {
+		margin-bottom: 28.5px;
+	}
+
+	.minerva-article-author {
+		margin-top: 28.5px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+
+		.minerva-article-avatar {
+			border-radius: 50%;
+			max-width: 40px;
+			margin-right: 9.5px;
+		}
+
+		.minerva-article-meta {
+			font-family: $font-family-sans-serif-secondary;
+			font-size: 14px;
+			color: #777;
+			display: flex;
+
+			.minerva-article-name {
+				margin-right: 9.5px;
+			}
+
+			.minerva-article-avatar {
+				max-width: 40px;
+			}
+		}
+	}	
+}
+
+.wp-block-storypage-row {
+	.layout-col4 {
+		.minerva-article-title {
+			font-size: 36px;
+			line-height: 1.2;
+		}
+	}
+}
+
+.wp-block-button {
+	.wp-block-button__link {
+		border-radius: 0;
+		border: 1px solid #000;
+		font-family: $font-family-sans-serif-secondary;
+	}		
+}
+
+.wp-block-storypage-section{
+	margin-bottom: 76px;
+}

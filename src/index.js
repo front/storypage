@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import './style/style.scss';
 
 // Internal Dependencies
 import './core/index.js';

@@ -8,13 +8,13 @@ import {
 	storypage,
 } from '@frontkom/gutenberg';
 
-import '@frontkom/gutenberg/build/css/core-blocks/style.css'; // blocks
-import '@frontkom/gutenberg/build/css/style.css'; // components, editor, edit-post
+import '@frontkom/gutenberg/build/css/core-blocks/style.css'; 		// blocks
+import '@frontkom/gutenberg/build/css/style.css';					// components, editor, edit-post
+import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; 		// theme
 import '@frontkom/gutenberg/build/css/core-blocks/edit-blocks.css'; // edit-blocks
-import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; // edit-blocks
 
 // Internal Dependencies
-import { SectionBackground } from '../blocks';
+import { initMinerva } from '../blocks/minerva';
 
 class Editor extends React.Component {
 	componentDidMount() {
@@ -26,8 +26,7 @@ class Editor extends React.Component {
 		blocks.registerBlockType( storypage.blocks.section.name, storypage.blocks.section.settings );
 		blocks.registerBlockType( storypage.blocks.row.name, storypage.blocks.row.settings );
 
-		// Registering MyBlocks
-		blocks.registerBlockType( SectionBackground.name, SectionBackground.settings );
+		initMinerva();
 
 		// PluginDocumentSidebarPanel
 		const { PluginDocumentSidebarPanel } = editPost;
@@ -53,10 +52,12 @@ class Editor extends React.Component {
 		editPost.initializeEditor( 'editor', type, id, this.props.settings, overridePost );
 
 		// Setting Storypage/Section as default block
-		data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
+		// data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
 	}
 
 	componentWillUnmount() {
+		//TO DO: check unregitering console error!
+		
 		// Unregistering blocks
 		const registeredBlocks = data.select( 'core/blocks' ).getBlockTypes();
 

@@ -10,6 +10,8 @@ import { fetchPost } from '../../store/actions';
 import { getPost } from '../../store/selectors';
 import Loading from './loading';
 
+import '../../style/minerva/style.scss';
+
 class PagesShow extends React.Component {
 	componentDidMount() {
 		if ( ! this.props.post ) {
