@@ -3,10 +3,9 @@ import React from 'react';
 import {
 	i18n,
 	editor,
-} from '@frontkom/gutenberg';
+} from '@frontkom/gutenberg-js';
 
-
-import { attributes } from './index';
+import { articleAttributes } from './index';
 import './secondary.scss';
 /**
  * WordPress dependencies
@@ -27,7 +26,7 @@ export const settings = {
 
 	category: 'minerva',
 
-	attributes,
+	attributes: articleAttributes,
 
 	edit( { attributes, className, setAttributes } ) {
 		const { title, teaser, category, date, authorName, authorImageUrl } = attributes;
@@ -55,7 +54,7 @@ export const settings = {
 					/>
 				</div>
 				<div className="minerva-article-author">
-					<img src={ authorImageUrl } className="minerva-article-avatar" />
+					<img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
 					<div className="minerva-article-meta">
 						<RichText 
 							tagName="span"					
@@ -98,7 +97,7 @@ export const settings = {
 					/>
 				</div>
 				<div className="minerva-article-author">
-					<img src={ authorImageUrl } className="minerva-article-avatar" />
+					<img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
 					<div className="minerva-article-meta">
 						<RichText.Content 
 							tagName="span"					

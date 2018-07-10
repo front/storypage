@@ -1,4 +1,4 @@
-export const attributes = {
+export const articleAttributes = {
 	title: {
 		type: 'array',
 		source: 'children',

@@ -3,10 +3,10 @@ import React from 'react';
 import {
 	i18n,
 	editor,
-} from '@frontkom/gutenberg';
+} from '@frontkom/gutenberg-js';
 
 // Internal Dependencies
-import { attributes, backgroundImageStyles } from './index';
+import { articleAttributes, backgroundImageStyles } from './index';
 import './primary.scss';
 
 /**
@@ -28,14 +28,14 @@ export const settings = {
 
 	category: 'minerva',
 
-	attributes,
+	attributes: articleAttributes,
 
 	edit( { attributes, className, setAttributes } ) {
 		const { title, teaser, category, date, imageUrl, authorName, authorImageUrl } = attributes;
 		const style = backgroundImageStyles( imageUrl );
 
 		return (
-			<div className={ className }  style={ style }>
+			<div className={ className } style={ style }>
 				<div className="container">
 					<div className="minerva-article-category">
 						<RichText
@@ -57,8 +57,8 @@ export const settings = {
 						value={ teaser }
 						onChange={ ( value ) => setAttributes( { teaser: value } ) }
 					/>
-					<div className="minerva-article-author meta">
-						<img src={ authorImageUrl } className="minerva-article-avatar" />
+					<div className="minerva-article-author">
+						<img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
 						<div className="minerva-article-meta">
 							<RichText 
 								tagName="span"					
@@ -102,8 +102,8 @@ export const settings = {
 						className="minerva-article-teaser"
 						value={ teaser }
 					/>
-					<div className="minerva-article-author meta">
-						<img src={ authorImageUrl } className="minerva-article-avatar" />
+					<div className="minerva-article-author">
+						<img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
 						<div className="minerva-article-meta">
 							<RichText.Content 
 								tagName="span"					

@@ -3,10 +3,9 @@ import React from 'react';
 import {
 	i18n,
 	editor,
-} from '@frontkom/gutenberg';
+} from '@frontkom/gutenberg-js';
 
-
-import { attributes } from './index';
+import { articleAttributes } from './index';
 import './tertiary.scss';
 /**
  * WordPress dependencies
@@ -27,7 +26,7 @@ export const settings = {
 
 	category: 'minerva',
 
-	attributes,
+	attributes: articleAttributes,
 
 	edit( { attributes, className, setAttributes } ) {
 		const { title, teaser, category, date, imageUrl, authorName, authorImageUrl } = attributes;
@@ -57,7 +56,7 @@ export const settings = {
 							onChange={ ( value ) => setAttributes( { teaser: value } ) }
 						/>
 						<div className="minerva-article-author meta">
-							<img src={ authorImageUrl } className="minerva-article-avatar" />
+							<img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
 							<div className="minerva-article-meta">
 								<RichText 
 									tagName="span"					
@@ -74,7 +73,7 @@ export const settings = {
 							</div>
 						</div>
 					</div>
-					<img src={ imageUrl } className="minerva-article-image" />
+					<img alt="" src={ imageUrl } className="minerva-article-image" />
 				</div>
 			</div>
 		);
@@ -91,7 +90,7 @@ export const settings = {
 						value={ category }
 					/>
 				</div>
-				<div  className="minerva-article-content">
+				<div className="minerva-article-content">
 					<div>
 						<RichText.Content 
 							tagName="h1"
@@ -104,7 +103,7 @@ export const settings = {
 							value={ teaser }
 						/>
 						<div className="minerva-article-author meta">
-							<img src={ authorImageUrl } className="minerva-article-avatar" />
+							<img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
 							<div className="minerva-article-meta">
 								<RichText.Content 
 									tagName="span"					
@@ -119,7 +118,7 @@ export const settings = {
 							</div>
 						</div>
 					</div>
-					<img src={ imageUrl } className="minerva-article-image" />
+					<img alt="" src={ imageUrl } className="minerva-article-image" />
 				</div>
 			</div>
 		);
