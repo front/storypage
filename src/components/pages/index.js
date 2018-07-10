@@ -72,20 +72,23 @@ class PagesIndex extends React.Component {
 	}
 
 	renderPostTitle( post ) {
-		// console.log( this.state.titles );
-
-		if ( this.state.titles[ post.id ] ) {
+		if ( post && this.state.titles[ post.id ] ) {
 			return (
 				<InputNSubmit 
 					key={ post.id }
 					value={ post.title.rendered }
-					onSubmit={ ( newContent ) => { this.saveTitle( post.id, newContent ) } }
-					onCancel={ () => { this.toogleTitle( post.id, false ) } }
+					onSubmit={ ( newContent ) => {
+						this.saveTitle( post.id, newContent ); 
+					} }
+					onCancel={ () => {
+						this.toogleTitle( post.id, false ); 
+					} }
 				/>
 			);
-		} else {
-			return <a onClick={ () => { this.toogleTitle( post.id, true ) } }>{ post.title.rendered }</a>;
-		}
+		} 
+		return <button onClick={ () => {
+			this.toogleTitle( post.id, true ); 
+		} }>{ post.title.rendered }</button>;
 	}
 
 	render() {
