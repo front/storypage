@@ -3,7 +3,7 @@ import React from 'react';
 import {
 	i18n,
 	editor,
-} from '@frontkom/gutenberg';
+} from '@frontkom/gutenberg-js';
 
 // Internal Dependencies
 import './style.scss';
@@ -74,7 +74,6 @@ export const settings = {
 				</div>
 			</div>
 		);
-
 	},
 
 	save( { attributes, className } ) {

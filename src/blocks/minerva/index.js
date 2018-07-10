@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-import { i18n, blocks, data } from '@frontkom/gutenberg';
+import { i18n, blocks, data } from '@frontkom/gutenberg-js';
 
 /**
  * Internal Dependencies

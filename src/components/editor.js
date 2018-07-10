@@ -1,17 +1,18 @@
 // External Dependencies
 import React from 'react';
+import { filter } from 'lodash';
 import {
 	blocks,
 	data,
 	editPost,
 	plugins,
-	storypage,
-} from '@frontkom/gutenberg';
+	lib,
+} from '@frontkom/gutenberg-js';
 
-import '@frontkom/gutenberg/build/css/core-blocks/style.css'; 		// blocks
-import '@frontkom/gutenberg/build/css/style.css';					// components, editor, edit-post
-import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; 		// theme
-import '@frontkom/gutenberg/build/css/core-blocks/edit-blocks.css'; // edit-blocks
+import '@frontkom/gutenberg-js/build/css/core-blocks/style.css'; 		// blocks
+import '@frontkom/gutenberg-js/build/css/style.css';					// components, editor, edit-post
+import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; 		// theme
+import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css';  // edit-blocks
 
 // Internal Dependencies
 import { initMinerva } from '../blocks/minerva';
@@ -21,16 +22,16 @@ class Editor extends React.Component {
 		const { type, id } = this.props.post;
 		const overridePost = {};
 
-		// Registering Storypage Blocks
-		blocks.registerBlockType( storypage.blocks.post.name, storypage.blocks.post.settings );
-		blocks.registerBlockType( storypage.blocks.section.name, storypage.blocks.section.settings );
-		blocks.registerBlockType( storypage.blocks.row.name, storypage.blocks.row.settings );
+		// Registering Lib Blocks
+		blocks.registerBlockType( lib.blocks.post.name, lib.blocks.post.settings );
+		blocks.registerBlockType( lib.blocks.section.name, lib.blocks.section.settings );
+		blocks.registerBlockType( lib.blocks.row.name, lib.blocks.row.settings );
 
 		initMinerva();
 
 		// PluginDocumentSidebarPanel
 		const { PluginDocumentSidebarPanel } = editPost;
-		const { PostsPanel/*, TemplateSettingsPanel*/ } = storypage.components;
+		const { PostsPanel/*, TemplateSettingsPanel*/ } = lib.components;
 
 		const MyPluginDocumentSidebarPanel = () => {
 			return (
@@ -38,7 +39,7 @@ class Editor extends React.Component {
 					title={ 'My Stories' }
 					initialOpen={ true }
 				>
-					<PostsPanel />		        
+					<PostsPanel />        
 				</PluginDocumentSidebarPanel>
 			);
 		};
@@ -47,7 +48,7 @@ class Editor extends React.Component {
 		plugins.registerPlugin( 'plugin-document-sidebar', {
 			render: MyPluginDocumentSidebarPanel,
 		} );
-
+		
 		// Initializing Editor
 		editPost.initializeEditor( 'editor', type, id, this.props.settings, overridePost );
 
@@ -55,9 +56,7 @@ class Editor extends React.Component {
 		// data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
 	}
 
-	componentWillUnmount() {
-		//TO DO: check unregitering console error!
-		
+	componentWillUnmount() {		
 		// Unregistering blocks
 		const registeredBlocks = data.select( 'core/blocks' ).getBlockTypes();
 
@@ -71,8 +70,8 @@ class Editor extends React.Component {
 		const registeredPlugins = plugins.getPlugins();
 
 		if ( registeredPlugins ) {
-			registeredPlugins.forEach( plugin => {
-				plugins.unregisterPlugin( plugin.name );
+			registeredPlugins.forEach( ( { name } ) => {
+				plugins.unregisterPlugin( name );
 			} );
 		}
 	}
