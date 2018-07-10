@@ -15,6 +15,7 @@ import '@frontkom/gutenberg/build/css/core-blocks/edit-blocks.css'; // edit-bloc
 
 // Internal Dependencies
 import { initMinerva } from '../blocks/minerva';
+import { initComputerworld } from '../blocks/computerworld';
 
 class Editor extends React.Component {
 	componentDidMount() {
@@ -27,6 +28,7 @@ class Editor extends React.Component {
 		blocks.registerBlockType( storypage.blocks.row.name, storypage.blocks.row.settings );
 
 		initMinerva();
+		initComputerworld();
 
 		// PluginDocumentSidebarPanel
 		const { PluginDocumentSidebarPanel } = editPost;
