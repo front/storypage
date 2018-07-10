@@ -1,7 +1,8 @@
 /**
  * External Dependencies
  */
-import { i18n, blocks, data } from '@frontkom/gutenberg';
+import { filter } from 'lodash';
+import { i18n, blocks, data } from '@frontkom/gutenberg-js';
 
 /**
  * Internal Dependencies
@@ -15,26 +16,28 @@ const { __ } = i18n;
 const { registerBlockType } = blocks;
 
 const category = {
-	slug: 'minerva',
-	title: __( 'Minerva Blocks' ),
+  slug: 'minerva',
+  title: __('Minerva Blocks'),
 };
 
 export const initMinerva = () => {
-	// registering Minerva Blocks category
-	const categories = [
-		category,
-		...data.select( 'core/blocks' ).getCategories(),
-	];
+  const currentCategories = filter(data.select('core/blocks').getCategories(), ({ slug }) => (slug !== category.slug));
 
-	data.dispatch( 'core/blocks' ).setCategories( categories );
+  // registering Minerva Blocks category
+  const categories = [
+    category,
+    ...currentCategories,
+  ];
+
+  data.dispatch('core/blocks').setCategories(categories);
 	
-	// registering Minerva Blocks
-	[
-		articlePrimary,
-		articleSecondary,
-		articleTertiary,
-		podcastBox,
-	].forEach( ( { name, settings } ) => {
-		registerBlockType( name, settings );
-	} );
+  // registering Minerva Blocks
+  [
+    articlePrimary,
+    articleSecondary,
+    articleTertiary,
+    podcastBox,
+  ].forEach(({ name, settings }) => {
+    registerBlockType(name, settings);
+  });
 };

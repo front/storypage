@@ -7,8 +7,8 @@ import { orderBy, take, map, pick, includes } from 'lodash';
  * 
  * @return {boolean} Valid?
  */
-function isOrderValid( order ) {
-	return includes( [ 'asc', 'desc' ], order );
+function isOrderValid (order) {
+  return includes([ 'asc', 'desc' ], order);
 }
 
 /**
@@ -17,25 +17,25 @@ function isOrderValid( order ) {
  * @param  {Object} options [description]
  * @return {[type]}         [description]
  */
-export function bundling( collection, options = {} ) {
-	const { order } = options;
-	const orderByField = options.orderby;
-	const perPage = parseInt( options.per_page );
-	const _fields = options._fields && options._fields.split( ',' );
+export function bundling (collection, options = {}) {
+  const { order } = options;
+  const orderByField = options.orderby;
+  const perPage = parseInt(options.per_page);
+  const _fields = options._fields && options._fields.split(',');
 
-	if ( order && isOrderValid( order ) && orderByField ) {
-		collection = orderBy( collection, [ orderByField ], [ order ] );
-	}
+  if (order && isOrderValid(order) && orderByField) {
+    collection = orderBy(collection, [ orderByField ], [ order ]);
+  }
 
-	if ( perPage ) {
-		collection = take( collection, perPage );
-	}
+  if (perPage) {
+    collection = take(collection, perPage);
+  }
 
-	if ( _fields ) {
-		collection = map( collection, item => {
-			return pick( item, _fields );
-		} );
-	}
+  if (_fields) {
+    collection = map(collection, item => {
+      return pick(item, _fields);
+    });
+  }
 
-	return collection;
+  return collection;
 }

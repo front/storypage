@@ -10,15 +10,15 @@ import PagesShow from './pages/show';
 import NotFound from './pages/not_found';
 
 export default () => (
-	<BrowserRouter>
-		<Switch>
-			<Route exact path="/" component={ App } />
-			<Route exact path="/stories" component={ PagesIndex } />
-			<Route exact path="/(posts|pages)/new" component={ PagesEdit } />
-			<Route exact path="/(posts|pages)/:id/edit" component={ PagesEdit } />
-			<Route exact path="/(posts|pages)/:id/(preview)" component={ PagesShow } />
-			<Route exact path="/(posts|pages)/:id" component={ PagesShow } />
-			<Route component={ NotFound } />
-		</Switch>
-	</BrowserRouter>
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={ App } />
+      <Route exact path="/stories" component={ PagesIndex } />
+      <Route exact path="/(posts|pages)/new" component={ PagesEdit } />
+      <Route exact path="/(posts|pages)/:id/edit" component={ PagesEdit } />
+      <Route exact path="/(posts|pages)/:id/(preview)" component={ PagesShow } />
+      <Route exact path="/(posts|pages)/:id" component={ PagesShow } />
+      <Route component={ NotFound } />
+    </Switch>
+  </BrowserRouter>
 );
