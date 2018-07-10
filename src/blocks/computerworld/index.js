@@ -7,6 +7,7 @@ import { i18n, blocks, data } from '@frontkom/gutenberg';
  * Internal Dependencies
  */
 import * as article from './article';
+import * as advert from './advert';
 
 const { __ } = i18n;
 const { registerBlockType } = blocks;
@@ -25,6 +26,7 @@ export const initComputerworld = () => {
 	// registering CW Blocks
 	[
 		article,
+		advert,
 	].forEach( ( { name, settings } ) => {
 		registerBlockType( name, settings );
 	} );
