@@ -12,11 +12,11 @@ import registerServiceWorker from './registerServiceWorker';
 import Router from './components/router';
 import reducers from './store/reducer';
 
-const createStoreWithMiddleware = applyMiddleware()( createStore );
+const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 ReactDOM.render(
-	<Provider store={ createStoreWithMiddleware( reducers ) }>
-		<Router />
-	</Provider>, document.querySelector( '#root' ) );
+  <Provider store={ createStoreWithMiddleware(reducers) }>
+    <Router />
+  </Provider>, document.querySelector('#root'));
 
 registerServiceWorker();

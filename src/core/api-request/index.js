@@ -17,145 +17,149 @@ const apiRoot = '/wp/v2';
  * @param  {Object} options Options to request
  * @return {Object}	Request result (promise)
  */
-function apiRequest( options ) {
-	let pathArray = options.path.split( '?' );
+function apiRequest (options) {
+  let pathArray = options.path.split('?');
 
-	const path = pathArray[ 0 ];
-	const queryStringOptions = parse( pathArray[ 1 ] );
+  const path = pathArray[ 0 ];
+  const queryStringOptions = parse(pathArray[ 1 ]);
 
-	pathArray = pathArray[ 0 ].split( '/' );
+  pathArray = pathArray[ 0 ].split('/');
 
-	const resource = pathArray[ 3 ];
-	const resoureceId = pathArray[ 4 ];
+  const resource = pathArray[ 3 ];
+  const resoureceId = pathArray[ 4 ];
 
-	const method = options.method || 'GET';
+  const method = options.method || 'GET';
 
-	if ( queryStringOptions ) {
-		options.data = merge( options.data, queryStringOptions );
-	}	
+  if (queryStringOptions) {
+    options.data = merge(options.data, queryStringOptions);
+  }	
 
-	// console.log( 'apiRequest options', options, path );
+  // console.log( 'apiRequest options', options, path );
 
-	if ( path === '/oembed/1.0/proxy' ) {
-		// https://twitter.com/mikescollins/status/1006351423796318209?s=19
-		return jQuery.ajax( {
-			url: `http://open.iframe.ly/api/oembed?url=${ options.data.url }&origin=qwerty`,
-		} );
-	}
+  if (path === '/oembed/1.0/proxy') {
+    // https://twitter.com/mikescollins/status/1006351423796318209?s=19
+    return jQuery.ajax({
+      url: `http://open.iframe.ly/api/oembed?url=${options.data.url}&origin=qwerty`,
+    });
+  }
 
-	return jQuery.Deferred( dfd => {
-		let res;
-		let singleResource = false;
+  return jQuery.Deferred(dfd => {
+    let res;
+    let singleResource = false;
 
-		// Call actions by invoked path  
-		switch ( path ) {
-			case `${ apiRoot }/pages`:
-			case `${ apiRoot }/posts`:
-				options.data.type = resource.slice( 0, -1 );
+    // Call actions by invoked path  
+    switch (path) {
+      case `${apiRoot}/pages`:
+      case `${apiRoot}/posts`:
+        options.data.type = resource.slice(0, -1);
 
-				if ( method === 'GET' ) {
-					if ( resoureceId ) {
-						singleResource = true;
-						res = Actions.fetchPost( resoureceId, options.data );
-					} else {
-						res = Actions.fetchPosts( options.data );
-					}
-				}
-				break;
-			case `${ apiRoot }/page/${ resoureceId }`:
-			case `${ apiRoot }/pages/${ resoureceId }`:
-			case `${ apiRoot }/page/${ resoureceId }/autosaves`:
-			case `${ apiRoot }/post/${ resoureceId }`:
-			case `${ apiRoot }/posts/${ resoureceId }`:
-			case `${ apiRoot }/post/${ resoureceId }/autosaves`:
-				options.data.type = resource.endsWith( 's' ) ? resource.slice( 0, -1 ) : resource;
-				options.data.id = options.data.id ? options.data.id : resoureceId;
-				singleResource = true;
+        if (method === 'GET') {
+          if (resoureceId) {
+            singleResource = true;
+            res = Actions.fetchPost(resoureceId, options.data);
+          }
+          else {
+            res = Actions.fetchPosts(options.data);
+          }
+        }
+        break;
+      case `${apiRoot}/page/${resoureceId}`:
+      case `${apiRoot}/pages/${resoureceId}`:
+      case `${apiRoot}/page/${resoureceId}/autosaves`:
+      case `${apiRoot}/post/${resoureceId}`:
+      case `${apiRoot}/posts/${resoureceId}`:
+      case `${apiRoot}/post/${resoureceId}/autosaves`:
+        options.data.type = resource.endsWith('s') ? resource.slice(0, -1) : resource;
+        options.data.id = options.data.id ? options.data.id : resoureceId;
+        singleResource = true;
 
-				if ( method === 'DELETE' ) {
-					res = Actions.deletePost( resoureceId );
-				} else if ( method === 'POST' || method === 'PUT' ) {
-					res = Actions.savePost( options.data );
+        if (method === 'DELETE') {
+          res = Actions.deletePost(resoureceId);
+        }
+        else if (method === 'POST' || method === 'PUT') {
+          res = Actions.savePost(options.data);
 
-					resetPath( `${ options.data.type }s/${ options.data.id }/edit` );
-				} else if ( method === 'GET' ) {
-					res = Actions.fetchPost( resoureceId, options.data );
-				}
+          resetPath(`${options.data.type}s/${options.data.id}/edit`);
+        }
+        else if (method === 'GET') {
+          res = Actions.fetchPost(resoureceId, options.data);
+        }
 
-				break;
-			case `${ apiRoot }/media/${ resoureceId }`:
-				singleResource = true;
+        break;
+      case `${apiRoot}/media/${resoureceId}`:
+        singleResource = true;
 					
-				res = Actions.fetchMedia( resoureceId );
-				break;
-			case `${ apiRoot }/media`:
-				singleResource = true;
+        res = Actions.fetchMedia(resoureceId);
+        break;
+      case `${apiRoot}/media`:
+        singleResource = true;
 			
-				res = Actions.saveMedia( options );
-				break;
-			case `${ apiRoot }/categories`:
-				res = Actions.fetchCategories();
-				break;
-			case `${ apiRoot }/types/${ resoureceId }`:
-				singleResource = true;
-				res = Actions.fetchType( resoureceId );
-				break;
-			case `${ apiRoot }/types`:
-				singleResource = true;
-				res = Actions.fetchTypes( );
-				break;
-			case '/':
-				singleResource = true;
-				res = Actions.fetchIndex();
-				break;
-		}
+        res = Actions.saveMedia(options);
+        break;
+      case `${apiRoot}/categories`:
+        res = Actions.fetchCategories();
+        break;
+      case `${apiRoot}/types/${resoureceId}`:
+        singleResource = true;
+        res = Actions.fetchType(resoureceId);
+        break;
+      case `${apiRoot}/types`:
+        singleResource = true;
+        res = Actions.fetchTypes();
+        break;
+      case '/':
+        singleResource = true;
+        res = Actions.fetchIndex();
+        break;
+    }
 
-		if ( res ) {
-			// fake REST server only need expected data on response
-			const data = {
-				[ resource ]: singleResource ? [ res.payload ] : map( res.payload ),
-			};
+    if (res) {
+      // fake REST server only need expected data on response
+      const data = {
+        [ resource ]: singleResource ? [ res.payload ] : map(res.payload),
+      };
 
-			if ( data ) {
-				// initialize fake REST server
-				const restServer = new FakeRest.Server();
-				restServer.init( data );
+      if (data) {
+        // initialize fake REST server
+        const restServer = new FakeRest.Server();
+        restServer.init(data);
 
-				// use sinon.js to monkey-patch XmlHttpRequest
-				const server = sinon.fakeServer.create();
-				server.respondWith( restServer.getHandler() );
+        // use sinon.js to monkey-patch XmlHttpRequest
+        const server = sinon.fakeServer.create();
+        server.respondWith(restServer.getHandler());
 
-				// console.log( 'resource', resource);
-				// console.log( 'res.payload.id', res.payload.id);
+        // console.log( 'resource', resource);
+        // console.log( 'res.payload.id', res.payload.id);
 
-				// faking a request				
-				const url = singleResource ? `/${ resource }/${ res.payload.id }` : `/${ resource }`;
-				const xhr = new XMLHttpRequest();
+        // faking a request				
+        const url = singleResource ? `/${resource}/${res.payload.id}` : `/${resource}`;
+        const xhr = new XMLHttpRequest();
 
-				// always a GET (changes are already done)
-				xhr.open( 'GET', url, false );
-				xhr.responseType = 'json';
-				xhr.send( null );
+        // always a GET (changes are already done)
+        xhr.open('GET', url, false);
+        xhr.responseType = 'json';
+        xhr.send(null);
 
-				// restore native XHR constructor
-				server.restore();
+        // restore native XHR constructor
+        server.restore();
 
-				if ( xhr.response.id === 0 ) {
-					delete xhr.response.id;
-				}
+        if (xhr.response.id === 0) {
+          delete xhr.response.id;
+        }
 
-				// console.log( 'response', xhr.response );
+        // console.log( 'response', xhr.response );
 
-				dfd.abort = () => {
-					// console.log( 'abort' );
-				};
+        dfd.abort = () => {
+          // console.log( 'abort' );
+        };
 
-				dfd.resolveWith( { }, [ xhr.response, xhr.status, xhr ] );
-			}
-		} else {
-			dfd.resolveWith( { }, [ { }, 404, { } ] );
-		}
-	} );
+        dfd.resolveWith({ }, [ xhr.response, xhr.status, xhr ]);
+      }
+    }
+    else {
+      dfd.resolveWith({ }, [ { }, 404, { } ]);
+    }
+  });
 }
 
 export default apiRequest;

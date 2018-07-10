@@ -16,28 +16,28 @@ const { __ } = i18n;
 const { registerBlockType } = blocks;
 
 const category = {
-	slug: 'minerva',
-	title: __( 'Minerva Blocks' ),
+  slug: 'minerva',
+  title: __('Minerva Blocks'),
 };
 
 export const initMinerva = () => {
-	const currentCategories = filter( data.select( 'core/blocks' ).getCategories(), ( { slug } ) => ( slug !== category.slug ) );
+  const currentCategories = filter(data.select('core/blocks').getCategories(), ({ slug }) => (slug !== category.slug));
 
-	// registering Minerva Blocks category
-	const categories = [
-		category,
-		...currentCategories,
-	];
+  // registering Minerva Blocks category
+  const categories = [
+    category,
+    ...currentCategories,
+  ];
 
-	data.dispatch( 'core/blocks' ).setCategories( categories );
+  data.dispatch('core/blocks').setCategories(categories);
 	
-	// registering Minerva Blocks
-	[
-		articlePrimary,
-		articleSecondary,
-		articleTertiary,
-		podcastBox,
-	].forEach( ( { name, settings } ) => {
-		registerBlockType( name, settings );
-	} );
+  // registering Minerva Blocks
+  [
+    articlePrimary,
+    articleSecondary,
+    articleTertiary,
+    podcastBox,
+  ].forEach(({ name, settings }) => {
+    registerBlockType(name, settings);
+  });
 };
