@@ -47,7 +47,6 @@ const DEFAULT_STORAGE = {
         comments: false, // hide discussion-panel
         'custom-fields': true,
         editor: true,
-        'media-library': false, // * hide media library
         'page-attributes': false, // hide page-attributes panel
         revisions: true,
         thumbnail: false, // hide featured-image panel
@@ -63,7 +62,6 @@ const DEFAULT_STORAGE = {
         comments: false, // hide discussion-panel
         'custom-fields': true,
         editor: true,
-        'media-library': false, // * hide media library
         'page-attributes': false, // hide page-attributes panel
         revisions: true,
         thumbnail: false, // featured-image panel
