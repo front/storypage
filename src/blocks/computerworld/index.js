@@ -8,6 +8,7 @@ import { i18n, blocks, data } from '@frontkom/gutenberg-js';
  */
 import * as article from './article';
 import * as advert from './advert';
+import * as latestNews from './latest-news';
 
 const { __ } = i18n;
 const { registerBlockType } = blocks;
@@ -27,6 +28,7 @@ export const initComputerworld = () => {
   [
     article,
     advert,
+    latestNews,
   ]
   .forEach(({ name, settings }) => {
     registerBlockType(name, settings);
