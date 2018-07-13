@@ -23,12 +23,12 @@ class PagesIndex extends React.Component {
     this.props.fetchPosts({ status: 'all', order: 'desc', orderby: 'id' });
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.posts !== this.props.posts) {
-      const newTitles = mapValues(mapKeys(nextProps.posts, 'id'), ({ id }) => (this.state.titles[ id ] || false));
+  componentDidUpdate (prevProps) {
+    if (prevProps.posts !== this.props.posts) {
+      const newTitles = mapValues(mapKeys(this.props.posts, 'id'), ({ id }) => (this.state.titles[ id ] || false));
 
       this.setState({ titles: newTitles });
-    }		
+    }
   }
 
   onDeleteButtonClick (event) {

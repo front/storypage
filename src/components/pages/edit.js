@@ -33,7 +33,7 @@ class PagesEdit extends React.Component {
     type: null,
   };
 
-  componentWillMount () {
+  componentDidMount () {
     let { id } = this.props.match.params;
     const type = this.props.match.params[ 0 ].slice(0, -1);
 

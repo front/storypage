@@ -21,9 +21,9 @@ class ResourcesIndex extends React.Component {
     this.props.fetchResources();
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.resources !== nextProps.resources) {
-      const { resources } = nextProps;
+  componentDidUpdate (prevProps) {
+    if (this.props.resources !== prevProps.resources) {
+      const { resources } = this.props;
 
       if (! isEmpty(resources)) {
         const fields = keys(map(resources)[ 0 ]);
