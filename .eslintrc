@@ -2,8 +2,7 @@
 	"parser": "babel-eslint",
 	"extends": [
 		"eslint:recommended",
-		"plugin:react/recommended",
-		"plugin:jsx-a11y/recommended"
+		"plugin:react/recommended"
 	],
 	"env": {
 		"browser": false,
@@ -24,8 +23,7 @@
 		"XMLHttpRequest": true
 	},
 	"plugins": [
-		"react",
-		"jsx-a11y"
+		"react"
 	],
 	"settings": {
 		"react": {
@@ -121,11 +119,6 @@
 		"react/no-children-prop": "off",
 		"react/no-find-dom-node": "warn",
 		"react/no-unescaped-entities": "off",
-		"react/prop-types": "off",
-
-		"jsx-a11y/label-has-for": [ "error", { "required": "id" }],
-		"jsx-a11y/media-has-caption": "off",
-		"jsx-a11y/no-noninteractive-tabindex": "off",
-		"jsx-a11y/role-has-required-aria-props": "off"
+		"react/prop-types": "off"
 	}
 }
