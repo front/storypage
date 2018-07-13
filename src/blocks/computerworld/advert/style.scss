@@ -1,0 +1,17 @@
+
+article.cw-advert-article {
+  &:before {
+    content: "ANNONSØRINNHOLD";
+    display: block;
+    position: absolute;
+    top: -14px;
+    color: black;
+    font-family: Verdana,Geneva,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .readmore {
+    color: #558ffe !important;
+  }
+}
