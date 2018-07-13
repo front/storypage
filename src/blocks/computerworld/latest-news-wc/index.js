@@ -1,21 +1,28 @@
+/* eslint react/jsx-key: 0 */
+
 // External Dependencies
 import React from 'react';
-import { i18n } from '@frontkom/gutenberg-js';
-const { __ } = i18n;
+import { i18n, editor } from '@frontkom/gutenberg-js';
 
 import { defineCustomElements } from '@frontkom/cw-latest-news';
 defineCustomElements(window);
 
 // Web Component options
-const options = {
-  solr: 'https://solrproxy.devz.no/solr/newsfront-computerworld',
-  tag: 'business-intelligence',
-  rows: 4,
+const solr =  'https://solrproxy.devz.no/solr/newsfront-computerworld';
+
+// Editor elements
+const { __ } = i18n;
+const { InspectorControls, PlainText } = editor;
+
+// Block attributes
+const attrs = {
+  tag: {
+    type: 'string',
+  },
+  rows: {
+    type: 'number',
+  },
 };
-
-
-// Block attriutes
-const attributes = {};
 
 // Block name and settings
 export const name = 'computerword/latest-news-wc';
@@ -26,20 +33,44 @@ export const settings = {
   icon: 'editor-table',
 
   category: 'cw',
-  attributes,
+  attributes: attrs,
 
-  edit ({ className }) {
-    return (
-      <div className={ className }>
-        <cw-latest-news { ...options } ></cw-latest-news>
-      </div>
-    );
+  edit ({ className, attributes, setAttributes }) {
+    const { tag, rows } = attributes;
+
+    function updateTag (value) {
+      const _tag = value && value.replace(/[^\w]/g, '-').toLowerCase();
+      setAttributes({ tag: _tag });
+    }
+    function updateRows (value) {
+      const _rows = parseInt(value.replace(/[^\d]/g, '')) || 0;
+      setAttributes({ rows: _rows });
+    }
+
+    return [
+      <InspectorControls>
+        <hr />
+        <div>
+          <strong>Select a tag:</strong>
+          <PlainText value={ tag } onChange={ updateTag } />
+        </div>
+        <br />
+        <div>
+          <strong>Number of articles:</strong>
+          <PlainText value={ rows } onChange={ updateRows } />
+        </div>
+      </InspectorControls>,
+      <div className={ className } onClick={ ev => ev.preventDefault() }>
+        <cw-latest-news solr={ solr } rows={ rows } tag={ tag }></cw-latest-news>
+      </div>,
+    ];
   },
 
-  save ({ className }) {
+  save ({ className, attributes }) {
+    const { tag, rows } = attributes;
     return (
       <div className={ className }>
-        <cw-latest-news { ...options } ></cw-latest-news>
+        <cw-latest-news solr={ solr } rows={ rows } tag={ tag }></cw-latest-news>
       </div>
     );
   },

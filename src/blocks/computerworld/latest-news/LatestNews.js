@@ -31,8 +31,7 @@ class LatestNews extends Component {
     try {
       const data = await this.solrClient.getArticles(5, 0, this.props.tag);
       data.docs.forEach(d => parseArticle(d));
-      console.log('Loaded articles', data.docs);
-
+      // console.log('Loaded articles', data.docs);
       this.setState({ articles: data.docs });
     }
     catch(err) {
@@ -43,7 +42,7 @@ class LatestNews extends Component {
   componentDidMount () {
     this.solrClient = new Solr(
       'http://solr1.newsfront.no/solr/newsfront-computerworld/select/',
-      'http://127.0.0.1:9999/solr',
+      'https://solrproxy.devz.no/solr',
     );
     this.init();
   }
