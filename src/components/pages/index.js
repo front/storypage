@@ -19,7 +19,7 @@ class PagesIndex extends React.Component {
     };
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.fetchPosts({ status: 'all', order: 'desc', orderby: 'id' });
   }
 
