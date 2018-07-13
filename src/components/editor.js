@@ -1,86 +1,86 @@
 // External Dependencies
 import React from 'react';
-import {
-	blocks,
-	data,
-	editPost,
-	plugins,
-	storypage,
-} from '@frontkom/gutenberg';
 
-import '@frontkom/gutenberg/build/css/core-blocks/style.css'; // blocks
-import '@frontkom/gutenberg/build/css/style.css'; // components, editor, edit-post
-import '@frontkom/gutenberg/build/css/core-blocks/edit-blocks.css'; // edit-blocks
-import '@frontkom/gutenberg/build/css/core-blocks/theme.css'; // edit-blocks
+import {
+  blocks,
+  data,
+  editPost,
+  plugins,
+  lib,
+} from '@frontkom/gutenberg-js';
+
+import '@frontkom/gutenberg-js/build/css/core-blocks/style.css'; 		// blocks
+import '@frontkom/gutenberg-js/build/css/style.css';					// components, editor, edit-post
+import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; 		// theme
+import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css';  // edit-blocks
+
+// Internal Dependencies
+import { initMinerva } from '../blocks/minerva';
+import { initComputerworld } from '../blocks/computerworld';
 
 class Editor extends React.Component {
-	componentDidMount() {
-		const { type, id } = this.props.post;
-		const overridePost = {};
+  componentDidMount () {
+    const { type, id } = this.props.post;
+    const overridePost = {};
 
-		// Registering Storypage Blocks
-		blocks.registerBlockType( storypage.blocks.post.name, storypage.blocks.post.settings );
-		blocks.registerBlockType( storypage.blocks.section.name, storypage.blocks.section.settings );
-		blocks.registerBlockType( storypage.blocks.row.name, storypage.blocks.row.settings );
+    // Registering Lib Blocks
+    blocks.registerBlockType(lib.blocks.post.name, lib.blocks.post.settings);
+    blocks.registerBlockType(lib.blocks.section.name, lib.blocks.section.settings);
+    blocks.registerBlockType(lib.blocks.row.name, lib.blocks.row.settings);
 
-		// PluginDocumentSidebarPanel
-		const { PluginDocumentSidebarPanel } = editPost;
-		const { PostsPanel/*, TemplateSettingsPanel*/ } = storypage.components;
+    initMinerva();
+    initComputerworld();
 
-		const MyPluginDocumentSidebarPanel = () => {
-			return (
-				<React.Fragment>
-					<PluginDocumentSidebarPanel
-						title={ 'My Stories' }
-						initialOpen={ true }
-					>
-						<PostsPanel />		        
-					</PluginDocumentSidebarPanel>
-					{ /* <PluginDocumentSidebarPanel
-						title={ 'Template Settings' }
-						initialOpen={ false }
-					>
-						<TemplateSettingsPanel />
-					</PluginDocumentSidebarPanel> */ }
-				</React.Fragment>
-			);
-		};
+    // PluginDocumentSidebarPanel
+    const { PluginDocumentSidebarPanel } = editPost;
+    const { PostsPanel/* , TemplateSettingsPanel*/ } = lib.components;
 
-		// Registering MyPluginDocumentSidebarPanel Plugin
-		plugins.registerPlugin( 'plugin-document-sidebar', {
-			render: MyPluginDocumentSidebarPanel,
-		} );
+    const MyPluginDocumentSidebarPanel = () => {
+      return (
+        <PluginDocumentSidebarPanel
+          title={ 'My Stories' }
+          initialOpen={ true }
+        >
+          <PostsPanel />
+        </PluginDocumentSidebarPanel>
+      );
+    };
 
-		// Initializing Editor
-		editPost.initializeEditor( 'editor', type, id, this.props.settings, overridePost );
+    // Registering MyPluginDocumentSidebarPanel Plugin
+    plugins.registerPlugin('plugin-document-sidebar', {
+      render: MyPluginDocumentSidebarPanel,
+    });
 
-		// Setting Storypage/Section as default block
-		data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
-	}
+    // Initializing Editor
+    editPost.initializeEditor('editor', type, id, this.props.settings, overridePost);
 
-	componentWillUnmount() {
-		// Unregistering blocks
-		const registeredBlocks = data.select( 'core/blocks' ).getBlockTypes();
+    // Setting Storypage/Section as default block
+    // data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
+  }
 
-		if ( registeredBlocks ) {
-			registeredBlocks.forEach( ( { name } ) => {
-				blocks.unregisterBlockType( name );
-			} );
-		}
+  componentWillUnmount () {
+    // Unregistering blocks
+    const registeredBlocks = data.select('core/blocks').getBlockTypes();
 
-		// Unregistering plugins
-		const registeredPlugins = plugins.getPlugins();
+    if (registeredBlocks) {
+      registeredBlocks.forEach(({ name }) => {
+        blocks.unregisterBlockType(name);
+      });
+    }
 
-		if ( registeredPlugins ) {
-			registeredPlugins.forEach( plugin => {
-				plugins.unregisterPlugin( plugin.name );
-			} );
-		}
-	}
+    // Unregistering plugins
+    const registeredPlugins = plugins.getPlugins();
 
-	render() {
-		return <div id="editor" className="gutenberg__editor"></div>;
-	}
+    if (registeredPlugins) {
+      registeredPlugins.forEach(({ name }) => {
+        plugins.unregisterPlugin(name);
+      });
+    }
+  }
+
+  render () {
+    return <div id="editor" className="gutenberg__editor"></div>;
+  }
 }
 
 export default Editor;

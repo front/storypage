@@ -8,9 +8,9 @@ import { findKey } from 'lodash';
  * @param   {number} id 	Post id.
  * @return  {Object}       	State of post.
  */
-export function getPost( state, id ) {
-	const postKey = findKey( state.posts, { id: parseInt( id ) } );
-	return state.posts[ postKey ];
+export function getPost (state, id) {
+  const postKey = findKey(state.posts, { id: parseInt(id) });
+  return state.posts[ postKey ];
 }
 
 /**
@@ -19,8 +19,8 @@ export function getPost( state, id ) {
  * @param   {Object} state 	Global application state.
  * @return  {Object}       	State of types.
  */
-export function getTypes( state ) {
-	return state.types;
+export function getTypes (state) {
+  return state.types;
 }
 
 /**
@@ -29,6 +29,6 @@ export function getTypes( state ) {
  * @param   {Object} state 	Global application state.
  * @return  {Object}       	State of posts.
  */
-export function getPosts( state ) {
-	return state.posts;
+export function getPosts (state) {
+  return state.posts;
 }

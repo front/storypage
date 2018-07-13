@@ -3,15 +3,15 @@ import { omit, findKey } from 'lodash';
 import { combineReducers } from 'redux';
 
 // Internal Dependencies
-import { 
-	FETCH_POSTS,
-	FETCH_POST,
-	DELETE_POST,
-	FETCH_CATEGORIES,
-	FETCH_TYPES,
-	FETCH_TYPE,
-	// FETCH_INDEX,
-	SAVE_POST,
+import {
+  FETCH_POSTS,
+  FETCH_POST,
+  DELETE_POST,
+  FETCH_CATEGORIES,
+  FETCH_TYPES,
+  FETCH_TYPE,
+  // FETCH_INDEX,
+  SAVE_POST,
 } from './actions';
 
 // export function index( state = {}, action ) {
@@ -21,71 +21,72 @@ import {
 // 		case FETCH_INDEX:
 // 		// console.log( action.payload );
 // 			return action.payload;
-// 		default: 
+// 		default:
 // 			return state;
 // 	}
 // }
 
-export function posts( state = { }, action ) {
-	switch ( action.type ) {
-		case FETCH_POSTS:
-			return action.payload;
+export function posts (state = { }, action) {
+  let postKey, post, pK;
+  switch (action.type) {
+    case FETCH_POSTS:
+      return action.payload;
 
-		case FETCH_POST:
-			const post = action.payload;
+    case FETCH_POST:
+      post = action.payload;
+      if (post) {
+        pK = findKey(state, { id: parseInt(post.id) });
+        if (! pK) {
+          return { ...state, [ Date.now() ]: post };
+        }
+      }
+      return state;
 
-			if ( post ) {
-				const pK = findKey( state, { id: parseInt( post.id ) } );
+    case DELETE_POST:
+      postKey = findKey(state, { id: parseInt(action.payload.id) });
+      return omit(state, postKey);
 
-				if ( ! pK ) {
-					return { ...state, [ Date.now() ]: post };
-				}
-			}
+    case SAVE_POST:
+      postKey = findKey(state, { id: parseInt(action.payload.id) });
 
-			return state;					
+      return {
+        ...state,
+        [ postKey ]: action.payload,
+      };
 
-		case DELETE_POST:
-			const postKey = findKey( state, { id: parseInt( action.payload.id ) } );
-			return omit( state, postKey );
-
-		case SAVE_POST:
-			return {
-				...state,
-				[ action.payload.id ]: action.payload,
-			};
-
-		default: 
-			return state;
-	}
+    default:
+      return state;
+  }
 }
 
-export function categories( state = { }, action ) {
-	switch ( action.type ) {
-		case FETCH_CATEGORIES:
-			return action.payload;
+export function categories (state = { }, action) {
+  switch (action.type) {
+    case FETCH_CATEGORIES:
+      return action.payload;
 
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 }
 
-export function types( state = { }, action ) {
-	switch ( action.type ) {
-		case FETCH_TYPES:
-			return action.payload;
+export function types (state = { }, action) {
+  let type;
+  switch (action.type) {
+    case FETCH_TYPES:
+      return action.payload;
 
-		case FETCH_TYPE:
-			const type = action.payload;
-			return { ...state, [ type.id ]: type };
+    case FETCH_TYPE:
+      type = action.payload;
+      return { ...state, [ type.id ]: type };
 
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 }
 
-export default combineReducers( {
-	// index,
-	posts,
-	categories,
-	types,
-} );
+export default combineReducers({
+  // index,
+  posts,
+  categories,
+  types,
+});

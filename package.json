@@ -1,16 +1,18 @@
 {
     "name": "story-page",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "private": true,
     "engines": {
         "node": ">=8.3.0",
         "npm": ">=5.0.0"
     },
     "dependencies": {
-        "@frontkom/gutenberg": "0.2.2",
+        "@frontkom/cw-latest-news": "0.0.6",
+        "@frontkom/gutenberg-js": "0.0.1",
         "bootstrap": "4.1.1",
         "case-sensitive-paths-webpack-plugin": "2.1.1",
         "chalk": "1.1.3",
+        "classnames": "^2.2.5",
         "dotenv": "4.0.0",
         "dotenv-expand": "4.2.0",
         "fakerest": "^2.1.0",
@@ -19,6 +21,7 @@
         "jest": "20.0.4",
         "jquery": "3.2.1",
         "lodash": "^4.17.10",
+        "moment": "^2.22.2",
         "object-assign": "4.1.1",
         "promise": "8.0.1",
         "querystringify": "1.0.0",
@@ -31,6 +34,7 @@
         "react-router-dom": "^4.0.0",
         "redux": "3.7.2",
         "resolve": "1.6.0",
+        "serve": "^9.2.0",
         "sinon": "^4.5.0",
         "tinymce": "4.7.2",
         "whatwg-fetch": "2.0.3"
@@ -51,8 +55,7 @@
         "eslint-plugin-flowtype": "2.39.1",
         "eslint-plugin-import": "2.8.0",
         "eslint-plugin-jest": "21.5.0",
-        "eslint-plugin-jsx-a11y": "5.1.1",
-        "eslint-plugin-react": "7.7.0",
+        "eslint-plugin-react": "^7.7.0",
         "extract-text-webpack-plugin": "3.0.2",
         "html-webpack-plugin": "2.29.0",
         "node-sass": "git://github.com/sass/node-sass.git#v4.7.0",
