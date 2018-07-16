@@ -43,9 +43,7 @@ class PagesIndex extends React.Component {
   }
 
   saveTitle (postId, title) {
-    // save title here!
     this.props.savePost({ id: postId, title });
-
     this.toogleTitle(postId, false);
   }
 
@@ -74,20 +72,20 @@ class PagesIndex extends React.Component {
   renderPostTitle (post) {
     if (post && this.state.titles[ post.id ]) {
       return (
-        <InputNSubmit 
+        <InputNSubmit
           key={ post.id }
           value={ post.title.rendered }
           onSubmit={ newContent => {
-            this.saveTitle(post.id, newContent); 
+            this.saveTitle(post.id, newContent);
           } }
           onCancel={ () => {
-            this.toogleTitle(post.id, false); 
+            this.toogleTitle(post.id, false);
           } }
         />
       );
-    } 
+    }
     return <button onClick={ () => {
-      this.toogleTitle(post.id, true); 
+      this.toogleTitle(post.id, true);
     } }>{ post.title.rendered }</button>;
   }
 
@@ -97,11 +95,22 @@ class PagesIndex extends React.Component {
         <section className="jumbotron">
           <div className="container">
             <h1>Stories</h1>
-            <p className="text-right">					
+            <div className="text-right">
               <Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
               <Link className="btn btn-secondary" to="/posts/new">New post</Link>{ ' ' }
-              <Link className="btn btn-info" to="/pages/new">New page</Link>
-            </p>
+              { /* <Link className="btn btn-info" to="/pages/new">New page</Link> */ }
+              <div className="dropdown d-inline">
+                <a className="btn btn-info dropdown-toggle" href="#" role="button" id="pagesDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  New page
+                </a>
+                <div className="dropdown-menu" aria-labelledby="pagesDropdownLink">
+                  <Link className="dropdown-item" to="/pages/new">Template free</Link>
+                  <div className="dropdown-divider"></div>
+                  <Link className="dropdown-item" to="/pages/new?template=minerva">Minerva template</Link>
+                  <a className="dropdown-item disabled" href="#">CW template (soon)</a>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 

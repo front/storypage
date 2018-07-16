@@ -1,4 +1,6 @@
 div.wp-block-minerva-article-tertiary {
+	margin-bottom: 38px;
+
 	.minerva-article-category {
 		// flex-grow: 1;
 		display: block;
@@ -13,10 +15,6 @@ div.wp-block-minerva-article-tertiary {
 			border-bottom: 1px solid #C2C2C2;
 			z-index: -1;
 		}
-
-		span {
-			display: inline-block;			
-		}		
 	}
 
 	.minerva-article-content {
@@ -34,6 +32,7 @@ div.wp-block-minerva-article-tertiary {
 		.minerva-article-teaser {
 			font-size: 16px;
 			margin-bottom: 0px;
+			line-height: 1.58;
 		}
 
 		.minerva-article-author {

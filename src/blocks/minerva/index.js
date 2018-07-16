@@ -10,7 +10,11 @@ import { i18n, blocks, data } from '@frontkom/gutenberg-js';
 import * as articlePrimary from './article/primary';
 import * as articleSecondary from './article/secondary';
 import * as articleTertiary from './article/tertiary';
+import * as articleTeaser from './article/teaser';
 import * as podcastBox from './podcast-box';
+import * as section from './section';
+
+import './style.scss';
 
 const { __ } = i18n;
 const { registerBlockType } = blocks;
@@ -30,14 +34,18 @@ export const initMinerva = () => {
   ];
 
   data.dispatch('core/blocks').setCategories(categories);
-	
+
   // registering Minerva Blocks
   [
     articlePrimary,
     articleSecondary,
     articleTertiary,
+    articleTeaser,
     podcastBox,
+    section,
   ].forEach(({ name, settings }) => {
     registerBlockType(name, settings);
   });
 };
+
+export { default as template } from './template';

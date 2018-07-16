@@ -5,13 +5,14 @@ import {
   editor,
 } from '@frontkom/gutenberg-js';
 
-import { articleAttributes } from './index';
+import { articleAttributes } from './default-attributes';
 import './tertiary.scss';
+
 /**
  * WordPress dependencies
  */
 const { __ } = i18n;
-const { 
+const {
   RichText,
 } = editor;
 
@@ -39,7 +40,7 @@ export const settings = {
             value={ category }
             onChange={ value => setAttributes({ category: value }) }
             inlineToolbar
-          />	
+          />
         </div>
         <div className="minerva-article-content">
           <div>
@@ -48,24 +49,24 @@ export const settings = {
               className="minerva-article-title"
               value={ title }
               onChange={ value => setAttributes({ title: value }) }
-            />		
+            />
             <RichText
               tagName="p"
               className="minerva-article-teaser"
               value={ teaser }
               onChange={ value => setAttributes({ teaser: value }) }
             />
-            <div className="minerva-article-author meta">
+            <div className="minerva-article-author">
               <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
               <div className="minerva-article-meta">
-                <RichText 
-                  tagName="span"					
+                <RichText
+                  tagName="span"
                   className="minerva-article-name"
                   value={ authorName }
                   onChange={ value => setAttributes({ authorName: value }) }
                 />
-                <RichText 
-                  tagName="span"					
+                <RichText
+                  tagName="span"
                   className="minerva-article-date"
                   value={ date }
                   onChange={ value => setAttributes({ date: value }) }
@@ -92,26 +93,26 @@ export const settings = {
         </div>
         <div className="minerva-article-content">
           <div>
-            <RichText.Content 
+            <RichText.Content
               tagName="h1"
               className="minerva-article-title"
               value={ title }
-            />				
-            <RichText.Content 
+            />
+            <RichText.Content
               tagName="p"
-              className="minerva-article-teaser"				
+              className="minerva-article-teaser"
               value={ teaser }
             />
-            <div className="minerva-article-author meta">
+            <div className="minerva-article-author">
               <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
               <div className="minerva-article-meta">
-                <RichText.Content 
-                  tagName="span"					
+                <RichText.Content
+                  tagName="span"
                   className="minerva-article-name"
                   value={ authorName }
                 />
-                <RichText.Content 
-                  tagName="span"					
+                <RichText.Content
+                  tagName="span"
                   className="minerva-article-date"
                   value={ date }
                 />

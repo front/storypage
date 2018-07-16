@@ -6,30 +6,28 @@ import {
 } from '@frontkom/gutenberg-js';
 
 import { articleAttributes } from './default-attributes';
-import './secondary.scss';
+import './teaser.scss';
+
 /**
- * WordPress dependencies
- */
+* WordPress dependencies
+*/
 const { __ } = i18n;
 const {
-  RichText,
+ RichText,
 } = editor;
 
-export const name = 'minerva/article-secondary';
+export const name = 'minerva/article-teaser';
 
 export const settings = {
-  title: __('Article Secondary'),
-
+  title: __('Article Teaser'),
   icon: 'universal-access-alt',
-
-  description: __(' Article Secondary by Minerva '),
-
+  description: __(' Article Teaser by Minerva '),
   category: 'minerva',
 
   attributes: articleAttributes,
 
   edit ({ attributes, className, setAttributes }) {
-    const { title, teaser, category, date, authorName, authorImageUrl } = attributes;
+    const { title, teaser, date, authorName, authorImageUrl } = attributes;
 
     return (
       <div className={ className }>
@@ -39,20 +37,12 @@ export const settings = {
           value={ title }
           onChange={ value => setAttributes({ title: value }) }
         />
-        <div className="minerva-article-teaser">
-          <div className="minerva-article-category">
-            <RichText
-              tagName="span"
-              value={ category }
-              onChange={ value => setAttributes({ category: value }) }
-            />
-          </div>
-          <RichText
-            tagName="p"
-            value={ teaser }
-            onChange={ value => setAttributes({ teaser: value }) }
-          />
-        </div>
+        <RichText
+          tagName="p"
+          className="minerva-article-teaser"
+          value={ teaser }
+          onChange={ value => setAttributes({ teaser: value }) }
+        />
         <div className="minerva-article-author">
           <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
           <div className="minerva-article-meta">
@@ -75,7 +65,7 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, category, date, authorName, authorImageUrl } = attributes;
+    const { title, teaser, date, authorName, authorImageUrl } = attributes;
 
     return (
       <div className={ className }>
@@ -84,18 +74,11 @@ export const settings = {
           className="minerva-article-title"
           value={ title }
         />
-        <div className="minerva-article-teaser">
-          <div className="minerva-article-category">
-            <RichText.Content
-              tagName="span"
-              value={ category }
-            />
-          </div>
-          <RichText.Content
-            tagName="p"
-            value={ teaser }
-          />
-        </div>
+        <RichText.Content
+          tagName="p"
+          className="minerva-article-teaser"
+          value={ teaser }
+        />
         <div className="minerva-article-author">
           <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
           <div className="minerva-article-meta">
@@ -113,5 +96,5 @@ export const settings = {
         </div>
       </div>
     );
-  },
+  }
 };

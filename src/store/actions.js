@@ -363,8 +363,8 @@ export function saveMedia (mediaData) {
       id,
       date,
       date_gmt: date,
-      source_url: `http://localhost:3000/sample${image}.jpg`,
-      link: `http://localhost:3000/sample${image}.jpg`,
+      source_url: `${window.location.origin}/sample${image}.jpg`,
+      link: `${window.location.origin}/sample${image}.jpg`,
       data: {
         entity_type: 'file',
         entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${id}`,

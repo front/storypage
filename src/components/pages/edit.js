@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import qs from 'qs';
 
 // Internal Dependencies
 import { fetchPost, savePost } from '../../store/actions';
@@ -10,9 +11,9 @@ import { getPost } from '../../store/selectors';
 import Editor from '../editor';
 import Loading from './loading';
 import NotFound from './not_found';
-import getTemplates from './templates';
 
 let settings = {
+  template: '',
   alignWide: true,
   availableTemplates: [],
   allowedBlockTypes: true,
@@ -61,11 +62,6 @@ class PagesEdit extends React.Component {
 
     const badgeType = type === 'page' ? 'info' : 'secondary';
 
-    settings = {
-      ...settings,
-      template: getTemplates({ type }),
-    };
-
     const post = {
       id,
       type,
@@ -74,11 +70,11 @@ class PagesEdit extends React.Component {
 
     return (
       <div>
-        <div className="clearfix">
+        <div className="clearfix jumbotron" style={{ height: '32px', overflow: 'hidden', margin: 0, padding: 0 }}>
           <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
           <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
         </div>
-        <Editor post={ post } settings={ settings } />
+        <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
       </div>
     );
   }

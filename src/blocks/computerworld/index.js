@@ -1,6 +1,7 @@
 /**
  * External Dependencies
  */
+import { filter } from 'lodash';
 import { i18n, blocks, data } from '@frontkom/gutenberg-js';
 
 /**
@@ -14,14 +15,18 @@ import * as latestNewsWebComp from './latest-news-wc';
 const { __ } = i18n;
 const { registerBlockType } = blocks;
 
+const category = {
+  slug: 'cw',
+  title: __('Cw Blocks'),
+};
+
 export const initComputerworld = () => {
+  const currentCategories = filter(data.select('core/blocks').getCategories(), ({ slug }) => (slug !== category.slug));
+
   // Append the CW blocks to the categories
   const categories = [
-    {
-      slug: 'cw',
-      title: __('CW Blocks'),
-    },
-    ...data.select('core/blocks').getCategories(),
+    category,
+    ...currentCategories,
   ];
   data.dispatch('core/blocks').setCategories(categories);
 

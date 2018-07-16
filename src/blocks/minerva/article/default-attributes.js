@@ -3,17 +3,17 @@ export const articleAttributes = {
     type: 'array',
     source: 'children',
     selector: 'h1,h2,h3,h4,h5,h6',
-    default: 'Title',
+    default: 'Handel dreier seg om å vinne',
   },
   teaser: {
     type: 'array',
     source: 'children',
     selector: 'p',
-    default: 'Teaser',
-  },		
+    default: 'Trumps tiltagende handelskrig har sitt opphav i presidentens primitive syn på handel. Fredag truer en ny alvorlig omdreining.',
+  },
   category: {
     type: 'string',
-    default: 'Category',
+    default: 'Kommentar',
   },
   date: {
     type: 'string',
@@ -31,7 +31,7 @@ export const articleAttributes = {
     type: 'string',
     default: 'https://www.minervanett.no/wp-content/uploads/2018/01/Aksel-128x128.jpg',
   },
-};	
+};
 
 export const backgroundImageStyles = url => {
   return url ?

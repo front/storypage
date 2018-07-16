@@ -15,13 +15,14 @@ import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; 		// theme
 import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css';  // edit-blocks
 
 // Internal Dependencies
-import { initMinerva } from '../blocks/minerva';
+import { initMinerva, template as templateMinerva } from '../blocks/minerva';
 import { initComputerworld } from '../blocks/computerworld';
 
 class Editor extends React.Component {
   componentDidMount () {
     const { type, id } = this.props.post;
     const overridePost = {};
+    const template = this.props.template === 'minerva' ? templateMinerva : '';
 
     // Registering Lib Blocks
     blocks.registerBlockType(lib.blocks.post.name, lib.blocks.post.settings);
@@ -52,7 +53,7 @@ class Editor extends React.Component {
     });
 
     // Initializing Editor
-    editPost.initializeEditor('editor', type, id, this.props.settings, overridePost);
+    editPost.initializeEditor('editor', type, id,  { ...this.props.settings, template }, overridePost);
 
     // Setting Storypage/Section as default block
     // data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
