@@ -15,8 +15,8 @@ export function generatePosts (n = 1, options = {}) {
     const date = (new Date(`2018-04-${id}`)).toISOString();
     return {
       id,
-      content: { 
-				
+      content: {
+
         raw: `<!-- wp:paragraph --><p>Content of Generated post number ${id}</p><!-- /wp:paragraph -->`,
         rendered: `<p>Content of Generated post number ${id}</p>`,
       },
@@ -24,11 +24,11 @@ export function generatePosts (n = 1, options = {}) {
       date_gmt: date,
       footer: false,
       header: true,
-      title: { 
+      title: {
         raw: `Generated post number ${id}`,
         rendered: `Generated post number ${id}`,
       },
-      status: 'publish', // 'draft',			
+      status: 'publish', // 'draft',
       revisions: { count: 0, last_id: 0 },
       parent: 0,
       theme_style: true,
@@ -56,9 +56,9 @@ export function generateImages (n = 1) {
       id,
       date_gmt: date,
       date,
-      link: `http://localhost:3000/sample${id}.jpg`,
+      link: `${window.location.origin}/sample${id}.jpg`,
       media_type: 'image',
-      source_url: `http://localhost:3000/sample${id}.jpg`,
+      source_url: `${window.location.origin}/sample${id}.jpg`,
       data: {
         entity_type: 'file',
         entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${id}`,
