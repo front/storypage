@@ -1,9 +1,21 @@
-@import "variables";
-// @import "type";
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,400i,700,700i');
 
-$selector: '[class^="wp-block-"]';
+// Variables
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
-#{ $selector } {
+// Color system
+$white: #fff !default;
+$black: #000 !default;
+
+// Fonts
+// Font, line-height, and color for body text, headings, and more.
+$font-family-sans-serif: 'Crimson Text', Georgia, serif;
+$font-family-sans-serif-secondary: 'Roboto Condensed', Impact, Charcoal, sans-serif;
+$font-family-base: $font-family-sans-serif !default;
+
+[class^="wp-block-"] {
 	font-family: $font-family-base;
 	line-height: 1.58;
 	font-size: 118.75%;
@@ -15,12 +27,12 @@ $selector: '[class^="wp-block-"]';
 	}
 
 	h2 {
-    	font-size: 1.36842em;
+    font-size: 1.36842em;
 		line-height: 1.15;
 		font-weight: 700;
 	}
 
-	&.container,
+	/*&.container,
 	.container {
 		max-width: 1182px;
 		margin-left: 19px;
@@ -31,7 +43,7 @@ $selector: '[class^="wp-block-"]';
 			margin-left: auto;
 			margin-right: auto;
 		}
-	}
+	}*/
 
 	.editor-rich-text__tinymce.mce-content-body {
 		line-height: 1.1;
@@ -48,7 +60,7 @@ $selector: '[class^="wp-block-"]';
 			background-color: black;
 			color: white;
 			padding: 2px 9.5px;
-		}				
+		}
 	}
 
 	.minerva-article-title {
@@ -81,10 +93,12 @@ $selector: '[class^="wp-block-"]';
 				max-width: 40px;
 			}
 		}
-	}	
+	}
 }
 
-.wp-block-storypage-row {
+.wp-block-gutenbergjs-row {
+  margin-bottom: 76px;
+
 	.layout-col4 {
 		.minerva-article-title {
 			font-size: 36px;
@@ -98,9 +112,5 @@ $selector: '[class^="wp-block-"]';
 		border-radius: 0;
 		border: 1px solid #000;
 		font-family: $font-family-sans-serif-secondary;
-	}		
-}
-
-.wp-block-storypage-section{
-	margin-bottom: 76px;
+	}
 }

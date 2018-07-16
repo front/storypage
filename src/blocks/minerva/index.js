@@ -11,6 +11,7 @@ import * as articlePrimary from './article/primary';
 import * as articleSecondary from './article/secondary';
 import * as articleTertiary from './article/tertiary';
 import * as podcastBox from './podcast-box';
+import './style.scss';
 
 const { __ } = i18n;
 const { registerBlockType } = blocks;
@@ -30,7 +31,7 @@ export const initMinerva = () => {
   ];
 
   data.dispatch('core/blocks').setCategories(categories);
-	
+
   // registering Minerva Blocks
   [
     articlePrimary,
