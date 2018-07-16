@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
+import queryString from 'query-string';
 
 // Internal Dependencies
 import { fetchPost, savePost } from '../../store/actions';
@@ -63,7 +64,7 @@ class PagesEdit extends React.Component {
 
     settings = {
       ...settings,
-      template: getTemplates({ type }),
+      template: getTemplates(queryString.parse(this.props.location.search).template),
     };
 
     const post = {
@@ -74,7 +75,7 @@ class PagesEdit extends React.Component {
 
     return (
       <div>
-        <div className="clearfix">
+        <div className="clearfix jumbotron" style={{ height: '32px', overflow: 'hidden', margin: 0, padding: 0 }}>
           <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
           <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
         </div>
