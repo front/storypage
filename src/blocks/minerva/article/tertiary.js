@@ -7,6 +7,7 @@ import {
 
 import { articleAttributes } from './default-attributes';
 import './tertiary.scss';
+
 /**
  * WordPress dependencies
  */
@@ -55,7 +56,7 @@ export const settings = {
               value={ teaser }
               onChange={ value => setAttributes({ teaser: value }) }
             />
-            <div className="minerva-article-author meta">
+            <div className="minerva-article-author">
               <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
               <div className="minerva-article-meta">
                 <RichText
@@ -102,7 +103,7 @@ export const settings = {
               className="minerva-article-teaser"
               value={ teaser }
             />
-            <div className="minerva-article-author meta">
+            <div className="minerva-article-author">
               <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
               <div className="minerva-article-meta">
                 <RichText.Content

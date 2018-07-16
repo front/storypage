@@ -8,10 +8,28 @@ div.wp-block-minerva-article-secondary {
 	}
 
 	.minerva-article-teaser {
-		font-size: 19px;
+		line-height: 1.58;
 
 		p {
 			display: inline;
+			font-size: 19px;
+		}
+	}
+
+	&.layout-col4 {
+		.minerva-article-title {
+			font-size: 36px;
+			line-height: 1.2;
+		}
+	}
+}
+
+// editor
+.layout-col4 {
+	div.wp-block-minerva-article-secondary {
+		.minerva-article-title {
+			font-size: 36px;
+			line-height: 1.2;
 		}
 	}
 }

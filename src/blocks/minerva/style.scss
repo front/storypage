@@ -15,7 +15,7 @@ $font-family-sans-serif: 'Crimson Text', Georgia, serif;
 $font-family-sans-serif-secondary: 'Roboto Condensed', Impact, Charcoal, sans-serif;
 $font-family-base: $font-family-sans-serif !default;
 
-[class^="wp-block-"] {
+[class^="wp-block-minerva"] {
 	font-family: $font-family-base;
 	line-height: 1.58;
 	font-size: 118.75%;
@@ -32,7 +32,7 @@ $font-family-base: $font-family-sans-serif !default;
 		font-weight: 700;
 	}
 
-	/*&.container,
+	&.container,
 	.container {
 		max-width: 1182px;
 		margin-left: 19px;
@@ -43,7 +43,7 @@ $font-family-base: $font-family-sans-serif !default;
 			margin-left: auto;
 			margin-right: auto;
 		}
-	}*/
+	}
 
 	.editor-rich-text__tinymce.mce-content-body {
 		line-height: 1.1;
@@ -97,12 +97,20 @@ $font-family-base: $font-family-sans-serif !default;
 }
 
 .wp-block-gutenbergjs-row {
-  margin-bottom: 76px;
+	margin-bottom: 76px;
+}
 
-	.layout-col4 {
-		.minerva-article-title {
-			font-size: 36px;
-			line-height: 1.2;
+.wp-block-gutenbergjs-section,
+.wp-block-gutenbergjs-row {
+	grid-gap: 2em;
+}
+
+// editor
+.gutenberg__editor {
+	.wp-block-gutenbergjs-section,
+	.wp-block-gutenbergjs-row {
+		> .editor-inner-blocks {
+			grid-gap: 2em;
 		}
 	}
 }

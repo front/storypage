@@ -22,7 +22,7 @@ export const name = 'minerva/article-primary';
 export const settings = {
   title: __('Article Primary'),
   icon: 'universal-access-alt',
-  description: __(' Article Primary by Minerva '),
+  description: __('Article Primary by Minerva'),
 
   category: 'minerva',
 

@@ -11,9 +11,9 @@ import { getPost } from '../../store/selectors';
 import Editor from '../editor';
 import Loading from './loading';
 import NotFound from './not_found';
-import getTemplates from './templates';
 
 let settings = {
+  template: '',
   alignWide: true,
   availableTemplates: [],
   allowedBlockTypes: true,
@@ -62,11 +62,6 @@ class PagesEdit extends React.Component {
 
     const badgeType = type === 'page' ? 'info' : 'secondary';
 
-    settings = {
-      ...settings,
-      template: getTemplates(queryString.parse(this.props.location.search).template),
-    };
-
     const post = {
       id,
       type,
@@ -79,7 +74,7 @@ class PagesEdit extends React.Component {
           <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
           <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
         </div>
-        <Editor post={ post } settings={ settings } />
+        <Editor post={ post } settings={ settings } template={ queryString.parse(this.props.location.search).template } />
       </div>
     );
   }

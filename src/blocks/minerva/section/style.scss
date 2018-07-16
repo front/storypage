@@ -1,0 +1,38 @@
+.wp-block-minerva-section{
+  grid-row-end: -1;
+  grid-row-start: 1;
+
+  .wp-block-minerva-section-content {
+    position: relative;
+    border: 1px solid #777;
+    padding: 60px 38px 38px;
+
+    .minerva-section-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -15px;
+      height: 41px;
+      text-align: center;
+      line-height: 1;
+
+      span {
+        text-transform: uppercase;
+        text-align: center;
+        border: 1px solid #777;
+        background-color: white;
+        color: #222;
+        letter-spacing: 2.11499px;
+        padding: 10px 19px;
+        font-size: 15px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.editor-block-list__block-edit {
+  .wp-block-minerva-section-content {
+    padding: 45px 30px 30px;
+  }
+}
