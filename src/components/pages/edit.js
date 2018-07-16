@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
-import queryString from 'query-string';
+import qs from 'qs';
 
 // Internal Dependencies
 import { fetchPost, savePost } from '../../store/actions';
@@ -74,7 +74,7 @@ class PagesEdit extends React.Component {
           <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
           <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
         </div>
-        <Editor post={ post } settings={ settings } template={ queryString.parse(this.props.location.search).template } />
+        <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
       </div>
     );
   }
