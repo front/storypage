@@ -10,7 +10,6 @@ const WatchMissingNodeModulesPlugin = require( 'react-dev-utils/WatchMissingNode
 const eslintFormatter = require( 'react-dev-utils/eslintFormatter' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
-const autoprefixer = require('autoprefixer');
 
 // internal
 const getClientEnvironment = require( './env' );
