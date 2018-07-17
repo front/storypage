@@ -330,9 +330,9 @@ module.exports = {
 		// You can remove this if you don't use Moment.js:
 		new webpack.IgnorePlugin( /^\.\/locale$/, /moment$/ ),
 		new CopyWebpackPlugin( [
-			{ from: 'node_modules/tinymce/plugins', to: 'static/plugins' },
-			{ from: 'node_modules/tinymce/themes', to: 'static/themes' },
-			{ from: 'node_modules/tinymce/skins', to: 'static/skins' },
+			{ from: 'node_modules/tinymce/plugins', to: 'static/js/plugins' },
+			{ from: 'node_modules/tinymce/themes', to: 'static/js/themes' },
+			{ from: 'node_modules/tinymce/skins', to: 'static/js/skins' },
 		], {} ),
 	],
 	// Some libraries import Node modules but don't use them in the browser.
