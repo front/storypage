@@ -212,6 +212,14 @@ module.exports = {
 						),
 						// Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
 					},
+					{
+						test: /\.scss$/,
+						use: [
+							{ loader: 'style-loader' }, // creates style nodes from JS strings
+							{ loader: 'css-loader' },   // translates CSS into CommonJS
+							{ loader: 'sass-loader' },  // compiles Sass to CSS
+						],
+					},
 					// "file" loader makes sure assets end up in the `build` folder.
 					// When you `import` an asset, you get its filename.
 					// This loader doesn't use a "test" so it will catch all modules
@@ -330,9 +338,9 @@ module.exports = {
 		// You can remove this if you don't use Moment.js:
 		new webpack.IgnorePlugin( /^\.\/locale$/, /moment$/ ),
 		new CopyWebpackPlugin( [
-			{ from: 'node_modules/tinymce/plugins', to: 'static/plugins' },
-			{ from: 'node_modules/tinymce/themes', to: 'static/themes' },
-			{ from: 'node_modules/tinymce/skins', to: 'static/skins' },
+			{ from: 'node_modules/tinymce/plugins', to: 'static/js/plugins' },
+			{ from: 'node_modules/tinymce/themes', to: 'static/js/themes' },
+			{ from: 'node_modules/tinymce/skins', to: 'static/js/skins' },
 		], {} ),
 	],
 	// Some libraries import Node modules but don't use them in the browser.
