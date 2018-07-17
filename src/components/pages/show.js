@@ -27,7 +27,8 @@ class PagesShow extends React.Component {
 
     const { content, title, type, id/* , header, footer*/ } = this.props.post;
 
-    const isPreview = this.props.match.params[ 1 ] && this.props.match.params[ 1 ] === 'preview';
+    // temp
+    const isPreview = false; // this.props.match.params[ 1 ] && this.props.match.params[ 1 ] === 'preview';
 
     const previewHeader = (
       <section className="jumbotron">
