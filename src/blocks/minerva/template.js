@@ -107,6 +107,6 @@ export default [
       category: 'Kommentar',
       imageUrl: 'https://www.minervanett.no/wp-content/uploads/2018/06/kunst_utstilling-960x500.jpg',
     } ],
-    [ 'core/button', { className: 'minerva-button', align: 'center', text: 'Last flere artikler', customBackgroundColor: '#FFF', customTextColor: '#000' } ],
+    [ 'core/button', { className: 'minerva-button', align: 'center', text: 'Last flere artikler', customBackgroundColor: '#FFF', customTextColor: '#000', url: 'https://www.minervanett.no/arkiv/' } ],
   ] ],
 ];

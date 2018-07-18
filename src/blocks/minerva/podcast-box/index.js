@@ -12,7 +12,7 @@ import './style.scss';
  * WordPress dependencies
  */
 const { __ } = i18n;
-const { 
+const {
   RichText,
 } = editor;
 
@@ -42,6 +42,10 @@ export const settings = {
       type: 'array',
       source: 'children',
       selector: 'p',
+    },
+    link: {
+      type: 'string',
+      default: 'https://www.minervanett.no/podkast/episode-25-kristoffer-egeberg/',
     },
   },
 
@@ -77,7 +81,7 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, subtitle, teaser } = attributes;
+    const { title, subtitle, teaser, link } = attributes;
 
     return (
       <div className={ className }>
@@ -86,19 +90,22 @@ export const settings = {
           className="minerva-podcast-box-title"
           value={ title }
         />
-        <RichText.Content
-          tagName="h2"
-          className="minerva-podcast-box-subtitle"
-          value={ subtitle }
-        />
-        <RichText.Content
-          tagName="p"
-          className="minerva-podcast-box-teaser"
-          value={ teaser }
-        />
+        <a href={ link } target="_blank">
+          <RichText.Content
+            tagName="h2"
+            className="minerva-podcast-box-subtitle"
+            value={ subtitle }
+          />
+
+          <RichText.Content
+            tagName="p"
+            className="minerva-podcast-box-teaser"
+            value={ teaser }
+          />
+        </a>
         <div className="minerva-podcast-box-links">
-          <a href="">Hør siste episode</a>
-          <a href="">Abonner via iTunes</a>
+          <a href="https://www.minervanett.no/podKast/">Hør siste episode</a>
+          <a href="https://itunes.apple.com/no/podcast/minervapodden/id1086075439?l=nb&mt=2">Abonner via iTunes</a>
         </div>
       </div>
     );

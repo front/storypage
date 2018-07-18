@@ -3,8 +3,21 @@ div.wp-block-minerva-podcast-box {
 	background-color: #BF5048;
 	padding: 57px 38px 38px 38px;
 
+	a {
+		color: inherit;
+
+		&:hover {
+			color: inherit;
+			text-decoration: none;
+
+			.minerva-podcast-box-subtitle {
+				text-decoration: underline;
+			}
+		}
+	}
+
 	p {
-		color: white;
+		color: inherit;
 	}
 
 	.minerva-podcast-box-title {
@@ -23,14 +36,20 @@ div.wp-block-minerva-podcast-box {
 		font-style: italic;
 		font-size: 19px;
 		line-height: 1.3;
+		margin-bottom: 19px;
 	}
 
 	.minerva-podcast-box-links {
 		a {
-			color: white;
+			color: inherit;
 			text-decoration: underline;
 			font-size: 19px;
 			margin-right: 19px;
+
+			&:hover,
+			&:focus {
+				opacity: .7;
+			}
 		}
 	}
 }
