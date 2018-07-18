@@ -1,4 +1,16 @@
 div.wp-block-minerva-article-secondary {
+	a {
+		color: inherit;
+
+		&:hover {
+			text-decoration: none;
+
+			.minerva-article-title,
+			.minerva-author-name {
+				text-decoration: underline;
+			}
+		}
+	}
 	.minerva-article-title {
 		font-size: 60px;
 	}

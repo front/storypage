@@ -15,6 +15,10 @@ export const articleAttributes = {
     type: 'string',
     default: 'Kommentar',
   },
+  categoryUrl: {
+    type: 'string',
+    default: 'https://www.minervanett.no/kategori/kommentar',
+  },
   date: {
     type: 'string',
     default: '03. juli 2018',
@@ -27,9 +31,17 @@ export const articleAttributes = {
     type: 'string',
     default: 'Aksel Fridstrøm',
   },
+  authorUrl: {
+    type: 'string',
+    default: 'https://www.minervanett.no/skribent/aksel_fridstrom/',
+  },
   authorImageUrl: {
     type: 'string',
     default: 'https://www.minervanett.no/wp-content/uploads/2018/01/Aksel-128x128.jpg',
+  },
+  link: {
+    type: 'string',
+    default: 'https://www.minervanett.no/handel-dreier-seg-om-a-vinne/',
   },
 };
 
@@ -38,3 +50,5 @@ export const backgroundImageStyles = url => {
     { backgroundImage: `url(${url})` } :
     undefined;
 };
+
+export const formattingControls = [ 'bold', 'italic' ];

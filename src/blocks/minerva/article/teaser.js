@@ -2,19 +2,19 @@
 import React from 'react';
 import {
   i18n,
+  components,
   editor,
 } from '@frontkom/gutenberg-js';
 
-import { articleAttributes } from './default-attributes';
+import { articleAttributes, formattingControls } from './default-attributes';
 import './teaser.scss';
 
 /**
 * WordPress dependencies
 */
 const { __ } = i18n;
-const {
-  RichText,
-} = editor;
+const { PanelBody, TextControl } = components;
+const { InspectorControls, RichText } = editor;
 
 export const name = 'minerva/article-teaser';
 
@@ -27,36 +27,55 @@ export const settings = {
   attributes: articleAttributes,
 
   edit ({ attributes, className, setAttributes }) {
-    const { title, teaser, date, authorName, authorImageUrl } = attributes;
+    const { title, teaser, date, authorName, authorUrl, authorImageUrl, link } = attributes;
 
     return (
       <div className={ className }>
+        <InspectorControls>
+          <PanelBody title={ __('Article Primary Settings') }>
+            <TextControl
+              value={ link }
+              label={ __('Article URL') }
+              onChange={ value => setAttributes({ link: value }) }
+            />
+            <TextControl
+              value={ authorUrl }
+              label={ __('Author URL') }
+              onChange={ value => setAttributes({ authorUrl: value }) }
+            />
+          </PanelBody>
+        </InspectorControls>
+
         <RichText
           tagName="h2"
           className="minerva-article-title"
           value={ title }
           onChange={ value => setAttributes({ title: value }) }
+          formattingControls={formattingControls}
         />
         <RichText
           tagName="p"
           className="minerva-article-teaser"
           value={ teaser }
           onChange={ value => setAttributes({ teaser: value }) }
+          formattingControls={formattingControls}
         />
         <div className="minerva-article-author">
-          <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
+          <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
           <div className="minerva-article-meta">
             <RichText
               tagName="span"
-              className="minerva-article-name"
+              className="minerva-author-name"
               value={ authorName }
               onChange={ value => setAttributes({ authorName: value }) }
+              formattingControls={formattingControls}
             />
             <RichText
               tagName="span"
               className="minerva-article-date"
               value={ date }
               onChange={ value => setAttributes({ date: value }) }
+              formattingControls={formattingControls}
             />
           </div>
         </div>
@@ -65,28 +84,34 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, date, authorName, authorImageUrl } = attributes;
+    const { title, teaser, date, authorName, authorUrl, authorImageUrl, link } = attributes;
 
     return (
       <div className={ className }>
-        <RichText.Content
-          tagName="h2"
-          className="minerva-article-title"
-          value={ title }
-        />
-        <RichText.Content
-          tagName="p"
-          className="minerva-article-teaser"
-          value={ teaser }
-        />
+        <a href={ link } target="_blank">
+          <RichText.Content
+            tagName="h2"
+            className="minerva-article-title"
+            value={ title }
+          />
+          <RichText.Content
+            tagName="p"
+            className="minerva-article-teaser"
+            value={ teaser }
+          />
+        </a>
         <div className="minerva-article-author">
-          <img alt="" src={ authorImageUrl } className="minerva-article-avatar" />
+          <a href={ authorUrl } target="_blank">
+            <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
+          </a>
           <div className="minerva-article-meta">
-            <RichText.Content
-              tagName="span"
-              className="minerva-article-name"
-              value={ authorName }
-            />
+            <a href={ authorUrl } target="_blank">
+              <RichText.Content
+                tagName="span"
+                className="minerva-author-name"
+                value={ authorName }
+              />
+            </a>
             <RichText.Content
               tagName="span"
               className="minerva-article-date"
