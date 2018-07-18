@@ -13,7 +13,7 @@ import './teaser.scss';
 */
 const { __ } = i18n;
 const {
- RichText,
+  RichText,
 } = editor;
 
 export const name = 'minerva/article-teaser';
@@ -96,5 +96,5 @@ export const settings = {
         </div>
       </div>
     );
-  }
+  },
 };

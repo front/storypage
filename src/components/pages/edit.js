@@ -12,7 +12,7 @@ import Editor from '../editor';
 import Loading from './loading';
 import NotFound from './not_found';
 
-let settings = {
+const settings = {
   template: '',
   alignWide: true,
   availableTemplates: [],

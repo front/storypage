@@ -52,6 +52,9 @@ class Editor extends React.Component {
       render: MyPluginDocumentSidebarPanel,
     });
 
+    // Disable tips
+    data.dispatch('core/nux').disableTips();
+
     // Initializing Editor
     editPost.initializeEditor('editor', type, id,  { ...this.props.settings, template }, overridePost);
 
