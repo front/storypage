@@ -111,7 +111,7 @@ export const settings = {
     return (
       <div className={ className }>
         <div className="minerva-article-category">
-          <a href={ categoryUrl } target="_blank">
+          <a href={ categoryUrl }>
             <RichText.Content
               tagName="span"
               value={ category }
@@ -120,7 +120,7 @@ export const settings = {
         </div>
         <div className="minerva-article-content">
           <div>
-            <a href={ link } target="_blank">
+            <a href={ link }>
               <RichText.Content
                 tagName="h1"
                 className="minerva-article-title"
@@ -133,11 +133,11 @@ export const settings = {
               />
             </a>
             <div className="minerva-article-author">
-              <a href={ authorUrl } target="_blank">
+              <a href={ authorUrl }>
                 <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
               </a>
               <div className="minerva-article-meta">
-                <a href={ authorUrl } target="_blank">
+                <a href={ authorUrl }>
                   <RichText.Content
                     tagName="span"
                     className="minerva-author-name"
@@ -152,7 +152,7 @@ export const settings = {
               </div>
             </div>
           </div>
-          <a href={ link } target="_blank">
+          <a href={ link }>
             <img alt="" src={ imageUrl } className="minerva-article-image" />
           </a>
         </div>

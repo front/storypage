@@ -90,7 +90,7 @@ export const settings = {
           className="minerva-podcast-box-title"
           value={ title }
         />
-        <a href={ link } target="_blank">
+        <a href={ link }>
           <RichText.Content
             tagName="h2"
             className="minerva-podcast-box-subtitle"
