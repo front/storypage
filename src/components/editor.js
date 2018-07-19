@@ -32,25 +32,27 @@ class Editor extends React.Component {
     initMinerva();
     initComputerworld();
 
-    // PluginDocumentSidebarPanel
-    const { PluginDocumentSidebarPanel } = editPost;
-    const { PostsPanel/* , TemplateSettingsPanel*/ } = lib.components;
+    if (type === 'page') {
+      // PluginDocumentSidebarPanel
+      const { PluginDocumentSidebarPanel } = editPost;
+      const { PostsPanel/* , TemplateSettingsPanel*/ } = lib.components;
 
-    const MyPluginDocumentSidebarPanel = () => {
-      return (
-        <PluginDocumentSidebarPanel
-          title={ 'My Stories' }
-          initialOpen={ true }
-        >
-          <PostsPanel />
-        </PluginDocumentSidebarPanel>
-      );
-    };
+      const MyPluginDocumentSidebarPanel = () => {
+        return (
+          <PluginDocumentSidebarPanel
+            title={ 'My Stories' }
+            initialOpen={ true }
+          >
+            <PostsPanel />
+          </PluginDocumentSidebarPanel>
+        );
+      };
 
-    // Registering MyPluginDocumentSidebarPanel Plugin
-    plugins.registerPlugin('plugin-document-sidebar', {
-      render: MyPluginDocumentSidebarPanel,
-    });
+      // Registering MyPluginDocumentSidebarPanel Plugin
+      plugins.registerPlugin('plugin-document-sidebar', {
+        render: MyPluginDocumentSidebarPanel,
+      });
+    }
 
     // Disable tips
     data.dispatch('core/nux').disableTips();
