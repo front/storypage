@@ -32,9 +32,9 @@ function apiRequest (options) {
 
   if (queryStringOptions) {
     options.data = merge(options.data, queryStringOptions);
-  }	
+  }
 
-  // console.log( 'apiRequest options', options, path );
+  console.log('apiRequest options', options, path);
 
   if (path === '/oembed/1.0/proxy') {
     // https://twitter.com/mikescollins/status/1006351423796318209?s=19
@@ -47,7 +47,7 @@ function apiRequest (options) {
     let res;
     let singleResource = false;
 
-    // Call actions by invoked path  
+    // Call actions by invoked path
     switch (path) {
       case `${apiRoot}/pages`:
       case `${apiRoot}/posts`:
@@ -88,13 +88,16 @@ function apiRequest (options) {
         break;
       case `${apiRoot}/media/${resoureceId}`:
         singleResource = true;
-					
         res = Actions.fetchMedia(resoureceId);
         break;
       case `${apiRoot}/media`:
-        singleResource = true;
-			
-        res = Actions.saveMedia(options);
+        if (method === 'POST' || method === 'PUT') {
+          singleResource = true;
+          res = Actions.saveMedia(options);
+        }
+        else if (method === 'GET') {
+          res = Actions.fetchMediaItems(options);
+        }
         break;
       case `${apiRoot}/categories`:
         res = Actions.fetchCategories();
@@ -131,7 +134,7 @@ function apiRequest (options) {
         // console.log( 'resource', resource);
         // console.log( 'res.payload.id', res.payload.id);
 
-        // faking a request				
+        // faking a request
         const url = singleResource ? `/${resource}/${res.payload.id}` : `/${resource}`;
         const xhr = new XMLHttpRequest();
 
@@ -147,7 +150,7 @@ function apiRequest (options) {
           delete xhr.response.id;
         }
 
-        // console.log( 'response', xhr.response );
+        console.log('response', xhr.response);
 
         dfd.abort = () => {
           // console.log( 'abort' );

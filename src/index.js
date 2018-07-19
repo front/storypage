@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 // Internal Dependencies
-import './core/index.js';
+import './globals/index.js';
 import registerServiceWorker from './registerServiceWorker';
 import Router from './components/router';
 import reducers from './store/reducer';
