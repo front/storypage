@@ -22,8 +22,8 @@ export function generatePosts (n = 1, options = {}) {
       },
       date,
       date_gmt: date,
-      footer: false,
-      header: true,
+      // footer: false,
+      // header: true,
       title: {
         raw: `Generated post number ${id}`,
         rendered: `Generated post number ${id}`,
@@ -54,14 +54,22 @@ export function generateImages (n = 1) {
 
     return {
       id,
+      caption: { raw: '', rendered: '' },
       date_gmt: date,
       date,
-      link: `${window.location.origin}/sample${id}.jpg`,
+      link: `${window.location.origin}/img${id}.png`,
       media_type: 'image',
-      source_url: `${window.location.origin}/sample${id}.jpg`,
+      source_url: `${window.location.origin}/img${id}.png`,
       data: {
         entity_type: 'file',
         entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${id}`,
+      },
+      media_details: {
+        file: '',
+        height: 2100,
+        image_meta: {},
+        sizes: {},
+        width: 3360,
       },
     };
   });

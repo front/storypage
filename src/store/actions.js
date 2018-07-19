@@ -15,6 +15,7 @@ export const DELETE_POST = 'delete_post';
 
 export const SAVE_MEDIA = 'save_media';
 export const FETCH_MEDIA = 'fetch_media';
+export const FETCH_MEDIA_ITEMS = 'fetch_media_items';
 
 export const FETCH_CATEGORIES = 'fetch_categories';
 
@@ -29,7 +30,7 @@ const LOCAL_LIBRARY = 'library';
 const LOCAL_CATEGORIES = 'categories';
 const LOCAL_TYPES = 'types';
 
-const N_IMAGES = 4;
+const N_IMAGES = 6;
 const N_CATEGORIES = 4;
 const N_POSTS = 10;
 
@@ -57,6 +58,7 @@ const DEFAULT_STORAGE = {
     {
       id: 2,
       name: 'Posts', rest_base: 'posts', slug: 'post',
+      labels: { remove_featured_media: 'Remove featured image' },
       supports: {
         author: true,
         comments: false, // hide discussion-panel
@@ -64,8 +66,8 @@ const DEFAULT_STORAGE = {
         editor: true,
         'page-attributes': false, // hide page-attributes panel
         revisions: true,
-        thumbnail: false, // featured-image panel
-        title: true,
+        thumbnail: true, // show featured-image panel
+        title: true, // show title on editor
       },
       viewable: true,
     },
@@ -137,7 +139,7 @@ export function fetchPosts (options = { }) {
   let posts = getFromLocalStorage(LOCAL_LIBRARY);
 
   const { type, search } = options;
-  let { status } = options;
+  // let { status } = options;
   const categoryId = parseInt(options.category_id);
 
   posts = reject(posts, { type: 'revision' });
@@ -146,9 +148,9 @@ export function fetchPosts (options = { }) {
     posts = filter(posts, { type });
   }
 
-  if ((status || (status = 'publish')) && status !== 'all') {
+  /* if ((status || (status = 'publish')) && status !== 'all') {
     posts = filter(posts, { status });
-  }
+  } */
 
   if (categoryId) {
     posts = filter(posts, post => {
@@ -189,11 +191,12 @@ export function savePost (postData) {
     content,
     type,
     status,
-    header,
-    footer,
+    // header,
+    // footer,
   } = postData;
 
   const themeStyle = postData.theme_style;
+  const featuredMedia = postData.featured_media;
   let id = parseInt(postData.id);
   const storage = getFromLocalStorage();
 
@@ -215,8 +218,9 @@ export function savePost (postData) {
       },
       date,
       date_gmt: date,
-      footer: footer || false,
-      header: header || true,
+      featured_media: featuredMedia || 0,
+      // footer: footer || false,
+      // header: header || true,
       title: {
         raw: title || `${type} ${id}`,
         rendered: (title && title.replace(reg, '')) || `${type} ${id}`,
@@ -257,12 +261,16 @@ export function savePost (postData) {
       post.theme_style = themeStyle;
     }
 
-    if (has(postData, 'header')) {
+    /* if (has(postData, 'header')) {
       post.header = header;
     }
 
     if (has(postData, 'footer')) {
       post.footer = footer;
+    } */
+
+    if (has(postData, 'featured_media')) {
+      post.featured_media = featuredMedia;
     }
 
     post.modified = date;
@@ -361,13 +369,21 @@ export function saveMedia (mediaData) {
 
     storage[ LOCAL_MEDIA ].push({
       id,
+      caption: { raw: '', rendered: '' },
       date,
       date_gmt: date,
-      source_url: `${window.location.origin}/sample${image}.jpg`,
-      link: `${window.location.origin}/sample${image}.jpg`,
+      source_url: `${window.location.origin}/img${image}.png`,
+      link: `${window.location.origin}/img${image}.png`,
       data: {
         entity_type: 'file',
         entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${id}`,
+      },
+      media_details: {
+        file: '',
+        height: 2100,
+        image_meta: {},
+        sizes: {},
+        width: 3360,
       },
     });
   }
@@ -408,6 +424,22 @@ export function fetchMedia (id) {
 }
 
 /**
+ * Get media items
+ *
+ * @param  {Object}	options	Optional. Search data
+ *
+ * @return {Object}	Action type and array of media items
+ */
+export function fetchMediaItems (options) {
+  const items = bundling(getFromLocalStorage(LOCAL_MEDIA), options);
+
+  return {
+    type: FETCH_MEDIA_ITEMS,
+    payload: items,
+  };
+}
+
+/**
  * Get all categories
  *
  * @param  {Object}	options	Optional. Search data
@@ -415,9 +447,7 @@ export function fetchMedia (id) {
  * @return {Object}	Action type and array of categories
  */
 export function fetchCategories (options = { }) {
-  let categories = bundling(getFromLocalStorage(LOCAL_CATEGORIES));
-
-  categories = bundling(categories, options);
+  const categories = bundling(getFromLocalStorage(LOCAL_CATEGORIES), options);
 
   return {
     type: FETCH_CATEGORIES,
@@ -433,10 +463,7 @@ export function fetchCategories (options = { }) {
  * @return {Object}	Action type and array of types
  */
 export function fetchTypes (options = { }) {
-  let types = bundling(getFromLocalStorage(LOCAL_TYPES));
-
-  types = bundling(types, options);
-
+  let types = bundling(getFromLocalStorage(LOCAL_TYPES), options);
   types = mapKeys(types, ({ slug }) => (slug));
 
   return {
