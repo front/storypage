@@ -6,7 +6,10 @@ A page builder using the [Gutenberg](https://github.com/front/gutenberg) editor 
 `npm start` to run the app
 
 ## Deployment
-After pull from remote, run `npm run build`.
+
+After pull from remote:
+`npm install` to install dependences if there are new
+and `npm run build`.
 
 ## Globals (required by Guternberg-js)
 
