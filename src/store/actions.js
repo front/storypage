@@ -2,7 +2,7 @@
 import { filter, find, findKey, includes, has, /* clone, */reject, random, mapKeys } from 'lodash';
 
 // Internal Dependencies
-import { generatePosts, generateImages, generateCategories } from './generators';
+import { generatePosts, generateImages, generateCategories, generateTypes, generateIndex, generateTaxonomies } from './generators';
 import { bundling } from './query-helpers';
 
 // Actions types
@@ -18,9 +18,13 @@ export const FETCH_MEDIA = 'fetch_media';
 export const FETCH_MEDIA_ITEMS = 'fetch_media_items';
 
 export const FETCH_CATEGORIES = 'fetch_categories';
+export const SAVE_CATEGORY = 'save_category';
 
 export const FETCH_TYPES = 'fetch_types';
 export const FETCH_TYPE = 'fetch_type';
+
+export const FETCH_TAXONOMIES = 'fetch_taxonomies';
+export const FETCH_TAXONOMY = 'fetch_taxonomy';
 
 // Module constants
 const LOCAL_STORAGE_KEY = 'storypage';
@@ -29,6 +33,7 @@ const LOCAL_MEDIA = 'media';
 const LOCAL_LIBRARY = 'library';
 const LOCAL_CATEGORIES = 'categories';
 const LOCAL_TYPES = 'types';
+const LOCAL_TAXONOMIES = 'taxonomies';
 
 const N_IMAGES = 6;
 const N_CATEGORIES = 4;
@@ -38,56 +43,9 @@ const DEFAULT_STORAGE = {
   [ LOCAL_MEDIA ]: generateImages(N_IMAGES),
   [ LOCAL_LIBRARY ]: generatePosts(N_POSTS, { N_IMAGES, N_CATEGORIES }),
   [ LOCAL_CATEGORIES ]: generateCategories(N_CATEGORIES),
-  [ LOCAL_TYPES ]: [
-    // capabilities, description, hierarchical, labels, name, rest_base, slug, supports, taxonomies, viewable
-    {
-      id: 1,
-      name: 'Pages', rest_base: 'pages', slug: 'page',
-      supports: {
-        author: true,
-        comments: false, // hide discussion-panel
-        'custom-fields': true,
-        editor: true,
-        'page-attributes': false, // hide page-attributes panel
-        revisions: true,
-        thumbnail: false, // hide featured-image panel
-        title: false, // hide title on editor
-      },
-      viewable: true,
-    },
-    {
-      id: 2,
-      name: 'Posts', rest_base: 'posts', slug: 'post',
-      labels: { remove_featured_media: 'Remove featured image' },
-      supports: {
-        author: true,
-        comments: false, // hide discussion-panel
-        'custom-fields': true,
-        editor: true,
-        'page-attributes': false, // hide page-attributes panel
-        revisions: true,
-        thumbnail: true, // show featured-image panel
-        title: true, // show title on editor
-      },
-      viewable: true,
-    },
-    // {
-    // 	id: 3,
-    // 	description: '',
-    // 	hierarchical: false,
-    // 	name: 'Media', rest_base: 'media', slug: 'attachment',
-    // 	taxonomies: [],
-    // 	// publishable: false, // * hide publish toggle
-    // 	// saveable: false, // * show save button
-    // 	// autosaveable: false, // * disable autosave
-    // },
-  ],
-  [ LOCAL_INDEX ]: {
-    theme_supports: {
-      formats: [ 'standard', 'aside', 'image', 'video', 'quote', 'link', 'gallery', 'audio' ],
-      'post-thumbnails': true,
-    },
-  },
+  [ LOCAL_TYPES ]: generateTypes(),
+  [ LOCAL_INDEX ]: generateIndex(),
+  [ LOCAL_TAXONOMIES ]: generateTaxonomies(),
 };
 
 /**
@@ -193,6 +151,7 @@ export function savePost (postData) {
     status,
     // header,
     // footer,
+    categories,
   } = postData;
 
   const themeStyle = postData.theme_style;
@@ -233,6 +192,7 @@ export function savePost (postData) {
       link: `${window.location.origin}/${type}s/${id}`,
       permalink_template: `${window.location.origin}/${type}s/${id}`,
       preview_link: `${window.location.origin}/${type}s/${id}/preview`,
+      categories: categories || []
     });
   }
   else {
@@ -271,6 +231,10 @@ export function savePost (postData) {
 
     if (has(postData, 'featured_media')) {
       post.featured_media = featuredMedia;
+    }
+
+    if (has(postData, 'categories')) {
+      post.categories = categories;
     }
 
     post.modified = date;
@@ -356,7 +320,6 @@ export function deletePost (id) {
  * @return {Object}	Action type and media
  */
 export function saveMedia (mediaData) {
-  const { data } = mediaData;
   let { id } = mediaData;
 
   const storage = getFromLocalStorage();
@@ -387,11 +350,11 @@ export function saveMedia (mediaData) {
       },
     });
   }
-  else if (data) { // update
-    const media = find(storage[ LOCAL_MEDIA ], { id: parseInt(id) });
+  else { // update
+    let media = find(storage[ LOCAL_MEDIA ], { id: parseInt(id) });
     const mediaKey = findKey(storage[ LOCAL_MEDIA ], { id: parseInt(id) });
 
-    media.data = data;
+    media = mediaData;
 
     media.modified = date;
     media.modified_gmt = date;
@@ -475,9 +438,9 @@ export function fetchTypes (options = { }) {
 /**
  * Get a type
  *
- * @param  {string}	slug	Article id
+ * @param  {string}	slug	postType slug
  *
- * @return {Object}	Action type and article
+ * @return {Object}	Action type and postType
  */
 export function fetchType (slug) {
   const type = find(getFromLocalStorage(LOCAL_TYPES), { slug });
@@ -485,5 +448,86 @@ export function fetchType (slug) {
   return {
     type: FETCH_TYPE,
     payload: type,
+  };
+}
+
+/**
+ * Get all taxonomies
+ *
+ * @param  {Object}	options	Optional. Search data
+ *
+ * @return {Object}	Action type and array of taxonomies
+ */
+export function fetchTaxonomies (options = { }) {
+  let taxonomies = bundling(getFromLocalStorage(LOCAL_TAXONOMIES), options);
+  taxonomies = mapKeys(taxonomies, ({ slug }) => (slug));
+
+  return {
+    type: FETCH_TAXONOMIES,
+    payload: taxonomies,
+  };
+}
+
+/**
+ * Get a taxonomy
+ *
+ * @param  {string}	slug	taxonomy slug
+ *
+ * @return {Object}	Action type and taxonomy
+ */
+export function fetchTaxonomy (slug) {
+  const taxonomy = find(getFromLocalStorage(LOCAL_TAXONOMIES), { slug });
+
+  return {
+    type: FETCH_TAXONOMY,
+    payload: taxonomy,
+  };
+}
+
+
+/**
+ * Create or update a category
+ *
+ * @param  {Object}	categoryData			Category data
+ * @param  {number}	categoryData.id		(Optional) Category id
+ *
+ * @return {Object}	Action type and category
+ */
+export function saveCategory (categoryData) {
+  const { name, parent } = categoryData;
+  let { id } = categoryData;
+
+  const storage = getFromLocalStorage();
+
+  // create
+  if (! id) {
+    id = Date.now();
+
+    storage[ LOCAL_CATEGORIES ].push({
+      id,
+      name,
+      parent: parent || 0,
+    });
+  }
+  else { // update
+    const category = find(storage[ LOCAL_CATEGORIES ], { id: parseInt(id) });
+    const categoryKey = findKey(storage[ LOCAL_CATEGORIES ], { id: parseInt(id) });
+
+    if (has(categoryData, 'name')) {
+      category.name = name;
+    }
+
+    if (has(categoryData, 'parent')) {
+      category.parent = parent;
+    }
+
+    storage[ LOCAL_CATEGORIES ][ categoryKey ] = category;
+  }
+
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+
+  return {
+    type: SAVE_CATEGORY,
+    payload: find(storage[ LOCAL_CATEGORIES ], { id: parseInt(id) }),
   };
 }

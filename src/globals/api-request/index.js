@@ -54,13 +54,7 @@ function apiRequest (options) {
         options.data.type = resource.slice(0, -1);
 
         if (method === 'GET') {
-          if (resoureceId) {
-            singleResource = true;
-            res = Actions.fetchPost(resoureceId, options.data);
-          }
-          else {
-            res = Actions.fetchPosts(options.data);
-          }
+          res = Actions.fetchPosts(options.data);
         }
         break;
       case `${apiRoot}/page/${resoureceId}`:
@@ -84,7 +78,6 @@ function apiRequest (options) {
         else if (method === 'GET') {
           res = Actions.fetchPost(resoureceId, options.data);
         }
-
         break;
       case `${apiRoot}/media/${resoureceId}`:
         singleResource = true;
@@ -93,26 +86,50 @@ function apiRequest (options) {
       case `${apiRoot}/media`:
         if (method === 'POST' || method === 'PUT') {
           singleResource = true;
-          res = Actions.saveMedia(options);
+          res = Actions.saveMedia(options.data);
         }
         else if (method === 'GET') {
           res = Actions.fetchMediaItems(options);
         }
         break;
       case `${apiRoot}/categories`:
-        res = Actions.fetchCategories();
+        if (method === 'GET') {
+          res = Actions.fetchCategories();
+        }
+        else if (method === 'POST' || method === 'PUT') {
+          singleResource = true;
+          res = Actions.saveCategory(options.data);
+        }
         break;
       case `${apiRoot}/types/${resoureceId}`:
-        singleResource = true;
-        res = Actions.fetchType(resoureceId);
+        if (method === 'GET') {
+          singleResource = true;
+          res = Actions.fetchType(resoureceId);
+        }
         break;
       case `${apiRoot}/types`:
-        singleResource = true;
-        res = Actions.fetchTypes();
+        if (method === 'GET') {
+          singleResource = true;
+          res = Actions.fetchTypes();
+        }
         break;
       case '/':
-        singleResource = true;
-        res = Actions.fetchIndex();
+        if (method === 'GET') {
+          singleResource = true;
+          res = Actions.fetchIndex();
+        }
+        break;
+      case `${apiRoot}/taxonomies/${resoureceId}`:
+        if (method === 'GET') {
+          singleResource = true;
+          res = Actions.fetchTaxonomy(resoureceId);
+        }
+        break;
+      case `${apiRoot}/taxonomies`:
+        if (method === 'GET') {
+          singleResource = true;
+          res = Actions.fetchTaxonomies();
+        }
         break;
     }
 
