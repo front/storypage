@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 class App extends React.Component {
   resetLocalStorage () {
     localStorage.removeItem('storypage');
+    window.location.reload();
   }
 
   render () {
@@ -23,14 +24,11 @@ class App extends React.Component {
             <code>npm install @frontkom/gutenberg-js</code>
             <p className="text-right"><Link className="btn btn-primary" to="/stories">Try it!</Link></p>
             <p>In this POC all data is stored in your browser's localStorage, click to clear it and start over:</p>
-            <Link
+            <button
+              type="button"
               className="btn btn-outline-danger"
-              to="/stories"
-              data-toggle="tooltip"
-              data-placement="bottom"
-              title=""
               onClick={ () => this.resetLocalStorage() }
-            >Clear localStorage and try</Link>{ ' ' }
+            >Clear localStorage</button>
 
             { /* <hr className="my-4" />
 
