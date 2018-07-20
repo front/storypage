@@ -28,7 +28,7 @@ export function generatePosts (n = 1, options = {}) {
         raw: `Generated post number ${id}`,
         rendered: `Generated post number ${id}`,
       },
-      status: 'publish', // 'draft',
+      status: 'draft', // 'publish',
       revisions: { count: 0, last_id: 0 },
       parent: 0,
       theme_style: true,

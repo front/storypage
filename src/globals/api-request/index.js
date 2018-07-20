@@ -34,7 +34,7 @@ function apiRequest (options) {
     options.data = merge(options.data, queryStringOptions);
   }
 
-  console.log('apiRequest options', options, path);
+  // console.log('apiRequest options', options, path);
 
   if (path === '/oembed/1.0/proxy') {
     // https://twitter.com/mikescollins/status/1006351423796318209?s=19
@@ -131,9 +131,6 @@ function apiRequest (options) {
         const server = sinon.fakeServer.create();
         server.respondWith(restServer.getHandler());
 
-        // console.log( 'resource', resource);
-        // console.log( 'res.payload.id', res.payload.id);
-
         // faking a request
         const url = singleResource ? `/${resource}/${res.payload.id}` : `/${resource}`;
         const xhr = new XMLHttpRequest();
@@ -150,7 +147,7 @@ function apiRequest (options) {
           delete xhr.response.id;
         }
 
-        console.log('response', xhr.response);
+        // console.log('response', xhr.response);
 
         dfd.abort = () => {
           // console.log( 'abort' );
