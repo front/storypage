@@ -1,6 +1,6 @@
 // External Dependencies
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import qs from 'qs';
@@ -60,7 +60,7 @@ class PagesEdit extends React.Component {
       return <Loading />;
     }
 
-    const badgeType = type === 'page' ? 'info' : 'secondary';
+    // const badgeType = type === 'page' ? 'info' : 'secondary';
 
     const post = {
       id,
@@ -68,15 +68,17 @@ class PagesEdit extends React.Component {
       ...this.props.post,
     };
 
-    return (
-      <div>
-        <div className="clearfix jumbotron" style={{ height: '32px', overflow: 'hidden', margin: 0, padding: 0 }}>
-          <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
-          <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
-        </div>
-        <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
-      </div>
-    );
+    // return (
+    //   <div>
+    //     <div className="clearfix jumbotron" style={{ height: '32px', overflow: 'hidden', margin: 0, padding: 0 }}>
+    //       <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
+    //       <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
+    //     </div>
+    //     <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
+    //   </div>
+    // );
+
+    return <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
   }
 }
 

@@ -60,8 +60,8 @@ class PagesIndex extends React.Component {
           <td><span className={ `badge badge-${badgeType}` }>{ post.type }</span></td>
           <td>{ this.renderPostTitle(post) }</td>
           <td className="text-right">
-            <a className="btn btn-sm btn-outline-secondary " href={ post.preview_link }>Preview</a>{ ' ' }
-            <Link className="btn btn-sm btn-outline-secondary " to={ `/${post.type}s/${post.id}/edit` }>Edit</Link>{ ' ' }
+            <a className="btn btn-sm btn-outline-secondary " href={ post.preview_link } target="_blank">Preview</a>{ ' ' }
+            <Link className="btn btn-sm btn-outline-secondary " to={ `/${post.type}s/${post.id}/edit` } target="_blank">Edit</Link>{ ' ' }
             <button className="btn btn-sm btn-outline-danger" value={ post.id } onClick={ this.onDeleteButtonClick }>Delete</button>
           </td>
         </tr>
@@ -97,16 +97,16 @@ class PagesIndex extends React.Component {
             <h1>Stories</h1>
             <div className="text-right">
               <Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
-              <Link className="btn btn-secondary" to="/posts/new">New post</Link>{ ' ' }
+              <Link className="btn btn-secondary" to="/posts/new" target="_blank">New post</Link>{ ' ' }
               { /* <Link className="btn btn-info" to="/pages/new">New page</Link> */ }
               <div className="dropdown d-inline">
                 <a className="btn btn-info dropdown-toggle" href="#" role="button" id="pagesDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                   New page
                 </a>
                 <div className="dropdown-menu" aria-labelledby="pagesDropdownLink">
-                  <Link className="dropdown-item" to="/pages/new">Template free</Link>
+                  <Link className="dropdown-item" to="/pages/new" target="_blank">Template free</Link>
                   <div className="dropdown-divider"></div>
-                  <Link className="dropdown-item" to="/pages/new?template=minerva">Minerva template</Link>
+                  <Link className="dropdown-item" to="/pages/new?template=minerva" target="_blank">Minerva template</Link>
                   <a className="dropdown-item disabled" href="#">CW template (soon)</a>
                 </div>
               </div>
