@@ -7,9 +7,9 @@ import {
   FETCH_POSTS,
   FETCH_POST,
   DELETE_POST,
-  FETCH_CATEGORIES,
-  FETCH_TYPES,
-  FETCH_TYPE,
+  // FETCH_CATEGORIES,
+  // FETCH_TYPES,
+  // FETCH_TYPE,
   // FETCH_INDEX,
   SAVE_POST,
 } from './actions';
@@ -28,6 +28,7 @@ import {
 
 export function posts (state = { }, action) {
   let postKey, post, pK;
+
   switch (action.type) {
     case FETCH_POSTS:
       return action.payload;
@@ -59,7 +60,7 @@ export function posts (state = { }, action) {
   }
 }
 
-export function categories (state = { }, action) {
+/* export function categories (state = { }, action) {
   switch (action.type) {
     case FETCH_CATEGORIES:
       return action.payload;
@@ -82,11 +83,11 @@ export function types (state = { }, action) {
     default:
       return state;
   }
-}
+} */
 
 export default combineReducers({
   // index,
   posts,
-  categories,
-  types,
+  // categories,
+  // types,
 });
