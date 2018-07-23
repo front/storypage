@@ -159,4 +159,5 @@ export const settings = {
       </div>
     );
   },
+  draggablePost: true,
 };
