@@ -57,12 +57,10 @@ function apiRequest (options) {
           res = Actions.fetchPosts(options.data);
         }
         break;
-      case `${apiRoot}/page/${resoureceId}`:
       case `${apiRoot}/pages/${resoureceId}`:
-      case `${apiRoot}/page/${resoureceId}/autosaves`:
-      case `${apiRoot}/post/${resoureceId}`:
+      case `${apiRoot}/pages/${resoureceId}/autosaves`:
       case `${apiRoot}/posts/${resoureceId}`:
-      case `${apiRoot}/post/${resoureceId}/autosaves`:
+      case `${apiRoot}/posts/${resoureceId}/autosaves`:
         options.data.type = resource.endsWith('s') ? resource.slice(0, -1) : resource;
         options.data.id = options.data.id ? options.data.id : resoureceId;
         singleResource = true;
