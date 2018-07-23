@@ -1,6 +1,6 @@
 {
     "name": "story-page",
-    "version": "0.4.2",
+    "version": "0.5.0",
     "private": true,
     "engines": {
         "node": ">=8.3.0",
@@ -8,7 +8,7 @@
     },
     "dependencies": {
         "@frontkom/cw-latest-news": "0.0.6",
-        "@frontkom/gutenberg-js": "0.1.0",
+        "@frontkom/gutenberg-js": "0.2.0",
         "bootstrap": "4.1.1",
         "case-sensitive-paths-webpack-plugin": "2.1.1",
         "chalk": "1.1.3",

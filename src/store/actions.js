@@ -192,7 +192,7 @@ export function savePost (postData) {
       link: `${window.location.origin}/${type}s/${id}`,
       permalink_template: `${window.location.origin}/${type}s/${id}`,
       preview_link: `${window.location.origin}/${type}s/${id}/preview`,
-      categories: categories || []
+      categories: categories || [],
     });
   }
   else {

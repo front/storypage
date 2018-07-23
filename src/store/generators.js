@@ -174,7 +174,7 @@ export function generateTaxonomies () {
       hierarchical: true,
       labels: {
         menu_name: 'Categories',
-      }
+      },
     },
   ];
 }
