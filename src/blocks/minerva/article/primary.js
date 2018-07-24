@@ -25,7 +25,7 @@ import './primary.scss';
 const { __ } = i18n;
 const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
 const { getColorClass, withColors, BlockControls, InspectorControls, RichText } = editor;
-const { Component, Fragment, compose } = element;
+const { Component, compose } = element;
 const { withSelect } = data;
 
 const {
@@ -105,36 +105,34 @@ class PrimaryEdit extends Component {
 
     return (
       <div className={ classes } style={ style }>
-        <Fragment>
-          <BlockControls>
-            <Toolbar>
-              <MediaUploadToolbar props={ this.props } />
-            </Toolbar>
-          </BlockControls>
-          <InspectorControls>
-            <ImageSettingsPanel props={ { attributes, setAttributes } } />
-            <TextSettingsPanel props={ this.props } />
-            <TextColorPanel props={ this.props } />
+        <BlockControls>
+          <Toolbar>
+            <MediaUploadToolbar props={ this.props } />
+          </Toolbar>
+        </BlockControls>
+        <InspectorControls>
+          <ImageSettingsPanel props={ { attributes, setAttributes } } />
+          <TextSettingsPanel props={ this.props } />
+          <TextColorPanel props={ this.props } />
 
-            <PanelBody title={ __('Article Primary Settings') }>
-              <TextControl
-                value={ categoryUrl }
-                label={ __('Category URL') }
-                onChange={ value => setAttributes({ categoryUrl: value }) }
-              />
-              <TextControl
-                value={ link }
-                label={ __('Article URL') }
-                onChange={ value => setAttributes({ link: value }) }
-              />
-              <TextControl
-                value={ authorUrl }
-                label={ __('Author URL') }
-                onChange={ value => setAttributes({ authorUrl: value }) }
-              />
-            </PanelBody>
-          </InspectorControls>
-        </Fragment>
+          <PanelBody title={ __('Article Primary Settings') }>
+            <TextControl
+              value={ categoryUrl }
+              label={ __('Category URL') }
+              onChange={ value => setAttributes({ categoryUrl: value }) }
+            />
+            <TextControl
+              value={ link }
+              label={ __('Article URL') }
+              onChange={ value => setAttributes({ link: value }) }
+            />
+            <TextControl
+              value={ authorUrl }
+              label={ __('Author URL') }
+              onChange={ value => setAttributes({ authorUrl: value }) }
+            />
+          </PanelBody>
+        </InspectorControls>
 
         <div className="container">
           <div className="minerva-article-category">
@@ -197,18 +195,19 @@ class PrimaryEdit extends Component {
 
 export const name = 'minerva/article-primary';
 
-articleAttributes.customFontSize.default = 58;
-articleAttributes.fontSize.default = '';
-articleAttributes.customTextColor.default = 'white';
+const primaryAttributes = JSON.parse(JSON.stringify(articleAttributes));
+primaryAttributes.customFontSize.default = 58;
+primaryAttributes.fontSize.default = '';
+primaryAttributes.customTextColor.default = 'white';
 
 export const settings = {
   title: __('Article Primary'),
-  icon: 'universal-access-alt',
+  icon: 'cover-image',
   description: __('Article Primary by Minerva'),
 
   category: 'minerva',
 
-  attributes: articleAttributes,
+  attributes: primaryAttributes,
 
   edit: compose(
     withSelect((select, props) => {
@@ -250,8 +249,6 @@ export const settings = {
       customFontSize,
       fontSize,
     } = attributes;
-
-    console.log('textColor', textColor);
 
     const textClass = getColorClass('color', textColor);
     const fontSizeClass = fontSize && `is-${fontSize}-text`;

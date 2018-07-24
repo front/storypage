@@ -20,9 +20,7 @@ export const name = 'minerva/podcast-box';
 
 export const settings = {
   title: __('Podcast Box'),
-
-  icon: 'universal-access-alt',
-
+  icon: 'media-default',
   description: __(' Podcast box by Minerva '),
 
   category: 'minerva',

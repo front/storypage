@@ -20,14 +20,14 @@ export const name = 'minerva/article-teaser';
 
 export const settings = {
   title: __('Article Teaser'),
-  icon: 'universal-access-alt',
+  icon: 'list-view',
   description: __(' Article Teaser by Minerva '),
   category: 'minerva',
 
   attributes: articleAttributes,
 
   edit ({ attributes, className, setAttributes }) {
-    const { title, teaser, date, authorName, authorUrl, authorImageUrl, link } = attributes;
+    const { title, teaser, date, author, authorUrl, authorImageUrl, link } = attributes;
 
     return (
       <div className={ className }>
@@ -66,8 +66,8 @@ export const settings = {
             <RichText
               tagName="span"
               className="minerva-author-name"
-              value={ authorName }
-              onChange={ value => setAttributes({ authorName: value }) }
+              value={ author }
+              onChange={ value => setAttributes({ author: value }) }
               formattingControls={formattingControls}
             />
             <RichText
@@ -84,7 +84,7 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, date, authorName, authorUrl, authorImageUrl, link } = attributes;
+    const { title, teaser, date, author, authorUrl, authorImageUrl, link } = attributes;
 
     return (
       <div className={ className }>
@@ -109,7 +109,7 @@ export const settings = {
               <RichText.Content
                 tagName="span"
                 className="minerva-author-name"
-                value={ authorName }
+                value={ author }
               />
             </a>
             <RichText.Content

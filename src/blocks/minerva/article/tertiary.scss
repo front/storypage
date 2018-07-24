@@ -20,6 +20,7 @@ div.wp-block-minerva-article-tertiary {
 		display: block;
 		position: relative;
 		margin-bottom: 25.8px;
+		color: white;
 
 		&:before {
 			content: '';
@@ -37,6 +38,7 @@ div.wp-block-minerva-article-tertiary {
 
 	.minerva-article-content {
 		display: flex;
+		justify-content: space-between;
 		// flex-direction: row;
 		// flex-wrap: wrap;
 		margin-left: 19px;
