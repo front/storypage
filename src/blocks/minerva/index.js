@@ -3,6 +3,7 @@
  */
 import { filter } from 'lodash';
 import { i18n, blocks, data } from '@frontkom/gutenberg-js';
+import 'moment/locale/nb';
 
 /**
  * Internal Dependencies

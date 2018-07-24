@@ -51,7 +51,6 @@ const {
 } = controls;
 
 const { getComputedStyle } = window;
-moment.locale('nb');
 
 class PrimaryEdit extends Component {
   componentDidUpdate (prevProps) {
@@ -184,7 +183,7 @@ class PrimaryEdit extends Component {
                 formattingControls={formattingControls}
                 inlineToolbar
               /> */ }
-              <span className="minerva-article-date">{ moment(date).format('d. MMMM Y') }</span>
+              <span className="minerva-article-date">{ moment(date).format('LL') }</span>
             </div>
           </div>
         </div>
@@ -311,7 +310,7 @@ export const settings = {
                 className="minerva-article-date"
                 value={ date }
               /> */ }
-              <span className="minerva-article-date">{ moment(date).format('d. MMMM Y') }</span>
+              <span className="minerva-article-date">{ moment(date).format('LL') }</span>
             </div>
           </div>
         </div>

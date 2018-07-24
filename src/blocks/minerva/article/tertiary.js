@@ -46,7 +46,6 @@ const {
 } = controls;
 
 const { getComputedStyle } = window;
-moment.locale('nb');
 
 class TertiaryEdit extends Component {
   componentDidUpdate (prevProps) {
@@ -173,7 +172,7 @@ class TertiaryEdit extends Component {
                   onChange={ value => setAttributes({ date: value }) }
                   formattingControls={formattingControls}
                 /> */ }
-                <span className="minerva-article-date">{ moment(date).format('d. MMMM Y') }</span>
+                <span className="minerva-article-date">{ moment(date).format('LL') }</span>
               </div>
             </div>
           </div>
@@ -294,7 +293,7 @@ export const settings = {
                   className="minerva-article-date"
                   value={ date }
                 /> */ }
-                <span className="minerva-article-date">{ moment(date).format('d. MMMM Y') }</span>
+                <span className="minerva-article-date">{ moment(date).format('LL') }</span>
               </div>
             </div>
           </div>
