@@ -78,7 +78,7 @@ class PagesEdit extends React.Component {
     //   </div>
     // );
 
-    return <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
+    return <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />;
   }
 }
 

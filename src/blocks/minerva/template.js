@@ -24,10 +24,10 @@ export default posts => {
     else if (i === 2) {
       secondaryRight = getPostAttributes(posts[i]);
     }
-    else if ( i >= 3 && i <= 15) {
+    else if (i >= 3 && i <= 15) {
       tertiaries.push(getPostAttributes(posts[i]));
     }
-    else if ( i >= 16 && i <= 19) {
+    else if (i >= 16 && i <= 19) {
       teasers.push(getPostAttributes(posts[i]));
     }
   }

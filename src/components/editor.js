@@ -76,9 +76,10 @@ class Editor extends React.Component {
   componentDidMount () {
     const { template } = this.props;
 
-    if (template === 'minerva' ) {
+    if (template === 'minerva') {
       this.props.fetchPosts({ type: 'post' });
-    } else {
+    }
+    else {
       this.initEditor(template);
     }
   }
@@ -86,7 +87,7 @@ class Editor extends React.Component {
   componentDidUpdate (prevProps) {
     let { template } = this.props;
 
-    if (template === 'minerva' ) {
+    if (template === 'minerva') {
       if (prevProps.props !== this.props.posts) {
         template = templateMinerva(this.props.posts);
         this.initEditor(template);
