@@ -24,12 +24,8 @@ import './primary.scss';
  */
 const { __ } = i18n;
 const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
-const { withColors, BlockControls, InspectorControls, RichText } = editor;
-const {
-  Component,
-  Fragment,
-  compose,
-} = element;
+const { getColorClass, withColors, BlockControls, InspectorControls, RichText } = editor;
+const { Component, Fragment, compose } = element;
 const { withSelect } = data;
 
 const {
@@ -37,6 +33,8 @@ const {
   MediaUploadToolbar,
   // Inspector controls
   ImageSettingsPanel,
+  TextColorPanel,
+  TextSettingsPanel,
   // componentDidUpdate
   didUpdateMedia,
   didUpdateCategory,
@@ -45,6 +43,8 @@ const {
   withSelectMedia,
   withSelectAuthor,
   withSelectCategory,
+  // events
+  getFontSize,
   // helpers
   backgroundImageStyles,
   dimRatioToClass,
@@ -69,7 +69,7 @@ class PrimaryEdit extends Component {
   }
 
   render () {
-    const { attributes, className, setAttributes } = this.props;
+    const { attributes, className, setAttributes, textColor } = this.props;
     const {
       title,
       teaser,
@@ -86,7 +86,10 @@ class PrimaryEdit extends Component {
       hasParallax,
     } = attributes;
 
-    const style = hasImage ? backgroundImageStyles(imageUrl) : {};
+    const style = {
+      ...(hasImage ? backgroundImageStyles(imageUrl) : {}),
+      color: textColor.class ? undefined : textColor.value,
+    };
     const classes = classnames(
       className,
       'wp-block-cover-image',
@@ -94,8 +97,11 @@ class PrimaryEdit extends Component {
       {
         'has-background-dim': dimRatio !== 0,
         'has-parallax': hasParallax,
+        [ textColor.class ]: textColor.class,
       }
     );
+
+    const fontSize = getFontSize(attributes);
 
     return (
       <div className={ classes } style={ style }>
@@ -107,6 +113,8 @@ class PrimaryEdit extends Component {
           </BlockControls>
           <InspectorControls>
             <ImageSettingsPanel props={ { attributes, setAttributes } } />
+            <TextSettingsPanel props={ this.props } />
+            <TextColorPanel props={ this.props } />
 
             <PanelBody title={ __('Article Primary Settings') }>
               <TextControl
@@ -142,6 +150,9 @@ class PrimaryEdit extends Component {
           <RichText
             tagName="h1"
             className="minerva-article-title"
+            style={ {
+              fontSize: fontSize ? fontSize + 'px' : undefined,
+            } }
             value={ title }
             onChange={ value => setAttributes({ title: value }) }
             formattingControls={formattingControls}
@@ -185,6 +196,10 @@ class PrimaryEdit extends Component {
 }
 
 export const name = 'minerva/article-primary';
+
+articleAttributes.customFontSize.default = 58;
+articleAttributes.fontSize.default = '';
+articleAttributes.customTextColor.default = 'white';
 
 export const settings = {
   title: __('Article Primary'),
@@ -230,9 +245,21 @@ export const settings = {
       hasImage,
       dimRatio,
       hasParallax,
+      textColor,
+      customTextColor,
+      customFontSize,
+      fontSize,
     } = attributes;
 
-    const style = hasImage ? backgroundImageStyles(imageUrl) : {};
+    console.log('textColor', textColor);
+
+    const textClass = getColorClass('color', textColor);
+    const fontSizeClass = fontSize && `is-${fontSize}-text`;
+
+    const style = {
+      ...(hasImage ? backgroundImageStyles(imageUrl) : {}),
+      color: textClass ? undefined : customTextColor,
+    };
     const classes = classnames(
       className,
       'wp-block-cover-image',
@@ -240,7 +267,8 @@ export const settings = {
       {
         'has-background-dim': dimRatio !== 0,
         'has-parallax': hasParallax,
-      }
+        [ textClass ]: textClass,
+      },
     );
 
     return (
@@ -259,6 +287,7 @@ export const settings = {
             <RichText.Content
               tagName="h1"
               className="minerva-article-title"
+              style={ { fontSize: fontSizeClass ? undefined : customFontSize } }
               value={ title }
             />
             <RichText.Content
