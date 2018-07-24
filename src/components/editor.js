@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 import { connect } from 'react-redux';
-// import { filter } from 'lodash';
+import { filter } from 'lodash';
 
 import {
   blocks,
@@ -67,10 +67,21 @@ class Editor extends React.Component {
     // data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
 
     // Remove unused catgories
-    // const categories = filter(data.select('core/blocks').getCategories(), ({ slug }) => {
-    //   return slug !== 'widgets' && slug !== 'embed';
-    // });
-    // data.dispatch('core/blocks').setCategories(categories);
+    const categories = filter(data.select('core/blocks').getCategories(), ({ slug }) => {
+      return slug !== 'widgets' && slug !== 'embed';
+    });
+    data.dispatch('core/blocks').setCategories(categories);
+
+    const registeredBlocks = data.select('core/blocks').getBlockTypes();
+
+    if (registeredBlocks) {
+      registeredBlocks.forEach(({ name }) => {
+
+        if (blocks.category === 'widgets' || blocks.category === 'embed') {
+          blocks.unregisterBlockType(name);
+        }
+      });
+    }
   }
 
   componentDidMount () {
