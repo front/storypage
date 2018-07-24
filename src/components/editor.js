@@ -1,5 +1,7 @@
 // External Dependencies
 import React from 'react';
+import { connect } from 'react-redux';
+// import { filter } from 'lodash';
 
 import {
   blocks,
@@ -17,12 +19,13 @@ import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css';  // edit-
 // Internal Dependencies
 import { initMinerva, template as templateMinerva } from '../blocks/minerva';
 import { initComputerworld } from '../blocks/computerworld';
+import { fetchPosts } from '../store/actions';
+import { getPosts } from '../store/selectors';
 
 class Editor extends React.Component {
-  componentDidMount () {
+  initEditor (template) {
     const { type, id } = this.props.post;
     const overridePost = {};
-    const template = this.props.template === 'minerva' ? templateMinerva : '';
 
     // Registering Lib Blocks
     blocks.registerBlockType(lib.blocks.post.name, lib.blocks.post.settings);
@@ -62,6 +65,33 @@ class Editor extends React.Component {
 
     // Setting Storypage/Section as default block
     // data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
+
+    // Remove unused catgories
+    // const categories = filter(data.select('core/blocks').getCategories(), ({ slug }) => {
+    //   return slug !== 'widgets' && slug !== 'embed';
+    // });
+    // data.dispatch('core/blocks').setCategories(categories);
+  }
+
+  componentDidMount () {
+    const { template } = this.props;
+
+    if (template === 'minerva' ) {
+      this.props.fetchPosts({ type: 'post' });
+    } else {
+      this.initEditor(template);
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    let { template } = this.props;
+
+    if (template === 'minerva' ) {
+      if (prevProps.props !== this.props.posts) {
+        template = templateMinerva(this.props.posts);
+        this.initEditor(template);
+      }
+    }
   }
 
   componentWillUnmount () {
@@ -89,4 +119,10 @@ class Editor extends React.Component {
   }
 }
 
-export default Editor;
+function mapStateToProps (state) {
+  return {
+    posts: getPosts(state),
+  };
+}
+
+export default connect(mapStateToProps, { fetchPosts })(Editor);
