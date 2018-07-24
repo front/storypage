@@ -32,9 +32,6 @@ export default posts => {
     }
   }
 
-  console.log('posts', posts);
-  console.log('posts', posts.length);
-
   return [
     [ 'minerva/article-primary', {
       ...primary,
