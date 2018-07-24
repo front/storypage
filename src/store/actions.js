@@ -41,7 +41,7 @@ export const LOCAL_AUTHORS = 'authors';
 
 export const N_IMAGES = 6;
 export const N_CATEGORIES = 4;
-export const N_POSTS = 10;
+export const N_POSTS = 20;
 
 const DEFAULT_STORAGE = {
   [ LOCAL_MEDIA ]: [], // generateImages(N_IMAGES),

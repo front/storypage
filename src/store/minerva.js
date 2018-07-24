@@ -32,9 +32,7 @@ export function loadMinervaPosts (n = N_POSTS) {
     return false;
   }
 
-  axios.get(`${API_ROOT}/posts`, {
-    per_page: n,
-  })
+  axios.get(`${API_ROOT}/posts?per_page=${n}`)
   .then(function (response) {
     // console.log(`${API_ROOT}/posts`, response);
     const posts = response.data;
