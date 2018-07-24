@@ -1,68 +1,143 @@
 // External Dependencies
 import React from 'react';
+import classnames from 'classnames';
+import moment from 'moment';
+import { isEmpty } from 'lodash';
 import {
   i18n,
   components,
+  data,
   editor,
+  element,
 } from '@frontkom/gutenberg-js';
 
 // Internal Dependencies
-import { articleAttributes, backgroundImageStyles, formattingControls } from './default-attributes';
+import {
+  articleAttributes,
+  formattingControls,
+  controls,
+} from './default-attributes';
 import './primary.scss';
 
 /**
  * WordPress dependencies
  */
 const { __ } = i18n;
-const { PanelBody, TextControl } = components;
-const { InspectorControls, RichText } = editor;
+const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
+const { withColors, BlockControls, InspectorControls, RichText } = editor;
+const {
+  Component,
+  Fragment,
+  compose,
+} = element;
+const { withSelect } = data;
 
-export const name = 'minerva/article-primary';
+const {
+  // Toolbar
+  MediaUploadToolbar,
+  // Inspector controls
+  ImageSettingsPanel,
+  // componentDidUpdate
+  didUpdateMedia,
+  didUpdateCategory,
+  didUpdateAuthor,
+  // selectors
+  withSelectMedia,
+  withSelectAuthor,
+  withSelectCategory,
+  // helpers
+  backgroundImageStyles,
+  dimRatioToClass,
+} = controls;
 
-export const settings = {
-  title: __('Article Primary'),
-  icon: 'universal-access-alt',
-  description: __('Article Primary by Minerva'),
+const { getComputedStyle } = window;
+moment.locale('nb');
 
-  category: 'minerva',
+class PrimaryEdit extends Component {
+  componentDidUpdate (prevProps) {
+    const { setAttributes } = this.props;
 
-  attributes: articleAttributes,
+    const attributes = {
+      ...didUpdateMedia(prevProps, this.props),
+      ...didUpdateCategory(prevProps, this.props),
+      ...didUpdateAuthor(prevProps, this.props),
+    };
 
-  edit ({ attributes, className, setAttributes }) {
-    const { title, teaser, category, categoryUrl, date, imageUrl, authorName, authorUrl, authorImageUrl, link } = attributes;
-    const style = backgroundImageStyles(imageUrl);
+    if (! isEmpty(attributes)) {
+      setAttributes(attributes);
+    }
+  }
+
+  render () {
+    const { attributes, className, setAttributes } = this.props;
+    const {
+      title,
+      teaser,
+      category,
+      categoryUrl,
+      date,
+      imageUrl,
+      author,
+      authorUrl,
+      authorImageUrl,
+      link,
+      hasImage,
+      dimRatio,
+      hasParallax,
+    } = attributes;
+
+    const style = hasImage ? backgroundImageStyles(imageUrl) : {};
+    const classes = classnames(
+      className,
+      'wp-block-cover-image',
+      dimRatioToClass(dimRatio),
+      {
+        'has-background-dim': dimRatio !== 0,
+        'has-parallax': hasParallax,
+      }
+    );
 
     return (
-      <div className={ className } style={ style }>
-        <InspectorControls>
-          <PanelBody title={ __('Article Primary Settings') }>
-            <TextControl
-              value={ categoryUrl }
-              label={ __('Category URL') }
-              onChange={ value => setAttributes({ categoryUrl: value }) }
-            />
-            <TextControl
-              value={ link }
-              label={ __('Article URL') }
-              onChange={ value => setAttributes({ link: value }) }
-            />
-            <TextControl
-              value={ authorUrl }
-              label={ __('Author URL') }
-              onChange={ value => setAttributes({ authorUrl: value }) }
-            />
-          </PanelBody>
-        </InspectorControls>
+      <div className={ classes } style={ style }>
+        <Fragment>
+          <BlockControls>
+            <Toolbar>
+              <MediaUploadToolbar props={ this.props } />
+            </Toolbar>
+          </BlockControls>
+          <InspectorControls>
+            <ImageSettingsPanel props={ { attributes, setAttributes } } />
+
+            <PanelBody title={ __('Article Primary Settings') }>
+              <TextControl
+                value={ categoryUrl }
+                label={ __('Category URL') }
+                onChange={ value => setAttributes({ categoryUrl: value }) }
+              />
+              <TextControl
+                value={ link }
+                label={ __('Article URL') }
+                onChange={ value => setAttributes({ link: value }) }
+              />
+              <TextControl
+                value={ authorUrl }
+                label={ __('Author URL') }
+                onChange={ value => setAttributes({ authorUrl: value }) }
+              />
+            </PanelBody>
+          </InspectorControls>
+        </Fragment>
 
         <div className="container">
           <div className="minerva-article-category">
-            <RichText
+            { /* <RichText
               tagName="span"
               value={ category }
               onChange={ value => setAttributes({ category: value }) }
               formattingControls={formattingControls}
               inlineToolbar
-            />
+            /> */ }
+            <span>{ category }</span>
           </div>
           <RichText
             tagName="h1"
@@ -83,42 +158,101 @@ export const settings = {
           <div className="minerva-article-author">
             <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
             <div className="minerva-article-meta">
-              <RichText
+              { /* <RichText
                 tagName="span"
                 className="minerva-author-name"
-                value={ authorName }
-                onChange={ value => setAttributes({ authorName: value }) }
+                value={ author }
+                onChange={ value => setAttributes({ author: value }) }
                 formattingControls={formattingControls}
                 inlineToolbar
-              />
-              <RichText
+              /> */ }
+              <span className="minerva-author-name">{ author }</span>
+              { /* <RichText
                 tagName="span"
                 className="minerva-article-date"
                 value={ date }
                 onChange={ value => setAttributes({ date: value }) }
                 formattingControls={formattingControls}
                 inlineToolbar
-              />
+              /> */ }
+              <span className="minerva-article-date">{ moment(date).format('d. MMMM Y') }</span>
             </div>
           </div>
         </div>
       </div>
     );
-  },
+  }
+}
+
+export const name = 'minerva/article-primary';
+
+export const settings = {
+  title: __('Article Primary'),
+  icon: 'universal-access-alt',
+  description: __('Article Primary by Minerva'),
+
+  category: 'minerva',
+
+  attributes: articleAttributes,
+
+  edit: compose(
+    withSelect((select, props) => {
+      return {
+        ...withSelectMedia(select, props),
+        ...withSelectCategory(select, props),
+        ...withSelectAuthor(select, props),
+      };
+    }),
+    withColors({ textColor: 'color' }),
+    withFallbackStyles((node, ownProps) => {
+      const { fontSize, customFontSize } = ownProps.attributes;
+      const editableNode = node.querySelector('[contenteditable="true"]');
+      // verify if editableNode is available, before using getComputedStyle.
+      const computedStyles = editableNode ? getComputedStyle(editableNode) : null;
+      return {
+        fallbackFontSize: fontSize || customFontSize || ! computedStyles ? undefined : parseInt(computedStyles.fontSize) || undefined,
+      };
+    }),
+  )(PrimaryEdit),
 
   save ({ attributes, className }) {
-    const { title, teaser, category, categoryUrl, date, imageUrl, authorName, authorUrl, authorImageUrl, link } = attributes;
-    const style = backgroundImageStyles(imageUrl);
+    const {
+      title,
+      teaser,
+      category,
+      categoryUrl,
+      date,
+      imageUrl,
+      author,
+      authorUrl,
+      authorImageUrl,
+      link,
+      hasImage,
+      dimRatio,
+      hasParallax,
+    } = attributes;
+
+    const style = hasImage ? backgroundImageStyles(imageUrl) : {};
+    const classes = classnames(
+      className,
+      'wp-block-cover-image',
+      dimRatioToClass(dimRatio),
+      {
+        'has-background-dim': dimRatio !== 0,
+        'has-parallax': hasParallax,
+      }
+    );
 
     return (
-      <div className={ className } style={ style }>
+      <div className={ classes } style={ style }>
         <div className="container">
           <div className="minerva-article-category">
             <a href={ categoryUrl }>
-              <RichText.Content
+              { /* <RichText.Content
                 tagName="span"
                 value={ category }
-              />
+              /> */ }
+              <span>{ category }</span>
             </a>
           </div>
           <a href={ link }>
@@ -139,22 +273,25 @@ export const settings = {
             </a>
             <div className="minerva-article-meta">
               <a href={ authorUrl }>
-                <RichText.Content
+                { /* <RichText.Content
                   tagName="span"
                   className="minerva-author-name"
-                  value={ authorName }
-                />
+                  value={ author }
+                /> */ }
+                <span className="minerva-author-name">{ author }</span>
               </a>
-              <RichText.Content
+              { /* <RichText.Content
                 tagName="span"
                 className="minerva-article-date"
                 value={ date }
-              />
+              /> */ }
+              <span className="minerva-article-date">{ moment(date).format('d. MMMM Y') }</span>
             </div>
           </div>
         </div>
       </div>
     );
   },
+
   draggablePost: true,
 };
