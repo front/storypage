@@ -129,6 +129,10 @@ function apiRequest (options) {
           res = Actions.fetchTaxonomies();
         }
         break;
+      case `${apiRoot}/users`:
+        if (method === 'GET') {
+          res = Actions.fetchAuthors();
+        }
     }
 
     if (res) {

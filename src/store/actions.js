@@ -1,10 +1,10 @@
 // External Dependencies
 import { filter, find, findKey, includes, has, /* clone, */reject, random, mapKeys } from 'lodash';
-import axios from 'axios';
 
 // Internal Dependencies
-import { generatePosts, generateImages, generateCategories, generateTypes, generateIndex, generateTaxonomies } from './generators';
+import { generateTypes, generateIndex, generateTaxonomies } from './generators';
 import { bundling } from './query-helpers';
+import { loadMinervaPosts } from './minerva';
 
 // Actions types
 export const FETCH_INDEX = 'fetch_index';
@@ -27,118 +27,35 @@ export const FETCH_TYPE = 'fetch_type';
 export const FETCH_TAXONOMIES = 'fetch_taxonomies';
 export const FETCH_TAXONOMY = 'fetch_taxonomy';
 
+export const FETCH_AUTHORS = 'fetch_authors';
+
 // Module constants
-const LOCAL_STORAGE_KEY = 'storypage';
+export const LOCAL_STORAGE_KEY = 'storypage';
 const LOCAL_INDEX = 'index';
-const LOCAL_MEDIA = 'media';
-const LOCAL_LIBRARY = 'library';
-const LOCAL_CATEGORIES = 'categories';
+export const LOCAL_MEDIA = 'media';
+export const LOCAL_LIBRARY = 'library';
+export const LOCAL_CATEGORIES = 'categories';
 const LOCAL_TYPES = 'types';
 const LOCAL_TAXONOMIES = 'taxonomies';
+export const LOCAL_AUTHORS = 'authors';
 
-const N_IMAGES = 6;
-const N_CATEGORIES = 4;
-const N_POSTS = 10;
+export const N_IMAGES = 6;
+export const N_CATEGORIES = 4;
+export const N_POSTS = 10;
 
 const DEFAULT_STORAGE = {
   [ LOCAL_MEDIA ]: [], // generateImages(N_IMAGES),
   [ LOCAL_LIBRARY ]: [], // generatePosts(N_POSTS, { N_IMAGES, N_CATEGORIES }),
   [ LOCAL_CATEGORIES ]: [], // generateCategories(N_CATEGORIES),
+  [ LOCAL_AUTHORS ]: [],
   [ LOCAL_TYPES ]: generateTypes(),
   [ LOCAL_INDEX ]: generateIndex(),
   [ LOCAL_TAXONOMIES ]: generateTaxonomies(),
 };
 
-function loadMinervaPosts (n) {
-  const storageLibrary = getFromLocalStorage(LOCAL_LIBRARY);
-
-  if (storageLibrary.length) {
-    return false;
-  }
-
-  axios.get('https://www.minervanett.no/wp-json/wp/v2/posts', {
-    per_page: n,
-  })
-  .then(function (response) {
-    console.log('https://www.minervanett.no/wp-json/wp/v2/posts', response);
-    const posts = response.data;
-
-    posts.map(post => {
-      post.content.raw = post.content.rendered;
-      post.title.raw = post.title.rendered;
-      // post.link = `${window.location.origin}/posts/${post.id}`;
-      post.status = 'draft';
-      post.permalink_template = `${window.location.origin}/posts/${post.id}`;
-      post.preview_link = `${window.location.origin}/posts/${post.id}/preview`;
-      post._links['wp:action-assign-categories'] = [];
-      post._links['wp:action-create-categories'] = [];
-
-      // load image
-      if (post.featured_media) {
-        loadMinervaMedia(post.featured_media);
-      }
-
-      const storage = getFromLocalStorage();
-      storage[ LOCAL_LIBRARY ].push(post);
-      // save posts in localStorage
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
-
-      // load categories
-      post.categories.map(cat => {
-        loadMinervaCategory(cat);
-      });
-    });
-  })
-  .catch(function (error) {
-    console.log(error);
-
-    // fake resources
-    const storage = getFromLocalStorage();
-
-    storage[ LOCAL_LIBRARY ] = generatePosts(N_POSTS, { N_IMAGES, N_CATEGORIES });
-    storage[ LOCAL_MEDIA ] = generateImages(N_IMAGES);
-    storage[ LOCAL_CATEGORIES ] = generateCategories(N_CATEGORIES);
-
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
-  });
-}
-
-function loadMinervaMedia (id) {
-  axios.get(`https://www.minervanett.no/wp-json/wp/v2/media/${id}`)
-  .then(function (response) {
-    console.log(`https://www.minervanett.no/wp-json/wp/v2/media/${id}`, response);
-    const media = response.data;
-
-    const storage = getFromLocalStorage();
-    if (!find(storage[ LOCAL_MEDIA ], { id: parseInt(media.id) })) {
-      storage[ LOCAL_MEDIA ].push(media);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
-    }
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
-function loadMinervaCategory (id) {
-  axios.get(`https://www.minervanett.no/wp-json/wp/v2/categories/${id}`)
-  .then(function (response) {
-    console.log(`https://www.minervanett.no/wp-json/wp/v2/categories/${id}`, response);
-    const category = response.data;
-
-    const storage = getFromLocalStorage();
-    if (!find(storage[ LOCAL_CATEGORIES ], { id: parseInt(category.id) })) {
-      storage[ LOCAL_CATEGORIES ].push(category);
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
-    }
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-}
-
+// Get resources from minerva api
 (function () {
-  loadMinervaPosts(N_POSTS);
+  loadMinervaPosts();
 }());
 
 /**
@@ -148,7 +65,7 @@ function loadMinervaCategory (id) {
  *
  * @return {Array}	Resources array
  */
-function getFromLocalStorage (key = null) {
+export function getFromLocalStorage (key = null) {
   const data = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (data) {
@@ -622,5 +539,21 @@ export function saveCategory (categoryData) {
   return {
     type: SAVE_CATEGORY,
     payload: find(storage[ LOCAL_CATEGORIES ], { id: parseInt(id) }),
+  };
+}
+
+/**
+ * Get all authors
+ *
+ * @param  {Object}	options	Optional. Search data
+ *
+ * @return {Object}	Action type and array of authores
+ */
+export function fetchAuthors (options = { }) {
+  const authors = bundling(getFromLocalStorage(LOCAL_AUTHORS), options);
+
+  return {
+    type: FETCH_AUTHORS,
+    payload: authors,
   };
 }
