@@ -130,6 +130,7 @@ function apiRequest (options) {
         }
         break;
       case `${apiRoot}/users`:
+      case `${apiRoot}/users/`:
         if (method === 'GET') {
           res = Actions.fetchAuthors();
         }
