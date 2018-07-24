@@ -36,13 +36,13 @@ export function loadMinervaPosts (n = N_POSTS) {
     per_page: n,
   })
   .then(function (response) {
-    console.log(`${API_ROOT}/posts`, response);
+    // console.log(`${API_ROOT}/posts`, response);
     const posts = response.data;
 
     posts.map(post => {
       post.content.raw = post.content.rendered;
       post.title.raw = post.title.rendered;
-      // post.link = `${window.location.origin}/posts/${post.id}`;
+      post.excerpt.raw = post.excerpt.rendered.replace(/(<([^>]+)>)/ig, '');
       post.status = 'draft';
       post.permalink_template = `${window.location.origin}/posts/${post.id}`;
       post.preview_link = `${window.location.origin}/posts/${post.id}/preview`;
@@ -93,11 +93,16 @@ export function loadMinervaPosts (n = N_POSTS) {
 function loadMinervaMedia (id) {
   axios.get(`${API_ROOT}/media/${id}`)
   .then(function (response) {
-    console.log(`${API_ROOT}/media/${id}`, response);
+    // console.log(`${API_ROOT}/media/${id}`, response);
     const media = response.data;
 
     const storage = getFromLocalStorage();
     if (!find(storage[ LOCAL_MEDIA ], { id: parseInt(media.id) })) {
+      media.data = {
+        entity_type: 'file',
+        entity_uuid: `e94e9d8d-4cf4-43c1-b95e-${id}`, // random
+      };
+
       storage[ LOCAL_MEDIA ].push(media);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
     }
@@ -114,7 +119,7 @@ function loadMinervaMedia (id) {
 function loadMinervaCategory (id) {
   axios.get(`${API_ROOT}/categories/${id}`)
   .then(function (response) {
-    console.log(`${API_ROOT}/categories/${id}`, response);
+    // console.log(`${API_ROOT}/categories/${id}`, response);
     const category = response.data;
 
     const storage = getFromLocalStorage();
@@ -135,7 +140,7 @@ function loadMinervaCategory (id) {
 function loadMinervaAuthor (id) {
   axios.get(`${API_ROOT}/users/${id}`)
   .then(function (response) {
-    console.log(`${API_ROOT}/users/${id}`, response);
+    // console.log(`${API_ROOT}/users/${id}`, response);
     const author = response.data;
 
     const storage = getFromLocalStorage();
