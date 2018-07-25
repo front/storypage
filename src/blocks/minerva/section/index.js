@@ -51,7 +51,7 @@ export const settings = {
           <PanelBody title={ __('Section Settings') }>
             <TextControl
               value={ title }
-              label={ __('Last episode URL') }
+              label={ __('Title') }
               onChange={ value => setAttributes({ title: value }) }
             />
           </PanelBody>
