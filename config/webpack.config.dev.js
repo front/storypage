@@ -129,6 +129,16 @@ module.exports = {
 					{ loader: 'sass-loader' },  // compiles Sass to CSS
 				],
 			},
+			{
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [{
+						loader: 'file-loader',
+						options: {
+								name: '[name].[ext]',
+								outputPath: 'fonts/'
+						}
+				}]
+			}
 			// ** STOP ** Are you adding a new loader?
 			// Make sure to add the new loader(s) before the "file" loader.
 		],

@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Crimson+Text');
+// @import url('https://fonts.googleapis.com/css?family=Crimson+Text');
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,400i,700,700i');
-
+@import 'fonts';
 // Variables
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
@@ -11,7 +11,8 @@ $black: #000 !default;
 
 // Fonts
 // Font, line-height, and color for body text, headings, and more.
-$font-family-sans-serif: 'Crimson Text', Georgia, serif;
+// $font-family-sans-serif: 'Crimson Text', Georgia, serif;
+$font-family-sans-serif: "Crimson", Georgia, serif;
 $font-family-sans-serif-secondary: 'Roboto Condensed', Impact, Charcoal, sans-serif;
 $font-family-base: $font-family-sans-serif !default;
 

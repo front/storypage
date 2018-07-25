@@ -15,7 +15,7 @@ import * as articleTeaser from './article/teaser';
 import * as podcastBox from './podcast-box';
 import * as section from './section';
 
-import './style.scss';
+import './style/style.scss';
 
 const { __ } = i18n;
 const { registerBlockType } = blocks;
