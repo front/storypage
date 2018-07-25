@@ -22,7 +22,7 @@ import './tertiary.scss';
  * WordPress dependencies
  */
 const { __ } = i18n;
-const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
+const { withFallbackStyles, PanelBody, TextControl, ToggleControl, Toolbar } = components;
 const { getColorClass, withColors, BlockControls, InspectorControls, RichText } = editor;
 const { Component, compose } = element;
 const { withSelect } = data;
@@ -79,6 +79,7 @@ class TertiaryEdit extends Component {
       authorUrl,
       authorImageUrl,
       link,
+      hasImage,
     } = attributes;
 
     const style = {
@@ -95,12 +96,21 @@ class TertiaryEdit extends Component {
 
     return (
       <div className={ classes } style={ style }>
-        <BlockControls>
+        { hasImage && <BlockControls>
           <Toolbar>
             <MediaUploadToolbar props={ this.props } />
           </Toolbar>
-        </BlockControls>
+        </BlockControls> }
         <InspectorControls>
+          <PanelBody title={ __('Image Settings') }>
+            <ToggleControl
+              label={ __('Show image') }
+              checked={ !! hasImage }
+              onChange={ () => {
+                setAttributes({ hasImage: ! hasImage });
+              } }
+            />
+          </PanelBody>
           <TextSettingsPanel props={ this.props } />
           <TextColorPanel props={ this.props } />
 
@@ -176,7 +186,7 @@ class TertiaryEdit extends Component {
               </div>
             </div>
           </div>
-          <img alt="" src={ imageUrl } className="minerva-article-image" />
+          { hasImage && <img alt="" src={ imageUrl } className="minerva-article-image" /> }
         </div>
       </div>
     );
@@ -234,6 +244,7 @@ export const settings = {
       customTextColor,
       customFontSize,
       fontSize,
+      hasImage,
     } = attributes;
 
     const textClass = getColorClass('color', textColor);
@@ -297,9 +308,9 @@ export const settings = {
               </div>
             </div>
           </div>
-          <a href={ link }>
+          { hasImage && <a href={ link }>
             <img alt="" src={ imageUrl } className="minerva-article-image" />
-          </a>
+          </a> }
         </div>
       </div>
     );

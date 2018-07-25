@@ -67,6 +67,12 @@ class TeaserEdit extends Component {
       link,
     } = attributes;
 
+    const fontSize = getFontSize(attributes);
+
+    const titleStyle = {
+      color: textColor.class ? undefined : textColor.value,
+      fontSize: fontSize ? fontSize + 'px' : undefined,
+    };
 
     const titleClasses = classnames(
       'minerva-article-title',
@@ -74,8 +80,6 @@ class TeaserEdit extends Component {
         [ textColor.class ]: textColor.class,
       }
     );
-
-    const fontSize = getFontSize(attributes);
 
     return (
       <div className={ className }>
@@ -100,10 +104,7 @@ class TeaserEdit extends Component {
         <RichText
           tagName="h2"
           className={ titleClasses }
-          style={ {
-            fontSize: fontSize ? fontSize + 'px' : undefined,
-            color: textColor.class ? undefined : textColor.value,
-          } }
+          style={ titleStyle }
           value={ title }
           onChange={ value => setAttributes({ title: value }) }
           formattingControls={formattingControls}
@@ -179,14 +180,42 @@ export const settings = {
   )(TeaserEdit),
 
   save ({ attributes, className }) {
-    const { title, teaser, date, author, authorUrl, authorImageUrl, link } = attributes;
+    const {
+      title,
+      teaser,
+      date,
+      author,
+      authorUrl,
+      authorImageUrl,
+      link,
+      textColor,
+      customTextColor,
+      fontSize,
+      customFontSize,
+    } = attributes;
+
+    const textClass = getColorClass('color', textColor);
+    const fontSizeClass = fontSize && `is-${fontSize}-text`;
+
+    const titleStyle = {
+      color: textClass ? undefined : customTextColor,
+      fontSize: fontSizeClass ? undefined : customFontSize,
+    };
+
+    const titleClasses = classnames(
+      'minerva-article-title',
+      {
+        [ textClass ]: textClass,
+      }
+    );
 
     return (
       <div className={ className }>
         <a href={ link }>
           <RichText.Content
             tagName="h2"
-            className="minerva-article-title"
+            className={ titleClasses }
+            style={ titleStyle }
             value={ title }
           />
           <RichText.Content

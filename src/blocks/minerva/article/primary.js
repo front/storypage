@@ -104,11 +104,11 @@ class PrimaryEdit extends Component {
 
     return (
       <div className={ classes } style={ style }>
-        <BlockControls>
+        { hasImage && <BlockControls>
           <Toolbar>
             <MediaUploadToolbar props={ this.props } />
           </Toolbar>
-        </BlockControls>
+        </BlockControls> }
         <InspectorControls>
           <ImageSettingsPanel props={ { attributes, setAttributes } } />
           <TextSettingsPanel props={ this.props } />
@@ -245,8 +245,8 @@ export const settings = {
       hasParallax,
       textColor,
       customTextColor,
-      customFontSize,
       fontSize,
+      customFontSize,
     } = attributes;
 
     const textClass = getColorClass('color', textColor);
