@@ -58,7 +58,6 @@ $font-family-base: $font-family-sans-serif !default;
 		span {
 			border-radius: 2px;
 			background-color: $black;
-			// color: $white;
 			padding: 2px 9.5px;
 		}
 	}
@@ -100,14 +99,12 @@ $font-family-base: $font-family-sans-serif !default;
 	margin-bottom: 76px;
 }
 
-.wp-block-gutenbergjs-section,
 .wp-block-gutenbergjs-row {
 	grid-gap: 2em;
 }
 
 // editor
 .gutenberg__editor {
-	.wp-block-gutenbergjs-section,
 	.wp-block-gutenbergjs-row {
 		> .editor-inner-blocks {
 			grid-gap: 2em;
