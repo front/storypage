@@ -17,10 +17,12 @@ import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; 		// theme
 import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css';  // edit-blocks
 
 // Internal Dependencies
-import { initMinerva, template as templateMinerva } from '../blocks/minerva';
-import { initComputerworld } from '../blocks/computerworld';
-import { fetchPosts } from '../store/actions';
-import { getPosts } from '../store/selectors';
+import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
+import { initComputerworld } from '../../blocks/computerworld';
+import { fetchPosts } from '../../store/actions';
+import { getPosts } from '../../store/selectors';
+
+import sectionDemoTemplate from './templates/section-demo';
 
 class Editor extends React.Component {
   initEditor (template) {
@@ -85,12 +87,16 @@ class Editor extends React.Component {
   }
 
   componentDidMount () {
-    const { template } = this.props;
+    let { template } = this.props;
 
     if (template === 'minerva') {
       this.props.fetchPosts({ type: 'post' });
     }
     else {
+      if (template === 'section-demo') {
+        template = sectionDemoTemplate;
+      }
+
       this.initEditor(template);
     }
   }
@@ -132,9 +138,7 @@ class Editor extends React.Component {
 }
 
 function mapStateToProps (state) {
-  return {
-    posts: getPosts(state),
-  };
+  return { posts: getPosts(state) };
 }
 
 export default connect(mapStateToProps, { fetchPosts })(Editor);
