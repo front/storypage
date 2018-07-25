@@ -4,6 +4,7 @@
 import React from 'react';
 import {
   i18n,
+  components,
   editor,
 } from '@frontkom/gutenberg-js';
 
@@ -18,8 +19,12 @@ import './style.scss';
 const { __ } = i18n;
 const {
   InnerBlocks,
-  RichText,
+  InspectorControls,
 } = editor;
+const {
+  PanelBody,
+  TextControl,
+} = components;
 
 export const name = 'minerva/section';
 
@@ -42,14 +47,18 @@ export const settings = {
 
     return (
       <div className={ className }>
+        <InspectorControls>
+          <PanelBody title={ __('Section Settings') }>
+            <TextControl
+              value={ title }
+              label={ __('Last episode URL') }
+              onChange={ value => setAttributes({ title: value }) }
+            />
+          </PanelBody>
+        </InspectorControls>
         <div className="wp-block-minerva-section-content">
           <div className="minerva-section-title">
-            <RichText
-              tagName="span"
-              value={ title }
-              onChange={ value => setAttributes({ title: value }) }
-              inlineToolbar
-            />
+            <span>{ title }</span>
           </div>
           <InnerBlocks />
         </div>
@@ -64,10 +73,7 @@ export const settings = {
       <div className={ className }>
         <div className="wp-block-minerva-section-content">
           <div className="minerva-section-title">
-            <RichText.Content
-              tagName="span"
-              value={ title }
-            />
+            <span>{ title }</span>
           </div>
           <InnerBlocks.Content />
         </div>
