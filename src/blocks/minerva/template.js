@@ -113,7 +113,7 @@ export default posts => {
     [ 'gutenbergjs/section', { maxWidth: '1182px' }, [
       [ 'gutenbergjs/row', { colmuns: 2, widths: '6,6' }, [
         [ 'core/paragraph', { layout: 'col6 column-start1', placeholder: 'An ad' } ],
-        [ 'minerva/podcast-box', { layout: 'col6 column-start7', customBackgroundColor: '#BF5048', title: 'Podkast', subtitle: 'Hør siste episode25: Episode 25: Kristoffer Egeberg', teaser: 'Minervapodden snakker med redaktør i faktisk.no, Kristoffer Egeberg, og spør rett ut: Ville faktasjekkens flaggskip vært bedre om de ansatte noen fra den innvandringskritiske høyresiden? På veien til det spørsmålet er vi innom Terje Tvedt, proteinpulver, Dagsavisens relevans, betydningen av viral spredning og problemene med den upolitiske journalisten.' } ],
+        [ 'minerva/podcast-box', { layout: 'col6 column-start7', title: 'Podkast', subtitle: 'Hør siste episode25: Episode 25: Kristoffer Egeberg', teaser: 'Minervapodden snakker med redaktør i faktisk.no, Kristoffer Egeberg, og spør rett ut: Ville faktasjekkens flaggskip vært bedre om de ansatte noen fra den innvandringskritiske høyresiden? På veien til det spørsmålet er vi innom Terje Tvedt, proteinpulver, Dagsavisens relevans, betydningen av viral spredning og problemene med den upolitiske journalisten.' } ],
       ] ],
     ] ],
     [ 'gutenbergjs/section', { maxWidth: '980px' }, [
