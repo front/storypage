@@ -99,10 +99,9 @@ class PagesIndex extends React.Component {
                   New page
                 </a>
                 <div className="dropdown-menu" aria-labelledby="pagesDropdownLink">
-                  <Link className="dropdown-item" to="/pages/new?template=section-demo" target="_blank" rel="noopener noreferrer">Section demo</Link>
-                  <div className="dropdown-divider"></div>
                   <Link className="dropdown-item" to="/pages/new?template=minerva" target="_blank" rel="noopener noreferrer">Minerva template</Link>
-                  <a className="dropdown-item disabled" href="#">CW template (soon)</a>
+                  <div className="dropdown-divider"></div>
+                  <Link className="dropdown-item" to="/pages/new?template=section-demo" target="_blank" rel="noopener noreferrer">Section demo</Link>
                   <div className="dropdown-divider"></div>
                   <Link className="dropdown-item" to="/pages/new" target="_blank" rel="noopener noreferrer">Template free</Link>
                 </div>

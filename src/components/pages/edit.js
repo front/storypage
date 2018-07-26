@@ -10,7 +10,7 @@ import { fetchPost, savePost } from '../../store/actions';
 import { getPost } from '../../store/selectors';
 import Editor from '../editor';
 import Loading from './loading';
-import NotFound from './not_found';
+// import NotFound from './not_found';
 
 const settings = {
   template: '',
@@ -51,14 +51,20 @@ class PagesEdit extends React.Component {
     const { id } = this.state;
 
     if (this.props.match.params.id && isEmpty(this.props.post)) {
-      return <NotFound />;
+      return <Loading />;
     }
 
     if (! id) {
       return <Loading />;
     }
 
-    return <Editor post={ this.props.post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />;
+    const post = {
+      id,
+      type: 'page',
+      ...this.props.post,
+    };
+
+    return <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />;
   }
 }
 
