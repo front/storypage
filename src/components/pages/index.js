@@ -53,11 +53,8 @@ class PagesIndex extends React.Component {
     }
 
     return map(this.props.posts, post => {
-      const badgeType = post.type === 'page' ? 'info' : 'secondary';
-
       return (
         <tr key={ post.id }>
-          <td><span className={ `badge badge-${badgeType}` }>{ post.type }</span></td>
           <td>{ this.renderPostTitle(post) }</td>
           <td className="text-right">
             <a className="btn btn-sm btn-outline-secondary " href={ post.preview_link } target="_blank" rel="noopener noreferrer">Preview</a>{ ' ' }
@@ -118,7 +115,6 @@ class PagesIndex extends React.Component {
           <table className="table">
             <thead>
               <tr>
-                <th>Type</th>
                 <th>Title</th>
                 <th></th>
               </tr>
