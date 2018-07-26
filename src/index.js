@@ -4,9 +4,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
 // Internal Dependencies
 import './globals/index.js';
 import registerServiceWorker from './registerServiceWorker';
