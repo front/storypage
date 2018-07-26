@@ -57,6 +57,9 @@ export const settings = {
       type: 'object',
       default: {},
     },
+    contentClass: {
+      type: 'string',
+    },
   },
 
   description: __('Add a block that wraps content, then add whatever content blocks you\'d like.'),
@@ -73,6 +76,7 @@ export const settings = {
       hasParallax,
       dimRatio,
       data,
+      contentClass,
     } = attributes;
 
     const backgroundClass = getColorClass('background-color', backgroundColor);
@@ -96,7 +100,7 @@ export const settings = {
 
     return (
       <div className={ classes } style={ style } { ...data }>
-        <div className="wp-block-storypage-section-content">
+        <div className={ `wp-block-storypage-section-content ${contentClass}`}>
           <InnerBlocks.Content />
         </div>
       </div>

@@ -87,6 +87,7 @@ class SectionBlockEdit extends Component {
       hasParallax,
       dimRatio,
       data,
+      contentClass,
     } = attributes;
 
     const classes = classnames(
@@ -198,7 +199,7 @@ class SectionBlockEdit extends Component {
           style={ style }
           { ...data }
         >
-          <div className="wp-block-storypage-section-content">
+          <div className={ `wp-block-storypage-section-content ${contentClass}`}>
             <InnerBlocks />
           </div>
         </div>

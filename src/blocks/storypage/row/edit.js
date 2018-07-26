@@ -127,7 +127,7 @@ class RowEdit extends Component {
             partial = partial + (colWidth - MIN_COLUMNS);
 
             return (
-              <PanelBody title={ sprintf(__('Column %d width:'), n + 1) }>
+              <PanelBody key={ `colum${n + 1}` } title={ sprintf(__('Column %d width:'), n + 1) }>
                 <ButtonGroup aria-label={ __('Column width') }>
                   {
                     map(availableWidths, width => {
