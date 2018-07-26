@@ -8,7 +8,6 @@ import {
   data,
   editPost,
   plugins,
-  lib,
 } from '@frontkom/gutenberg-js';
 
 import '@frontkom/gutenberg-js/build/css/core-blocks/style.css'; // blocks
@@ -17,47 +16,42 @@ import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; // theme
 import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css'; // edit-blocks
 
 // Internal Dependencies
+import { initStorypageBlocks } from '../../blocks/storypage';
 import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
 import { initComputerworld } from '../../blocks/computerworld';
 import { fetchPosts } from '../../store/actions';
 import { getPosts } from '../../store/selectors';
 
 import sectionDemoTemplate from './templates/section-demo';
+import PostsPanel from './sidebar/posts-panel';
 
 class Editor extends React.Component {
   initEditor (template) {
     const { type, id } = this.props.post;
     const overridePost = {};
 
-    // Registering Lib Blocks
-    blocks.registerBlockType(lib.blocks.post.name, lib.blocks.post.settings);
-    blocks.registerBlockType(lib.blocks.section.name, lib.blocks.section.settings);
-    blocks.registerBlockType(lib.blocks.row.name, lib.blocks.row.settings);
-
+    initStorypageBlocks();
     initMinerva();
     initComputerworld();
 
-    if (type === 'page') {
-      // PluginDocumentSidebarPanel
-      const { PluginDocumentSidebarPanel } = editPost;
-      const { PostsPanel } = lib.components;
+    // PluginDocumentSidebarPanel
+    const { PluginDocumentSidebarPanel } = editPost;
 
-      const MyPluginDocumentSidebarPanel = () => {
-        return (
-          <PluginDocumentSidebarPanel
-            title={ 'My Stories' }
-            initialOpen={ true }
-          >
-            <PostsPanel />
-          </PluginDocumentSidebarPanel>
-        );
-      };
+    const MyPluginDocumentSidebarPanel = () => {
+      return (
+        <PluginDocumentSidebarPanel
+          title={ 'My Stories' }
+          initialOpen={ true }
+        >
+          <PostsPanel />
+        </PluginDocumentSidebarPanel>
+      );
+    };
 
-      // Registering MyPluginDocumentSidebarPanel Plugin
-      plugins.registerPlugin('plugin-document-sidebar', {
-        render: MyPluginDocumentSidebarPanel,
-      });
-    }
+    // Registering MyPluginDocumentSidebarPanel Plugin
+    plugins.registerPlugin('plugin-document-sidebar', {
+      render: MyPluginDocumentSidebarPanel,
+    });
 
     // Disable tips
     data.dispatch('core/nux').disableTips();

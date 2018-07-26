@@ -1,5 +1,5 @@
 export default [
-  ['gutenbergjs/section', { maxWidth: '1182px' }, [
+  ['storypage/section', { maxWidth: '1182px' }, [
     [ 'core/heading', {
       content: 'Sections help you to organise your page content!',
     } ],
@@ -10,7 +10,7 @@ export default [
   ]],
 
   ['core/separator', {}, []],
-  ['gutenbergjs/section', { backgroundColor: 'very-light-gray',  maxWidth: '1182px' }, [
+  ['storypage/section', { backgroundColor: 'very-light-gray',  maxWidth: '1182px' }, [
     [ 'core/paragraph', {
       content: 'Sections could have a max width...',
       align: 'center',
@@ -24,7 +24,7 @@ export default [
   ]],
 
   ['core/separator', {}, []],
-  ['gutenbergjs/section', {
+  ['storypage/section', {
     hasImage: true,
     url: 'https://www.minervanett.no/wp-content/uploads/2018/07/Sologne.jpg',
   }, [
@@ -43,8 +43,8 @@ export default [
   ]],
 
   ['core/separator', {}, []],
-  ['gutenbergjs/section', { customBackgroundColor: 'black' }, [
-    ['gutenbergjs/section', { maxWidth: '1182px' }, [
+  ['storypage/section', { customBackgroundColor: 'black' }, [
+    ['storypage/section', { maxWidth: '1182px' }, [
       [ 'core/paragraph', {
         content: 'Feel free to combine section with other blocks!',
         align: 'center',

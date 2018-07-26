@@ -39,8 +39,8 @@ export default posts => {
       // teaser: 'Trumps tiltagende handelskrig har sitt opphav i presidentens primitive syn på handel. Fredag truer en ny alvorlig omdreining.',
       // category: 'Kommentar',
     }, [] ],
-    [ 'gutenbergjs/section', { maxWidth: '1182px' }, [
-      [ 'gutenbergjs/row', { colmuns: 2, widths: '8,4' }, [
+    [ 'storypage/section', { maxWidth: '1182px' }, [
+      [ 'storypage/row', { colmuns: 2, widths: '8,4' }, [
         [ 'minerva/article-secondary', {
           layout: 'col8 column-start1',
           ...secondaryLeft,
@@ -59,8 +59,8 @@ export default posts => {
         } ],
       ] ],
     ] ],
-    [ 'gutenbergjs/section', { maxWidth: '1182px' }, [
-      [ 'gutenbergjs/row', { colmuns: 2, widths: '4,8' }, [
+    [ 'storypage/section', { maxWidth: '1182px' }, [
+      [ 'storypage/row', { colmuns: 2, widths: '4,8' }, [
         [ 'minerva/section', { layout: 'col4 column-start1' }, [
           [ 'minerva/article-teaser', {
             ...teasers[0],
@@ -78,7 +78,7 @@ export default posts => {
             // teaser: 'Trumps tiltagende handelskrig har sitt opphav i presidentens primitive syn på handel. Fredag truer en ny alvorlig omdreining.',
           } ],
         ] ],
-        [ 'gutenbergjs/section', { layout: 'col8 column-start5' }, [
+        [ 'storypage/section', { layout: 'col8 column-start5' }, [
           [ 'minerva/article-tertiary', {
             ...tertiaries[0],
             // title: 'Handel dreier seg om å vinne',
@@ -110,13 +110,13 @@ export default posts => {
         ] ],
       ] ],
     ] ],
-    [ 'gutenbergjs/section', { maxWidth: '1182px' }, [
-      [ 'gutenbergjs/row', { colmuns: 2, widths: '6,6' }, [
+    [ 'storypage/section', { maxWidth: '1182px' }, [
+      [ 'storypage/row', { colmuns: 2, widths: '6,6' }, [
         [ 'core/paragraph', { layout: 'col6 column-start1', placeholder: 'An ad' } ],
         [ 'minerva/podcast-box', { layout: 'col6 column-start7', title: 'Podkast', subtitle: 'Hør siste episode25: Episode 25: Kristoffer Egeberg', teaser: 'Minervapodden snakker med redaktør i faktisk.no, Kristoffer Egeberg, og spør rett ut: Ville faktasjekkens flaggskip vært bedre om de ansatte noen fra den innvandringskritiske høyresiden? På veien til det spørsmålet er vi innom Terje Tvedt, proteinpulver, Dagsavisens relevans, betydningen av viral spredning og problemene med den upolitiske journalisten.' } ],
       ] ],
     ] ],
-    [ 'gutenbergjs/section', { maxWidth: '980px' }, [
+    [ 'storypage/section', { maxWidth: '980px' }, [
       [ 'minerva/article-tertiary', {
         ...tertiaries[4],
         // title: 'Handel dreier seg om å vinne',

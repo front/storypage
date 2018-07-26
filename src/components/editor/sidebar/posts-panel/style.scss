@@ -1,0 +1,38 @@
+.components-posts-list {
+	padding-left: 0;
+
+	.components-posts-list-item {
+		list-style: none;
+		position: relative;
+
+		.components-posts-list-item-title {
+			color: #00a0d2;
+			padding: 10px;
+			background: white;
+		}
+
+		.components-posts-list-item-draggable {
+			position: absolute;
+		    top: 0;
+		    right: 0;
+		    bottom: 0;
+		    left: 0;
+		    z-index: 0;
+
+			&:hover {
+				cursor: grab;
+				box-shadow: 0 3px 30px rgba(25,30,35,.1);
+				border: 1px solid #e2e4e7;
+				height: 100%;
+			}
+		}
+	}
+}
+
+.components-draggable__clone {
+	.components-posts-list-item-draggable {
+		box-shadow: 0 3px 30px rgba(25,30,35,.1);
+		left: 0;
+		right: 0;
+	}
+}
