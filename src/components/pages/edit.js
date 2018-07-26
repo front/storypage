@@ -41,7 +41,7 @@ class PagesEdit extends React.Component {
     }
     else {
       id = Date.now();
-      this.props.savePost({ id });
+      this.props.savePost({ id, type: 'page' });
     }
 
     this.setState({ id });
@@ -58,12 +58,7 @@ class PagesEdit extends React.Component {
       return <Loading />;
     }
 
-    const post = {
-      id,
-      ...this.props.post,
-    };
-
-    return <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />;
+    return <Editor post={ this.props.post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />;
   }
 }
 
