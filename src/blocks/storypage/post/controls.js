@@ -187,7 +187,7 @@ export const PostSettingsPanel = ({ props }) => {
 };
 
 // Image Settings Panel
-export const ImageSettingsPanel = ({ props }) => {
+export const ImageSettingsPanel = ({ props, options }) => {
   const { attributes, setAttributes } = props;
   const {
     imageUrl,
@@ -196,8 +196,10 @@ export const ImageSettingsPanel = ({ props }) => {
     dimRatio,
   } = attributes;
 
+  const { title } = options || {};
+
   return (
-    <PanelBody title={ __('Image Settings') }>
+    <PanelBody title={ title ||  __('Image Settings') }>
       <ToggleControl
         label={ __('Show image') }
         checked={ !! hasImage }
@@ -231,17 +233,19 @@ export const ImageSettingsPanel = ({ props }) => {
 };
 
 // Text Settings Panel
-export const TextSettingsPanel = ({ props }) => {
+export const TextSettingsPanel = ({ props, options }) => {
   const {
     attributes,
     setAttributes,
     fallbackFontSize,
   } = props;
 
+  const { title } = options || {};
+
   const fontSize = getFontSize(attributes);
 
   return (
-    <PanelBody title={ __('Text Settings') } className="blocks-font-size">
+    <PanelBody title={ title || __('Text Settings') } className="blocks-font-size">
       <FontSizePicker
         fontSizes={ FONT_SIZES }
         fallbackFontSize={ fallbackFontSize }
@@ -268,17 +272,19 @@ export const TextSettingsPanel = ({ props }) => {
 };
 
 // Text Color Panel
-export const TextColorPanel = ({ props }) => {
+export const TextColorPanel = ({ props, options }) => {
   const {
     setTextColor,
     textColor,
   } = props;
 
+  const { title } = options || {};
+
   return (
     <PanelColor
       colorValue={ textColor.value }
       initialOpen={ false }
-      title={ __('Text Color') }
+      title={ title || __('Text Color') }
       onChange={ setTextColor }
     />
   );
