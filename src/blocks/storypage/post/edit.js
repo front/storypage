@@ -4,8 +4,6 @@
 import React from 'react';
 import classnames from 'classnames';
 import { i18n, components, data, editor, element } from '@frontkom/gutenberg-js';
-// import { isUndefined, pickBy } from 'lodash';
-// import { stringify } from 'querystringify';
 
 /**
  * WordPress dependencies
@@ -19,7 +17,7 @@ const {
 const {
   Toolbar,
   withFallbackStyles,
-  // withAPIData,
+  withAPIData,
 } = components;
 const {
   withColors,
@@ -36,7 +34,7 @@ const { withSelect } = data;
 import {
   ImageSettingsPanel,
   MediaUploadToolbar,
-  // PostSettingsPanel,
+  PostSettingsPanel,
   TextColorPanel,
   TextSettingsPanel,
   getFontSize,
@@ -44,7 +42,11 @@ import {
   dimRatioToClass,
   backgroundImageStyles,
   withSelectMedia,
+  withSelectCategory,
+  withAPIDataPost,
   didUpdateMedia,
+  didUpdateCategory,
+  didUpdatePost,
 } from './controls';
 import './editor.scss';
 
@@ -56,7 +58,10 @@ class PostEdit extends Component {
 
     setAttributes({
       ...didUpdateMedia(prevProps, this.props),
+      ...didUpdateCategory(prevProps, this.props),
+      ...didUpdatePost(prevProps, this.props),
     });
+
     /* const { post, media, postResults, setAttributes } = this.props;
     const { type } = this.props.attributes;
 
@@ -75,14 +80,6 @@ class PostEdit extends Component {
       attributes.title = [ postRes.title.rendered ];
       attributes.link = postRes.link;
       attributes.imageId = postRes.featured_media;
-    }
-
-    if (media && media !== prevProps.media) {
-      attributes.imageUrl = media.source_url;
-    }
-
-    if (attributes) {
-      setAttributes(attributes);
     } */
   }
 
@@ -123,7 +120,7 @@ class PostEdit extends Component {
           </Toolbar>
         </BlockControls>
         <InspectorControls>
-          { /* <PostSettingsPanel props={ this.props } /> */ }
+          <PostSettingsPanel props={ this.props } />
           <ImageSettingsPanel props={ this.props } />
           <TextSettingsPanel props={ this.props } />
           <TextColorPanel props={ this.props } />
@@ -141,7 +138,7 @@ class PostEdit extends Component {
           color: textColor.class ? undefined : textColor.value,
           fontSize: fontSize ? fontSize + 'px' : undefined,
         } }
-        value={ title }
+        value={ title || '' }
         onChange={ value => {
           setAttributes({
             title: value,
@@ -179,11 +176,11 @@ class PostEdit extends Component {
       <div className={ className }>
         { controls }
         { hasImage &&
-        <div
-          data-url={ imageUrl }
-          style={ imageStyle }
-          className={ imageClasses }
-        ></div>
+          <div
+            data-url={ imageUrl }
+            style={ imageStyle }
+            className={ imageClasses }
+          ></div>
         }
         { richText }
       </div>
@@ -192,32 +189,11 @@ class PostEdit extends Component {
 }
 
 export default compose(
-  withSelect((select, props) => {
-    // const { getCategories, getEntityRecord } = select('core');
-    // const { attributes } = props;
-
-    const res = {};
-
-    /* switch (attributes.type) {
-      case 'auto':
-        res.categories = getCategories();
-        break;
-      case 'withid':
-        if (attributes.id && attributes.id !== '') {
-          res.post = getEntityRecord('postType', 'post', attributes.id);
-
-          if (res.post) {
-            attributes.imageId = res.post.featured_media;
-          }
-        }
-        break;
-    } */
-
-    return {
-      ...res,
-      ...withSelectMedia(select, props),
-    };
-  }),
+  withSelect((select, props) => ({
+    categories: select('core').getCategories(),
+    ...withSelectCategory(select, props),
+    ...withSelectMedia(select, props),
+  })),
   withColors({ textColor: 'color' }),
   withFallbackStyles((node, ownProps) => {
     const { fontSize, customFontSize } = ownProps.attributes;
@@ -228,22 +204,7 @@ export default compose(
       fallbackFontSize: fontSize || customFontSize || ! computedStyles ? undefined : parseInt(computedStyles.fontSize) || undefined,
     };
   }),
-  /* withAPIData(props => {
-    if (props.attributes.type === 'auto') {
-      const postQuery = stringify(pickBy({
-        category_id: props.attributes.categoryId,
-        order: 'desc',
-        orderby: 'date',
-        per_page: 1,
-      }, value => ! isUndefined(value)));
-
-      return {
-        postResults: `/wp/v2/posts?${postQuery}`,
-      };
-    }
-
-    return {
-      postResults: null,
-    };
-  }), */
+  withAPIData(props => ({
+    ...withAPIDataPost(props),
+  })),
 )(PostEdit);

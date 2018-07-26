@@ -2,20 +2,21 @@
  * External dependencies
  */
 import React from 'react';
-import { find, map, reduce } from 'lodash';
+import { find, map, reduce, isUndefined, pickBy } from 'lodash';
+import { stringify } from 'querystringify';
 import { i18n, components, editor, element } from '@frontkom/gutenberg-js';
-// import CategorySelect from 'gutenberg/components/query-controls/category-select';
 
 const { __ } = i18n;
 const { Fragment } = element;
 const {
   ButtonGroup,
   Button,
+  CategorySelect,
   FontSizePicker,
   IconButton,
   PanelBody,
   RangeControl,
-  TextControl,
+  // TextControl,
   ToggleControl,
 } = components;
 const {
@@ -28,10 +29,10 @@ const POST_TYPES = [
     name: __('Auto'),
     slug: 'auto',
   },
-  {
+  /* {
     name: __('With id'),
     slug: 'withid',
-  },
+  }, */
   {
     name: __('Static'),
     slug: 'static',
@@ -129,7 +130,7 @@ export const PostSettingsPanel = ({ props }) => {
   } = props;
 
   const {
-    id,
+    // id,
     type,
     categoryId,
   } = attributes;
@@ -158,18 +159,18 @@ export const PostSettingsPanel = ({ props }) => {
         </ButtonGroup>
       </div>
       {
-        (type === 'withid') &&
+        /* (type === 'withid') &&
         <TextControl
           value={ id }
           label={ __('Post id') }
           onChange={ nextId => {
             setAttributes({ id: parseInt(nextId) });
           } }
-        />
+        /> */
       }
 
       {
-        /* type === 'auto' &&
+        type === 'auto' &&
         <CategorySelect
           key="query-controls-category-select"
           categoriesList={ categories }
@@ -179,7 +180,7 @@ export const PostSettingsPanel = ({ props }) => {
           onChange={ nextCategory => {
             setAttributes({ categoryId: nextCategory });
           } }
-        /> */
+        />
       }
     </PanelBody>
   );
@@ -308,6 +309,25 @@ export function withSelectAuthor (select, props) {
   };
 }
 
+export function withAPIDataPost (props) {
+  if (props.attributes.type === 'auto') {
+    const postQuery = stringify(pickBy({
+      category_id: props.attributes.categoryId,
+      order: 'desc',
+      orderby: 'date',
+      per_page: 1,
+    }, value => ! isUndefined(value)));
+
+    return {
+      postResults: `/wp/v2/posts?${postQuery}`,
+    };
+  }
+
+  return {
+    postResults: null,
+  };
+}
+
 // componentDidUpdate
 export function didUpdateMedia (prevProps, props) {
   const { media, attributes } = props;
@@ -344,6 +364,22 @@ export function didUpdateAuthor (prevProps, props) {
   }
 
   return {};
+}
+
+export function didUpdatePost (prevProps, props) {
+  const { postResults, attributes } = props;
+  const { type } = attributes;
+
+  if (type === 'auto' && postResults && postResults !== prevProps.postResults && postResults.data) {
+    const postRes = postResults.data[ 0 ];
+
+    return {
+      id: parseInt(postRes.id),
+      title: [ postRes.title.rendered ],
+      link: postRes.link,
+      imageId: postRes.featured_media,
+    };
+  }
 }
 
 // helpers

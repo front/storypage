@@ -1,9 +1,9 @@
-import { lib } from '@frontkom/gutenberg-js';
+import { settings } from '../../storypage/post';
 
-export const { controls } = lib.blocks.post;
+export { controls } from '../../storypage/post';
 
 // deep clone
-export const articleAttributes = JSON.parse(JSON.stringify(lib.blocks.post.settings.attributes));
+export const articleAttributes = JSON.parse(JSON.stringify(settings.attributes));
 
 articleAttributes.title.default = 'Handel dreier seg om å vinne';
 
