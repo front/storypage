@@ -9,9 +9,6 @@ import {
   element,
 } from '@frontkom/gutenberg-js';
 
-// Internal Dependencies
-import './style.scss';
-
 /**
  * WordPress dependencies
  */
@@ -92,24 +89,24 @@ class PodcastEdit extends Component {
 
     const classes = classnames(
       className,
+      'podcastbox post type-post status-publish format-standard has-post-thumbnail category-nyhet tag-faktasjekk tag-faktisk-no tag-skatteparadiser',
       {
         'has-background': backgroundColor.value,
         [ backgroundColor.class ]: backgroundColor.class,
-        [ textColor.class ]: textColor.class,
       }
     );
 
-    const style = {
-      backgroundColor: backgroundColor.class ? undefined : backgroundColor.value,
-      color: textColor.class ? undefined : textColor.value,
-    };
+    const style = { backgroundColor: backgroundColor.class ? undefined : backgroundColor.value };
+
+    const textClasses = classnames({ [ textColor.class ]: textColor.class });
+    const textStyle = { color: textColor.class ? undefined : textColor.value };
 
     const fontSize = this.getFontSize(attributes);
 
     return (
-      <div className={ classes } style={ style }>
+      <article className={ classes } style={ style }>
         <InspectorControls>
-          <PanelBody title={ __('Text Settings') } className="blocks-font-size">
+          <PanelBody title={ __('Title Settings') } className="blocks-font-size">
             <FontSizePicker
               fontSizes={ FONT_SIZES }
               fallbackFontSize={ fallbackFontSize }
@@ -158,35 +155,45 @@ class PodcastEdit extends Component {
             />
           </PanelBody>
         </InspectorControls>
-        <RichText
-          tagName="h1"
-          className="minerva-podcast-box-title"
-          style={ {
-            fontSize: fontSize ? fontSize + 'px' : undefined,
-          } }
-          value={ title }
-          onChange={ value => setAttributes({ title: value }) }
-          inlineToolbar
-        />
-        <RichText
-          tagName="h2"
-          className="minerva-podcast-box-subtitle"
-          value={ subtitle }
-          onChange={ value => setAttributes({ subtitle: value }) }
-          inlineToolbar
-        />
-        <RichText
-          tagName="p"
-          className="minerva-podcast-box-teaser"
-          value={ teaser }
-          onChange={ value => setAttributes({ teaser: value }) }
-          inlineToolbar
-        />
-        <div className="minerva-podcast-box-links">
-          <a href={ lastEpUrl }>Hør siste episode</a>
-          <a href={ subscribeUrl }>Abonner via iTunes</a>
+
+        <div className="text-wrapper">
+          <a className="link-wrapper">
+            <RichText
+              tagName="h1"
+              className={ `title ${textClasses}` }
+              style={ {
+                ...textStyle,
+                fontSize: fontSize ? fontSize + 'px' : undefined,
+              } }
+              value={ title }
+              onChange={ value => setAttributes({ title: value }) }
+              inlineToolbar
+            />
+            <RichText
+              tagName="h2"
+              className={ `subtitle ${textClasses}` }
+              style={ textStyle }
+              value={ subtitle }
+              onChange={ value => setAttributes({ subtitle: value }) }
+              inlineToolbar
+            />
+            <div className="desc">
+              <RichText
+                tagName="p"
+                className={ textClasses }
+                style={ textStyle }
+                value={ teaser }
+                onChange={ value => setAttributes({ teaser: value }) }
+                inlineToolbar
+              />
+            </div>
+          </a>
+          <ul className="links">
+            <li><a className={ textClasses } style={ textStyle }>Hør siste episode</a></li>
+            <li><a className={ textClasses } style={ textStyle }>Abonner via iTunes</a></li>
+          </ul>
         </div>
-      </div>
+      </article>
     );
   }
 }
@@ -291,6 +298,7 @@ export const settings = {
     };
     const classes = classnames(
       className,
+      'podcastbox post type-post status-publish format-standard has-post-thumbnail category-nyhet tag-faktasjekk tag-faktisk-no tag-skatteparadiser',
       {
         'has-background': backgroundColor || customBackgroundColor,
         [ textClass ]: textClass,
@@ -298,32 +306,43 @@ export const settings = {
       },
     );
 
-    return (
-      <div className={ classes } style={ style }>
-        <RichText.Content
-          tagName="h1"
-          className="minerva-podcast-box-title"
-          style={ { fontSize: fontSizeClass ? undefined : customFontSize } }
-          value={ title }
-        />
-        <a href={ link }>
-          <RichText.Content
-            tagName="h2"
-            className="minerva-podcast-box-subtitle"
-            value={ subtitle }
-          />
+    const textClasses = classnames({ [ textClass ]: textClass });
+    const textStyle = { color: textClass ? undefined : textClass };
 
-          <RichText.Content
-            tagName="p"
-            className="minerva-podcast-box-teaser"
-            value={ teaser }
-          />
-        </a>
-        <div className="minerva-podcast-box-links">
-          <a href={ lastEpUrl }>Hør siste episode</a>
-          <a href={ subscribeUrl }>Abonner via iTunes</a>
+    return (
+      <article className={ classes } style={ style }>
+        <div className="text-wrapper">
+          <a className="link-wrapper" href={ link }>
+            <RichText.Content
+              tagName="h1"
+              className={ `title ${textClasses}` }
+              style={ {
+                ...textStyle,
+                fontSize: fontSizeClass ? undefined : customFontSize,
+              } }
+              value={ title }
+            />
+            <RichText.Content
+              tagName="h2"
+              className={ `subtitle ${textClasses}` }
+              style={ textStyle }
+              value={ subtitle }
+            />
+            <div className="desc">
+              <RichText.Content
+                tagName="p"
+                className={ textClasses }
+                style={ textStyle }
+                value={ teaser }
+              />
+            </div>
+          </a>
+          <ul className="links">
+            <li><a className={ textClasses } style={ textStyle } href={ lastEpUrl }>Hør siste episode</a></li>
+            <li><a className={ textClasses } style={ textStyle } href={ subscribeUrl }>Abonner via iTunes</a></li>
+          </ul>
         </div>
-      </div>
+      </article>
     );
   },
 };
