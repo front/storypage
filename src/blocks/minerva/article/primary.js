@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 import classnames from 'classnames';
-import moment from 'moment';
+// import moment from 'moment';
 import { isEmpty } from 'lodash';
 import {
   i18n,
@@ -85,33 +85,40 @@ class PrimaryEdit extends Component {
       hasParallax,
     } = attributes;
 
-    const style = {
-      ...(hasImage ? backgroundImageStyles(imageUrl) : {}),
+    const fontSize = getFontSize(attributes);
+
+    const textStyle = {
       color: textColor.class ? undefined : textColor.value,
     };
+
     const classes = classnames(
       className,
-      'wp-block-cover-image',
+      'hero hero-primary bg-image l-row post type-post status-publish format-standard has-post-thumbnail category-kommentar tag-boris-johnson tag-brexit tag-eu tag-frihandel tag-wetherspoon',
+    );
+
+    const imageClasses = classnames(
+      'image',
       dimRatioToClass(dimRatio),
       {
         'has-background-dim': dimRatio !== 0,
         'has-parallax': hasParallax,
-        [ textColor.class ]: textColor.class,
-      }
+      },
     );
 
-    const fontSize = getFontSize(attributes);
+    const imageStyle = {
+      ...(hasImage ? backgroundImageStyles(imageUrl) : {}),
+    };
 
     return (
-      <div className={ classes } style={ style }>
+      <article className={ classes }>
         { hasImage && <BlockControls>
           <Toolbar>
             <MediaUploadToolbar props={ this.props } />
           </Toolbar>
         </BlockControls> }
         <InspectorControls>
-          <ImageSettingsPanel props={ { attributes, setAttributes } } />
-          <TextSettingsPanel props={ this.props } />
+          <ImageSettingsPanel props={ { attributes, setAttributes } } options={ { title: __('Background Settings') }} />
+          <TextSettingsPanel props={ this.props } options={ { title: __('Title Settings') }} />
           <TextColorPanel props={ this.props } />
 
           <PanelBody title={ __('Article Primary Settings') }>
@@ -133,61 +140,53 @@ class PrimaryEdit extends Component {
           </PanelBody>
         </InspectorControls>
 
+        <span
+          className={ imageClasses }
+          style={ imageStyle }></span>
         <div className="container">
-          <div className="minerva-article-category">
-            { /* <RichText
-              tagName="span"
-              value={ category }
-              onChange={ value => setAttributes({ category: value }) }
+          <div className="term">
+            <a className="inner">{ category }</a>
+          </div>
+          <a className="link-wrapper">
+            <RichText
+              tagName="h1"
+              className={ `title ${textColor.class}` }
+              style={ {
+                fontSize: fontSize ? fontSize + 'px' : undefined,
+                ...textStyle,
+              } }
+              value={ title }
+              onChange={ value => setAttributes({ title: value }) }
               formattingControls={formattingControls}
               inlineToolbar
-            /> */ }
-            <span>{ category }</span>
-          </div>
-          <RichText
-            tagName="h1"
-            className="minerva-article-title"
-            style={ {
-              fontSize: fontSize ? fontSize + 'px' : undefined,
-            } }
-            value={ title }
-            onChange={ value => setAttributes({ title: value }) }
-            formattingControls={formattingControls}
-            inlineToolbar
-          />
-          <RichText
-            tagName="p"
-            className="minerva-article-teaser"
-            value={ teaser }
-            onChange={ value => setAttributes({ teaser: value }) }
-            formattingControls={formattingControls}
-            inlineToolbar
-          />
-          <div className="minerva-article-author">
-            <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
-            <div className="minerva-article-meta">
-              { /* <RichText
-                tagName="span"
-                className="minerva-author-name"
-                value={ author }
-                onChange={ value => setAttributes({ author: value }) }
+            />
+            <div className="desc">
+              <RichText
+                tagName="p"
+                className={ textColor.class }
+                style={ { ...textStyle, fontSize: '26px' } }
+                value={ teaser }
+                onChange={ value => setAttributes({ teaser: value }) }
                 formattingControls={formattingControls}
                 inlineToolbar
-              /> */ }
-              <span className="minerva-author-name">{ author }</span>
-              { /* <RichText
-                tagName="span"
-                className="minerva-article-date"
-                value={ date }
-                onChange={ value => setAttributes({ date: value }) }
-                formattingControls={formattingControls}
-                inlineToolbar
-              /> */ }
-              <span className="minerva-article-date">{ moment(date).format('LL') }</span>
+              />
             </div>
-          </div>
+          </a>
+          <ul className="meta-large">
+            <li key="image">
+              <a>
+                <img src={ authorImageUrl } alt={ author } className="avatar" />
+              </a>
+            </li>
+            <li key="name">
+              <a className="name">
+                { author }
+              </a>
+              <time>{ date }</time>
+            </li>
+          </ul>
         </div>
-      </div>
+      </article>
     );
   }
 }
@@ -252,69 +251,66 @@ export const settings = {
     const textClass = getColorClass('color', textColor);
     const fontSizeClass = fontSize && `is-${fontSize}-text`;
 
-    const style = {
-      ...(hasImage ? backgroundImageStyles(imageUrl) : {}),
+    const textStyle = {
       color: textClass ? undefined : customTextColor,
     };
     const classes = classnames(
       className,
-      'wp-block-cover-image',
+      'hero hero-primary bg-image l-row post type-post status-publish format-standard has-post-thumbnail category-kommentar tag-boris-johnson tag-brexit tag-eu tag-frihandel tag-wetherspoon',
+    );
+
+    const imageStyle = {
+      ...(hasImage ? backgroundImageStyles(imageUrl) : {}),
+    };
+
+    const imageClasses = classnames(
+      'image',
       dimRatioToClass(dimRatio),
       {
         'has-background-dim': dimRatio !== 0,
         'has-parallax': hasParallax,
-        [ textClass ]: textClass,
       },
     );
 
     return (
-      <div className={ classes } style={ style }>
+      <article className={ classes }>
+        <span
+          className={ imageClasses }
+          style={ imageStyle }></span>
         <div className="container">
-          <div className="minerva-article-category">
-            <a href={ categoryUrl }>
-              { /* <RichText.Content
-                tagName="span"
-                value={ category }
-              /> */ }
-              <span>{ category }</span>
-            </a>
+          <div className="term">
+            <a href={ categoryUrl } className="inner">{ category }</a>
           </div>
-          <a href={ link }>
+          <a href={ link } className="link-wrapper">
             <RichText.Content
               tagName="h1"
-              className="minerva-article-title"
-              style={ { fontSize: fontSizeClass ? undefined : customFontSize } }
+              className={ `title ${textClass}` }
+              style={ { fontSize: fontSizeClass ? undefined : customFontSize, ...textStyle } }
               value={ title }
             />
-            <RichText.Content
-              tagName="p"
-              className="minerva-article-teaser"
-              value={ teaser }
-            />
-          </a>
-          <div className="minerva-article-author">
-            <a href={ authorUrl }>
-              <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
-            </a>
-            <div className="minerva-article-meta">
-              <a href={ authorUrl }>
-                { /* <RichText.Content
-                  tagName="span"
-                  className="minerva-author-name"
-                  value={ author }
-                /> */ }
-                <span className="minerva-author-name">{ author }</span>
-              </a>
-              { /* <RichText.Content
-                tagName="span"
-                className="minerva-article-date"
-                value={ date }
-              /> */ }
-              <span className="minerva-article-date">{ moment(date).format('LL') }</span>
+            <div className="desc">
+              <RichText.Content
+                tagName="p"
+                style={ textStyle }
+                value={ teaser }
+              />
             </div>
-          </div>
+          </a>
+          <ul className="meta-large">
+            <li key="image">
+              <a href={ authorUrl }>
+                <img src={ authorImageUrl } alt={ author } className="avatar" />
+              </a>
+            </li>
+            <li key="name">
+              <a href={ authorUrl } className="name">
+                { author }
+              </a>
+              <time>{ date }</time>
+            </li>
+          </ul>
         </div>
-      </div>
+      </article>
     );
   },
 

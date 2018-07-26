@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React from 'react';
+import classnames from 'classnames';
 import {
   i18n,
   components,
@@ -38,15 +39,22 @@ export const settings = {
   attributes: {
     title: {
       type: 'string',
-      default: 'Mest lest',
+    },
+    contentClass: {
+      type: 'string',
     },
   },
 
   edit ({ attributes, className, setAttributes }) {
-    const { title } = attributes;
+    const { title, contentClass } = attributes;
+
+    const classes = classnames(
+      className,
+      'section'
+    );
 
     return (
-      <div className={ className }>
+      <section className={ classes }>
         <InspectorControls>
           <PanelBody title={ __('Section Settings') }>
             <TextControl
@@ -56,28 +64,33 @@ export const settings = {
             />
           </PanelBody>
         </InspectorControls>
-        <div className="wp-block-minerva-section-content">
-          <div className="minerva-section-title">
-            <span>{ title }</span>
-          </div>
+        { title && <h1 className="section-title">
+          <span className="inner">{ title }</span>
+        </h1> }
+        <div className={ contentClass }>
           <InnerBlocks />
         </div>
-      </div>
+      </section>
     );
   },
 
   save ({ attributes, className }) {
-    const { title } = attributes;
+    const { title, contentClass } = attributes;
+
+    const classes = classnames(
+      className,
+      'section'
+    );
 
     return (
-      <div className={ className }>
-        <div className="wp-block-minerva-section-content">
-          <div className="minerva-section-title">
-            <span>{ title }</span>
-          </div>
+      <section className={ classes }>
+        { title && <h1 className="section-title">
+          <span className="inner">{ title }</span>
+        </h1> }
+        <div className={ contentClass }>
           <InnerBlocks.Content />
         </div>
-      </div>
+      </section>
     );
   },
 };

@@ -1,7 +1,6 @@
 // External Dependencies
 import React from 'react';
 import classnames from 'classnames';
-import moment from 'moment';
 import { isEmpty } from 'lodash';
 import {
   i18n,
@@ -17,7 +16,6 @@ import {
   formattingControls,
   controls,
 } from './default-attributes';
-import './secondary.scss';
 
 /**
  * WordPress dependencies
@@ -71,20 +69,22 @@ class SecondaryEdit extends Component {
       link,
     } = attributes;
 
+    const fontSize = getFontSize(attributes);
+
     const style = {
       color: textColor.class ? undefined : textColor.value,
     };
+
     const classes = classnames(
       className,
+      'hero hero-secondary post type-post status-publish format-standard has-post-thumbnail category-kommentar tag-boris-johnson tag-brexit tag-eu tag-frihandel tag-wetherspoon',
       {
         [ textColor.class ]: textColor.class,
       }
     );
 
-    const fontSize = getFontSize(attributes);
-
     return (
-      <div className={ classes }  style={ style }>
+      <article className={ classes }>
         <InspectorControls>
           <TextSettingsPanel props={ this.props } />
           <TextColorPanel props={ this.props } />
@@ -103,58 +103,48 @@ class SecondaryEdit extends Component {
           </PanelBody>
         </InspectorControls>
 
-        <RichText
-          tagName="h2"
-          className="minerva-article-title"
-          style={ {
-            fontSize: fontSize ? fontSize + 'px' : undefined,
-          } }
-          value={ title }
-          onChange={ value => setAttributes({ title: value }) }
-          formattingControls={formattingControls}
-          inlineToolbar
-        />
-        <div className="minerva-article-teaser">
-          <div className="minerva-article-category">
-            { /* <RichText
-              tagName="span"
-              value={ category }
-              onChange={ value => setAttributes({ category: value }) }
-              formattingControls={formattingControls}
-            />  */ }
-            <span>{ category }</span>
-          </div>
+        <div className="term">
+          <a className="inner">{ category }</a>
+        </div>
+        <a className="link-wrapper">
           <RichText
-            tagName="p"
-            value={ teaser }
-            onChange={ value => setAttributes({ teaser: value }) }
+            tagName="h1"
+            className="title"
+            style={ {
+              fontSize: fontSize ? fontSize + 'px' : undefined,
+              ...style,
+            } }
+            value={ title }
+            onChange={ value => setAttributes({ title: value }) }
             formattingControls={formattingControls}
             inlineToolbar
           />
-        </div>
-        <div className="minerva-article-author">
-          <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
-          <div className="minerva-article-meta">
-            { /* <RichText
-              tagName="span"
-              className="minerva-author-name"
-              value={ author }
-              onChange={ value => setAttributes({ author: value }) }
+          <div className="desc">
+            <span className="term-inline term-debatt">{ category }</span>
+            <RichText
+              tagName="p"
+              style={ style }
+              value={ teaser }
+              onChange={ value => setAttributes({ teaser: value }) }
               formattingControls={formattingControls}
-            /> */ }
-            <span className="minerva-author-name">{ author }</span>
-            { /* <RichText
-              tagName="span"
-              className="minerva-article-date"
-              value={ date }
-              onChange={ value => setAttributes({ date: value }) }
-              formattingControls={formattingControls}
-            /> */ }
-
-            <span className="minerva-article-date">{ moment(date).format('LL') }</span>
+              inlineToolbar
+            />
           </div>
-        </div>
-      </div>
+        </a>
+        <ul className="meta">
+          <li key="image">
+            <a>
+              <img src={ authorImageUrl } alt={ author } className="avatar" />
+            </a>
+          </li>
+          <li key="name">
+            <a className="name">
+              { author }
+            </a>
+            <time>{ date }</time>
+          </li>
+        </ul>
+      </article>
     );
   }
 }
@@ -162,7 +152,7 @@ class SecondaryEdit extends Component {
 export const name = 'minerva/article-secondary';
 
 const secondaryAttributes = JSON.parse(JSON.stringify(articleAttributes));
-secondaryAttributes.customFontSize.default = 58;
+secondaryAttributes.customFontSize.default = 60;
 secondaryAttributes.fontSize.default = '';
 
 export const settings = {
@@ -217,56 +207,48 @@ export const settings = {
     };
     const classes = classnames(
       className,
+      'hero hero-secondary post type-post status-publish format-standard has-post-thumbnail category-kommentar tag-boris-johnson tag-brexit tag-eu tag-frihandel tag-wetherspoon',
       {
         [ textClass ]: textClass,
       },
     );
 
     return (
-      <div className={ classes } style={ style }>
-        <a href={ link }>
+
+      <article className={ classes }>
+        <div className="term">
+          <a className="inner">{ category }</a>
+        </div>
+        <a className="link-wrapper" href={ link }>
           <RichText.Content
-            tagName="h2"
-            className="minerva-article-title"
-            style={ { fontSize: fontSizeClass ? undefined : customFontSize } }
+            tagName="h1"
+            className="title"
+            style={ { fontSize: fontSizeClass ? undefined : customFontSize, ...style } }
             value={ title }
           />
-          <div className="minerva-article-teaser">
-            <div className="minerva-article-category">
-              { /* <RichText.Content
-                tagName="span"
-                value={ category }
-              /> */ }
-              <span>{ category }</span>
-            </div>
+          <div className="desc">
+            <span className="term-inline term-debatt">{ category }</span>
             <RichText.Content
               tagName="p"
+              style={ style }
               value={ teaser }
             />
           </div>
         </a>
-        <div className="minerva-article-author">
-          <a href={ authorUrl }>
-            <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
-          </a>
-          <div className="minerva-article-meta">
+        <ul className="meta">
+          <li key="image">
             <a href={ authorUrl }>
-              { /* <RichText.Content
-                tagName="span"
-                className="minerva-author-name"
-                value={ author }
-              /> */ }
-              <span className="minerva-author-name">{ author }</span>
+              <img src={ authorImageUrl } alt={ author } className="avatar" />
             </a>
-            { /* <RichText.Content
-              tagName="span"
-              className="minerva-article-date"
-              value={ date }
-            /> */ }
-            <span className="minerva-article-date">{ moment(date).format('LL') }</span>
-          </div>
-        </div>
-      </div>
+          </li>
+          <li key="name">
+            <a className="name" href={ authorUrl }>
+              { author }
+            </a>
+            <time>{ date }</time>
+          </li>
+        </ul>
+      </article>
     );
   },
   draggablePost: true,

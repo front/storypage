@@ -1,104 +1,23 @@
-div.wp-block-minerva-article-primary {
-	// color: #FFF;
-	text-align: center;
-	padding: 76px 0;
-	margin-bottom: 76px;
-	background-size: cover;
-	// background-repeat: no-repeat;
-	background-position: 50%;
-	// position: relative;
 
-	a {
-		color: inherit;
-
-		&:hover {
-			color: inherit;
-			text-decoration: none;
-
-			.minerva-article-title,
-			.minerva-author-name {
-				text-decoration: underline;
-			}
-		}
-	}
-
-	.minerva-article-category {
-    	text-align: center;
-    	font-size: .78947em;
-    	letter-spacing: .141em;
-    	line-height: 1;
-    	margin-bottom: 38px;
-
-    	span {
-    		position: relative;
-    		background-color: transparent;
-    		border: 1px solid #FFF;
-    		padding: 10px 19px;
-    		font-size: 14.99px;
-
-    		&:before,
-    		&:after {
-    			content: '';
-			    position: absolute;
-			    top: 50%;
-			    border-bottom: 1px solid #FFF;
-			    width: 100%;
-    		}
-
-    		&:before {
-    			right: 100%;
-    		}
-
-    		&:after {
-			    left: 100%;
-    		}
-			}
-
-			&:hover {
-				text-decoration: underline;
-			}
-	}
-
-	.minerva-article-title,
-	.minerva-article-teaser,
-	.minerva-article-author {
-		position: relative;
-	}
-
-	/* .minerva-article-title, {
-		font-size: 58px;
-	} */
-
-	.minerva-article-teaser {
-		color: inherit;
-		font-size: 1.36842em;
-		line-height: 1.58;
-		margin: 0px;
-	}
-
-	.minerva-article-author {
-	    justify-content: center;
-
-	    .minerva-author-avatar {
-			max-width: 80px;
-			border: 1px solid #C2C2C2;
-			margin-right: 19px;
+.wp-block-minerva-article-primary {
+	.image {
+		&.has-parallax {
+			background-attachment: fixed;
 		}
 
-	    .minerva-article-meta {
-			display: block;
-			color: inherit;
+		&.has-background-dim:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			background-color: rgba( #000, 0.5 );
+		}
 
-			.minerva-author-name {
-				font-family: initial;
-				font-size: 1.07143em;
-				font-weight: 700;
-			}
-
-			.minerva-author-name,
-			.minerva-article-date {
-				display: block;
-				text-align: left;
+		@for $i from 1 through 10 {
+			&.has-background-dim.has-background-dim-#{ $i * 10 }:before {
+				background-color: rgba( #000, $i * 0.1 );
 			}
 		}
 	}

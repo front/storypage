@@ -1,8 +1,7 @@
 // External Dependencies
 import React from 'react';
 import classnames from 'classnames';
-import moment from 'moment';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import {
   i18n,
   components,
@@ -23,19 +22,24 @@ import './teaser.scss';
 * WordPress dependencies
 */
 const { __ } = i18n;
-const { withFallbackStyles, PanelBody, TextControl } = components;
-const { getColorClass, withColors, InspectorControls, RichText } = editor;
+const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
+const { getColorClass, withColors, InspectorControls, RichText, BlockControls } = editor;
 const { Component, compose } = element;
 const { withSelect } = data;
 
 const {
+  // Toolbar
+  MediaUploadToolbar,
   // Inspector controls
   TextColorPanel,
   TextSettingsPanel,
   // componentDidUpdate
   didUpdateAuthor,
+  didUpdateCategory,
   // selectors
+  withSelectMedia,
   withSelectAuthor,
+  withSelectCategory,
   // events
   getFontSize,
 } = controls;
@@ -44,11 +48,17 @@ const { getComputedStyle } = window;
 
 class TeaserEdit extends Component {
   componentDidUpdate (prevProps) {
-    const { setAttributes } = this.props;
+    const { setAttributes, media } = this.props;
 
     const attributes = {
       ...didUpdateAuthor(prevProps, this.props),
+      ...didUpdateCategory(prevProps, this.props),
     };
+
+    if (media && media !== prevProps.media) {
+      attributes.imageUrl = get(media, 'media_details.sizes.medium_large.source_url', '');
+      attributes.imageSmallUrl = get(media, 'media_details.sizes.medium_large.source_url', '');
+    }
 
     if (! isEmpty(attributes)) {
       setAttributes(attributes);
@@ -65,6 +75,11 @@ class TeaserEdit extends Component {
       authorUrl,
       authorImageUrl,
       link,
+      category,
+      showCategory,
+      hasImage,
+      imageUrl,
+      imageSmallUrl,
     } = attributes;
 
     const fontSize = getFontSize(attributes);
@@ -74,19 +89,27 @@ class TeaserEdit extends Component {
       fontSize: fontSize ? fontSize + 'px' : undefined,
     };
 
+    const classes = classnames(
+      className,
+      'article-teaser',
+    );
+
     const titleClasses = classnames(
-      'minerva-article-title',
-      {
-        [ textColor.class ]: textColor.class,
-      }
+      'title',
+      { [ textColor.class ]: textColor.class }
     );
 
     return (
-      <div className={ className }>
+      <article className={ classes }>
+        { hasImage && <BlockControls>
+          <Toolbar>
+            <MediaUploadToolbar props={ this.props } />
+          </Toolbar>
+        </BlockControls> }
         <InspectorControls>
-          <PanelBody title={ __('Article Primary Settings') }>
-            <TextSettingsPanel props={ this.props } />
-            <TextColorPanel props={ this.props } />
+          <PanelBody title={ __('Article Teaser Settings') }>
+            <TextSettingsPanel props={ this.props } options={ { title: __('Title Settings') }} />
+            <TextColorPanel props={ this.props } options={ { title: __('Title Color') }} />
 
             <TextControl
               value={ link }
@@ -101,47 +124,51 @@ class TeaserEdit extends Component {
           </PanelBody>
         </InspectorControls>
 
-        <RichText
-          tagName="h2"
-          className={ titleClasses }
-          style={ titleStyle }
-          value={ title }
-          onChange={ value => setAttributes({ title: value }) }
-          formattingControls={formattingControls}
-          inlineToolbar
-        />
-        <RichText
-          tagName="p"
-          className="minerva-article-teaser"
-          value={ teaser }
-          onChange={ value => setAttributes({ teaser: value }) }
-          formattingControls={formattingControls}
-          inlineToolbar
-        />
-        <div className="minerva-article-author">
-          <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
-          <div className="minerva-article-meta">
-            { /* <RichText
-              tagName="span"
-              className="minerva-author-name"
-              value={ author }
-              onChange={ value => setAttributes({ author: value }) }
+        { showCategory && <div className="term">
+          <a className="inner term-debatt">{ category }</a>
+        </div> }
+
+        <a className="link-wrapper">
+          { hasImage && <span className="teaser-image">
+            <picture>
+              <source srcSet={ imageUrl } media="(max-width: 719px)" />
+              <source srcSet={ imageSmallUrl } media="(min-width: 720px)" />
+              <img src={ imageUrl } alt="Kritikken av Rødt treffer ikke" className="image" />
+            </picture>
+          </span> }
+          <RichText
+            tagName="h2"
+            className={ titleClasses }
+            style={ titleStyle }
+            value={ title }
+            onChange={ value => setAttributes({ title: value }) }
+            formattingControls={formattingControls}
+            inlineToolbar
+          />
+          <div className="desc">
+            <RichText
+              tagName="p"
+              value={ teaser }
+              onChange={ value => setAttributes({ teaser: value }) }
               formattingControls={formattingControls}
               inlineToolbar
-            /> */ }
-            <span className="minerva-author-name">{ author }</span>
-            { /* <RichText
-              tagName="span"
-              className="minerva-article-date"
-              value={ date }
-              onChange={ value => setAttributes({ date: value }) }
-              formattingControls={formattingControls}
-              inlineToolbar
-            /> */ }
-            <span className="minerva-article-date">{ moment(date).format('LL') }</span>
+            />
           </div>
-        </div>
-      </div>
+        </a>
+        <ul className="meta">
+          <li key="image">
+            <a>
+              <img src={ authorImageUrl } alt={ author } className="avatar" />
+            </a>
+          </li>
+          <li key="name">
+            <a className="name">
+              { author }
+            </a>
+            <time classename="date" >{ date }</time>
+          </li>
+        </ul>
+      </article>
     );
   }
 }
@@ -151,7 +178,13 @@ export const name = 'minerva/article-teaser';
 const teaserAttributes = JSON.parse(JSON.stringify(articleAttributes));
 teaserAttributes.customFontSize.default = 26;
 teaserAttributes.fontSize.default = '';
-teaserAttributes.customTextColor.default = '#BF5048';
+teaserAttributes.showCategory = {
+  type: 'boolean',
+  default: true,
+};
+teaserAttributes.imageSmallUrl = {
+  type: 'string',
+};
 
 export const settings = {
   title: __('Article Teaser'),
@@ -164,7 +197,9 @@ export const settings = {
   edit: compose(
     withSelect((select, props) => {
       return {
+        ...withSelectMedia(select, props),
         ...withSelectAuthor(select, props),
+        ...withSelectCategory(select, props),
       };
     }),
     withColors({ textColor: 'color' }),
@@ -192,6 +227,11 @@ export const settings = {
       customTextColor,
       fontSize,
       customFontSize,
+      category,
+      showCategory,
+      hasImage,
+      imageUrl,
+      imageSmallUrl,
     } = attributes;
 
     const textClass = getColorClass('color', textColor);
@@ -203,49 +243,56 @@ export const settings = {
     };
 
     const titleClasses = classnames(
-      'minerva-article-title',
-      {
-        [ textClass ]: textClass,
-      }
+      'title',
+      { [ textClass ]: textClass }
+    );
+
+    const classes = classnames(
+      className,
+      'article-teaser'
     );
 
     return (
-      <div className={ className }>
-        <a href={ link }>
+      <article className={ classes }>
+        { showCategory && <div className="term">
+          <a className="inner term-debatt">{ category }</a>
+        </div> }
+
+        <a href={ link } className="link-wrapper">
+          { hasImage && <span className="teaser-image">
+            <picture>
+              <source srcSet={ imageUrl } media="(max-width: 719px)" />
+              <source srcSet={ imageSmallUrl } media="(min-width: 720px)" />
+              <img src={ imageUrl } alt="Kritikken av Rødt treffer ikke" className="image" />
+            </picture>
+          </span> }
           <RichText.Content
             tagName="h2"
             className={ titleClasses }
             style={ titleStyle }
             value={ title }
           />
-          <RichText.Content
-            tagName="p"
-            className="minerva-article-teaser"
-            value={ teaser }
-          />
-        </a>
-        <div className="minerva-article-author">
-          <a href={ authorUrl }>
-            <img alt="" src={ authorImageUrl } className="minerva-author-avatar" />
-          </a>
-          <div className="minerva-article-meta">
-            <a href={ authorUrl }>
-              { /* <RichText.Content
-                tagName="span"
-                className="minerva-author-name"
-                value={ author }
-              /> */ }
-              <span className="minerva-author-name">{ author }</span>
-            </a>
-            { /* <RichText.Content
-              tagName="span"
-              className="minerva-article-date"
-              value={ date }
-            /> */ }
-            <span className="minerva-article-date">{ moment(date).format('LL') }</span>
+          <div className="desc">
+            <RichText.Content
+              tagName="p"
+              value={ teaser }
+            />
           </div>
-        </div>
-      </div>
+        </a>
+        <ul className="meta">
+          <li key="image">
+            <a href={ authorUrl }>
+              <img src={ authorImageUrl } alt={ author } className="avatar" />
+            </a>
+          </li>
+          <li key="name">
+            <a className="name" href={ authorUrl }>
+              { author }
+            </a>
+            <time classename="date" >{ date }</time>
+          </li>
+        </ul>
+      </article>
     );
   },
   draggablePost: true,
