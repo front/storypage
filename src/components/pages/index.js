@@ -20,7 +20,7 @@ class PagesIndex extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchPosts({ status: 'all', order: 'desc', orderby: 'id' });
+    this.props.fetchPosts({ status: 'all', order: 'desc', orderby: 'id', type: 'page' });
   }
 
   componentDidUpdate (prevProps) {
@@ -97,8 +97,6 @@ class PagesIndex extends React.Component {
             <h1>Stories</h1>
             <div className="text-right">
               <Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
-              <Link className="btn btn-secondary" to="/posts/new" target="_blank" rel="noopener noreferrer">New post</Link>{ ' ' }
-              { /* <Link className="btn btn-info" to="/pages/new">New page</Link> */ }
               <div className="dropdown d-inline">
                 <a className="btn btn-info dropdown-toggle" href="#" role="button" id="pagesDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                   New page

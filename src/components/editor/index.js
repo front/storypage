@@ -11,10 +11,10 @@ import {
   lib,
 } from '@frontkom/gutenberg-js';
 
-import '@frontkom/gutenberg-js/build/css/core-blocks/style.css'; 		// blocks
-import '@frontkom/gutenberg-js/build/css/style.css';					// components, editor, edit-post
-import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; 		// theme
-import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css';  // edit-blocks
+import '@frontkom/gutenberg-js/build/css/core-blocks/style.css'; // blocks
+import '@frontkom/gutenberg-js/build/css/style.css'; 	// components, editor, edit-post
+import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; // theme
+import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css'; // edit-blocks
 
 // Internal Dependencies
 import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
@@ -40,7 +40,7 @@ class Editor extends React.Component {
     if (type === 'page') {
       // PluginDocumentSidebarPanel
       const { PluginDocumentSidebarPanel } = editPost;
-      const { PostsPanel/* , TemplateSettingsPanel*/ } = lib.components;
+      const { PostsPanel } = lib.components;
 
       const MyPluginDocumentSidebarPanel = () => {
         return (

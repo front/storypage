@@ -31,52 +31,37 @@ const settings = {
 class PagesEdit extends React.Component {
   state = {
     id: null,
-    type: null,
   };
 
   componentDidMount () {
     let { id } = this.props.match.params;
-    const type = this.props.match.params[ 0 ].slice(0, -1);
 
     if (id) {
       this.props.fetchPost(id);
     }
     else {
       id = Date.now();
-      this.props.savePost({ id, type });
+      this.props.savePost({ id });
     }
 
-    this.setState({ id, type });
+    this.setState({ id });
   }
 
   render () {
-    const { id, type } = this.state;
+    const { id } = this.state;
 
     if (this.props.match.params.id && isEmpty(this.props.post)) {
       return <NotFound />;
     }
 
-    if (! id || ! type) {
+    if (! id) {
       return <Loading />;
     }
 
-    // const badgeType = type === 'page' ? 'info' : 'secondary';
-
     const post = {
       id,
-      type,
       ...this.props.post,
     };
-
-    // return (
-    //   <div>
-    //     <div className="clearfix jumbotron" style={{ height: '32px', overflow: 'hidden', margin: 0, padding: 0 }}>
-    //       <p className="float-left">This is a <span className={ `badge badge-${badgeType}` }>{ type }</span>!</p>
-    //       <Link className="btn btn-sm btn-outline-secondary float-right" to="/stories">Go back to Stories</Link>
-    //     </div>
-    //     <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />
-    //   </div>
-    // );
 
     return <Editor post={ post } settings={ settings } template={ qs.parse(this.props.location.search.replace('?', '')).template } />;
   }
