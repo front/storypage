@@ -19,10 +19,10 @@ class PostItemDraggable extends Component {
     };
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidMount () {
     const { post } = this.props;
 
-    if (prevProps.post !== post) {
+    if(! this.state.block.uid) {
       const block = createBlock(post.blockType, {
         id: post.id,
         title: [ post.title.rendered ],
