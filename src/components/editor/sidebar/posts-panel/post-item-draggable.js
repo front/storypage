@@ -22,8 +22,8 @@ class PostItemDraggable extends Component {
   componentDidMount () {
     const { post } = this.props;
 
-    if(! this.state.block.uid) {
-      const block = createBlock(post.blockType, {
+    // if(! this.state.block.uid) {
+      const block = {// createBlock(post.blockType, {
         id: post.id,
         title: [ post.title.rendered ],
         link: post.link,
@@ -32,10 +32,10 @@ class PostItemDraggable extends Component {
         authorId: post.author,
         type: 'static',
         layout: '',
-      });
+      };// );
 
       this.setState({ block });
-    }
+    // }
   }
 
   render () {
@@ -43,9 +43,9 @@ class PostItemDraggable extends Component {
     const { index, rootUID } = this.props.insertionPoint;
     const { block } = this.state;
 
-    if (! block.uid) {
+    /* if (! block.uid) {
       return '';
-    }
+    } */
 
     const className = classnames('components-posts-list-item-draggable', {
       'is-visible': isDragging,
@@ -55,9 +55,8 @@ class PostItemDraggable extends Component {
       type: 'block',
       fromIndex: index,
       rootUID,
-      uid: block.uid,
       layout: block.layout,
-      blocks: [ { ...block } ],
+      attributes: block,
     };
 
     return (
