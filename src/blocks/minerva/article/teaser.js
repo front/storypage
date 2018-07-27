@@ -16,7 +16,6 @@ import {
   formattingControls,
   controls,
 } from './default-attributes';
-import './teaser.scss';
 
 /**
 * WordPress dependencies
@@ -100,7 +99,7 @@ class TeaserEdit extends Component {
     );
 
     return (
-      <article className={ classes }>
+      <div className="grid-item">
         { hasImage && <BlockControls>
           <Toolbar>
             <MediaUploadToolbar props={ this.props } />
@@ -128,47 +127,49 @@ class TeaserEdit extends Component {
           <a className="inner term-debatt">{ category }</a>
         </div> }
 
-        <a className="link-wrapper">
-          { hasImage && <span className="teaser-image">
-            <picture>
-              <source srcSet={ imageUrl } media="(max-width: 719px)" />
-              <source srcSet={ imageSmallUrl } media="(min-width: 720px)" />
-              <img src={ imageUrl } alt="Kritikken av Rødt treffer ikke" className="image" />
-            </picture>
-          </span> }
-          <RichText
-            tagName="h2"
-            className={ titleClasses }
-            style={ titleStyle }
-            value={ title }
-            onChange={ value => setAttributes({ title: value }) }
-            formattingControls={formattingControls}
-            inlineToolbar
-          />
-          <div className="desc">
+        <article className={ classes }>
+          <a className="link-wrapper">
+            { hasImage && <span className="teaser-image">
+              <picture>
+                <source srcSet={ imageUrl } media="(max-width: 719px)" />
+                <source srcSet={ imageSmallUrl } media="(min-width: 720px)" />
+                <img src={ imageUrl } alt="Kritikken av Rødt treffer ikke" className="image" />
+              </picture>
+            </span> }
             <RichText
-              tagName="p"
-              value={ teaser }
-              onChange={ value => setAttributes({ teaser: value }) }
+              tagName="h2"
+              className={ titleClasses }
+              style={ titleStyle }
+              value={ title }
+              onChange={ value => setAttributes({ title: value }) }
               formattingControls={formattingControls}
               inlineToolbar
             />
-          </div>
-        </a>
-        <ul className="meta">
-          <li key="image">
-            <a>
-              <img src={ authorImageUrl } alt={ author } className="avatar" />
-            </a>
-          </li>
-          <li key="name">
-            <a className="name">
-              { author }
-            </a>
-            <time classename="date" >{ date }</time>
-          </li>
-        </ul>
-      </article>
+            <div className="desc">
+              <RichText
+                tagName="p"
+                value={ teaser }
+                onChange={ value => setAttributes({ teaser: value }) }
+                formattingControls={formattingControls}
+                inlineToolbar
+              />
+            </div>
+          </a>
+          <ul className="meta">
+            <li key="image">
+              <a>
+                <img src={ authorImageUrl } alt={ author } className="avatar" />
+              </a>
+            </li>
+            <li key="name">
+              <a className="name">
+                { author }
+              </a>
+              <time classename="date" >{ date }</time>
+            </li>
+          </ul>
+        </article>
+      </div>
     );
   }
 }
@@ -253,46 +254,48 @@ export const settings = {
     );
 
     return (
-      <article className={ classes }>
-        { showCategory && <div className="term">
-          <a className="inner term-debatt">{ category }</a>
-        </div> }
+      <div className="grid-item">
+        <article className={ classes }>
+          { showCategory && <div className="term">
+            <a className="inner term-debatt">{ category }</a>
+          </div> }
 
-        <a href={ link } className="link-wrapper">
-          { hasImage && <span className="teaser-image">
-            <picture>
-              <source srcSet={ imageUrl } media="(max-width: 719px)" />
-              <source srcSet={ imageSmallUrl } media="(min-width: 720px)" />
-              <img src={ imageUrl } alt="Kritikken av Rødt treffer ikke" className="image" />
-            </picture>
-          </span> }
-          <RichText.Content
-            tagName="h2"
-            className={ titleClasses }
-            style={ titleStyle }
-            value={ title }
-          />
-          <div className="desc">
+          <a href={ link } className="link-wrapper">
+            { hasImage && <span className="teaser-image">
+              <picture>
+                <source srcSet={ imageUrl } media="(max-width: 719px)" />
+                <source srcSet={ imageSmallUrl } media="(min-width: 720px)" />
+                <img src={ imageUrl } alt="Kritikken av Rødt treffer ikke" className="image" />
+              </picture>
+            </span> }
             <RichText.Content
-              tagName="p"
-              value={ teaser }
+              tagName="h2"
+              className={ titleClasses }
+              style={ titleStyle }
+              value={ title }
             />
-          </div>
-        </a>
-        <ul className="meta">
-          <li key="image">
-            <a href={ authorUrl }>
-              <img src={ authorImageUrl } alt={ author } className="avatar" />
-            </a>
-          </li>
-          <li key="name">
-            <a className="name" href={ authorUrl }>
-              { author }
-            </a>
-            <time classename="date" >{ date }</time>
-          </li>
-        </ul>
-      </article>
+            <div className="desc">
+              <RichText.Content
+                tagName="p"
+                value={ teaser }
+              />
+            </div>
+          </a>
+          <ul className="meta">
+            <li key="image">
+              <a href={ authorUrl }>
+                <img src={ authorImageUrl } alt={ author } className="avatar" />
+              </a>
+            </li>
+            <li key="name">
+              <a className="name" href={ authorUrl }>
+                { author }
+              </a>
+              <time classename="date" >{ date }</time>
+            </li>
+          </ul>
+        </article>
+      </div>
     );
   },
   draggablePost: true,

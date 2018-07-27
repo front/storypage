@@ -9,6 +9,9 @@ import {
   element,
 } from '@frontkom/gutenberg-js';
 
+// Internal dependencies
+import './style.scss';
+
 /**
  * WordPress dependencies
  */

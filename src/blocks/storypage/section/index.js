@@ -59,6 +59,7 @@ export const settings = {
     },
     contentClass: {
       type: 'string',
+      default: '',
     },
   },
 
