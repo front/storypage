@@ -14,6 +14,7 @@ import * as articleTertiary from './article/tertiary';
 import * as articleTeaser from './article/teaser';
 import * as podcastBox from './podcast-box';
 import * as section from './section';
+import * as button from './button';
 
 import './style/style.scss';
 
@@ -44,6 +45,7 @@ export const initMinerva = () => {
     articleTeaser,
     podcastBox,
     section,
+    button,
   ].forEach(({ name, settings }) => {
     registerBlockType(name, settings);
   });
