@@ -26,7 +26,7 @@ const {
   PanelBody,
   TextControl,
 } = components;
-const { Component, compose } = element;
+const { Component, compose, Fragment } = element;
 
 const FONT_SIZES = [
   {
@@ -77,10 +77,12 @@ class ButtonEdit extends Component {
       setTextColor,
       backgroundColor,
       setBackgroundColor,
+      customTextColor,
     } = this.props;
 
     const {
       title,
+      text,
       url,
     } = attributes;
 
@@ -91,8 +93,9 @@ class ButtonEdit extends Component {
       'btn',
       {
         'has-background': backgroundColor.value,
-        [ textColor.class ]: textColor.class,
         [ backgroundColor.class ]: backgroundColor.class,
+        'has-text-color': textColor || customTextColor,
+        [ textColor.class ]: textColor.class,
       }
     );
 
@@ -103,7 +106,7 @@ class ButtonEdit extends Component {
     };
 
     return (
-      <a className={ classes } style={ style }>
+      <Fragment>
         <InspectorControls>
           <PanelBody title={ __('Title Settings') } className="blocks-font-size">
             <FontSizePicker
@@ -150,12 +153,15 @@ class ButtonEdit extends Component {
         </InspectorControls>
 
         <RichText
-          tagName="span"
-          value={ title }
-          onChange={ value => setAttributes({ title: value }) }
+          tagName="a"
+          value={ text }
+          title={ title }
+          className={ classes }
+          style={ style }
+          onChange={ value => setAttributes({ text: value }) }
           inlineToolbar
         />
-      </a>
+      </Fragment>
     );
   }
 }
@@ -199,6 +205,14 @@ export const settings = {
     customTextColor: {
       type: 'string',
     },
+    fontSize: {
+      type: 'string',
+      default: '',
+    },
+    customFontSize: {
+      type: 'number',
+      default: 19,
+    },
   },
 
   edit: compose(
@@ -218,6 +232,7 @@ export const settings = {
     const {
       url,
       title,
+      text,
       textColor,
       backgroundColor,
       fontSize,
@@ -230,28 +245,32 @@ export const settings = {
     const backgroundClass = getColorClass('background-color', backgroundColor);
     const fontSizeClass = fontSize && `is-${fontSize}-text`;
 
-    const style = {
-      color: textClass ? undefined : customTextColor,
-      backgroundColor: backgroundClass ? undefined : customBackgroundColor,
-      fontSize: fontSizeClass ? undefined : customFontSize,
-    };
     const classes = classnames(
       className,
       'btn',
       {
-        'has-background': backgroundColor || customBackgroundColor,
+        'has-text-color': textColor || customTextColor,
         [ textClass ]: textClass,
+        'has-background': backgroundColor || customBackgroundColor,
         [ backgroundClass ]: backgroundClass,
       },
     );
 
+    const style = {
+      backgroundColor: backgroundClass ? undefined : customBackgroundColor,
+      color: textClass ? undefined : customTextColor,
+      fontSize: fontSizeClass ? undefined : customFontSize,
+    };
+
     return (
-      <a href={ url } className={ classes } style={ style }>
-        <RichText.Content
-          tagName="span"
-          value={ title }
-        />
-      </a>
+      <RichText.Content
+        tagName="a"
+        href={ url }
+        title={ title }
+        className={ classes }
+        style={ style }
+        value={ text }
+      />
     );
   },
 };

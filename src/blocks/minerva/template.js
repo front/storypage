@@ -98,7 +98,7 @@ export default posts => {
           [ 'minerva/article-teaser', teasers[8] ],
           [ 'minerva/article-teaser', teasers[9] ],
           [ 'storypage/section', { className: 'center section-footer' }, [
-            [ 'minerva/button', { className: 'btn', title: 'Last flere artikler', customBackgroundColor: '#FFF', customTextColor: '#000', url: 'https://www.minervanett.no/arkiv/' } ],
+            [ 'minerva/button', { className: 'btn', text: 'Last flere artikler', customBackgroundColor: '#FFF', customTextColor: '#000', url: 'https://www.minervanett.no/arkiv/' } ],
           ] ],
         ] ],
       ] ],
