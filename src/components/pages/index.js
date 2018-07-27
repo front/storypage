@@ -94,18 +94,10 @@ class PagesIndex extends React.Component {
             <h1>Stories</h1>
             <div className="text-right">
               <Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
-              <div className="dropdown d-inline">
-                <a className="btn btn-info dropdown-toggle" href="#" role="button" id="pagesDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  New page
-                </a>
-                <div className="dropdown-menu" aria-labelledby="pagesDropdownLink">
-                  <Link className="dropdown-item" to="/pages/new?template=minerva" target="_blank" rel="noopener noreferrer">Minerva template</Link>
-                  <div className="dropdown-divider"></div>
-                  <Link className="dropdown-item" to="/pages/new?template=section-demo" target="_blank" rel="noopener noreferrer">Section demo</Link>
-                  <div className="dropdown-divider"></div>
-                  <Link className="dropdown-item" to="/pages/new" target="_blank" rel="noopener noreferrer">Template free</Link>
-                </div>
-              </div>
+
+              <Link className="btn btn-info" to="/pages/new?template=minerva" target="_blank" rel="noopener noreferrer">Minerva template</Link>{ ' ' }
+              <Link className="btn btn-info" to="/pages/new?template=section-demo" target="_blank" rel="noopener noreferrer">Section demo</Link>{ ' ' }
+              <Link className="btn btn-info" to="/pages/new" target="_blank" rel="noopener noreferrer">Template free</Link>
             </div>
           </div>
         </section>
