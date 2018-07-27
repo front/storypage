@@ -38,7 +38,7 @@ export const name = 'computerword/advert';
 export const settings = {
   title: __('CW Advert'),
   description: __(' Advertisement by ComputerWorld '),
-  icon: 'universal-access-alt',
+  icon: 'cover-image',
 
   category: 'cw',
   attributes,

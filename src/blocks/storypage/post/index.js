@@ -87,7 +87,7 @@ export const settings = {
 
   description: __('Post has an image and a title.'),
 
-  icon: 'universal-access-alt',
+  icon: 'text',
 
   category: 'storypage',
 

@@ -9,7 +9,7 @@ import { i18n, blocks, data } from '@frontkom/gutenberg-js';
  */
 import * as article from './article';
 import * as advert from './advert';
-import * as latestNews from './latest-news';
+// import * as latestNews from './latest-news';
 import * as latestNewsWebComp from './latest-news-wc';
 
 const { __ } = i18n;
@@ -34,7 +34,7 @@ export const initComputerworld = () => {
   [
     article,
     advert,
-    latestNews,
+    // latestNews,
     latestNewsWebComp,
   ]
   .forEach(({ name, settings }) => {

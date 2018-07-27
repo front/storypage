@@ -30,9 +30,9 @@ class Editor extends React.Component {
     const { type, id } = this.props.post;
     const overridePost = {};
 
-    initStorypageBlocks();
-    initMinerva();
     initComputerworld();
+    initMinerva();
+    initStorypageBlocks();
 
     // PluginDocumentSidebarPanel
     const { PluginDocumentSidebarPanel } = editPost;

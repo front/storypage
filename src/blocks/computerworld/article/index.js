@@ -38,7 +38,7 @@ export const name = 'computerword/article';
 export const settings = {
   title: __('CW Article'),
   description: __(' Article by ComputerWorld '),
-  icon: 'universal-access-alt',
+  icon: 'text',
 
   category: 'cw',
   attributes,
