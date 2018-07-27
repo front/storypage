@@ -1,0 +1,23 @@
+.gutenberg__editor {
+  font-size: 13px;
+
+  button {
+    &:hover,
+    &:focus {
+      transform: none;
+    }
+  }
+
+  .components-base-control__label {
+    font-size: 13px;
+  }
+
+  .components-range-control__number {
+    width: 50px;
+    margin-left: 10px;
+  }
+
+  .components-color-palette__item {
+    padding: 1px 7px 2px 7px;
+  }
+}
