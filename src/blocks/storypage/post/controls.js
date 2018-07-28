@@ -78,7 +78,7 @@ export function getFontSize ({ customFontSize, fontSize }) {
 
 // onSelectImage event
 export function onSelectImage ({ setAttributes }, media) {
-  const toUpdate = { imageUrl: media.url, imageId: media.id };
+  const toUpdate = { imageUrl: media.url, imageId: media.id, type: 'static' };
 
   if (media.data) {
     toUpdate.data = reduce(media.data, (result, value, key) => {
@@ -122,7 +122,7 @@ export const MediaUploadToolbar = ({ props }) => {
 /** InspectorControls */
 
 // Post Settings Panel
-export const PostSettingsPanel = ({ props }) => {
+export const PostSettingsPanel = ({ props, options }) => {
   const {
     attributes,
     setAttributes,
@@ -135,8 +135,10 @@ export const PostSettingsPanel = ({ props }) => {
     categoryId,
   } = attributes;
 
+  const { title } = options || {};
+
   return (
-    <PanelBody title={ __('Post Settings') }>
+    <PanelBody title={ title || __('Post Settings') }>
       <div className="components-post-type-picker__buttons">
         <ButtonGroup aria-label={ __('Post type') }>
           {
@@ -307,6 +309,12 @@ export function withSelectCategory (select, props) {
   };
 }
 
+export function withSelectCategories (select) {
+  return {
+    categories: select('core').getCategories(),
+  };
+}
+
 export function withSelectAuthor (select, props) {
   const { authorId } = props.attributes;
 
@@ -374,16 +382,20 @@ export function didUpdateAuthor (prevProps, props) {
 
 export function didUpdatePost (prevProps, props) {
   const { postResults, attributes } = props;
-  const { type } = attributes;
+  const { type, title } = attributes;
 
-  if (type === 'auto' && postResults && postResults !== prevProps.postResults && postResults.data) {
-    const postRes = postResults.data[ 0 ];
+  const postRes = postResults.data ? postResults.data[ 0 ] : null;
 
+  if (type === 'auto' && postResults && postRes && (postResults !== prevProps.postResults || title !== postRes.title.raw)) {
     return {
       id: parseInt(postRes.id),
-      title: [ postRes.title.rendered ],
-      link: postRes.link,
+      title: postRes.title.raw,
+      teaser: postRes.excerpt.raw,
+      categoryId: postRes.categories[0],
+      date: postRes.date,
       imageId: postRes.featured_media,
+      authorId: postRes.author,
+      link: postRes.link,
     };
   }
 }

@@ -43,6 +43,7 @@ import {
   backgroundImageStyles,
   withSelectMedia,
   withSelectCategory,
+  withSelectCategories,
   withAPIDataPost,
   didUpdateMedia,
   didUpdateCategory,
@@ -190,7 +191,7 @@ class PostEdit extends Component {
 
 export default compose(
   withSelect((select, props) => ({
-    categories: select('core').getCategories(),
+    ...withSelectCategories(select),
     ...withSelectCategory(select, props),
     ...withSelectMedia(select, props),
   })),
