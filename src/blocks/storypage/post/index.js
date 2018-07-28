@@ -76,7 +76,7 @@ const blockAttributes = {
   },
   type: {
     type: 'string',
-    default: 'static',
+    default: 'auto',
   },
 };
 
