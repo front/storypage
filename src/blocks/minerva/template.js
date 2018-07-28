@@ -7,6 +7,7 @@ function getPostAttributes (post) {
     imageId: post.featured_media,
     authorId: post.author,
     link: post.link,
+    type: 'static',
   };
 }
 
