@@ -21,21 +21,25 @@ import {
  * WordPress dependencies
  */
 const { __ } = i18n;
-const { withFallbackStyles, PanelBody, TextControl } = components;
+const { withFallbackStyles, PanelBody, TextControl, withAPIData } = components;
 const { getColorClass, withColors, InspectorControls, RichText } = editor;
 const { Component, compose } = element;
 const { withSelect } = data;
 
 const {
   // Inspector controls
+  PostSettingsPanel,
   TextColorPanel,
   TextSettingsPanel,
   // componentDidUpdate
   didUpdateCategory,
   didUpdateAuthor,
+  didUpdatePost,
   // selectors
   withSelectAuthor,
   withSelectCategory,
+  withSelectCategories,
+  withAPIDataPost,
   // events
   getFontSize,
 } = controls;
@@ -49,6 +53,7 @@ class SecondaryEdit extends Component {
     const attributes = {
       ...didUpdateCategory(prevProps, this.props),
       ...didUpdateAuthor(prevProps, this.props),
+      ...didUpdatePost(prevProps, this.props),
     };
 
     if (! isEmpty(attributes)) {
@@ -86,6 +91,7 @@ class SecondaryEdit extends Component {
     return (
       <article className={ classes }>
         <InspectorControls>
+          <PostSettingsPanel props={ this.props } />
           <TextSettingsPanel props={ this.props } />
           <TextColorPanel props={ this.props } />
 
@@ -93,12 +99,12 @@ class SecondaryEdit extends Component {
             <TextControl
               value={ link }
               label={ __('Article URL') }
-              onChange={ value => setAttributes({ link: value }) }
+              onChange={ value => setAttributes({ link: value, type: 'static' }) }
             />
             <TextControl
               value={ authorUrl }
               label={ __('Author URL') }
-              onChange={ value => setAttributes({ authorUrl: value }) }
+              onChange={ value => setAttributes({ authorUrl: value, type: 'static' }) }
             />
           </PanelBody>
         </InspectorControls>
@@ -115,7 +121,7 @@ class SecondaryEdit extends Component {
               ...style,
             } }
             value={ title }
-            onChange={ value => setAttributes({ title: value }) }
+            onChange={ value => setAttributes({ title: value, type: 'static' }) }
             formattingControls={formattingControls}
             inlineToolbar
           />
@@ -125,7 +131,7 @@ class SecondaryEdit extends Component {
               tagName="p"
               style={ style }
               value={ teaser }
-              onChange={ value => setAttributes({ teaser: value }) }
+              onChange={ value => setAttributes({ teaser: value, type: 'static' }) }
               formattingControls={formattingControls}
               inlineToolbar
             />
@@ -165,12 +171,11 @@ export const settings = {
   attributes: secondaryAttributes,
 
   edit: compose(
-    withSelect((select, props) => {
-      return {
-        ...withSelectCategory(select, props),
-        ...withSelectAuthor(select, props),
-      };
-    }),
+    withSelect((select, props) => ({
+      ...withSelectCategories(select),
+      ...withSelectCategory(select, props),
+      ...withSelectAuthor(select, props),
+    })),
     withColors({ textColor: 'color' }),
     withFallbackStyles((node, ownProps) => {
       const { fontSize, customFontSize } = ownProps.attributes;
@@ -181,6 +186,9 @@ export const settings = {
         fallbackFontSize: fontSize || customFontSize || ! computedStyles ? undefined : parseInt(computedStyles.fontSize) || undefined,
       };
     }),
+    withAPIData(props => ({
+      ...withAPIDataPost(props),
+    })),
   )(SecondaryEdit),
 
   save ({ attributes, className }) {

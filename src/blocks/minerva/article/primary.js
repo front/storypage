@@ -23,7 +23,7 @@ import './primary.scss';
  * WordPress dependencies
  */
 const { __ } = i18n;
-const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
+const { withFallbackStyles, PanelBody, TextControl, Toolbar, withAPIData } = components;
 const { getColorClass, withColors, BlockControls, InspectorControls, RichText } = editor;
 const { Component, compose } = element;
 const { withSelect } = data;
@@ -35,14 +35,18 @@ const {
   ImageSettingsPanel,
   TextColorPanel,
   TextSettingsPanel,
+  PostSettingsPanel,
   // componentDidUpdate
   didUpdateMedia,
   didUpdateCategory,
   didUpdateAuthor,
+  didUpdatePost,
   // selectors
   withSelectMedia,
   withSelectAuthor,
   withSelectCategory,
+  withSelectCategories,
+  withAPIDataPost,
   // events
   getFontSize,
   // helpers
@@ -60,6 +64,7 @@ class PrimaryEdit extends Component {
       ...didUpdateMedia(prevProps, this.props),
       ...didUpdateCategory(prevProps, this.props),
       ...didUpdateAuthor(prevProps, this.props),
+      ...didUpdatePost(prevProps, this.props),
     };
 
     if (! isEmpty(attributes)) {
@@ -117,6 +122,7 @@ class PrimaryEdit extends Component {
           </Toolbar>
         </BlockControls> }
         <InspectorControls>
+          <PostSettingsPanel props={ this.props } />
           <ImageSettingsPanel props={ { attributes, setAttributes } } options={ { title: __('Background Settings') }} />
           <TextSettingsPanel props={ this.props } options={ { title: __('Title Settings') }} />
           <TextColorPanel props={ this.props } />
@@ -125,17 +131,17 @@ class PrimaryEdit extends Component {
             <TextControl
               value={ categoryUrl }
               label={ __('Category URL') }
-              onChange={ value => setAttributes({ categoryUrl: value }) }
+              onChange={ value => setAttributes({ categoryUrl: value, type: 'static' }) }
             />
             <TextControl
               value={ link }
               label={ __('Article URL') }
-              onChange={ value => setAttributes({ link: value }) }
+              onChange={ value => setAttributes({ link: value, type: 'static' }) }
             />
             <TextControl
               value={ authorUrl }
               label={ __('Author URL') }
-              onChange={ value => setAttributes({ authorUrl: value }) }
+              onChange={ value => setAttributes({ authorUrl: value, type: 'static' }) }
             />
           </PanelBody>
         </InspectorControls>
@@ -156,7 +162,7 @@ class PrimaryEdit extends Component {
                 ...textStyle,
               } }
               value={ title }
-              onChange={ value => setAttributes({ title: value }) }
+              onChange={ value => setAttributes({ title: value, type: 'static' }) }
               formattingControls={formattingControls}
               inlineToolbar
             />
@@ -166,7 +172,7 @@ class PrimaryEdit extends Component {
                 className={ textColor.class }
                 style={ { ...textStyle, fontSize: '26px' } }
                 value={ teaser }
-                onChange={ value => setAttributes({ teaser: value }) }
+                onChange={ value => setAttributes({ teaser: value, type: 'static' }) }
                 formattingControls={formattingControls}
                 inlineToolbar
               />
@@ -208,13 +214,12 @@ export const settings = {
   attributes: primaryAttributes,
 
   edit: compose(
-    withSelect((select, props) => {
-      return {
-        ...withSelectMedia(select, props),
-        ...withSelectCategory(select, props),
-        ...withSelectAuthor(select, props),
-      };
-    }),
+    withSelect((select, props) => ({
+      ...withSelectCategories(select),
+      ...withSelectMedia(select, props),
+      ...withSelectCategory(select, props),
+      ...withSelectAuthor(select, props),
+    })),
     withColors({ textColor: 'color' }),
     withFallbackStyles((node, ownProps) => {
       const { fontSize, customFontSize } = ownProps.attributes;
@@ -225,6 +230,9 @@ export const settings = {
         fallbackFontSize: fontSize || customFontSize || ! computedStyles ? undefined : parseInt(computedStyles.fontSize) || undefined,
       };
     }),
+    withAPIData(props => ({
+      ...withAPIDataPost(props),
+    })),
   )(PrimaryEdit),
 
   save ({ attributes, className }) {

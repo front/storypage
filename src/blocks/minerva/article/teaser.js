@@ -21,7 +21,7 @@ import {
 * WordPress dependencies
 */
 const { __ } = i18n;
-const { withFallbackStyles, PanelBody, TextControl, Toolbar } = components;
+const { withFallbackStyles, PanelBody, TextControl, Toolbar, withAPIData } = components;
 const { getColorClass, withColors, InspectorControls, RichText, BlockControls } = editor;
 const { Component, compose } = element;
 const { withSelect } = data;
@@ -32,13 +32,17 @@ const {
   // Inspector controls
   TextColorPanel,
   TextSettingsPanel,
+  PostSettingsPanel,
   // componentDidUpdate
   didUpdateAuthor,
   didUpdateCategory,
+  didUpdatePost,
   // selectors
   withSelectMedia,
   withSelectAuthor,
   withSelectCategory,
+  withSelectCategories,
+  withAPIDataPost,
   // events
   getFontSize,
 } = controls;
@@ -52,11 +56,13 @@ class TeaserEdit extends Component {
     const attributes = {
       ...didUpdateAuthor(prevProps, this.props),
       ...didUpdateCategory(prevProps, this.props),
+      ...didUpdatePost(prevProps, this.props),
     };
 
     if (media && media !== prevProps.media) {
+      console.log('media', media);
       attributes.imageUrl = get(media, 'media_details.sizes.medium_large.source_url', '');
-      attributes.imageSmallUrl = get(media, 'media_details.sizes.medium_large.source_url', '');
+      attributes.imageSmallUrl = get(media, 'media_details.sizes.medium_crop.source_url', '');
     }
 
     if (! isEmpty(attributes)) {
@@ -106,6 +112,7 @@ class TeaserEdit extends Component {
           </Toolbar>
         </BlockControls> }
         <InspectorControls>
+          <PostSettingsPanel props={ this.props } />
           <PanelBody title={ __('Article Teaser Settings') }>
             <TextSettingsPanel props={ this.props } options={ { title: __('Title Settings') }} />
             <TextColorPanel props={ this.props } options={ { title: __('Title Color') }} />
@@ -113,12 +120,12 @@ class TeaserEdit extends Component {
             <TextControl
               value={ link }
               label={ __('Article URL') }
-              onChange={ value => setAttributes({ link: value }) }
+              onChange={ value => setAttributes({ link: value, type: 'static' }) }
             />
             <TextControl
               value={ authorUrl }
               label={ __('Author URL') }
-              onChange={ value => setAttributes({ authorUrl: value }) }
+              onChange={ value => setAttributes({ authorUrl: value, type: 'static' }) }
             />
           </PanelBody>
         </InspectorControls>
@@ -141,7 +148,7 @@ class TeaserEdit extends Component {
               className={ titleClasses }
               style={ titleStyle }
               value={ title }
-              onChange={ value => setAttributes({ title: value }) }
+              onChange={ value => setAttributes({ title: value, type: 'static' }) }
               formattingControls={formattingControls}
               inlineToolbar
             />
@@ -149,7 +156,7 @@ class TeaserEdit extends Component {
               <RichText
                 tagName="p"
                 value={ teaser }
-                onChange={ value => setAttributes({ teaser: value }) }
+                onChange={ value => setAttributes({ teaser: value, type: 'static' }) }
                 formattingControls={formattingControls}
                 inlineToolbar
               />
@@ -185,7 +192,9 @@ teaserAttributes.showCategory = {
 };
 teaserAttributes.imageSmallUrl = {
   type: 'string',
+  default: 'https://www.minervanett.no/wp-content/uploads/2018/07/Skjermbilde-2018-07-27-kl.-12.16.55-330x185.png',
 };
+teaserAttributes.imageUrl.default = 'https://www.minervanett.no/wp-content/uploads/2018/07/Skjermbilde-2018-07-27-kl.-12.16.55-980x500.png';
 
 export const settings = {
   title: __('Article Teaser'),
@@ -196,13 +205,12 @@ export const settings = {
   attributes: teaserAttributes,
 
   edit: compose(
-    withSelect((select, props) => {
-      return {
-        ...withSelectMedia(select, props),
-        ...withSelectAuthor(select, props),
-        ...withSelectCategory(select, props),
-      };
-    }),
+    withSelect((select, props) => ({
+      ...withSelectCategories(select),
+      ...withSelectMedia(select, props),
+      ...withSelectAuthor(select, props),
+      ...withSelectCategory(select, props),
+    })),
     withColors({ textColor: 'color' }),
     withFallbackStyles((node, ownProps) => {
       const { fontSize, customFontSize } = ownProps.attributes;
@@ -213,6 +221,9 @@ export const settings = {
         fallbackFontSize: fontSize || customFontSize || ! computedStyles ? undefined : parseInt(computedStyles.fontSize) || undefined,
       };
     }),
+    withAPIData(props => ({
+      ...withAPIDataPost(props),
+    })),
   )(TeaserEdit),
 
   save ({ attributes, className }) {
