@@ -27,6 +27,10 @@ export function generatePosts (n = 1, options = {}) {
         raw: `Generated post number ${id}`,
         rendered: `Generated post number ${id}`,
       },
+      excerpt: {
+        raw: `Generated excerpt for post number ${id}`,
+        rendered: `Generated excerpt for post number ${id}`,
+      },
       status: 'draft', // 'publish',
       revisions: { count: 0, last_id: 0 },
       parent: 0,
