@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 import classnames from 'classnames';
-// import moment from 'moment';
+import moment from 'moment';
 import { isEmpty } from 'lodash';
 import {
   i18n,
@@ -188,7 +188,7 @@ class PrimaryEdit extends Component {
               <a className="name">
                 { author }
               </a>
-              <time>{ date }</time>
+              <time>{ moment(date).format('LL') }</time>
             </li>
           </ul>
         </div>
@@ -314,7 +314,7 @@ export const settings = {
               <a href={ authorUrl } className="name">
                 { author }
               </a>
-              <time>{ date }</time>
+              <time>{ moment(date).format('LL') }</time>
             </li>
           </ul>
         </div>
