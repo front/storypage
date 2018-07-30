@@ -91,7 +91,7 @@ class PagesIndex extends React.Component {
       <div>
         <section className="jumbotron">
           <div className="container">
-            <h1>Stories</h1>
+            <h1>Pages</h1>
             <div className="text-right">
               <Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
 

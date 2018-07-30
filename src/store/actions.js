@@ -191,8 +191,8 @@ export function savePost (postData) {
       // footer: footer || false,
       // header: header || true,
       title: {
-        raw: title || `${type} ${id}`,
-        rendered: (title && title.replace(reg, '')) || `${type} ${id}`,
+        raw: title || `Frontpage ${id}`,
+        rendered: (title && title.replace(reg, '')) || `Frontpage ${id}`,
       },
       status: status || 'draft',
       revisions: { count: 0, last_id: 0 },
