@@ -1,26 +1,30 @@
 # StoryPage
 
 A page builder using the [GutenbergJS](https://github.com/front/gutenberg-js) editor package (forked to hardcode some details making it easier to develop with).
+Try the [demo](http://storypage.devz.no/).
 
-`npm install` to install dependences
-`npm start` to run the app
+## Install
+
+- Clone repo from github `git clone git@github.com:front/storypage.git`
+- Install project dependences `npm install`
+- And run it locally `npm start`
 
 ## Table of contents
 
-* [Deployment](#deployment)
-* [Global variables](#global-variables)
-  * [API Request](#api-request)
-  * [url](#url)
-* [Store](#store)
-* [StoryPage Blocks and Components](#storypage-blocks-and-components)
-  * [Row block](#row-block)
-  * [Section block](#section-block)
-  * [Post block](#post-block)
-  * [PostsPanel component](#postspanel-component)
+- [Deployment](#deployment)
+- [Global variables](#global-variables)
+  - [API Request](#api-request)
+  - [url](#url)
+- [Store](#store)
+- [StoryPage Blocks and Components](#storypage-blocks-and-components)
+  - [Row block](#row-block)
+  - [Section block](#section-block)
+  - [Post block](#post-block)
+  - [PostsPanel component](#postspanel-component)
 
 ## Deployment
 
-After pull from remote, run `npm install` to install dependences if there are new and finally `npm run build`.
+After pull from remote, run `npm install` to install dependences (if there are new) and finally `npm run build`.
 
 [↑ Go up to Table of contents](#table-of-contents)
 
@@ -28,7 +32,7 @@ After pull from remote, run `npm install` to install dependences if there are ne
 
 ### API Request
 
-Gutenberg JS requires `wp.apiRequest` to handle with editor operations, ex: to get categories, to save a page/post, to delete a page/post, etc.
+Gutenberg JS requires `wp.apiRequest` to handle with editor operations, ex: to get categories, to save a page, to delete a page, etc.
 
 As Storypage is a ReactJs app, we decided to simplify the process using a store to handle with this actions. We are using **FakeRest** and **sinon** packages to simulate xmlhttp requests and get theirs responses to send them as `wp.apiRequest` returns.
 
