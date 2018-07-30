@@ -29,7 +29,6 @@ class PostItemDraggable extends Component {
       categoryId: post.categories[ 0 ],
       authorId: post.author,
       type: 'static',
-      layout: '',
     };
 
     this.setState({ block });
@@ -48,7 +47,6 @@ class PostItemDraggable extends Component {
       type: 'block',
       fromIndex: index,
       rootUID,
-      layout: block.layout,
       attributes: block,
     };
 

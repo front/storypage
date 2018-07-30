@@ -13,14 +13,15 @@
 
 		.components-posts-list-item-draggable {
 			position: absolute;
-		    top: 0;
-		    right: 0;
-		    bottom: 0;
-		    left: 0;
-		    z-index: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 0;
 
 			&:hover {
 				cursor: grab;
+				cursor: -webkit-grab;
 				box-shadow: 0 3px 30px rgba(25,30,35,.1);
 				border: 1px solid #e2e4e7;
 				height: 100%;
