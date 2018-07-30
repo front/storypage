@@ -4,6 +4,13 @@
   }
 }
 
+@media (max-width: 45em) {
+  .podcastbox {
+    margin-left: -19px;
+    margin-right: -19px;
+  }
+}
+
 .gutenberg__editor {
   .podcastbox .text-wrapper {
     @media (min-width: 45em) {

@@ -61,17 +61,21 @@ export default posts => {
       // section boxed and 4 teasers
       [ 'storypage/section', { className: 'l-row' }, [
         [ 'storypage/row', { columns: 2, widths: '4,8' }, [
-          [ 'minerva/section', { layout: 'col4 column-start1', className: 'boxed', title: 'Mest lest', contentClass: 'gallery-one extra-space-xl' }, [
-            [ 'minerva/article-teaser', boxedTeasers[0] ],
-            [ 'minerva/article-teaser', boxedTeasers[1] ],
-            [ 'minerva/article-teaser', boxedTeasers[2] ],
-          ] ],
+
           [ 'minerva/section', { layout: 'col8 column-start5', contentClass: 'gallery-one extra-space-l' }, [
             [ 'minerva/article-teaser', teasers[0] ],
             [ 'minerva/article-teaser', teasers[1] ],
             [ 'minerva/article-teaser', teasers[2] ],
             [ 'minerva/article-teaser', teasers[3] ],
           ] ],
+
+          // boxed teasers
+          [ 'minerva/section', { layout: 'col4 column-start1', className: 'boxed', title: 'Mest lest', contentClass: 'gallery-one extra-space-xl' }, [
+            [ 'minerva/article-teaser', boxedTeasers[0] ],
+            [ 'minerva/article-teaser', boxedTeasers[1] ],
+            [ 'minerva/article-teaser', boxedTeasers[2] ],
+          ] ],
+
         ] ],
       ] ],
 
