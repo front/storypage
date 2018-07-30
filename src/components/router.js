@@ -13,11 +13,11 @@ export default () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={ App } />
-      <Route exact path="/stories" component={ PagesIndex } />
       <Route exact path="/pages/new" component={ PagesEdit } />
       <Route exact path="/pages/:id/edit" component={ PagesEdit } />
       <Route exact path="/pages/:id/(preview)" component={ PagesShow } />
       <Route exact path="/pages/:id" component={ PagesShow } />
+      <Route exact path="/pages" component={ PagesIndex } />
       <Route component={ NotFound } />
     </Switch>
   </BrowserRouter>

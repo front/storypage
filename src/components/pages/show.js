@@ -35,7 +35,7 @@ class PagesShow extends React.Component {
         <div className="container">
           <h1>{ title.rendered }</h1>
           <p className="text-right">
-            <Link className="btn btn-outline-secondary float-left" to="/stories">Go to Stories</Link>
+            <Link className="btn btn-outline-secondary float-left" to="/pages">Go to Pages</Link>
             <Link className={ `btn btn-${type === 'page' ? 'info' : 'secondary'}` } to={ `/${type}s/${id}/edit` }>Edit</Link>
           </p>
         </div>

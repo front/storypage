@@ -22,7 +22,7 @@ class App extends React.Component {
             <h1>Welcome to StoryPage POC</h1>
             <p>This is a ReactJS POC using <Link target="_blank" to="https://www.npmjs.com/package/@frontkom/gutenberg-js" rel="noopener noreferrer">Gutenberg JS</Link> package.</p>
             <code>npm install @frontkom/gutenberg-js</code>
-            <p className="text-right"><Link className="btn btn-primary" to="/stories">Try it!</Link></p>
+            <p className="text-right"><Link className="btn btn-primary" to="/pages">Try it!</Link></p>
             <p>In this POC all data is stored in your browser's localStorage, click to clear it and start over:</p>
             <button
               type="button"
