@@ -61,7 +61,6 @@ class TeaserEdit extends Component {
     };
 
     if (media && media !== prevProps.media) {
-      console.log('media', media);
       attributes.imageUrl = get(media, 'media_details.sizes.medium_large.source_url', '');
       attributes.imageSmallUrl = get(media, 'media_details.sizes.medium_crop.source_url', '');
     }
@@ -131,11 +130,11 @@ class TeaserEdit extends Component {
           </PanelBody>
         </InspectorControls>
 
-        { showCategory && <div className="term">
-          <a className="inner term-debatt">{ category }</a>
-        </div> }
-
         <article className={ classes }>
+          { showCategory && <div className="term">
+            <a className="inner term-debatt">{ category }</a>
+          </div> }
+
           <a className="link-wrapper">
             { hasImage && <span className="teaser-image">
               <picture>
@@ -163,6 +162,7 @@ class TeaserEdit extends Component {
               />
             </div>
           </a>
+
           <ul className="meta">
             <li key="image">
               <a>
@@ -176,6 +176,7 @@ class TeaserEdit extends Component {
               <time classename="date" >{ moment(date).format('LL') }</time>
             </li>
           </ul>
+
         </article>
       </div>
     );
@@ -293,6 +294,7 @@ export const settings = {
               />
             </div>
           </a>
+
           <ul className="meta">
             <li key="image">
               <a href={ authorUrl }>
