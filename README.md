@@ -7,7 +7,7 @@ Try the [demo](http://storypage.devz.no/).
 
 - Clone repo from github `git clone git@github.com:front/storypage.git`
 - Install project dependences `npm install`
-- And run it locally `npm start`
+- And run the app `npm start`
 
 ## Table of contents
 
