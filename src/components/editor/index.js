@@ -22,7 +22,6 @@ import { initComputerworld } from '../../blocks/computerworld';
 import { fetchPosts } from '../../store/actions';
 import { getPosts } from '../../store/selectors';
 
-import sectionDemoTemplate from './templates/section-demo';
 import PostsPanel from './sidebar/posts-panel';
 
 class Editor extends React.Component {
@@ -81,16 +80,12 @@ class Editor extends React.Component {
   }
 
   componentDidMount () {
-    let { template } = this.props;
+    const { template } = this.props;
 
     if (template === 'minerva') {
       this.props.fetchPosts({ type: 'post' });
     }
     else {
-      if (template === 'section-demo') {
-        template = sectionDemoTemplate;
-      }
-
       this.initEditor(template);
     }
   }

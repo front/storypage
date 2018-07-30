@@ -96,7 +96,6 @@ class PagesIndex extends React.Component {
               <Link className="btn btn-outline-secondary float-left" to="/">Go back</Link>
 
               <Link className="btn btn-info" to="/pages/new?template=minerva" target="_blank" rel="noopener noreferrer">Minerva template</Link>{ ' ' }
-              <Link className="btn btn-info" to="/pages/new?template=section-demo" target="_blank" rel="noopener noreferrer">Section demo</Link>{ ' ' }
               <Link className="btn btn-info" to="/pages/new" target="_blank" rel="noopener noreferrer">Template free</Link>
             </div>
           </div>
