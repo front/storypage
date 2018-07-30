@@ -85,10 +85,12 @@ class PodcastEdit extends Component {
     const {
       title,
       subtitle,
-      teaser,
       lastEpUrl,
       subscribeUrl,
     } = attributes;
+
+    let { teaser } = attributes;
+    teaser = `${teaser.slice(0, 270)}${teaser.length > 270 ? '...' : ''}`;
 
     const classes = classnames(
       className,
@@ -279,7 +281,6 @@ export const settings = {
     const {
       title,
       subtitle,
-      teaser,
       link,
       textColor,
       customTextColor,
@@ -290,6 +291,9 @@ export const settings = {
       lastEpUrl,
       subscribeUrl,
     } = attributes;
+
+    let { teaser } = attributes;
+    teaser = `${teaser.slice(0, 270)}${teaser.length > 270 ? '...' : ''}`;
 
     const textClass = getColorClass('color', textColor);
     const backgroundClass = getColorClass('background-color', backgroundColor);
