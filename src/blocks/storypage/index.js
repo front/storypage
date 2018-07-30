@@ -10,6 +10,7 @@ import { i18n, blocks, data } from '@frontkom/gutenberg-js';
 import * as post from './post';
 import * as row from './row';
 import * as section from './section';
+import * as vrContent from './vr-content';
 
 const { __ } = i18n;
 const { dispatch, select } = data;
@@ -35,6 +36,7 @@ export const initStorypageBlocks = () => {
     post,
     row,
     section,
+    vrContent,
   ].forEach(({ name, settings }) => {
     registerBlockType(name, settings);
   });
