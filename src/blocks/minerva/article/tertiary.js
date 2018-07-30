@@ -260,5 +260,4 @@ export const settings = {
       </article>
     );
   },
-  draggablePost: true,
 };

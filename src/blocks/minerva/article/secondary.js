@@ -223,7 +223,6 @@ export const settings = {
     );
 
     return (
-
       <article className={ classes }>
         <div className="term">
           <a className="inner">{ category }</a>
@@ -260,5 +259,4 @@ export const settings = {
       </article>
     );
   },
-  draggablePost: true,
 };
