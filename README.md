@@ -1,7 +1,7 @@
 # StoryPage
 
 A page builder using the [GutenbergJS](https://github.com/front/gutenberg-js) editor package (forked to hardcode some details making it easier to develop with).
-Try the [demo](http://storypage.devz.no/).
+Try the [demo](https://storypage.devz.no/).
 
 ## Install
 
@@ -20,7 +20,7 @@ Try the [demo](http://storypage.devz.no/).
   - [Row block](#row-block)
   - [Section block](#section-block)
   - [Post block](#post-block)
-  - [PostsPanel component](#postspanel-component)
+  - [Posts Panel](#posts-panel)
 
 ## Deployment
 
@@ -34,7 +34,7 @@ After pull from remote, run `npm install` to install dependences (if there are n
 
 Gutenberg JS requires `wp.apiRequest` to handle with editor operations, ex: to get categories, to save a page, to delete a page, etc.
 
-As Storypage is a ReactJs app, we decided to simplify the process using a store to handle with this actions. We are using **FakeRest** and **sinon** packages to simulate xmlhttp requests and get theirs responses to send them as `wp.apiRequest` returns.
+As Storypage is a ReactJs app, we decided to simplify the process using a store to handle with these actions. We are using **FakeRest** and **sinon** packages to simulate xmlhttp requests and get theirs responses to send them as `wp.apiRequest` returns with data from localstorage (because we really don't want to create/update/delete real data with this prototype).
 
 [↑ Go up to Table of contents](#table-of-contents)
 
@@ -77,12 +77,12 @@ Rows work like columns but they could be slipt in spots with different widths.
 
 The **Post Block** is another kind of blocks created by **StoryPage** which is composed by a cover image and a title.
 
-We are trying to provide new types of blocks: **auto posts** and **hand-picked posts** which are experimental for now. Theose blocks are dynamic and the render must be implemented server-side.
+We are trying to provide new types of blocks: **auto posts** and **hand-picked posts** which are experimental for now. Those blocks are dynamic and the render must be implemented server-side.
 
 [↑ Go up to Table of contents](#table-of-contents)
 
-### PostsPanel component
+### Posts Panel
 
-The **Posts Panel** is a pnael which was added to Document tab in sidebar and contains a list of posts which could be filtered by category and/or searched be name. Posts can be added to your page as (Post block)[#post-block] by drag and drop.
+The **Posts Panel** is a sidebar panel which was added to Document tab and contains the list of available posts. Posts can be dragged and drop on the editor and replace the posts that were there. Also, posts could be filtered by category and/or searched by name.
 
 [↑ Go up to Table of contents](#table-of-contents)
