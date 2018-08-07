@@ -16,13 +16,12 @@ class ArticleSearch extends Component {
     q: '',
   };
 
-  load = async (start = 0) => {
-    const { q } = this.state;
+  load = async (q, start = 0, rows = 12) => {
     const qs = {};
     if(q) { qs.title = q; }
 
     // Retrieve articles
-    const { docs, numFound } = await this.solrClient.getArticles(12, start, qs);
+    const { docs, numFound } = await this.solrClient.getArticles(rows, start, qs);
     docs.forEach(doc => {
       doc.link = `${sitePath}/${doc.path_alias}`;
       const media = doc.media = doc.media && JSON.parse(doc.media);
@@ -34,10 +33,22 @@ class ArticleSearch extends Component {
     const pages = getPages(numFound, start);
 
     this.setState({ list: docs, found: numFound, pages });
+
+    // Store params
+    sessionStorage.setItem('cwArticleSearchParams', JSON.stringify({ q, start }));
   };
 
   componentDidMount () {
     this.solrClient = new Solr(solrEndpoint);
+
+    // Load params
+    const stored = sessionStorage.getItem('cwArticleSearchParams');
+    if(stored) {
+      const { q, start } = JSON.parse(stored);
+      console.log({ q, start });
+      this.setState({ q, start });
+      return this.load(q, start);
+    }
     this.load();
   }
 
@@ -47,7 +58,7 @@ class ArticleSearch extends Component {
 
   onSubmit = ev => {
     ev.preventDefault();
-    this.load();
+    this.load(this.state.q);
   };
 
   onSelect = (ev, article) => {
@@ -58,7 +69,7 @@ class ArticleSearch extends Component {
   onPageChange = (ev, page) => {
     ev.preventDefault();
     ev.target.blur();
-    this.load(page.target);
+    this.load(this.state.q, page.start);
   };
 
   render () {
@@ -97,7 +108,7 @@ export default ArticleSearch;
 
 
 // Build the pages list
-function getPages (found, start, rows = 12) {
+function getPages (found, start = 0, rows = 12) {
   const page = Math.floor(start / rows) + 1;
   const total = Math.floor(found / rows) + 1;
 
@@ -113,20 +124,20 @@ function getPages (found, start, rows = 12) {
   }
 
   const pages = [];
-  if(page > 2) {
-    pages.push({ target: 0, label: '<<' });
+  if(page > 4) {
+    pages.push({ start: 0, label: '<<' });
   }
   if(page > 1) {
-    pages.push({ target: rows, label: '<' });
+    pages.push({ start: rows, label: '<' });
   }
   for(let i = from; i <= until; i++) {
-    pages.push({ target: (i - 1) * rows, label: i, current: i === page });
-  }
-  if(page < total - 1) {
-    pages.push({ target: page * rows, label: '>' });
+    pages.push({ start: (i - 1) * rows, label: i, current: i === page });
   }
   if(page < total) {
-    pages.push({ target: (total - 1) * rows, label: '>>' });
+    pages.push({ start: page * rows, label: '>' });
+  }
+  if(page < total - 3) {
+    pages.push({ start: (total - 1) * rows, label: '>>' });
   }
   return pages;
 }
