@@ -5,8 +5,12 @@ import React from 'react';
 import {
   i18n,
   editor,
+  components,
 } from '@frontkom/gutenberg-js';
+
 import ArticleSearch from './search';
+import './style.scss';
+
 
 const { __ } = i18n;
 const {
@@ -15,7 +19,11 @@ const {
   InspectorControls,
 } = editor;
 
-import './style.scss';
+const {
+  PanelBody,
+  Placeholder,
+} = components;
+
 
 // Block attriutes
 const attrs = {
@@ -52,7 +60,7 @@ export const name = 'computerword/article';
 
 export const settings = {
   title: __('CW Article'),
-  description: __(' Article by ComputerWorld '),
+  description: __('Articles by Computerworld.NO'),
   icon: 'text',
 
   category: 'cw',
@@ -72,19 +80,19 @@ export const settings = {
       setAttributes({ caption: article.image_caption });
     }
 
-    return [
-      <InspectorControls>
-        <hr />
-        <div>
-          <ArticleSearch select={ setArticle } />
-        </div>
-      </InspectorControls>,
+    return (
       <div className={ className }>
+        <InspectorControls>
+          <PanelBody title={ __('Article Search') }>
+            <ArticleSearch select={ setArticle } />
+          </PanelBody>
+        </InspectorControls>
+
         { !id ? (
-          <div className="components-placeholder">
-            <div className="components-placeholder__label">ComputerWorld Article</div>
-            <div className="components-placeholder__instructions">Please select an article from the sidebar.</div>
-          </div>
+          <Placeholder
+            label="ComputerWorld Article"
+            instructions="Please select an article from the sidebar."
+          />
         ) : (
           <article className="cw-article">
             <span>
@@ -108,8 +116,8 @@ export const settings = {
             <span className="readmore">les mer</span>
           </article>
         ) }
-      </div>,
-    ];
+      </div>
+    );
   },
 
   save ({ attributes, className }) {

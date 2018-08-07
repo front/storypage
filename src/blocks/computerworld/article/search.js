@@ -45,7 +45,6 @@ class ArticleSearch extends Component {
     const stored = sessionStorage.getItem('cwArticleSearchParams');
     if(stored) {
       const { q, start } = JSON.parse(stored);
-      console.log({ q, start });
       this.setState({ q, start });
       return this.load(q, start);
     }
@@ -78,12 +77,11 @@ class ArticleSearch extends Component {
 
     return (
       <div className="cw-article-search">
-        <h2>Articles</h2>
         <form onSubmit={ onSubmit }>
+          <button type="submit" >Search</button>
           <input type="text" value={ q } onChange={ onChange } placeholder="Search articles..." />
           <span>{ found } results</span>
         </form>
-        <br />
         <ul className="results">
           { list.map((a, i) => (
             <li key={ i }>
