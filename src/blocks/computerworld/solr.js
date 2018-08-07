@@ -37,6 +37,7 @@ class Solr {
       headers: {
         Accept: 'application/json',
       },
+      cache: 'force-cache',
     };
 
     const res = await window.fetch(`${url}?${stringify(params)}`, options);

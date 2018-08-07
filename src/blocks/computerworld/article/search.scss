@@ -28,4 +28,20 @@
       color: #00a0d2;
     }
   }
+
+  ul.pagination {
+    padding: 0;
+    text-align: center;
+    font-family: "Roboto Condensed", Impact, Charcoal, sans-serif;
+
+    li {
+      list-style: none;
+      display: inline-block;
+      margin: 0 4px;
+
+      &.current a {
+        text-decoration: underline;
+      }
+    }
+  }
 }
