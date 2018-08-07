@@ -4,6 +4,9 @@ import Solr from '../solr';
 
 import './search.scss';
 
+const solrEndpoint = 'https://solrproxy.devz.no/solr/newsfront-computerworld';
+const imageSource = 'http://static.cw.newsfront.no/sites/default/files/styles/crop_image_main_large/public';
+const sitePath = 'http://www.cw.no';
 
 class ArticleSearch extends Component {
   state = {
@@ -20,7 +23,12 @@ class ArticleSearch extends Component {
 
     // Retrieve articles
     const { docs, numFound } = await this.solrClient.getArticles(12, start, qs);
-    docs.forEach(i => i.media = i.media && JSON.parse(i.media));
+    docs.forEach(doc => {
+      doc.link = `${sitePath}/${doc.path_alias}`;
+      const media = doc.media = doc.media && JSON.parse(doc.media);
+      const image = media && media.image && media.image.main;
+      doc.main_image = image ? `${imageSource}/${image.path}` : null;
+    });
 
     // Build pagination
     const pages = getPages(numFound, start);
@@ -29,7 +37,7 @@ class ArticleSearch extends Component {
   };
 
   componentDidMount () {
-    this.solrClient = new Solr('https://solrproxy.devz.no/solr/newsfront-computerworld');
+    this.solrClient = new Solr(solrEndpoint);
     this.load();
   }
 
