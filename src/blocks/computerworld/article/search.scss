@@ -1,0 +1,31 @@
+
+.cw-article-search {
+  form {
+    input {
+      display: block;
+    }
+    span {
+      display: block;
+      margin-top: 10px;
+      margin-left: 4px;
+    }
+  }
+
+  ul.results {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      margin-bottom: 4px;
+      padding: 2px 4px;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+    a {
+      color: #00a0d2;
+    }
+  }
+}
