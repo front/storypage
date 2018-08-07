@@ -12,6 +12,7 @@ article.cw-article {
 
   figure {
     border: thin solid #8c8c8c;
+    margin: 0;
     img {
       width: 100%;
     }
@@ -23,12 +24,14 @@ article.cw-article {
     margin-bottom: 0;
     font-size: 22px;
     font-weight: 600;
+    line-height: 24px;
   }
 
   .teaser {
     margin-top: 5px;
     margin-bottom: 0;
     font-size: 16px;
+    line-height: 20px;
   }
 
   .readmore {
