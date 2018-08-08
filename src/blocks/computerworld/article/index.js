@@ -8,7 +8,7 @@ import {
   components,
 } from '@frontkom/gutenberg-js';
 
-import ArticleSearch from './search';
+import ArticleSearch, { getImageUrl } from './search';
 import './style.scss';
 
 
@@ -22,6 +22,7 @@ const {
 const {
   PanelBody,
   Placeholder,
+  BaseControl,
 } = components;
 
 
@@ -53,6 +54,14 @@ const attrs = {
     type: 'string',
     default: '',
   },
+  imgSource: {
+    type: 'string',
+    default: 'main',
+  },
+  imgStyle: {
+    type: 'string',
+    default: 'large',
+  },
 };
 
 // Block name and settings
@@ -67,7 +76,8 @@ export const settings = {
   attributes: attrs,
 
   edit ({ attributes, className, setAttributes }) {
-    const { id, title, teaser, image, caption } = attributes;
+    const { id, title, teaser, image, caption, imgSource, imgStyle } = attributes;
+    const imgUrl = getImageUrl(image, imgSource, imgStyle);
 
     // Helper to load the data from the article
     function setArticle (article) {
@@ -86,6 +96,25 @@ export const settings = {
           <PanelBody title={ __('Article Search') }>
             <ArticleSearch select={ setArticle } />
           </PanelBody>
+
+          <PanelBody title={ __('Article Settings') }>
+            <BaseControl label="Image Source">
+              <select value={ imgSource } onChange={ ev => setAttributes({ imgSource: ev.target.value }) }>
+                <option value="main">Main</option>
+                <option value="hero">Hero</option>
+                <option value="landscape">Landscape</option>
+                <option value="portrait">Portrait</option>
+              </select>
+            </BaseControl>
+            <BaseControl label="Image Style">
+              <select value={ imgStyle } onChange={ ev => setAttributes({ imgStyle: ev.target.value }) }>
+                <option value="large">Large</option>
+                <option value="medium">Medium</option>
+                <option value="small">Small</option>
+                <option value="original">Original</option>
+              </select>
+            </BaseControl>
+          </PanelBody>
         </InspectorControls>
 
         { !id ? (
@@ -97,7 +126,7 @@ export const settings = {
           <article className="cw-article">
             <span>
               <figure>
-                <img src={ image } alt={ caption } />
+                <img src={ imgUrl } alt={ caption } />
               </figure>
               <RichText
                 tagName="h2"
@@ -121,13 +150,14 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, image, caption, link } = attributes;
+    const { title, teaser, image, caption, link, imgSource, imgStyle } = attributes;
+    const imgUrl = getImageUrl(image, imgSource, imgStyle);
     return (
       <div className={ className }>
         <article className="cw-article">
           <a href={ link }>
             <figure>
-              <img src={ image } alt={ caption } />
+              <img src={ imgUrl } alt={ caption } />
             </figure>
             <RichText.Content
               tagName="h2"

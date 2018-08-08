@@ -5,7 +5,7 @@ import Solr from '../solr';
 import './search.scss';
 
 const solrEndpoint = 'https://solrproxy.devz.no/solr/newsfront-computerworld';
-const imageSource = 'http://static.cw.newsfront.no/sites/default/files/styles/crop_image_main_large/public';
+const imageSource = 'http://static.cw.newsfront.no/sites/default/files/styles/crop_image_SOURCE_STYLE/public';
 const sitePath = 'http://www.cw.no';
 
 class ArticleSearch extends Component {
@@ -25,8 +25,7 @@ class ArticleSearch extends Component {
     docs.forEach(doc => {
       doc.link = `${sitePath}/${doc.path_alias}`;
       const media = doc.media = doc.media && JSON.parse(doc.media);
-      const image = media && media.image && media.image.main;
-      doc.main_image = image ? `${imageSource}/${image.path}` : null;
+      doc.main_image = media && media.image && media.image.main && media.image.main.path;
     });
 
     // Build pagination
@@ -104,7 +103,6 @@ class ArticleSearch extends Component {
 export default ArticleSearch;
 
 
-
 // Build the pages list
 function getPages (found, start = 0, rows = 12) {
   const page = Math.floor(start / rows) + 1;
@@ -138,4 +136,11 @@ function getPages (found, start = 0, rows = 12) {
     pages.push({ start: (total - 1) * rows, label: '>>' });
   }
   return pages;
+}
+
+
+// Aux: Get the full image path according to the source and style
+export function getImageUrl (path, source = 'landscape', style = 'large') {
+  const prefix = imageSource.replace('SOURCE', source).replace('STYLE', style);
+  return `${prefix}/${path}`;
 }
