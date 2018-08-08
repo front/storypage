@@ -4,11 +4,25 @@ article.cw-advert-article {
     content: "ANNONSØRINNHOLD";
     display: block;
     position: absolute;
-    top: -14px;
+    top: -18px;
     color: black;
-    font-family: Verdana,Geneva,Arial,sans-serif;
+    font-family: Verdana, Arial, sans-serif;
     font-size: 12px;
     font-weight: 600;
+  }
+
+  h2, p, .readmore {
+    font-family: Verdana, Arial, sans-serif !important;
+  }
+
+  h2 {
+    font-size: 22px !important;
+    font-weight: 600;
+    line-height: 28px !important;
+  }
+
+  p {
+    font-size: 15px !important;
   }
 
   .readmore {

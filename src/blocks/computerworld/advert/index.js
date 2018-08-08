@@ -5,12 +5,14 @@ import {
   editor,
 } from '@frontkom/gutenberg-js';
 
+import './style.scss';
+
+
 const { __ } = i18n;
 const {
   RichText,
 } = editor;
 
-import './style.scss';
 
 // Block attriutes
 const attributes = {
@@ -37,7 +39,7 @@ export const name = 'computerword/advert';
 
 export const settings = {
   title: __('CW Advert'),
-  description: __(' Advertisement by ComputerWorld '),
+  description: __('Advertisements by Computerworld.NO'),
   icon: 'cover-image',
 
   category: 'cw',
