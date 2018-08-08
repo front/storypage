@@ -1,9 +1,11 @@
+@import url('http://cloud.webtype.com/css/3fbbf615-718f-48fa-816c-bd86c9440257.css');
 
 article.cw-article {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Interstate Light', Arial, sans-serif;
 
   strong {
     color: #d1204e;
+    font-weight: 400;
   }
   a {
     color: inherit;
@@ -19,12 +21,12 @@ article.cw-article {
   }
 
   h2 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Interstate Black Cond', Arial, sans-serif;
     margin-top: 5px;
     margin-bottom: 0;
-    font-size: 22px;
-    line-height: 28px !important;
-    font-weight: 600;
+    font-size: 28px;
+    line-height: 34px !important;
+    font-weight: 400;
   }
 
   .teaser {
