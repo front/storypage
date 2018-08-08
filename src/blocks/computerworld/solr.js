@@ -7,7 +7,7 @@ class Solr {
     this.proxy = proxy;
   }
 
-  async getArticles (rows = 5, start = 0, query) {
+  async getArticles (rows = 5, start = 0, query, extra) {
     const url = this.proxy || this.endpoint;
 
     // Search params
@@ -16,6 +16,7 @@ class Solr {
       fl: 'entity_id,short_title,teaser,intro,path_alias,media,image_caption,authors,published,tags,section',
       sort: 'published desc',
       wt: 'json',
+      ...extra,
     };
 
     // Query
