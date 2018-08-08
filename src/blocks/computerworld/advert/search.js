@@ -24,7 +24,7 @@ export async function getRandomAdvert () {
 
   res.docs.sort(() => 0.5 - Math.random());
   const adv = res.docs[0];
-  console.log(adv);
+  if(!adv) { return {}; }
 
   const media = adv.media && JSON.parse(adv.media);
   const image = media && media.image && media.image.main;

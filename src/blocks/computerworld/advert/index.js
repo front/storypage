@@ -3,6 +3,7 @@ import React from 'react';
 import {
   i18n,
   editor,
+  components,
 } from '@frontkom/gutenberg-js';
 
 import { getRandomAdvert } from './search';
@@ -12,7 +13,14 @@ import './style.scss';
 const { __ } = i18n;
 const {
   RichText,
+  InspectorControls,
 } = editor;
+
+const {
+  PanelBody,
+  BaseControl,
+  Button,
+} = components;
 
 
 // Block attriutes
@@ -50,6 +58,7 @@ const attrs = {
 
 // Block name and settings
 export const name = 'computerword/advert';
+let loading = false;
 
 export const settings = {
   title: __('CW Advert'),
@@ -62,13 +71,24 @@ export const settings = {
   edit ({ attributes, className, setAttributes }) {
     const { id, title, teaser, image, caption } = attributes;
 
-    if(!id) {
-      getRandomAdvert().then(adv => setAttributes(adv));
+    if(!id && !loading) {
+      loading = true;
+      getRandomAdvert().then(adv => {
+        setAttributes(adv);
+        loading = false;
+      });
       return null;
     }
 
     return (
       <div className={ className }>
+        <InspectorControls>
+          <PanelBody title={ __('Advert Settings') }>
+            <BaseControl label="">
+              <Button isDefault onClick={ () => setAttributes({ id: null }) }>Load a random advert</Button>
+            </BaseControl>
+          </PanelBody>
+        </InspectorControls>
         <article className="cw-article cw-advert-article">
           <span>
             <figure>

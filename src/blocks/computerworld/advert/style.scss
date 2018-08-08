@@ -11,6 +11,10 @@ article.cw-advert-article {
     font-weight: 600;
   }
 
+  strong {
+    color: #558ffe !important;
+  }
+
   h2, p, .readmore {
     font-family: Verdana, Arial, sans-serif !important;
   }
@@ -19,6 +23,10 @@ article.cw-advert-article {
     font-size: 22px !important;
     font-weight: 600;
     line-height: 28px !important;
+
+    strong {
+      font-weight: 600 !important;
+    }
   }
 
   p {
