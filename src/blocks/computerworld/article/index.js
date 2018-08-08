@@ -33,12 +33,14 @@ const attrs = {
     default: 0,
   },
   title: {
-    type: 'string',
+    type: 'array',
+    source: 'children',
     selector: 'h2',
     default: '',
   },
   teaser: {
-    type: 'string',
+    type: 'array',
+    source: 'children',
     selector: 'p',
     default: '',
   },
@@ -159,15 +161,8 @@ export const settings = {
             <figure>
               <img src={ imgUrl } alt={ caption } />
             </figure>
-            <RichText.Content
-              tagName="h2"
-              value={ title }
-            />
-            <RichText.Content
-              tagName="p"
-              className="teaser"
-              value={ teaser }
-            />
+            <h2>{ title }</h2>
+            <p className="teaser">{ teaser }</p>
           </a>
           <a className="readmore" href={ link }>les mer</a>
         </article>
