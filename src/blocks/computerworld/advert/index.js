@@ -5,6 +5,7 @@ import {
   editor,
 } from '@frontkom/gutenberg-js';
 
+import { getRandomAdvert } from './search';
 import './style.scss';
 
 
@@ -15,24 +16,37 @@ const {
 
 
 // Block attriutes
-const attributes = {
+const attrs = {
+  id: {
+    type: 'number',
+    default: 0,
+  },
   title: {
     type: 'array',
     source: 'children',
     selector: 'h2',
-    default: 'Test din app',
+    default: '',
   },
   teaser: {
     type: 'array',
     source: 'children',
     selector: 'p',
-    default: 'Alle, fra butikken nedi gata til TV-kanalene, satser på interaksjon via mobile applikasjoner for å knytte sitt publikum nærmere til seg.',
+    default: '',
   },
   image: {
     type: 'string',
-    default: 'https://placeimg.com/600/280/people/grayscale',
+    default: '',
+  },
+  caption: {
+    type: 'string',
+    default: '',
+  },
+  link: {
+    type: 'string',
+    default: '',
   },
 };
+
 
 // Block name and settings
 export const name = 'computerword/advert';
@@ -43,16 +57,22 @@ export const settings = {
   icon: 'cover-image',
 
   category: 'cw',
-  attributes,
+  attributes: attrs,
 
-  edit ({ attributes: attr, className, setAttributes }) {
-    const { title, teaser } = attr;
+  edit ({ attributes, className, setAttributes }) {
+    const { id, title, teaser, image, caption } = attributes;
+
+    if(!id) {
+      getRandomAdvert().then(adv => setAttributes(adv));
+      return null;
+    }
+
     return (
       <div className={ className }>
         <article className="cw-article cw-advert-article">
           <span>
             <figure>
-              <img src="http://static.cw.newsfront.no/sites/default/files/styles/crop_image_main_medium/public/img/mobile-copy-1024x522.jpg" alt="" />
+              <img src={ image } alt={ caption } />
             </figure>
             <RichText
               tagName="h2"
@@ -74,26 +94,19 @@ export const settings = {
     );
   },
 
-  save ({ attributes: attr, className }) {
-    const { title, teaser } = attr;
+  save ({ attributes, className }) {
+    const { title, teaser, image, caption, link } = attributes;
     return (
       <div className={ className }>
         <article className="cw-article cw-advert-article">
-          <a href="http://www.google.com">
+          <a href={ link }>
             <figure>
-              <img src="http://static.cw.newsfront.no/sites/default/files/styles/crop_image_main_medium/public/img/mobile-copy-1024x522.jpg" alt="" />
+              <img src={ image } alt={ caption } />
             </figure>
-            <RichText.Content
-              tagName="h2"
-              value={ title }
-            />
-            <RichText.Content
-              tagName="p"
-              className="teaser"
-              value={ teaser }
-            />
+            <h2>{ title }</h2>
+            <p className="teaser">{ teaser }</p>
           </a>
-          <a className="readmore" href="http://www.google.com">les mer</a>
+          <a className="readmore" href={ link }>les mer</a>
         </article>
       </div>
     );
