@@ -1,0 +1,57 @@
+
+.cw-article-search {
+  form {
+    display: block;
+    position: relative;
+    button {
+      position: absolute;
+      right: -1px;
+      padding: 7px 8px;
+      height: 30px;
+    }
+    input {
+      display: block;
+      padding-right: 60px !important;
+    }
+    span {
+      display: block;
+      margin-top: 10px;
+      margin-left: 4px;
+      height: 30px;
+    }
+  }
+
+  ul.results {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      margin-bottom: 4px;
+      padding: 3px 5px 1px;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+    a {
+      color: #00a0d2;
+    }
+  }
+
+  ul.pagination {
+    padding: 0;
+    text-align: center;
+    font-family: "Roboto Condensed", Impact, Charcoal, sans-serif;
+
+    li {
+      list-style: none;
+      display: inline-block;
+      margin: 0 4px;
+
+      &.current a {
+        text-decoration: underline;
+      }
+    }
+  }
+}

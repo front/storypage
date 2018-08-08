@@ -1,34 +1,68 @@
+/* eslint react/jsx-key: 0 */
+
 // External Dependencies
 import React from 'react';
 import {
   i18n,
   editor,
+  components,
 } from '@frontkom/gutenberg-js';
+
+import ArticleSearch, { getImageUrl } from './search';
+import './style.scss';
+
 
 const { __ } = i18n;
 const {
   RichText,
+  // PlainText,
+  InspectorControls,
 } = editor;
 
-import './style.scss';
+const {
+  PanelBody,
+  Placeholder,
+  BaseControl,
+} = components;
+
 
 // Block attriutes
-const attributes = {
+const attrs = {
+  id: {
+    type: 'number',
+    default: 0,
+  },
   title: {
     type: 'array',
     source: 'children',
     selector: 'h2',
-    default: 'Wifi-nettverk på flyplasser sikkerhetsrisiko',
+    default: '',
   },
   teaser: {
     type: 'array',
     source: 'children',
     selector: 'p',
-    default: 'I ytterste konsekvens kan det føre til at fremmede får kontroll over en flyplass og overtar flyplasstyringen, viser rapporten fra PA Consulting Group.',
+    default: '',
   },
   image: {
     type: 'string',
-    default: 'https://placeimg.com/600/280/people/grayscale',
+    default: '',
+  },
+  caption: {
+    type: 'string',
+    default: '',
+  },
+  link: {
+    type: 'string',
+    default: '',
+  },
+  imgSource: {
+    type: 'string',
+    default: 'main',
+  },
+  imgStyle: {
+    type: 'string',
+    default: 'large',
   },
 };
 
@@ -37,61 +71,100 @@ export const name = 'computerword/article';
 
 export const settings = {
   title: __('CW Article'),
-  description: __(' Article by ComputerWorld '),
+  description: __('Articles by Computerworld.NO'),
   icon: 'text',
 
   category: 'cw',
-  attributes,
+  attributes: attrs,
 
-  edit ({ attributes: attr, className, setAttributes }) {
-    const { title, teaser } = attr;
+  edit ({ attributes, className, setAttributes }) {
+    const { id, title, teaser, image, caption, imgSource, imgStyle } = attributes;
+    const imgUrl = getImageUrl(image, imgSource, imgStyle);
+
+    // Helper to load the data from the article
+    function setArticle (article) {
+      // console.log('Set article', article);
+      setAttributes({ id: article.entity_id });
+      setAttributes({ title: article.short_title });
+      setAttributes({ teaser: article.teaser });
+      setAttributes({ link: article.link });
+      setAttributes({ image: article.main_image });
+      setAttributes({ caption: article.image_caption });
+    }
+
     return (
       <div className={ className }>
-        <article className="cw-article">
-          <span>
-            <figure>
-              <img src="http://static.cw.newsfront.no/sites/default/files/styles/crop_image_landscape_large/public/dcx/flyplass_53723e.jpg" alt="" />
-            </figure>
-            <RichText
-              tagName="h2"
-              value={ title }
-              onChange={ value => setAttributes({ title: value }) }
-              inlineToolbar
-            />
-            <RichText
-              tagName="p"
-              className="teaser"
-              value={ teaser }
-              onChange={ value => setAttributes({ teaser: value }) }
-              inlineToolbar
-            />
-          </span>
-          <span className="readmore">les mer</span>
-        </article>
+        <InspectorControls>
+          <PanelBody title={ __('Article Search') }>
+            <ArticleSearch select={ setArticle } />
+          </PanelBody>
+
+          <PanelBody title={ __('Article Settings') }>
+            <BaseControl label="Image Source">
+              <select value={ imgSource } onChange={ ev => setAttributes({ imgSource: ev.target.value }) }>
+                <option value="main">Main</option>
+                <option value="hero">Hero</option>
+                <option value="landscape">Landscape</option>
+                <option value="portrait">Portrait</option>
+              </select>
+            </BaseControl>
+            <BaseControl label="Image Style">
+              <select value={ imgStyle } onChange={ ev => setAttributes({ imgStyle: ev.target.value }) }>
+                <option value="large">Large</option>
+                <option value="medium">Medium</option>
+                <option value="small">Small</option>
+                <option value="original">Original</option>
+              </select>
+            </BaseControl>
+          </PanelBody>
+        </InspectorControls>
+
+        { !id ? (
+          <Placeholder
+            label="ComputerWorld Article"
+            instructions="Please select an article from the sidebar."
+          />
+        ) : (
+          <article className="cw-article">
+            <span>
+              <figure>
+                <img src={ imgUrl } alt={ caption } />
+              </figure>
+              <RichText
+                tagName="h2"
+                value={ title }
+                onChange={ value => setAttributes({ title: value }) }
+                inlineToolbar
+              />
+              <RichText
+                tagName="p"
+                className="teaser"
+                value={ teaser }
+                onChange={ value => setAttributes({ teaser: value }) }
+                inlineToolbar
+              />
+            </span>
+            <span className="readmore">les mer</span>
+          </article>
+        ) }
       </div>
     );
   },
 
-  save ({ attributes: attr, className }) {
-    const { title, teaser } = attr;
+  save ({ attributes, className }) {
+    const { title, teaser, image, caption, link, imgSource, imgStyle } = attributes;
+    const imgUrl = getImageUrl(image, imgSource, imgStyle);
     return (
       <div className={ className }>
         <article className="cw-article">
-          <a href="http://www.google.com">
+          <a href={ link }>
             <figure>
-              <img src="http://static.cw.newsfront.no/sites/default/files/styles/crop_image_landscape_large/public/dcx/flyplass_53723e.jpg" alt="" />
+              <img src={ imgUrl } alt={ caption } />
             </figure>
-            <RichText.Content
-              tagName="h2"
-              value={ title }
-            />
-            <RichText.Content
-              tagName="p"
-              className="teaser"
-              value={ teaser }
-            />
+            <h2>{ title }</h2>
+            <p className="teaser">{ teaser }</p>
           </a>
-          <a className="readmore" href="http://www.google.com">les mer</a>
+          <a className="readmore" href={ link }>les mer</a>
         </article>
       </div>
     );

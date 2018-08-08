@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import moment from 'moment';
-import Solr from './solr';
+import Solr from '../solr';
 import './style.scss';
 
 
@@ -29,7 +29,7 @@ class LatestNews extends Component {
 
   init = async () => {
     try {
-      const data = await this.solrClient.getArticles(5, 0, this.props.tag);
+      const data = await this.solrClient.getArticles(5, 0, { tags: this.props.tag });
       data.docs.forEach(d => parseArticle(d));
       // console.log('Loaded articles', data.docs);
       this.setState({ articles: data.docs });

@@ -17,7 +17,7 @@ const { registerBlockType } = blocks;
 
 const category = {
   slug: 'cw',
-  title: __('Cw Blocks'),
+  title: __('Computerworld Blocks'),
 };
 
 export const initComputerworld = () => {
