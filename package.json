@@ -7,7 +7,7 @@
         "npm": ">=5.0.0"
     },
     "dependencies": {
-        "@frontkom/cw-latest-news": "0.0.6",
+        "@frontkom/cw-latest-news": "0.0.7",
         "@frontkom/gutenberg-js": "1.2.1",
         "axios": "^0.18.0",
         "case-sensitive-paths-webpack-plugin": "2.1.1",
