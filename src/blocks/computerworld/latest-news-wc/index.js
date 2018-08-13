@@ -2,7 +2,7 @@
 
 // External Dependencies
 import React from 'react';
-import { i18n, editor } from '@frontkom/gutenberg-js';
+import { i18n, editor, components } from '@frontkom/gutenberg-js';
 
 import { defineCustomElements } from '@frontkom/cw-latest-news';
 defineCustomElements(window);
@@ -12,7 +12,8 @@ const solr =  'https://solrproxy.devz.no/solr/newsfront-computerworld';
 
 // Editor elements
 const { __ } = i18n;
-const { InspectorControls, PlainText } = editor;
+const { InspectorControls } = editor;
+const { PanelBody } = components;
 
 // Block attributes
 const attrs = {
@@ -38,32 +39,33 @@ export const settings = {
   edit ({ className, attributes, setAttributes }) {
     const { tag, rows } = attributes;
 
-    function updateTag (value) {
+    function updateTag (ev) {
+      const value = ev.target.value;
       const _tag = value && value.replace(/[^\w]/g, '-').toLowerCase();
       setAttributes({ tag: _tag });
     }
-    function updateRows (value) {
+    function updateRows (ev) {
+      const value = ev.target.value;
       const _rows = parseInt(value.replace(/[^\d]/g, '')) || 0;
       setAttributes({ rows: _rows });
     }
 
-    return [
-      <InspectorControls>
-        <hr />
-        <div>
-          <strong>Select a tag:</strong>
-          <PlainText value={ tag } onChange={ updateTag } />
+    return (
+      <div>
+        <InspectorControls>
+          <PanelBody title={ __('Latest News Settings') }>
+            <strong>Select a tag:</strong>
+            <input type="text" value={ tag } onChange={ updateTag } />
+            <br /><br />
+            <strong>Number of articles:</strong>
+            <input type="text" value={ rows } onChange={ updateRows } />
+          </PanelBody>
+        </InspectorControls>
+        <div className={ className } onClick={ ev => ev.preventDefault() }>
+          <cw-latest-news solr={ solr } rows={ rows } tag={ tag }></cw-latest-news>
         </div>
-        <br />
-        <div>
-          <strong>Number of articles:</strong>
-          <PlainText value={ rows } onChange={ updateRows } />
-        </div>
-      </InspectorControls>,
-      <div className={ className } onClick={ ev => ev.preventDefault() }>
-        <cw-latest-news solr={ solr } rows={ rows } tag={ tag }></cw-latest-news>
-      </div>,
-    ];
+      </div>
+    );
   },
 
   save ({ className, attributes }) {
