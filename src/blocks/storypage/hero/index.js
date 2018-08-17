@@ -12,8 +12,23 @@ import { i18n, components, editor } from '@frontkom/gutenberg-js';
 import './style.scss';
 
 const { __ } = i18n;
-// const { IconButton, Toolbar } = components;
-const { RichText } = editor;
+const { PanelBody, FontSizePicker } = components;
+const { RichText, InspectorControls, PanelColor } = editor;
+
+
+const TITLE_FONT_SIZES = [
+  { name: 'small',    shortName: 'S',   size: 28 },
+  { name: 'regular',  shortName: 'M',   size: 40 },
+  { name: 'large',    shortName: 'L',   size: 56 },
+  { name: 'larger',   shortName: 'XL',  size: 72 },
+];
+const TEXT_FONT_SIZES = [
+  { name: 'small',    shortName: 'S',   size: 14 },
+  { name: 'regular',  shortName: 'M',   size: 16 },
+  { name: 'large',    shortName: 'L',   size: 20 },
+  { name: 'larger',   shortName: 'XL',  size: 26 },
+];
+
 
 export const name = 'storypage/hero';
 
@@ -43,17 +58,49 @@ export const settings = {
     },
     bgColor: {
       type: 'string',
-      default: '#2db8ca',
+      default: '#2DB8CA',
+    },
+    layout: {
+      type: 'string',
+      default: 'horizontal',
+    },
+    titleFontSize: {
+      type: 'number',
+      default: 56,
+    },
+    titleColor: {
+      type: 'string',
+      default: '#FFFFFF',
+    },
+    textFontSize: {
+      type: 'number',
+      default: 20,
+    },
+    textColor: {
+      type: 'string',
+      default: '#FFFFFF',
     },
   },
 
-  description: __('Hero Section'),
+  description: __('Hero Block'),
 
-  edit ({ attributes, className, setAttributes, isSelected }) {
+  edit ({ attributes, className, setAttributes }) {
 
-    const { title, teaser, image, bgColor } = attributes;
+    const { title, teaser, image, bgColor,
+      titleFontSize, titleColor, textFontSize, textColor,
+    } = attributes;
+
     const style = {
-      backgroundColor: bgColor,
+      backgroundColor: bgColor || '#2DB8CA',
+    };
+
+    const titleStyle = {
+      fontSize: `${titleFontSize || 56}px`,
+      color: titleColor || 'white',
+    };
+    const textStyle = {
+      fontSize: `${textFontSize || 20}px`,
+      color: textColor || 'white',
     };
 
     // const onSelectImage = media => {
@@ -69,14 +116,13 @@ export const settings = {
           <figure><img src={ image } /></figure>
           <RichText
             tagName="h2"
-            value={ title }
+            value={ title } style={ titleStyle }
             onChange={ value => setAttributes({ title: value }) }
             inlineToolbar
           />
           <RichText
-            tagName="p"
-            className="teaser"
-            value={ teaser }
+            tagName="p" className="teaser"
+            value={ teaser } style={ textStyle }
             onChange={ value => setAttributes({ teaser: value }) }
             inlineToolbar
           />
@@ -86,36 +132,58 @@ export const settings = {
           </footer>
         </div>
       </div>,
-      // isSelected && <Toolbar>
-      //   <MediaUpload
-      //     onSelect={ onSelectImage }
-      //     type="image"
-      //     value={ id }
-      //     render={ ({ open }) => (
-      //       <IconButton
-      //         className="components-toolbar__control"
-      //         label={ __('Edit image') }
-      //         icon="edit"
-      //         onClick={ open }
-      //       />
-      //     ) }
-      //   />
-      // </Toolbar>,
+      <InspectorControls>
+        <PanelBody title={ __('Title Settings') }>
+          <FontSizePicker
+            fontSizes={ TITLE_FONT_SIZES } fallbackFontSize={ 56 } value={ titleFontSize }
+            onChange={ value => setAttributes({ titleFontSize: value }) }
+          />
+          <PanelColor
+            colorValue={ titleColor } initialOpen={ false } title={ __('Title Color') }
+            onChange={ value => setAttributes({ titleColor: value }) }
+          />
+        </PanelBody>
+
+        <PanelBody title={ __('Text Settings') }>
+          <FontSizePicker
+            fontSizes={ TEXT_FONT_SIZES } fallbackFontSize={ 20 } value={ textFontSize }
+            onChange={ value => setAttributes({ textFontSize: value }) }
+          />
+          <PanelColor
+            colorValue={ textColor } initialOpen={ false } title={ __('Text Color') }
+            onChange={ value => setAttributes({ textColor: value }) }
+          />
+        </PanelBody>
+
+        {/* <TextColorPanel props={ this.props } /> */}
+      </InspectorControls>,
     ];
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, image, bgColor } = attributes;
+    const { title, teaser, image, bgColor,
+      titleFontSize, titleColor, textFontSize, textColor,
+    } = attributes;
+
     const style = {
-      backgroundColor: bgColor,
+      backgroundColor: bgColor || '#2DB8CA',
+    };
+
+    const titleStyle = {
+      fontSize: `${titleFontSize || 56}px`,
+      color: titleColor || 'white',
+    };
+    const textStyle = {
+      fontSize: `${textFontSize || 20}px`,
+      color: textColor || 'white',
     };
 
     return (
       <div className={ className } style={ style }>
         <div className="content">
           <figure><img src={ image } /></figure>
-          <h2>{ title }</h2>
-          <p>{ teaser }</p>
+          <h2 style={ titleStyle }>{ title }</h2>
+          <p style={ textStyle }>{ teaser }</p>
           <footer>
             <button>Learn more</button>
             <button>Download</button>
