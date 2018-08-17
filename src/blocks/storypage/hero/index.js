@@ -146,16 +146,16 @@ export const settings = {
             <input type="number" value={ contentWidth }
               onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
           </BaseControl>
-          <BaseControl label="Image Layout">
+          {/* <BaseControl label="Image Layout">
             <select value={ imageLayout } onChange={ ev => setAttributes({ imageLayout: ev.target.value }) }>
               <option value="landscape">Landscape</option>
               <option value="portrait">Portrait</option>
               <option value="background">Background</option>
             </select>
-          </BaseControl>
+          </BaseControl> */}
           <PanelColor
             colorValue={ backgroundColor } initialOpen={ false } title={ __('Background Color') }
-            onChange={ value => setAttributes({ bgColor: value }) }
+            onChange={ value => setAttributes({ backgroundColor: value }) }
           />
         </PanelBody>
 
