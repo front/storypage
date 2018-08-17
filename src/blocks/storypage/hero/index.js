@@ -12,7 +12,7 @@ import { i18n, components, editor } from '@frontkom/gutenberg-js';
 import './style.scss';
 
 const { __ } = i18n;
-const { PanelBody, FontSizePicker } = components;
+const { PanelBody, BaseControl, FontSizePicker } = components;
 const { RichText, InspectorControls, PanelColor } = editor;
 
 
@@ -56,13 +56,17 @@ export const settings = {
       selector: 'img',
       attribute: 'src',
     },
-    bgColor: {
+    backgroundColor: {
       type: 'string',
       default: '#2DB8CA',
     },
-    layout: {
+    imageLayout: {
       type: 'string',
-      default: 'horizontal',
+      default: 'portrait',
+    },
+    contentWidth: {
+      type: 'number',
+      default: 960,
     },
     titleFontSize: {
       type: 'number',
@@ -86,14 +90,16 @@ export const settings = {
 
   edit ({ attributes, className, setAttributes }) {
 
-    const { title, teaser, image, bgColor,
+    const { title, teaser, image, backgroundColor, imageLayout, contentWidth,
       titleFontSize, titleColor, textFontSize, textColor,
     } = attributes;
 
-    const style = {
-      backgroundColor: bgColor || '#2DB8CA',
+    const containerStyle = {
+      backgroundColor: backgroundColor || '#2DB8CA',
     };
-
+    const wrapperStyle = {
+      maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
+    };
     const titleStyle = {
       fontSize: `${titleFontSize || 56}px`,
       color: titleColor || 'white',
@@ -111,8 +117,8 @@ export const settings = {
     // };
 
     return [
-      <div className={ className } style={ style }>
-        <div className="content">
+      <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
+        <div className="content" style={ wrapperStyle }>
           <figure><img src={ image } /></figure>
           <RichText
             tagName="h2"
@@ -134,8 +140,19 @@ export const settings = {
       </div>,
       <InspectorControls>
         <PanelBody title={ __('Block Settings') }>
+          <BaseControl label="Content Width">
+            <input type="number" value={ contentWidth }
+              onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
+          </BaseControl>
+          <BaseControl label="Image Layout">
+            <select value={ imageLayout } onChange={ ev => setAttributes({ imageLayout: ev.target.value }) }>
+              <option value="landscape">Landscape</option>
+              <option value="portrait">Portrait</option>
+              <option value="background">Background</option>
+            </select>
+          </BaseControl>
           <PanelColor
-            colorValue={ bgColor } initialOpen={ false } title={ __('Background Color') }
+            colorValue={ backgroundColor } initialOpen={ false } title={ __('Background Color') }
             onChange={ value => setAttributes({ bgColor: value }) }
           />
         </PanelBody>
@@ -168,14 +185,16 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, image, bgColor,
+    const { title, teaser, image, backgroundColor, imageLayout, contentWidth,
       titleFontSize, titleColor, textFontSize, textColor,
     } = attributes;
 
-    const style = {
-      backgroundColor: bgColor || '#2DB8CA',
+    const containerStyle = {
+      backgroundColor: backgroundColor || '#2DB8CA',
     };
-
+    const wrapperStyle = {
+      maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
+    };
     const titleStyle = {
       fontSize: `${titleFontSize || 56}px`,
       color: titleColor || 'white',
@@ -186,8 +205,8 @@ export const settings = {
     };
 
     return (
-      <div className={ className } style={ style }>
-        <div className="content">
+      <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
+        <div className="content" style={ wrapperStyle }>
           <figure><img src={ image } /></figure>
           <h2 style={ titleStyle }>{ title }</h2>
           <p style={ textStyle }>{ teaser }</p>
