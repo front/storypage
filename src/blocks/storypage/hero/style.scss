@@ -1,0 +1,46 @@
+
+.wp-block-storypage-hero {
+  margin-bottom: 30px;
+
+  .content {
+    position: relative;
+    margin: 0 auto;
+    padding: 200px 300px 200px 20px;
+    max-width: 980px;
+  }
+
+  h2, p, footer button {
+    font-family: "Roboto Condensed", Impact, Charcoal, sans-serif !important;
+    color: white;
+  }
+
+  figure {
+    position: absolute;
+    right: 20px;
+    top: 50px;
+
+    img {
+      width: 215px;
+      height: 430px;
+    }
+  }
+
+  h2 {
+    font-size: 56px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+  }
+
+  button {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px 20px;
+    border: 1px solid white;
+  }
+}
