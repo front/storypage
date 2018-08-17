@@ -133,6 +133,13 @@ export const settings = {
         </div>
       </div>,
       <InspectorControls>
+        <PanelBody title={ __('Block Settings') }>
+          <PanelColor
+            colorValue={ bgColor } initialOpen={ false } title={ __('Background Color') }
+            onChange={ value => setAttributes({ bgColor: value }) }
+          />
+        </PanelBody>
+
         <PanelBody title={ __('Title Settings') }>
           <FontSizePicker
             fontSizes={ TITLE_FONT_SIZES } fallbackFontSize={ 56 } value={ titleFontSize }
