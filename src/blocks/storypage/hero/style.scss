@@ -1,50 +1,92 @@
 
-.wp-block-storypage-hero {
-  margin-bottom: 30px;
+$hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
 
-  .content {
+@mixin breakpoint () {
+  @media(min-width: 768px) {
+    @content;
+  }
+}
+
+.wp-block-storypage-hero {
+  margin-bottom: 20px;
+
+  section {
     position: relative;
     margin: 0 auto;
-    padding: 200px 300px 200px 20px;
-    max-width: 980px;
-  }
+    padding: 50px 20px 50px 20px;
 
-  h2, p, footer button {
-    font-family: "Roboto Condensed", Impact, Charcoal, sans-serif !important;
-    color: white;
-  }
+    @include breakpoint() {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
 
-  figure {
-    position: absolute;
-    right: 20px;
-    top: 50px;
-
-    img {
-      width: 215px;
-      height: 430px;
+    &:after {
+      clear: both;
+      display: block;
+      content: " ";
     }
   }
 
-  h2 {
-    font-size: 56px;
-    margin-top: 0px;
-    margin-bottom: 10px;
+  h2, p, footer button {
+    font-family: $hero-font !important;
+    color: white;
   }
 
-  p {
-    font-size: 20px;
-    margin-top: 0px;
-    margin-bottom: 30px;
+  header {
+    h2 {
+      font-size: 56px;
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 20px;
+      margin-top: 0px;
+      margin-bottom: 30px;
+    }
+
+    @include breakpoint() {
+      width: calc(100% - 275px);
+      float: left;
+      margin-top: 125px;
+    }
   }
 
-  button {
-    display: inline-block;
-    margin-right: 20px;
-    padding: 10px 20px;
-    border: 1px solid white;
+  footer {
+    float: left;
+    clear: none;
+    margin-bottom: 20px;
+
+    button {
+      display: inline-block;
+      margin: 0 20px 20px 0;
+      padding: 10px 20px;
+      border: 1px solid white;
+    }
+
+    @include breakpoint() {
+      width: calc(100% - 275px);
+      margin-bottom: 0;
+    }
   }
 
-  &.layout-landscape {
-    text-align: center;
+  figure {
+    display: block;
+    clear: both;
+    width: 250px;
+    height: 500px;
+    margin: 0 auto;
+    border: 4px solid #333;
+    border-radius: 20px;
+
+    img {
+      border: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @include breakpoint() {
+      clear: none;
+      margin-right: 0;
+    }
   }
 }

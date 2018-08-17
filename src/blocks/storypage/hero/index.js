@@ -118,25 +118,27 @@ export const settings = {
 
     return [
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
-        <div className="content" style={ wrapperStyle }>
-          <figure><img src={ image } /></figure>
-          <RichText
-            tagName="h2"
-            value={ title } style={ titleStyle }
-            onChange={ value => setAttributes({ title: value }) }
-            inlineToolbar
-          />
-          <RichText
-            tagName="p" className="teaser"
-            value={ teaser } style={ textStyle }
-            onChange={ value => setAttributes({ teaser: value }) }
-            inlineToolbar
-          />
+        <section style={ wrapperStyle }>
+          <header>
+            <RichText
+              tagName="h2"
+              value={ title } style={ titleStyle }
+              onChange={ value => setAttributes({ title: value }) }
+              inlineToolbar
+            />
+            <RichText
+              tagName="p" className="teaser"
+              value={ teaser } style={ textStyle }
+              onChange={ value => setAttributes({ teaser: value }) }
+              inlineToolbar
+            />
+          </header>
           <footer>
             <button>Learn more</button>
             <button>Download</button>
           </footer>
-        </div>
+          <figure><img src={ image } /></figure>
+        </section>
       </div>,
       <InspectorControls>
         <PanelBody title={ __('Block Settings') }>
@@ -167,7 +169,6 @@ export const settings = {
             onChange={ value => setAttributes({ titleColor: value }) }
           />
         </PanelBody>
-
         <PanelBody title={ __('Text Settings') }>
           <FontSizePicker
             fontSizes={ TEXT_FONT_SIZES } fallbackFontSize={ 20 } value={ textFontSize }
@@ -178,8 +179,6 @@ export const settings = {
             onChange={ value => setAttributes({ textColor: value }) }
           />
         </PanelBody>
-
-        {/* <TextColorPanel props={ this.props } /> */}
       </InspectorControls>,
     ];
   },
@@ -206,15 +205,17 @@ export const settings = {
 
     return (
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
-        <div className="content" style={ wrapperStyle }>
-          <figure><img src={ image } /></figure>
-          <h2 style={ titleStyle }>{ title }</h2>
-          <p style={ textStyle }>{ teaser }</p>
+        <section style={ wrapperStyle }>
+          <header>
+            <h2 style={ titleStyle }>{ title }</h2>
+            <p style={ textStyle }>{ teaser }</p>
+          </header>
           <footer>
             <button>Learn more</button>
             <button>Download</button>
           </footer>
-        </div>
+          <figure><img src={ image } /></figure>
+        </section>
       </div>
     );
   },
