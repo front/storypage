@@ -104,13 +104,20 @@ export const settings = {
       type: 'string',
       default: '#FFFFFF',
     },
+    button1Text: {
+      type: 'string',
+      default: 'Learn more',
+    },
+    button2Text: {
+      type: 'string',
+      default: 'Download',
+    },
   },
 
   description: __('Hero Block'),
 
   edit ({ attributes, className, setAttributes }) {
-
-    const { title, teaser, imageUrl, backgroundColor,
+    const { title, teaser, imageUrl, backgroundColor, button1Text, button2Text,
       imageLayout, overlayOpacity, contentWidth,
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
@@ -177,8 +184,8 @@ export const settings = {
             />
           </header>
           <footer>
-            <button style={ ctaStyle }>Learn more</button>
-            <button style={ ctaStyle }>Download</button>
+            <button style={ ctaStyle }>{ button1Text }</button>
+            <button style={ ctaStyle }>{ button2Text }</button>
           </footer>
           { imageLayout !== 'background' && <span className="image-feature">
             <MediaUpload type="image"
@@ -237,6 +244,14 @@ export const settings = {
           />
         </PanelBody>
         <PanelBody title={ __('CTA Settings') }>
+          <BaseControl label="Button 1 Text">
+            <input type="text" value={ button1Text }
+              onChange={ ev => setAttributes({ button1Text: ev.target.value }) } />
+          </BaseControl>
+          <BaseControl label="Button 2 Text">
+            <input type="text" value={ button2Text }
+              onChange={ ev => setAttributes({ button2Text: ev.target.value }) } />
+          </BaseControl>
           <FontSizePicker
             fontSizes={ CTA_FONT_SIZES } fallbackFontSize={ 16 } value={ ctaFontSize }
             onChange={ value => setAttributes({ ctaFontSize: value }) }
@@ -251,7 +266,7 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, imageUrl, backgroundColor,
+    const { title, teaser, imageUrl, backgroundColor, button1Text, button2Text,
       imageLayout, overlayOpacity, contentWidth,
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
@@ -293,8 +308,8 @@ export const settings = {
             <p style={ textStyle }>{ teaser }</p>
           </header>
           <footer>
-            <button style={ ctaStyle }>Learn more</button>
-            <button style={ ctaStyle }>Download</button>
+            <button style={ ctaStyle }>{ button1Text }</button>
+            <button style={ ctaStyle }>{ button2Text }</button>
           </footer>
           { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
         </section>
