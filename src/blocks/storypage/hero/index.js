@@ -62,7 +62,7 @@ export const settings = {
     },
     imageLayout: {
       type: 'string',
-      default: 'portrait',
+      default: 'right',
     },
     contentWidth: {
       type: 'number',
@@ -90,13 +90,17 @@ export const settings = {
 
   edit ({ attributes, className, setAttributes }) {
 
-    const { title, teaser, image, backgroundColor, imageLayout, contentWidth,
+    const { title, teaser, image, backgroundColor, imageLayout, overlayOpacity, contentWidth,
       titleFontSize, titleColor, textFontSize, textColor,
     } = attributes;
 
     const containerStyle = {
       backgroundColor: backgroundColor || '#2DB8CA',
     };
+    const imgBackgroundStyle = {
+      backgroundImage: `url('https://www.minervanett.no/wp-content/uploads/2017/03/20487741950_b720a946ec_o.jpg')`,
+    };
+
     const wrapperStyle = {
       maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
     };
@@ -118,6 +122,8 @@ export const settings = {
 
     return [
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
+        { imageLayout === 'background' &&
+          <span className="image-background" style={ imgBackgroundStyle } ><div /></span> }
         <section style={ wrapperStyle }>
           <header>
             <RichText
@@ -137,7 +143,7 @@ export const settings = {
             <button>Learn more</button>
             <button>Download</button>
           </footer>
-          <figure><img src={ image } /></figure>
+          { imageLayout !== 'background' && <span className="image-feature"><img src={ image } /></span> }
         </section>
       </div>,
       <InspectorControls>
@@ -146,13 +152,13 @@ export const settings = {
             <input type="number" value={ contentWidth }
               onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
           </BaseControl>
-          {/* <BaseControl label="Image Layout">
+          <BaseControl label="Image Placement">
             <select value={ imageLayout } onChange={ ev => setAttributes({ imageLayout: ev.target.value }) }>
-              <option value="landscape">Landscape</option>
-              <option value="portrait">Portrait</option>
+              <option value="left">On the left</option>
+              <option value="right">On the right</option>
               <option value="background">Background</option>
             </select>
-          </BaseControl> */}
+          </BaseControl>
           <PanelColor
             colorValue={ backgroundColor } initialOpen={ false } title={ __('Background Color') }
             onChange={ value => setAttributes({ backgroundColor: value }) }
@@ -191,6 +197,10 @@ export const settings = {
     const containerStyle = {
       backgroundColor: backgroundColor || '#2DB8CA',
     };
+    const imgBackgroundStyle = {
+      backgroundImage: `url('https://www.minervanett.no/wp-content/uploads/2017/03/20487741950_b720a946ec_o.jpg')`,
+    };
+
     const wrapperStyle = {
       maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
     };
@@ -205,6 +215,8 @@ export const settings = {
 
     return (
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
+        { imageLayout === 'background' &&
+          <span className="image-background" style={ imgBackgroundStyle } ><div /></span> }
         <section style={ wrapperStyle }>
           <header>
             <h2 style={ titleStyle }>{ title }</h2>
@@ -214,7 +226,7 @@ export const settings = {
             <button>Learn more</button>
             <button>Download</button>
           </footer>
-          <figure><img src={ image } /></figure>
+          { imageLayout !== 'background' && <span className="image-feature"><img src={ image } /></span> }
         </section>
       </div>
     );

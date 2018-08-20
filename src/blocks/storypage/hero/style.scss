@@ -9,11 +9,37 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
 
 .wp-block-storypage-hero {
   margin-bottom: 20px;
+  position: relative;
 
+  // Image background
+  .image-background {
+    display: none;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    background-position: center center;
+
+    div {
+      position: absolute;
+      display: block;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: black;
+      opacity: 0.5;
+    }
+  }
+
+  // Content section
   section {
-    position: relative;
     margin: 0 auto;
     padding: 50px 20px 50px 20px;
+    z-index: 10;
 
     @include breakpoint() {
       padding-top: 100px;
@@ -43,33 +69,19 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
       margin-top: 0px;
       margin-bottom: 30px;
     }
-
-    @include breakpoint() {
-      width: calc(100% - 275px);
-      float: left;
-      margin-top: 125px;
-    }
   }
 
   footer {
-    float: left;
-    clear: none;
     margin-bottom: 20px;
-
     button {
       display: inline-block;
       margin: 0 20px 20px 0;
       padding: 10px 20px;
       border: 1px solid white;
     }
-
-    @include breakpoint() {
-      width: calc(100% - 275px);
-      margin-bottom: 0;
-    }
   }
 
-  figure {
+  .image-feature {
     display: block;
     clear: both;
     width: 250px;
@@ -83,10 +95,55 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
       width: 100%;
       height: 100%;
     }
+  }
 
+
+  // Layout variations
+  &.layout-left {
     @include breakpoint() {
-      clear: none;
-      margin-right: 0;
+      .image-feature {
+        clear: none;
+        margin-left: 0;
+      }
+      header, footer {
+        float: right;
+        width: calc(100% - 300px);
+      }
+    }
+  }
+
+  &.layout-right {
+    @include breakpoint() {
+      .image-feature {
+        clear: none;
+        margin-right: 0;
+      }
+      header, footer {
+        float: left;
+        width: calc(100% - 300px);
+      }
+    }
+  }
+
+  &.layout-left, &.layout-right {
+    @include breakpoint() {
+      header {
+        margin-top: 120px;
+      }
+    }
+  }
+
+  &.layout-background {
+    background-color: transparent !important;
+
+    .image-background {
+      display: block;
+    }
+    .image-feature {
+      display: none;
+    }
+    header, footer {
+      float: none;
     }
   }
 }
