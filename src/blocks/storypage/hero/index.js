@@ -12,7 +12,7 @@ import { i18n, components, editor } from '@frontkom/gutenberg-js';
 import './style.scss';
 
 const { __ } = i18n;
-const { PanelBody, BaseControl, FontSizePicker } = components;
+const { PanelBody, BaseControl, FontSizePicker, RangeControl } = components;
 const { RichText, InspectorControls, PanelColor } = editor;
 
 
@@ -64,6 +64,10 @@ export const settings = {
       type: 'string',
       default: 'right',
     },
+    overlayOpacity: {
+      type: 'number',
+      default: 40,
+    },
     contentWidth: {
       type: 'number',
       default: 960,
@@ -90,15 +94,18 @@ export const settings = {
 
   edit ({ attributes, className, setAttributes }) {
 
-    const { title, teaser, image, backgroundColor, imageLayout, overlayOpacity, contentWidth,
-      titleFontSize, titleColor, textFontSize, textColor,
+    const { title, teaser, image, backgroundColor, imageLayout, overlayOpacity,
+      titleFontSize, titleColor, textFontSize, textColor, contentWidth,
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: backgroundColor || '#2DB8CA',
+      backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
     };
     const imgBackgroundStyle = {
       backgroundImage: `url('https://www.minervanett.no/wp-content/uploads/2017/03/20487741950_b720a946ec_o.jpg')`,
+    };
+    const imgOverlayStyle = {
+      opacity: parseInt(overlayOpacity, 10) / 100,
     };
 
     const wrapperStyle = {
@@ -123,7 +130,7 @@ export const settings = {
     return [
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
         { imageLayout === 'background' &&
-          <span className="image-background" style={ imgBackgroundStyle } ><div /></span> }
+          <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
         <section style={ wrapperStyle }>
           <header>
             <RichText
@@ -159,10 +166,16 @@ export const settings = {
               <option value="background">Background</option>
             </select>
           </BaseControl>
-          <PanelColor
-            colorValue={ backgroundColor } initialOpen={ false } title={ __('Background Color') }
-            onChange={ value => setAttributes({ backgroundColor: value }) }
-          />
+          { imageLayout === 'background' ?
+            <RangeControl
+              label={ __('Overlay Opacity') } value={ overlayOpacity }
+              onChange={ value => setAttributes({ overlayOpacity: value }) }
+              min={ 0 } max={ 100 } step={ 5 }
+            /> :
+            <PanelColor
+              title={ __('Background Color') } colorValue={ backgroundColor } initialOpen={ false }
+              onChange={ value => setAttributes({ backgroundColor: value }) }
+            /> }
         </PanelBody>
 
         <PanelBody title={ __('Title Settings') }>
@@ -190,15 +203,18 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, image, backgroundColor, imageLayout, contentWidth,
-      titleFontSize, titleColor, textFontSize, textColor,
+    const { title, teaser, image, backgroundColor, imageLayout, overlayOpacity,
+      titleFontSize, titleColor, textFontSize, textColor, contentWidth,
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: backgroundColor || '#2DB8CA',
+      backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
     };
     const imgBackgroundStyle = {
       backgroundImage: `url('https://www.minervanett.no/wp-content/uploads/2017/03/20487741950_b720a946ec_o.jpg')`,
+    };
+    const imgOverlayStyle = {
+      opacity: parseInt(overlayOpacity, 10) / 100,
     };
 
     const wrapperStyle = {
@@ -216,7 +232,7 @@ export const settings = {
     return (
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
         { imageLayout === 'background' &&
-          <span className="image-background" style={ imgBackgroundStyle } ><div /></span> }
+          <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
         <section style={ wrapperStyle }>
           <header>
             <h2 style={ titleStyle }>{ title }</h2>
