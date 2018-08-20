@@ -10,10 +10,11 @@ import { i18n, components, editor } from '@frontkom/gutenberg-js';
  * Internal dependencies
  */
 import './style.scss';
+import image from './iphone.svg';
 
 const { __ } = i18n;
-const { PanelBody, BaseControl, FontSizePicker, RangeControl } = components;
-const { RichText, InspectorControls, PanelColor } = editor;
+const { PanelBody, BaseControl, FontSizePicker, RangeControl, IconButton } = components;
+const { RichText, InspectorControls, PanelColor, MediaUpload } = editor;
 
 
 const TITLE_FONT_SIZES = [
@@ -50,11 +51,12 @@ export const settings = {
       selector: 'p',
       default: 'Thanks to open source, we are now reusing the same tools on multiple CMSs',
     },
-    image: {
+    imageUrl: {
       type: 'string',
       source: 'attribute',
       selector: 'img',
       attribute: 'src',
+      default: image,
     },
     backgroundColor: {
       type: 'string',
@@ -94,7 +96,7 @@ export const settings = {
 
   edit ({ attributes, className, setAttributes }) {
 
-    const { title, teaser, image, backgroundColor, imageLayout, overlayOpacity,
+    const { title, teaser, imageUrl, backgroundColor, imageLayout, overlayOpacity,
       titleFontSize, titleColor, textFontSize, textColor, contentWidth,
     } = attributes;
 
@@ -102,7 +104,7 @@ export const settings = {
       backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
     };
     const imgBackgroundStyle = {
-      backgroundImage: `url('https://www.minervanett.no/wp-content/uploads/2017/03/20487741950_b720a946ec_o.jpg')`,
+      backgroundImage: `url('${imageUrl}')`,
     };
     const imgOverlayStyle = {
       opacity: parseInt(overlayOpacity, 10) / 100,
@@ -120,28 +122,36 @@ export const settings = {
       color: textColor || 'white',
     };
 
-    // const onSelectImage = media => {
-    //   setAttributes({
-    //     mediaURL: media.url,
-    //     mediaID: media.id,
-    //   });
-    // };
+    const onSelectImage = media => {
+      console.log('Selected', media);
+      setAttributes({
+        // mediaURL: media.url,
+        // mediaID: media.id,
+        imageUrl: media.url,
+      });
+    };
 
     return [
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
         { imageLayout === 'background' &&
           <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
         <section style={ wrapperStyle }>
+          { imageLayout === 'background' &&
+            <MediaUpload type="image"
+              onSelect={ media => onSelectImage(media) } render={ ({ open }) => (
+                <IconButton className="components-toolbar__control" label={ __('Edit image') }
+                  icon="edit" onClick={ open } />
+              ) }
+            />
+          }
           <header>
             <RichText
-              tagName="h2"
-              value={ title } style={ titleStyle }
+              tagName="h2" value={ title } style={ titleStyle }
               onChange={ value => setAttributes({ title: value }) }
               inlineToolbar
             />
             <RichText
-              tagName="p" className="teaser"
-              value={ teaser } style={ textStyle }
+              tagName="p" className="teaser" value={ teaser } style={ textStyle }
               onChange={ value => setAttributes({ teaser: value }) }
               inlineToolbar
             />
@@ -150,7 +160,15 @@ export const settings = {
             <button>Learn more</button>
             <button>Download</button>
           </footer>
-          { imageLayout !== 'background' && <span className="image-feature"><img src={ image } /></span> }
+          { imageLayout !== 'background' && <span className="image-feature">
+            <MediaUpload type="image"
+              onSelect={ media => onSelectImage(media) } render={({ open }) => (
+                <IconButton className="components-toolbar__control" label={ __('Edit image') }
+                  icon="edit" onClick={ open } />
+              )}
+            />
+            <img src={ imageUrl } />
+          </span> }
         </section>
       </div>,
       <InspectorControls>
@@ -203,7 +221,7 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, image, backgroundColor, imageLayout, overlayOpacity,
+    const { title, teaser, imageUrl, backgroundColor, imageLayout, overlayOpacity,
       titleFontSize, titleColor, textFontSize, textColor, contentWidth,
     } = attributes;
 
@@ -211,7 +229,7 @@ export const settings = {
       backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
     };
     const imgBackgroundStyle = {
-      backgroundImage: `url('https://www.minervanett.no/wp-content/uploads/2017/03/20487741950_b720a946ec_o.jpg')`,
+      backgroundImage: `url('${imageUrl}')`,
     };
     const imgOverlayStyle = {
       opacity: parseInt(overlayOpacity, 10) / 100,
@@ -242,7 +260,7 @@ export const settings = {
             <button>Learn more</button>
             <button>Download</button>
           </footer>
-          { imageLayout !== 'background' && <span className="image-feature"><img src={ image } /></span> }
+          { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
         </section>
       </div>
     );

@@ -85,15 +85,15 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
     display: block;
     clear: both;
     width: 250px;
-    height: 500px;
+    min-height: 500px;
     margin: 0 auto;
-    border: 4px solid #333;
-    border-radius: 20px;
+    // border: 4px solid #333;
+    // border-radius: 20px;
 
     img {
       border: 0;
       width: 100%;
-      height: 100%;
+      height: auto;
     }
   }
 
