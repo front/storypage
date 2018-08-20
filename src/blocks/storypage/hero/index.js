@@ -29,6 +29,12 @@ const TEXT_FONT_SIZES = [
   { name: 'large',    shortName: 'L',   size: 20 },
   { name: 'larger',   shortName: 'XL',  size: 26 },
 ];
+const CTA_FONT_SIZES = [
+  { name: 'small',    shortName: 'S',   size: 14 },
+  { name: 'regular',  shortName: 'M',   size: 16 },
+  { name: 'large',    shortName: 'L',   size: 20 },
+  { name: 'larger',   shortName: 'XL',  size: 24 },
+];
 
 
 export const name = 'storypage/hero';
@@ -90,14 +96,23 @@ export const settings = {
       type: 'string',
       default: '#FFFFFF',
     },
+    ctaFontSize: {
+      type: 'number',
+      default: 16,
+    },
+    ctaColor: {
+      type: 'string',
+      default: '#FFFFFF',
+    },
   },
 
   description: __('Hero Block'),
 
   edit ({ attributes, className, setAttributes }) {
 
-    const { title, teaser, imageUrl, backgroundColor, imageLayout, overlayOpacity,
-      titleFontSize, titleColor, textFontSize, textColor, contentWidth,
+    const { title, teaser, imageUrl, backgroundColor,
+      imageLayout, overlayOpacity, contentWidth,
+      titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
 
     const containerStyle = {
@@ -120,6 +135,11 @@ export const settings = {
     const textStyle = {
       fontSize: `${textFontSize || 20}px`,
       color: textColor || 'white',
+    };
+    const ctaStyle = {
+      fontSize: `${ctaFontSize || 16}px`,
+      color: ctaColor || 'white',
+      borderColor:  ctaColor || 'white',
     };
 
     const onSelectImage = media => {
@@ -157,8 +177,8 @@ export const settings = {
             />
           </header>
           <footer>
-            <button>Learn more</button>
-            <button>Download</button>
+            <button style={ ctaStyle }>Learn more</button>
+            <button style={ ctaStyle }>Download</button>
           </footer>
           { imageLayout !== 'background' && <span className="image-feature">
             <MediaUpload type="image"
@@ -216,13 +236,24 @@ export const settings = {
             onChange={ value => setAttributes({ textColor: value }) }
           />
         </PanelBody>
+        <PanelBody title={ __('CTA Settings') }>
+          <FontSizePicker
+            fontSizes={ CTA_FONT_SIZES } fallbackFontSize={ 16 } value={ ctaFontSize }
+            onChange={ value => setAttributes({ ctaFontSize: value }) }
+          />
+          <PanelColor
+            colorValue={ ctaColor } initialOpen={ false } title={ __('CTA Color') }
+            onChange={ value => setAttributes({ ctaColor: value }) }
+          />
+        </PanelBody>
       </InspectorControls>,
     ];
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, imageUrl, backgroundColor, imageLayout, overlayOpacity,
-      titleFontSize, titleColor, textFontSize, textColor, contentWidth,
+    const { title, teaser, imageUrl, backgroundColor,
+      imageLayout, overlayOpacity, contentWidth,
+      titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
 
     const containerStyle = {
@@ -246,6 +277,11 @@ export const settings = {
       fontSize: `${textFontSize || 20}px`,
       color: textColor || 'white',
     };
+    const ctaStyle = {
+      fontSize: `${ctaFontSize || 16}px`,
+      color: ctaColor || 'white',
+      borderColor:  ctaColor || 'white',
+    };
 
     return (
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
@@ -257,8 +293,8 @@ export const settings = {
             <p style={ textStyle }>{ teaser }</p>
           </header>
           <footer>
-            <button>Learn more</button>
-            <button>Download</button>
+            <button style={ ctaStyle }>Learn more</button>
+            <button style={ ctaStyle }>Download</button>
           </footer>
           { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
         </section>
