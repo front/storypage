@@ -199,7 +199,7 @@ export const settings = {
         </section>
       </div>,
       <InspectorControls>
-        <PanelBody title={ __('Block Settings') }>
+        <PanelBody title={ __('Block Settings') } initialOpen={ false }>
           <BaseControl label="Content Width">
             <input type="number" value={ contentWidth }
               onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
@@ -223,7 +223,7 @@ export const settings = {
             /> }
         </PanelBody>
 
-        <PanelBody title={ __('Title Settings') }>
+        <PanelBody title={ __('Title Settings') } initialOpen={ false }>
           <FontSizePicker
             fontSizes={ TITLE_FONT_SIZES } fallbackFontSize={ 56 } value={ titleFontSize }
             onChange={ value => setAttributes({ titleFontSize: value }) }
@@ -233,7 +233,7 @@ export const settings = {
             onChange={ value => setAttributes({ titleColor: value }) }
           />
         </PanelBody>
-        <PanelBody title={ __('Text Settings') }>
+        <PanelBody title={ __('Text Settings') } initialOpen={ false }>
           <FontSizePicker
             fontSizes={ TEXT_FONT_SIZES } fallbackFontSize={ 20 } value={ textFontSize }
             onChange={ value => setAttributes({ textFontSize: value }) }
@@ -243,7 +243,7 @@ export const settings = {
             onChange={ value => setAttributes({ textColor: value }) }
           />
         </PanelBody>
-        <PanelBody title={ __('CTA Settings') }>
+        <PanelBody title={ __('CTA Settings') } initialOpen={ false }>
           <BaseControl label="Button 1 Text">
             <input type="text" value={ button1Text }
               onChange={ ev => setAttributes({ button1Text: ev.target.value }) } />
