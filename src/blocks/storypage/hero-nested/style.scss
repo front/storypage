@@ -1,0 +1,130 @@
+
+$hero-nested-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
+
+@mixin breakpoint () {
+  @media(min-width: 768px) {
+    @content;
+  }
+}
+
+.wp-block-storypage-hero-nested {
+  margin-bottom: 20px;
+  position: relative;
+
+  // Image background
+  .image-background {
+    display: none;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    background-position: center center;
+
+    div {
+      position: absolute;
+      display: block;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: black;
+      opacity: 0.5;
+    }
+  }
+
+  // Content section
+  section {
+    margin: 0 auto;
+    padding: 50px 20px 50px 20px;
+    z-index: 10;
+
+    @include breakpoint() {
+      padding-top: 100px;
+      padding-bottom: 100px;
+    }
+
+    &:after {
+      clear: both;
+      display: block;
+      content: " ";
+    }
+  }
+
+  main {
+    font-family: $hero-nested-font !important;
+    color: white;
+    margin-bottom: 20px;
+
+    h1, h2, h3, h4 {
+      margin-top: 0;
+    }
+  }
+
+  .image-feature {
+    display: block;
+    clear: both;
+    width: 250px;
+    min-height: 500px;
+    margin: 0 auto;
+    // border: 4px solid #333;
+    // border-radius: 20px;
+
+    img {
+      border: 0;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  // Layout variations
+  &.layout-left {
+    @include breakpoint() {
+      .image-feature {
+        clear: none;
+        margin-left: 0;
+      }
+      main {
+        float: right;
+        width: calc(100% - 300px);
+      }
+    }
+  }
+
+  &.layout-right {
+    @include breakpoint() {
+      .image-feature {
+        clear: none;
+        margin-right: 0;
+      }
+      main {
+        float: left;
+        width: calc(100% - 300px);
+      }
+    }
+  }
+
+  &.layout-left, &.layout-right {
+    @include breakpoint() {
+      main {
+        margin-top: 120px;
+      }
+    }
+  }
+
+  &.layout-background {
+    background-color: transparent !important;
+
+    .image-background {
+      display: block;
+    }
+    .image-feature {
+      display: none;
+    }
+    main {
+      float: none;
+    }
+  }
+}
