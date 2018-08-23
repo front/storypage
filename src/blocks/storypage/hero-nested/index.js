@@ -14,7 +14,7 @@ import image from './iphone.svg';
 
 const { __ } = i18n;
 const { PanelBody, BaseControl, RangeControl, IconButton } = components;
-const { InspectorControls, PanelColor, MediaUpload } = editor;
+const { InnerBlocks, InspectorControls, PanelColor, MediaUpload } = editor;
 
 
 export const name = 'storypage/hero-nested';
@@ -91,7 +91,7 @@ export const settings = {
             />
           }
           <main>
-            Main Content
+            <InnerBlocks />
           </main>
           { imageLayout !== 'background' && <span className="image-feature">
             <MediaUpload type="image"
@@ -156,7 +156,7 @@ export const settings = {
           <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
         <section style={ wrapperStyle }>
           <main>
-            Main Content
+            <InnerBlocks.Content />
           </main>
           { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
         </section>

@@ -57,6 +57,10 @@ $hero-nested-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
     font-family: $hero-nested-font !important;
     color: white;
     margin-bottom: 20px;
+
+    h1, h2, h3, h4 {
+      margin-top: 0;
+    }
   }
 
   .image-feature {
