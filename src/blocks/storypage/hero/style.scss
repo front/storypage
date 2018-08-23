@@ -53,7 +53,7 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
     }
   }
 
-  h2, p, footer button {
+  h2, p, footer .btn, footer button {
     font-family: $hero-font !important;
     color: white;
   }
@@ -73,11 +73,12 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
 
   footer {
     margin-bottom: 20px;
-    button {
+    button, .btn {
       display: inline-block;
       margin: 0 20px 20px 0;
       padding: 10px 20px;
       border: 1px solid white;
+      text-decoration: none;
     }
   }
 

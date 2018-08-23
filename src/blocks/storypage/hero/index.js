@@ -112,13 +112,22 @@ export const settings = {
       type: 'string',
       default: 'Download',
     },
+    button1Url: {
+      type: 'string',
+      default: '#',
+    },
+    button2Url: {
+      type: 'string',
+      default: '#',
+    },
   },
 
   description: __('Hero Block'),
 
   edit ({ attributes, className, setAttributes }) {
-    const { title, teaser, imageUrl, backgroundColor, button1Text, button2Text,
-      imageLayout, overlayOpacity, contentWidth,
+    const {
+      imageUrl, backgroundColor, imageLayout, overlayOpacity, contentWidth,
+      title, teaser, button1Text, button2Text, button1Url, button2Url,
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
 
@@ -158,6 +167,8 @@ export const settings = {
       });
     };
 
+    const noClick = ev => ev.preventDefault();
+
     return [
       <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
         { imageLayout === 'background' &&
@@ -186,8 +197,10 @@ export const settings = {
             />
           </header>
           <footer>
-            <button style={ ctaStyle }>{ button1Text }</button>
-            <button style={ ctaStyle }>{ button2Text }</button>
+            { button1Text &&
+              <a href={ button1Url } className="btn" style={ ctaStyle } onClick={ noClick }>{ button1Text }</a> }
+            { button2Text &&
+              <a href={ button2Url } className="btn" style={ ctaStyle } onClick={ noClick }>{ button2Text }</a> }
           </footer>
           { imageLayout !== 'background' && <span className="image-feature">
             <MediaUpload type="image"
@@ -250,10 +263,20 @@ export const settings = {
             <input type="text" value={ button1Text }
               onChange={ ev => setAttributes({ button1Text: ev.target.value }) } />
           </BaseControl>
+          <BaseControl label="Button 1 Url">
+            <input type="text" value={ button1Url }
+              onChange={ ev => setAttributes({ button1Url: ev.target.value }) } />
+          </BaseControl>
+          <hr />
           <BaseControl label="Button 2 Text">
             <input type="text" value={ button2Text }
               onChange={ ev => setAttributes({ button2Text: ev.target.value }) } />
           </BaseControl>
+          <BaseControl label="Button 2 Url">
+            <input type="text" value={ button2Url }
+              onChange={ ev => setAttributes({ button2Url: ev.target.value }) } />
+          </BaseControl>
+          <hr />
           <FontSizePicker
             fontSizes={ CTA_FONT_SIZES } fallbackFontSize={ 16 } value={ ctaFontSize }
             onChange={ value => setAttributes({ ctaFontSize: value }) }
@@ -268,8 +291,9 @@ export const settings = {
   },
 
   save ({ attributes, className }) {
-    const { title, teaser, imageUrl, backgroundColor, button1Text, button2Text,
-      imageLayout, overlayOpacity, contentWidth,
+    const {
+      imageUrl, backgroundColor, imageLayout, overlayOpacity, contentWidth,
+      title, teaser, button1Text, button2Text, button1Url, button2Url,
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
 
@@ -310,8 +334,8 @@ export const settings = {
             { teaser && <p style={ textStyle }>{ teaser }</p> }
           </header>
           <footer>
-            <button style={ ctaStyle }>{ button1Text }</button>
-            <button style={ ctaStyle }>{ button2Text }</button>
+            { button1Text && <a href={ button1Url } className="btn" style={ ctaStyle }>{ button1Text }</a> }
+            { button2Text && <a href={ button2Url } className="btn" style={ ctaStyle }>{ button2Text }</a> }
           </footer>
           { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
         </section>
