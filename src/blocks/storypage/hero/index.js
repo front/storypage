@@ -174,11 +174,13 @@ export const settings = {
           <header>
             <RichText
               tagName="h2" value={ title } style={ titleStyle }
+              placeholder="Hero title"
               onChange={ value => setAttributes({ title: value }) }
               inlineToolbar
             />
             <RichText
               tagName="p" className="teaser" value={ teaser } style={ textStyle }
+              placeholder="Text content"
               onChange={ value => setAttributes({ teaser: value }) }
               inlineToolbar
             />
@@ -304,8 +306,8 @@ export const settings = {
           <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
         <section style={ wrapperStyle }>
           <header>
-            <h2 style={ titleStyle }>{ title }</h2>
-            <p style={ textStyle }>{ teaser }</p>
+            { title && <h2 style={ titleStyle }>{ title }</h2> }
+            { teaser && <p style={ textStyle }>{ teaser }</p> }
           </header>
           <footer>
             <button style={ ctaStyle }>{ button1Text }</button>
