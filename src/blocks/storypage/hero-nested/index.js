@@ -17,6 +17,27 @@ const { PanelBody, BaseControl, RangeControl, IconButton } = components;
 const { InnerBlocks, InspectorControls, PanelColor, MediaUpload } = editor;
 
 
+const TEMPLATE = [
+  ['core/heading', {
+    placeholder: 'Hero title',
+    content: 'Gutenberg for Drupal 8',
+    level: 1,
+  }],
+  ['core/paragraph', {
+    placeholder: 'Hero content',
+    content: 'Thanks to open source, we are now reusing the same tools on multiple CMSs',
+    customTextColor: '#ffffff',
+    customFontSize: 20,
+  }],
+  ['core/button', {
+    text: 'Read more',
+    url: 'https://github.com/front/gutenberg-js',
+    customTextColor: '#000000',
+    customBackgroundColor: '#ffffff',
+  }],
+];
+
+
 export const name = 'storypage/hero-nested';
 
 export const settings = {
@@ -91,7 +112,7 @@ export const settings = {
             />
           }
           <main>
-            <InnerBlocks />
+            <InnerBlocks template={ TEMPLATE } templateLock={ false } />
           </main>
           { imageLayout !== 'background' && <span className="image-feature">
             <MediaUpload type="image"
