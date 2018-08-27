@@ -64,9 +64,17 @@ export const settings = {
       attribute: 'src',
       default: image,
     },
+    backgroundType: {
+      type: 'string',
+      default: 'color',
+    },
     backgroundColor: {
       type: 'string',
       // default: '#2DB8CA',
+    },
+    backgroundImage: {
+      type: 'string',
+      default: 'https://placeimg.com/1200/600/nature/grayscale',
     },
     imageLayout: {
       type: 'string',
@@ -126,7 +134,8 @@ export const settings = {
 
   edit ({ attributes, className, setAttributes }) {
     const {
-      imageUrl, backgroundColor, imageLayout, overlayOpacity, contentWidth,
+      backgroundType, backgroundColor, backgroundImage, overlayOpacity,
+      contentWidth, imageLayout, imageUrl,
       title, teaser, button1Text, button2Text, button1Url, button2Url,
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
@@ -158,15 +167,11 @@ export const settings = {
       borderColor:  ctaColor,
     };
 
-    const onSelectImage = media => {
-      console.log('Selected', media);
+    const onSelectImage = (media, field) => {
       setAttributes({
-        // mediaURL: media.url,
-        // mediaID: media.id,
-        imageUrl: media.url,
+        [field]: media.url,
       });
     };
-
     const noClick = ev => ev.preventDefault();
 
     return [
@@ -204,7 +209,7 @@ export const settings = {
           </footer>
           { imageLayout !== 'background' && <span className="image-feature">
             <MediaUpload type="image"
-              onSelect={ media => onSelectImage(media) } render={({ open }) => (
+              onSelect={ media => onSelectImage(media, 'imageUrl') } render={({ open }) => (
                 <IconButton className="components-toolbar__control" label={ __('Edit image') }
                   icon="edit" onClick={ open } />
               )}
@@ -214,19 +219,29 @@ export const settings = {
         </section>
       </div>,
       <InspectorControls>
-        <PanelBody title={ __('Block Settings') } initialOpen={ false }>
+        <PanelBody title={ __('Block Settings') }>
           <BaseControl label="Content Width">
             <input type="number" value={ contentWidth }
               onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
           </BaseControl>
+
+          {/* Image placement */}
           <BaseControl label="Image Placement">
             <select value={ imageLayout } onChange={ ev => setAttributes({ imageLayout: ev.target.value }) }>
               <option value="left">On the left</option>
               <option value="right">On the right</option>
-              <option value="background">Background</option>
+              <option value="">No Image</option>
             </select>
           </BaseControl>
-          { imageLayout === 'background' ?
+
+          {/* Background control */}
+          <BaseControl label="Background Type">
+            <select value={ backgroundType } onChange={ ev => setAttributes({ backgroundType: ev.target.value }) }>
+              <option value="color">Solid Color</option>
+              <option value="image">Image</option>
+            </select>
+          </BaseControl>
+          { backgroundType === 'image' ?
             <RangeControl
               label={ __('Overlay Opacity') } value={ overlayOpacity }
               onChange={ value => setAttributes({ overlayOpacity: value }) }
@@ -238,6 +253,7 @@ export const settings = {
             /> }
         </PanelBody>
 
+        {/* Element style overrides */}
         <PanelBody title={ __('Title Settings') } initialOpen={ false }>
           <FontSizePicker
             fontSizes={ TITLE_FONT_SIZES } fallbackFontSize={ 56 } value={ titleFontSize }
@@ -292,7 +308,8 @@ export const settings = {
 
   save ({ attributes, className }) {
     const {
-      imageUrl, backgroundColor, imageLayout, overlayOpacity, contentWidth,
+      backgroundType, backgroundColor, backgroundImage, overlayOpacity,
+      contentWidth, imageLayout, imageUrl,
       title, teaser, button1Text, button2Text, button1Url, button2Url,
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
