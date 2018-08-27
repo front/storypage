@@ -66,7 +66,7 @@ export const settings = {
     },
     backgroundColor: {
       type: 'string',
-      default: '#2DB8CA',
+      // default: '#2DB8CA',
     },
     imageLayout: {
       type: 'string',
@@ -82,27 +82,27 @@ export const settings = {
     },
     titleFontSize: {
       type: 'number',
-      default: 56,
+      // default: 56,
     },
     titleColor: {
       type: 'string',
-      default: '#FFFFFF',
+      // default: '#FFFFFF',
     },
     textFontSize: {
       type: 'number',
-      default: 20,
+      // default: 20,
     },
     textColor: {
       type: 'string',
-      default: '#FFFFFF',
+      // default: '#FFFFFF',
     },
     ctaFontSize: {
       type: 'number',
-      default: 16,
+      // default: 16,
     },
     ctaColor: {
       type: 'string',
-      default: '#FFFFFF',
+      // default: '#FFFFFF',
     },
     button1Text: {
       type: 'string',
@@ -132,7 +132,7 @@ export const settings = {
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
+      backgroundColor: imageLayout !== 'background' ? backgroundColor : 'transparent',
     };
     const imgBackgroundStyle = {
       backgroundImage: `url('${imageUrl}')`,
@@ -145,17 +145,17 @@ export const settings = {
       maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
     };
     const titleStyle = {
-      fontSize: `${titleFontSize || 56}px`,
-      color: titleColor || 'white',
+      fontSize: titleFontSize && `${titleFontSize}px`,
+      color: titleColor,
     };
     const textStyle = {
-      fontSize: `${textFontSize || 20}px`,
-      color: textColor || 'white',
+      fontSize: textFontSize && `${textFontSize}px`,
+      color: textColor,
     };
     const ctaStyle = {
-      fontSize: `${ctaFontSize || 16}px`,
-      color: ctaColor || 'white',
-      borderColor:  ctaColor || 'white',
+      fontSize: ctaFontSize && `${ctaFontSize}px`,
+      color: ctaColor,
+      borderColor:  ctaColor,
     };
 
     const onSelectImage = media => {
@@ -311,17 +311,17 @@ export const settings = {
       maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
     };
     const titleStyle = {
-      fontSize: `${titleFontSize || 56}px`,
-      color: titleColor || 'white',
+      fontSize: titleFontSize && `${titleFontSize}px`,
+      color: titleColor,
     };
     const textStyle = {
-      fontSize: `${textFontSize || 20}px`,
-      color: textColor || 'white',
+      fontSize: textFontSize && `${textFontSize}px`,
+      color: textColor,
     };
     const ctaStyle = {
-      fontSize: `${ctaFontSize || 16}px`,
-      color: ctaColor || 'white',
-      borderColor:  ctaColor || 'white',
+      fontSize: ctaFontSize && `${ctaFontSize}px`,
+      color: ctaColor,
+      borderColor:  ctaColor,
     };
 
     return (

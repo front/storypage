@@ -159,7 +159,7 @@ export const settings = {
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
+      backgroundColor: imageLayout !== 'background' ? backgroundColor : 'transparent',
     };
     const imgBackgroundStyle = {
       backgroundImage: `url('${imageUrl}')`,
