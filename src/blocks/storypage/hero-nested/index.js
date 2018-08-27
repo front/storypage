@@ -13,8 +13,8 @@ import './style.scss';
 import image from './iphone.svg';
 
 const { __ } = i18n;
-const { PanelBody, BaseControl, RangeControl, IconButton } = components;
-const { InnerBlocks, InspectorControls, PanelColor, MediaUpload } = editor;
+const { PanelBody, BaseControl, RangeControl, IconButton, Toolbar } = components;
+const { InnerBlocks, InspectorControls, PanelColor, MediaUpload, BlockControls } = editor;
 
 
 const TEMPLATE = [
@@ -32,8 +32,8 @@ const TEMPLATE = [
   ['core/button', {
     text: 'Read more',
     url: 'https://github.com/front/gutenberg-js',
-    customTextColor: '#000000',
-    customBackgroundColor: '#ffffff',
+    // customTextColor: '#000000',
+    // customBackgroundColor: '#ffffff',
   }],
 ];
 
@@ -88,39 +88,39 @@ export const settings = {
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
+      backgroundColor: backgroundType === 'color' ? backgroundColor : 'black',
+      backgroundImage: backgroundType === 'image' && `url('${backgroundImage}')`,
     };
-    const imgBackgroundStyle = {
-      backgroundImage: `url('${imageUrl}')`,
-    };
-    const imgOverlayStyle = {
+    const overlayStyle = backgroundType === 'color' ? {} : {
+      display: 'block',
       opacity: parseInt(overlayOpacity, 10) / 100,
     };
     const wrapperStyle = {
-      maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
+      maxWidth: contentWidth && `${contentWidth}px`,
     };
 
-    const onSelectImage = media => {
-      console.log('Selected', media);
+    const onSelectImage = (media, field) => {
       setAttributes({
-        imageUrl: media.url,
+        [field]: media.url,
       });
     };
 
     return [
-      <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
+      <div className={ className } style={ containerStyle }>
+        <div className="bg-overlay" style={ overlayStyle }></div>
+        <section className={ `image-${imageLayout}` } style={ wrapperStyle }>
           <main>
             <InnerBlocks template={ TEMPLATE } templateLock={ false } />
           </main>
-          { imageLayout !== 'background' && <span className="image-feature">
+          { imageLayout && <div className="image-feature">
             <MediaUpload type="image"
-              onSelect={ media => onSelectImage(media) } render={({ open }) => (
+              onSelect={ media => onSelectImage(media, imageUrl) } render={({ open }) => (
                 <IconButton className="components-toolbar__control" label={ __('Edit image') }
                   icon="edit" onClick={ open } />
               ) }
             />
             <img src={ imageUrl } />
-          </span> }
+          </div> }
         </section>
       </div>,
 
@@ -175,31 +175,30 @@ export const settings = {
 
   save ({ attributes, className }) {
     const {
-      imageUrl, backgroundColor, imageLayout, overlayOpacity, contentWidth,
+      backgroundType, backgroundColor, backgroundImage, overlayOpacity,
+      contentWidth, imageLayout, imageUrl,
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: imageLayout !== 'background' ? backgroundColor : 'transparent',
+      backgroundColor: backgroundType === 'color' ? backgroundColor : 'black',
+      backgroundImage: backgroundType === 'image' && `url('${backgroundImage}')`,
     };
-    const imgBackgroundStyle = {
-      backgroundImage: `url('${imageUrl}')`,
-    };
-    const imgOverlayStyle = {
+    const overlayStyle = backgroundType === 'color' ? {} : {
+      display: 'block',
       opacity: parseInt(overlayOpacity, 10) / 100,
     };
     const wrapperStyle = {
-      maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
+      maxWidth: contentWidth && `${contentWidth}px`,
     };
 
     return (
-      <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
-        { imageLayout === 'background' &&
-          <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
-        <section style={ wrapperStyle }>
+      <div className={ className } style={ containerStyle }>
+        <div className="bg-overlay" style={ overlayStyle }></div>
+        <section className={ `image-${imageLayout}` } style={ wrapperStyle }>
           <main>
             <InnerBlocks.Content />
           </main>
-          { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
+          { imageLayout && <div className="image-feature"><img src={ imageUrl } /></div> }
         </section>
       </div>
     );
