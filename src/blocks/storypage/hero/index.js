@@ -175,16 +175,6 @@ export const settings = {
 
     return [
       <div className={ className } style={ containerStyle }>
-        { backgroundType === 'image' && <BlockControls>
-          <Toolbar>
-            <MediaUpload type="image"
-              onSelect={ media => onSelectImage(media, 'backgroundImage') } render={ ({ open }) => (
-                <IconButton className="components-toolbar__control" label={ __('Edit image') }
-                  icon="edit" onClick={ open } />
-              ) }
-            />
-          </Toolbar>
-        </BlockControls> }
         <div className="bg-overlay" style={ overlayStyle }></div>
         <section className={ `image-${imageLayout}` } style={ wrapperStyle }>
           <header>
@@ -218,6 +208,18 @@ export const settings = {
           </figure> }
         </section>
       </div>,
+
+      backgroundType === 'image' && <BlockControls>
+        <Toolbar>
+          <MediaUpload type="image"
+            onSelect={ media => onSelectImage(media, 'backgroundImage') } render={ ({ open }) => (
+              <IconButton className="components-toolbar__control" label={ __('Edit image') }
+                icon="edit" onClick={ open } />
+            ) }
+          />
+        </Toolbar>
+      </BlockControls>,
+
       <InspectorControls>
         <PanelBody title={ __('Block Settings') }>
           <BaseControl label="Content Width">
