@@ -13,8 +13,8 @@ import './style.scss';
 import image from './iphone.svg';
 
 const { __ } = i18n;
-const { PanelBody, BaseControl, FontSizePicker, RangeControl, IconButton } = components;
-const { RichText, InspectorControls, PanelColor, MediaUpload } = editor;
+const { PanelBody, BaseControl, FontSizePicker, RangeControl, IconButton, Toolbar } = components;
+const { RichText, InspectorControls, PanelColor, MediaUpload, BlockControls } = editor;
 
 
 const TITLE_FONT_SIZES = [
@@ -141,18 +141,17 @@ export const settings = {
     } = attributes;
 
     const containerStyle = {
-      backgroundColor: imageLayout !== 'background' ? backgroundColor : 'transparent',
+      backgroundColor: backgroundType === 'color' ? backgroundColor : 'black',
+      backgroundImage: backgroundType === 'image' && `url('${backgroundImage}')`,
     };
-    const imgBackgroundStyle = {
-      backgroundImage: `url('${imageUrl}')`,
-    };
-    const imgOverlayStyle = {
+    const overlayStyle = backgroundType === 'color' ? {} : {
+      display: 'block',
       opacity: parseInt(overlayOpacity, 10) / 100,
     };
-
     const wrapperStyle = {
-      maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
+      maxWidth: contentWidth && `${contentWidth}px`,
     };
+
     const titleStyle = {
       fontSize: titleFontSize && `${titleFontSize}px`,
       color: titleColor,
@@ -175,18 +174,19 @@ export const settings = {
     const noClick = ev => ev.preventDefault();
 
     return [
-      <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
-        { imageLayout === 'background' &&
-          <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
-        <section style={ wrapperStyle }>
-          { imageLayout === 'background' &&
+      <div className={ className } style={ containerStyle }>
+        { backgroundType === 'image' && <BlockControls>
+          <Toolbar>
             <MediaUpload type="image"
-              onSelect={ media => onSelectImage(media) } render={ ({ open }) => (
+              onSelect={ media => onSelectImage(media, 'backgroundImage') } render={ ({ open }) => (
                 <IconButton className="components-toolbar__control" label={ __('Edit image') }
                   icon="edit" onClick={ open } />
               ) }
             />
-          }
+          </Toolbar>
+        </BlockControls> }
+        <div className="bg-overlay" style={ overlayStyle }></div>
+        <section className={ `image-${imageLayout}` } style={ wrapperStyle }>
           <header>
             <RichText
               tagName="h2" value={ title } style={ titleStyle }
@@ -207,7 +207,7 @@ export const settings = {
             { button2Text &&
               <a href={ button2Url } className="btn" style={ ctaStyle } onClick={ noClick }>{ button2Text }</a> }
           </footer>
-          { imageLayout !== 'background' && <span className="image-feature">
+          { imageLayout && <figure>
             <MediaUpload type="image"
               onSelect={ media => onSelectImage(media, 'imageUrl') } render={({ open }) => (
                 <IconButton className="components-toolbar__control" label={ __('Edit image') }
@@ -215,7 +215,7 @@ export const settings = {
               )}
             />
             <img src={ imageUrl } />
-          </span> }
+          </figure> }
         </section>
       </div>,
       <InspectorControls>
@@ -314,19 +314,19 @@ export const settings = {
       titleFontSize, titleColor, textFontSize, textColor, ctaFontSize, ctaColor,
     } = attributes;
 
+
     const containerStyle = {
-      backgroundColor: imageLayout !== 'background' ? backgroundColor || '#2DB8CA' : 'transparent',
+      backgroundColor: backgroundType === 'color' ? backgroundColor : 'black',
+      backgroundImage: backgroundType === 'image' && `url('${backgroundImage}')`,
     };
-    const imgBackgroundStyle = {
-      backgroundImage: `url('${imageUrl}')`,
-    };
-    const imgOverlayStyle = {
+    const overlayStyle = backgroundType === 'image' && {
+      display: 'block',
       opacity: parseInt(overlayOpacity, 10) / 100,
     };
-
     const wrapperStyle = {
-      maxWidth: contentWidth > 480 ? `${contentWidth}px` : '100%',
+      maxWidth: contentWidth && `${contentWidth}px`,
     };
+
     const titleStyle = {
       fontSize: titleFontSize && `${titleFontSize}px`,
       color: titleColor,
@@ -342,10 +342,9 @@ export const settings = {
     };
 
     return (
-      <div className={ `${className} layout-${imageLayout}` } style={ containerStyle }>
-        { imageLayout === 'background' &&
-          <span className="image-background" style={ imgBackgroundStyle } ><div style={ imgOverlayStyle } /></span> }
-        <section style={ wrapperStyle }>
+      <div className={ className } style={ containerStyle }>
+        <div className="bg-overlay" style={ overlayStyle }></div>
+        <section className={ `image-${imageLayout}` } style={ wrapperStyle }>
           <header>
             { title && <h2 style={ titleStyle }>{ title }</h2> }
             { teaser && <p style={ textStyle }>{ teaser }</p> }
@@ -354,7 +353,7 @@ export const settings = {
             { button1Text && <a href={ button1Url } className="btn" style={ ctaStyle }>{ button1Text }</a> }
             { button2Text && <a href={ button2Url } className="btn" style={ ctaStyle }>{ button2Text }</a> }
           </footer>
-          { imageLayout !== 'background' && <span className="image-feature"><img src={ imageUrl } /></span> }
+          { imageLayout && <figure><img src={ imageUrl } /></figure> }
         </section>
       </div>
     );

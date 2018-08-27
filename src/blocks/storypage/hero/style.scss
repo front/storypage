@@ -8,39 +8,31 @@
     }
   }
 
-  margin-bottom: 20px;
   position: relative;
+  margin-bottom: 20px;
   background-color: #2db8ca;
+  background-size: cover;
+  background-position: center center;
 
-  // Image background
-  .image-background {
-    display: none;
+  // overlay
+  .bg-overlay {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-size: cover;
-    background-position: center center;
-
-    div {
-      position: absolute;
-      display: block;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: black;
-      opacity: 0.5;
-    }
+    background-color: black;
+    opacity: 0.5;
+    display: none;
   }
 
   // Content section
   section {
+    position: relative;
+    z-index: 10;
     margin: 0 auto;
     padding: 50px 20px 50px 20px;
-    z-index: 10;
     max-width: 960px;
 
     @include breakpoint() {
@@ -84,7 +76,7 @@
     }
   }
 
-  .image-feature {
+  figure {
     display: block;
     clear: both;
     width: 250px;
@@ -102,9 +94,9 @@
 
 
   // Layout variations
-  &.layout-left {
+  .image-left {
     @include breakpoint() {
-      .image-feature {
+      figure {
         clear: none;
         margin-left: 0;
       }
@@ -115,9 +107,9 @@
     }
   }
 
-  &.layout-right {
+  .image-right {
     @include breakpoint() {
-      .image-feature {
+      figure {
         clear: none;
         margin-right: 0;
       }
@@ -128,25 +120,11 @@
     }
   }
 
-  &.layout-left, &.layout-right {
+  .image-left, .image-right {
     @include breakpoint() {
       header {
         margin-top: 120px;
       }
-    }
-  }
-
-  &.layout-background {
-    background-color: transparent !important;
-
-    .image-background {
-      display: block;
-    }
-    .image-feature {
-      display: none;
-    }
-    header, footer {
-      float: none;
     }
   }
 }
