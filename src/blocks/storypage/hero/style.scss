@@ -1,15 +1,16 @@
 
-$hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
-
-@mixin breakpoint () {
-  @media(min-width: 768px) {
-    @content;
-  }
-}
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i');
 
 .wp-block-storypage-hero {
+  @mixin breakpoint () {
+    @media(min-width: 768px) {
+      @content;
+    }
+  }
+
   margin-bottom: 20px;
   position: relative;
+  background-color: #2db8ca;
 
   // Image background
   .image-background {
@@ -40,6 +41,7 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
     margin: 0 auto;
     padding: 50px 20px 50px 20px;
     z-index: 10;
+    max-width: 960px;
 
     @include breakpoint() {
       padding-top: 100px;
@@ -54,7 +56,7 @@ $hero-font: "Roboto Condensed", Impact, Charcoal, sans-serif;
   }
 
   h2, p, footer .btn, footer button {
-    font-family: $hero-font !important;
+    font-family: "Roboto Condensed", Impact, Charcoal, sans-serif !important;
     color: white;
   }
 
