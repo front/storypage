@@ -126,3 +126,18 @@
     }
   }
 }
+
+
+// InspectorControls overrides
+.panel_body-title-hide {
+  margin-top: -1em;
+  margin-bottom: 1em;
+   h2 {
+    display: none !important;
+   }
+   .components-panel__body {
+     border-top: none !important;
+     margin-top: 0 !important;
+     margin-bottom: 0 !important;
+   }
+}

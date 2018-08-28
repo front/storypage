@@ -160,10 +160,12 @@ export const settings = {
               onChange={ value => setAttributes({ overlayOpacity: value }) }
               min={ 0 } max={ 100 } step={ 5 }
             /> :
-            <PanelColor
-              title={ __('Background Color') } colorValue={ backgroundColor } initialOpen={ false }
-              onChange={ value => setAttributes({ backgroundColor: value }) }
-            /> }
+            <div className="panel_body-title-hide">
+              <PanelColor
+                title={ __('Background Color') } colorValue={ backgroundColor } initialOpen={ true }
+                onChange={ value => setAttributes({ backgroundColor: value }) }
+              />
+            </div> }
           <BaseControl label="Content Width">
             <input type="number" value={ contentWidth }
               onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
