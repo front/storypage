@@ -137,10 +137,6 @@ export const settings = {
 
       <InspectorControls>
         <PanelBody title={ __('Block Settings') }>
-          <BaseControl label="Content Width">
-            <input type="number" value={ contentWidth }
-              onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
-          </BaseControl>
 
           {/* Image placement */}
           <BaseControl label="Image Placement">
@@ -168,6 +164,10 @@ export const settings = {
               title={ __('Background Color') } colorValue={ backgroundColor } initialOpen={ false }
               onChange={ value => setAttributes({ backgroundColor: value }) }
             /> }
+          <BaseControl label="Content Width">
+            <input type="number" value={ contentWidth }
+              onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
+          </BaseControl>
         </PanelBody>
       </InspectorControls>,
     ];
