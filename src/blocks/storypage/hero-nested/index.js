@@ -41,7 +41,7 @@ const TEMPLATE = [
 export const name = 'storypage/hero-nested';
 
 export const settings = {
-  title: __('Hero (Nested)'),
+  title: __('Hero Section'),
   icon: 'cover-image',
   category: 'storypage',
 
@@ -79,7 +79,7 @@ export const settings = {
     },
   },
 
-  description: __('Hero (Nested) Block'),
+  description: __('Create a landing page combining heading, image, text and button on a smashing background.'),
 
   edit ({ attributes, className, setAttributes }) {
     const {
