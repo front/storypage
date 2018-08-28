@@ -38,7 +38,7 @@ const TEMPLATE = [
 ];
 
 
-export const name = 'storypage/hero-nested';
+export const name = 'storypage/hero-section';
 
 export const settings = {
   title: __('Hero Section'),

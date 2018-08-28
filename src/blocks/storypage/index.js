@@ -12,7 +12,7 @@ import * as row from './row';
 import * as section from './section';
 import * as vrContent from './vr-content';
 import * as hero from './hero';
-import * as heroNested from './hero-nested';
+import * as heroSection from './hero-section';
 
 const { __ } = i18n;
 const { dispatch, select } = data;
@@ -40,7 +40,7 @@ export const initStorypageBlocks = () => {
     section,
     vrContent,
     hero,
-    heroNested,
+    heroSection,
   ]
   .forEach(({ name, settings }) => {
     registerBlockType(name, settings);
