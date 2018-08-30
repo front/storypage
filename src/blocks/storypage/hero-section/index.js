@@ -114,7 +114,7 @@ export const settings = {
           </main>
           { imageLayout && <div className="image-feature">
             <MediaUpload type="image"
-              onSelect={ media => onSelectImage(media, imageUrl) } render={({ open }) => (
+              onSelect={ media => onSelectImage(media, 'imageUrl') } render={({ open }) => (
                 <IconButton className="components-toolbar__control" label={ __('Edit image') }
                   icon="edit" onClick={ open } />
               ) }
