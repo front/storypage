@@ -13,7 +13,8 @@ import * as section from './section';
 import * as vrContent from './vr-content';
 import * as hero from './hero';
 
-import * as heroSection from '@frontkom/g-hero-section';
+// Load external blocks
+import { registerBlocks as registerHeroBlock } from '@frontkom/g-hero-section';
 import '@frontkom/g-hero-section/build/style.css';
 
 
@@ -43,9 +44,11 @@ export const initStorypageBlocks = () => {
     section,
     vrContent,
     hero,
-    heroSection,
   ]
   .forEach(({ name, settings }) => {
     registerBlockType(name, settings);
   });
+
+  // Register external blocks
+  registerHeroBlock('storypage');
 };
