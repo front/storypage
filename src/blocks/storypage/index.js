@@ -12,7 +12,10 @@ import * as row from './row';
 import * as section from './section';
 import * as vrContent from './vr-content';
 import * as hero from './hero';
-import * as heroSection from './hero-section';
+
+import * as heroSection from '@frontkom/g-hero-section';
+import '@frontkom/g-hero-section/build/style.css';
+
 
 const { __ } = i18n;
 const { dispatch, select } = data;
