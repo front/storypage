@@ -19,6 +19,8 @@ import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css'; // edit-b
 import { initStorypageBlocks } from '../../blocks/storypage';
 import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
 import { initComputerworld } from '../../blocks/computerworld';
+import { initExternalBlocks } from '../../blocks/external';
+
 import { fetchPosts } from '../../store/actions';
 import { getPosts } from '../../store/selectors';
 
@@ -32,6 +34,7 @@ class Editor extends React.Component {
     initComputerworld();
     initMinerva();
     initStorypageBlocks();
+    initExternalBlocks();
 
     // PluginDocumentSidebarPanel
     const { PluginDocumentSidebarPanel } = editPost;
