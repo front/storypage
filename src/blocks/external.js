@@ -1,10 +1,10 @@
 /**
- * External dependencies
+ * External blocks (from Gutenberg Cloud)
  */
 
 // Load external blocks
-import { registerBlocks as registerCloudBlocks } from 'g-hero-section';
-import 'g-hero-section/build/style.css';
+import { registerBlocks as registerCloudBlocks } from '@frontkom/g-hero-section';
+import '@frontkom/g-hero-section/build/style.css';
 
 
 // Register external blocks
