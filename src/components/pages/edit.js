@@ -13,7 +13,7 @@ import Loading from './loading';
 // import NotFound from './not_found';
 
 const settings = {
-  template: '',
+  // template: '',
   alignWide: true,
   availableTemplates: [],
   allowedBlockTypes: true,
@@ -24,8 +24,31 @@ const settings = {
   isRTL: false,
   autosaveInterval: 10,
   canPublish: false,
-  // canSave: false,
-  // canAutosave: false,
+  canSave: false,
+  canAutosave: false,
+  mediaLibrary: false,
+  /* colors: [
+    {
+      name: 'Yellow',
+      slug: 'yellow',
+      color: '#f7b733',
+    },
+    {
+      name: 'Dark',
+      slug: 'dark',
+      color: '#222222',
+    },
+    {
+      name: 'Blue',
+      slug: 'blue',
+      color: '#1aabda',
+    },
+    {
+      name: 'Green',
+      slug: 'green',
+      color: '#bada55',
+    },
+  ], */
 };
 
 class PagesEdit extends React.Component {

@@ -1,4 +1,10 @@
 /**
+ * External dependencies
+ */
+import { parse, stringify } from 'qs';
+
+
+/**
  * Appends arguments to the query string of the url
  *
  * @param  {string}	url   URL
@@ -39,6 +45,13 @@ export function addQueryArgs (url, args) {
 
     return goTo('new');
   }
+
+  // original
+  const queryStringIndex = url.indexOf('?');
+  const query = queryStringIndex !== -1 ? parse(url.substr(queryStringIndex + 1)) : {};
+  const baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+
+  return baseUrl + '?' + stringify({ ...query, ...args });
 }
 
 /**

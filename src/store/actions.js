@@ -358,6 +358,7 @@ export function saveMedia (mediaData) {
         sizes: {},
         width: 3360,
       },
+      title: { raw: '', rendered: '' },
     });
   }
   else { // update

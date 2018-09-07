@@ -1,7 +1,7 @@
 // External Dependencies
 import React from 'react';
 import { connect } from 'react-redux';
-import { filter } from 'lodash';
+// import { filter } from 'lodash';
 
 import {
   blocks,
@@ -10,31 +10,38 @@ import {
   plugins,
 } from '@frontkom/gutenberg-js';
 
-import '@frontkom/gutenberg-js/build/css/core-blocks/style.css'; // blocks
-import '@frontkom/gutenberg-js/build/css/style.css'; 	// components, editor, edit-post
-import '@frontkom/gutenberg-js/build/css/core-blocks/theme.css'; // theme
-import '@frontkom/gutenberg-js/build/css/core-blocks/edit-blocks.css'; // edit-blocks
+// Gutenberg JS
+import '@frontkom/gutenberg-js/build/css/block-library/style.css';
+import '@frontkom/gutenberg-js/build/css/style.css'; // components and edit-post
+import '@frontkom/gutenberg-js/build/css/nux/style.css';
+import '@frontkom/gutenberg-js/build/css/editor/style.css';
+import '@frontkom/gutenberg-js/build/css/block-library/theme.css';
+import '@frontkom/gutenberg-js/build/css/block-library/edit-blocks.css';
+
+// G Hero Section
+import '@frontkom/g-hero-section';
+import '@frontkom/g-hero-section/build/style.css';
 
 // Internal Dependencies
-import { initStorypageBlocks } from '../../blocks/storypage';
-import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
-import { initComputerworld } from '../../blocks/computerworld';
+// import { initStorypageBlocks } from '../../blocks/storypage';
+// import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
+// import { initComputerworld } from '../../blocks/computerworld';
 import { fetchPosts } from '../../store/actions';
 import { getPosts } from '../../store/selectors';
 
-import PostsPanel from './sidebar/posts-panel';
+// import PostsPanel from './sidebar/posts-panel';
 
 class Editor extends React.Component {
   initEditor (template) {
     const { type, id } = this.props.post;
     const overridePost = {};
 
-    initComputerworld();
-    initMinerva();
-    initStorypageBlocks();
+    // initComputerworld();
+    // initMinerva();
+    // initStorypageBlocks();
 
     // PluginDocumentSidebarPanel
-    const { PluginDocumentSidebarPanel } = editPost;
+    /* const { PluginDocumentSidebarPanel } = editPost;
 
     const MyPluginDocumentSidebarPanel = () => {
       return (
@@ -50,10 +57,18 @@ class Editor extends React.Component {
     // Registering MyPluginDocumentSidebarPanel Plugin
     plugins.registerPlugin('plugin-document-sidebar', {
       render: MyPluginDocumentSidebarPanel,
-    });
+    }); */
 
     // Disable tips
     data.dispatch('core/nux').disableTips();
+
+    // Removing inline elements
+    const inlineElements = data.select('core/editor').getTokenSettings();
+    if (inlineElements) {
+      for (const elem in inlineElements) {
+        data.dispatch('core/editor').unregisterToken(elem);
+      }
+    }
 
     // Initializing Editor
     editPost.initializeEditor('editor', type, id,  { ...this.props.settings, template }, overridePost);
@@ -62,7 +77,7 @@ class Editor extends React.Component {
     // data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
 
     // Remove unused catgories
-    const categories = filter(data.select('core/blocks').getCategories(), ({ slug }) => {
+    /* const categories = filter(data.select('core/blocks').getCategories(), ({ slug }) => {
       return slug !== 'widgets' && slug !== 'embed';
     });
     data.dispatch('core/blocks').setCategories(categories);
@@ -76,7 +91,7 @@ class Editor extends React.Component {
           blocks.unregisterBlockType(name);
         }
       });
-    }
+    } */
   }
 
   componentDidMount () {
@@ -95,7 +110,7 @@ class Editor extends React.Component {
 
     if (template === 'minerva') {
       if (prevProps.props !== this.props.posts) {
-        template = templateMinerva(this.props.posts);
+        // template = templateMinerva(this.props.posts);
         this.initEditor(template);
       }
     }
