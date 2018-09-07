@@ -12,12 +12,17 @@ import { resetPath } from '../url';
 const apiRoot = '/wp/v2';
 
 /**
- * Aqpi request
+ * Api request
  *
  * @param  {Object} options Options to request
  * @return {Object}	Request result (promise)
  */
-function apiRequest (options) {
+function apiFetch (options) {
+  console.log('options', options);
+  if (!options.path) {
+    return false;
+  }
+
   let pathArray = options.path.split('?');
 
   const path = pathArray[ 0 ];
@@ -84,7 +89,7 @@ function apiRequest (options) {
       case `${apiRoot}/media`:
         if (method === 'POST' || method === 'PUT') {
           singleResource = true;
-          res = Actions.saveMedia(options.data);
+          res = Actions.saveMedia(options.body);
         }
         else if (method === 'GET') {
           res = Actions.fetchMediaItems(options);
@@ -134,6 +139,9 @@ function apiRequest (options) {
         if (method === 'GET') {
           res = Actions.fetchAuthors();
         }
+        break;
+      case `${apiRoot}/wp_blocks`:
+        res = [];
     }
 
     if (res) {
@@ -167,7 +175,7 @@ function apiRequest (options) {
           delete xhr.response.id;
         }
 
-        // console.log('response', xhr.response);
+        console.log('response', xhr.response);
 
         dfd.abort = () => {
           // console.log( 'abort' );
@@ -182,4 +190,4 @@ function apiRequest (options) {
   });
 }
 
-export default apiRequest;
+export default apiFetch;

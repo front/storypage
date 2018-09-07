@@ -1,9 +1,9 @@
 // Internal Dependencies
-import apiRequest from './api-request';
+import apiFetch from './api-fetch';
 import { addQueryArgs } from './url';
 
 window.wp = {
-  apiRequest, 
+  apiFetch,
   url: { addQueryArgs },
 };
 
