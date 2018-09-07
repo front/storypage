@@ -38,10 +38,10 @@ const TEMPLATE = [
 ];
 
 
-export const name = 'storypage/hero-nested';
+export const name = 'storypage/hero-section';
 
 export const settings = {
-  title: __('Hero (Nested)'),
+  title: __('Hero Section'),
   icon: 'cover-image',
   category: 'storypage',
 
@@ -79,7 +79,7 @@ export const settings = {
     },
   },
 
-  description: __('Hero (Nested) Block'),
+  description: __('Create a landing page combining heading, image, text and button on a smashing background.'),
 
   edit ({ attributes, className, setAttributes }) {
     const {
@@ -114,7 +114,7 @@ export const settings = {
           </main>
           { imageLayout && <div className="image-feature">
             <MediaUpload type="image"
-              onSelect={ media => onSelectImage(media, imageUrl) } render={({ open }) => (
+              onSelect={ media => onSelectImage(media, 'imageUrl') } render={({ open }) => (
                 <IconButton className="components-toolbar__control" label={ __('Edit image') }
                   icon="edit" onClick={ open } />
               ) }
@@ -137,10 +137,6 @@ export const settings = {
 
       <InspectorControls>
         <PanelBody title={ __('Block Settings') }>
-          <BaseControl label="Content Width">
-            <input type="number" value={ contentWidth }
-              onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
-          </BaseControl>
 
           {/* Image placement */}
           <BaseControl label="Image Placement">
@@ -164,10 +160,16 @@ export const settings = {
               onChange={ value => setAttributes({ overlayOpacity: value }) }
               min={ 0 } max={ 100 } step={ 5 }
             /> :
-            <PanelColor
-              title={ __('Background Color') } colorValue={ backgroundColor } initialOpen={ false }
-              onChange={ value => setAttributes({ backgroundColor: value }) }
-            /> }
+            <div className="panel_body-title-hide">
+              <PanelColor
+                title={ __('Background Color') } colorValue={ backgroundColor } initialOpen={ true }
+                onChange={ value => setAttributes({ backgroundColor: value }) }
+              />
+            </div> }
+          <BaseControl label="Content Width">
+            <input type="number" value={ contentWidth }
+              onChange={ ev => setAttributes({ contentWidth: ev.target.value }) } />
+          </BaseControl>
         </PanelBody>
       </InspectorControls>,
     ];

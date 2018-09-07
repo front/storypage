@@ -26,6 +26,8 @@ import '@frontkom/g-hero-section/build/style.css';
 // import { initStorypageBlocks } from '../../blocks/storypage';
 // import { initMinerva, template as templateMinerva } from '../../blocks/minerva';
 // import { initComputerworld } from '../../blocks/computerworld';
+import '../../blocks/external';
+
 import { fetchPosts } from '../../store/actions';
 import { getPosts } from '../../store/selectors';
 
