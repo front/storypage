@@ -8,8 +8,8 @@
     },
     "dependencies": {
         "@frontkom/cw-latest-news": "0.0.7",
-        "@frontkom/g-hero-section": "0.1.0",
-        "@frontkom/gutenberg-js": "2.3.2",
+        "@frontkom/g-hero-section": "0.4.0",
+        "@frontkom/gutenberg-js": "2.3.3",
         "axios": "^0.18.0",
         "case-sensitive-paths-webpack-plugin": "2.1.1",
         "chalk": "1.1.3",
