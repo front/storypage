@@ -84,7 +84,7 @@ export const settings = {
     return (
       <div className={ className } style={ backgroundImageStyles(url) }></div>
     );
-  }
+  },
 };
 
 export function backgroundImageStyles (url) {

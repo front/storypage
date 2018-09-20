@@ -156,7 +156,7 @@ export function generateTypes () {
         editor: true,
       },
       viewable: false,
-    }
+    },
   ];
 }
 
