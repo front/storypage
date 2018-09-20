@@ -10,17 +10,14 @@ import {
   plugins,
 } from '@frontkom/gutenberg-js';
 
-// Gutenberg JS
+// Gutenberg JS Style
 import '@frontkom/gutenberg-js/build/css/block-library/style.css';
 import '@frontkom/gutenberg-js/build/css/style.css'; // components and edit-post
 import '@frontkom/gutenberg-js/build/css/nux/style.css';
 import '@frontkom/gutenberg-js/build/css/editor/style.css';
 import '@frontkom/gutenberg-js/build/css/block-library/theme.css';
 import '@frontkom/gutenberg-js/build/css/block-library/edit-blocks.css';
-
-// G Hero Section
-import '@frontkom/g-hero-section';
-import '@frontkom/g-hero-section/build/style.css';
+import '@frontkom/gutenberg-js/build/css/list-reusable-blocks/style.css';
 
 // Internal Dependencies
 // import { initStorypageBlocks } from '../../blocks/storypage';
@@ -43,23 +40,23 @@ class Editor extends React.Component {
     // initStorypageBlocks();
 
     // PluginDocumentSidebarPanel
-    /* const { PluginDocumentSidebarPanel } = editPost;
+    // const { PluginDocumentSidebarPanel } = editPost;
 
-    const MyPluginDocumentSidebarPanel = () => {
-      return (
-        <PluginDocumentSidebarPanel
-          title={ 'My Stories' }
-          initialOpen={ true }
-        >
-          <PostsPanel />
-        </PluginDocumentSidebarPanel>
-      );
-    };
+    // const MyPluginDocumentSidebarPanel = () => {
+    //   return (
+    //     <PluginDocumentSidebarPanel
+    //       title={ 'My Stories' }
+    //       initialOpen={ true }
+    //     >
+    //       <PostsPanel />
+    //     </PluginDocumentSidebarPanel>
+    //   );
+    // };
 
-    // Registering MyPluginDocumentSidebarPanel Plugin
-    plugins.registerPlugin('plugin-document-sidebar', {
-      render: MyPluginDocumentSidebarPanel,
-    }); */
+    // // Registering MyPluginDocumentSidebarPanel Plugin
+    // plugins.registerPlugin('plugin-document-sidebar', {
+    //   render: MyPluginDocumentSidebarPanel,
+    // });
 
     // Disable tips
     data.dispatch('core/nux').disableTips();
@@ -108,7 +105,7 @@ class Editor extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    let { template } = this.props;
+    const { template } = this.props;
 
     if (template === 'minerva') {
       if (prevProps.props !== this.props.posts) {
