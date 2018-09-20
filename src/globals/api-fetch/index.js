@@ -18,7 +18,8 @@ const apiRoot = '/wp/v2';
  * @return {Object}	Request result (promise)
  */
 function apiFetch (options) {
-  console.log('options', options);
+  // console.log('options', options);
+
   if (!options.path) {
     return false;
   }
@@ -141,7 +142,28 @@ function apiFetch (options) {
         }
         break;
       case `${apiRoot}/wp_blocks`:
-        res = [];
+        if (method === 'GET') {
+          res = Actions.fetchBlocks();
+        }
+        else if (method === 'POST' || method === 'PUT') {
+          singleResource = true;
+          res = Actions.saveBlock(options.data);
+        }
+        break;
+      case `${apiRoot}/wp_blocks/${resoureceId}`:
+        if (method === 'PUT') {
+          singleResource = true;
+          res = Actions.saveBlock(options.data);
+        }
+        else if (method === 'GET') {
+          singleResource = true;
+          res = Actions.fetchBlock(resoureceId);
+        }
+        else if (method === 'DELETE') {
+          singleResource = true;
+          res = Actions.deleteBlock(resoureceId);
+        }
+        break;
     }
 
     if (res) {
@@ -175,7 +197,7 @@ function apiFetch (options) {
           delete xhr.response.id;
         }
 
-        console.log('response', xhr.response);
+        // console.log('response', xhr.response);
 
         dfd.abort = () => {
           // console.log( 'abort' );

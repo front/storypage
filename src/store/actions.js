@@ -29,6 +29,11 @@ export const FETCH_TAXONOMY = 'fetch_taxonomy';
 
 export const FETCH_AUTHORS = 'fetch_authors';
 
+export const FETCH_BLOCKS = 'fetch_blocks';
+export const SAVE_BLOCK = 'save_block';
+export const DELETE_BLOCK = 'delete_block';
+export const FETCH_BLOCK = 'fetch_block';
+
 // Module constants
 export const LOCAL_STORAGE_KEY = 'storypage';
 const LOCAL_INDEX = 'index';
@@ -38,6 +43,7 @@ export const LOCAL_CATEGORIES = 'categories';
 const LOCAL_TYPES = 'types';
 const LOCAL_TAXONOMIES = 'taxonomies';
 export const LOCAL_AUTHORS = 'authors';
+const LOCAL_BLOCKS = 'blocks';
 
 export const N_IMAGES = 6;
 export const N_CATEGORIES = 4;
@@ -51,6 +57,7 @@ const DEFAULT_STORAGE = {
   [ LOCAL_TYPES ]: generateTypes(),
   [ LOCAL_INDEX ]: generateIndex(),
   [ LOCAL_TAXONOMIES ]: generateTaxonomies(),
+  [ LOCAL_BLOCKS ]: [],
 };
 
 // Get resources from minerva api
@@ -556,5 +563,106 @@ export function fetchAuthors (options = { }) {
   return {
     type: FETCH_AUTHORS,
     payload: authors,
+  };
+}
+
+
+/**
+ * Create or update a block
+ *
+ * @param  {Object}	blockData			Block data
+ * @param  {number}	blockData.id		(Optional) Block id
+ *
+ * @return {Object}	Action type and block
+ */
+export function saveBlock (blockData) {
+  const { title, content } = blockData;
+  let { id } = blockData;
+
+  const storage = getFromLocalStorage();
+
+  // create
+  if (! id) {
+    id = Date.now();
+
+    storage[ LOCAL_BLOCKS ].push({
+      id,
+      title,
+      content,
+    });
+  }
+  else { // update
+    const block = find(storage[ LOCAL_BLOCKS ], { id: parseInt(id) });
+    const blockKey = findKey(storage[ LOCAL_BLOCKS ], { id: parseInt(id) });
+
+    if (has(blockData, 'title')) {
+      block.title = title;
+    }
+
+    if (has(blockData, 'content')) {
+      block.content = content;
+    }
+
+    storage[ LOCAL_BLOCKS ][ blockKey ] = block;
+  }
+
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+
+  return {
+    type: SAVE_BLOCK,
+    payload: find(storage[ LOCAL_BLOCKS ], { id: parseInt(id) }),
+  };
+}
+
+/**
+ * Get all blocks
+ *
+ * @param  {Object}	options	Optional. Search data
+ *
+ * @return {Object}	Action type and array of block
+ */
+export function fetchBlocks (options = { }) {
+  const blocks = bundling(getFromLocalStorage(LOCAL_BLOCKS), options);
+
+  return {
+    type: FETCH_BLOCKS,
+    payload: blocks,
+  };
+}
+
+/**
+ * Delete a block
+ *
+ * @param  {number}	id	Block id
+ *
+ * @return {Object}	Action type and block id
+ */
+export function deleteBlock (id) {
+  const storage = getFromLocalStorage();
+  const postKey = findKey(storage[ LOCAL_BLOCKS ], { id: parseInt(id) });
+
+  storage[ LOCAL_BLOCKS ].splice(postKey, 1);
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storage));
+
+  return {
+    type: DELETE_BLOCK,
+    payload: { id },
+  };
+}
+
+/**
+ * Get a block
+ *
+ * @param  {number}	id		Block id
+ * @param  {Object}	options	Query options
+ *
+ * @return {Object}	Action type and block
+ */
+export function fetchBlock (id) {
+  const block = find(getFromLocalStorage(LOCAL_BLOCKS), { id: parseInt(id) });
+
+  return {
+    type: FETCH_BLOCK,
+    payload: block,
   };
 }
