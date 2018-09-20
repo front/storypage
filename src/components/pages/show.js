@@ -11,6 +11,25 @@ import { getPost } from '../../store/selectors';
 import Loading from './loading';
 
 class PagesShow extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      rendered: '',
+    };
+  }
+
+  componentWillMount () {
+    // remove all
+    const styles = document.querySelectorAll('link[href$="css/gutenberg/style.css"]');
+
+    if (styles) {
+      styles.forEach(element => {
+        element.remove();
+      });
+    }
+  }
+
   componentDidMount () {
     if (! this.props.post) {
       const { id } = this.props.match.params;
@@ -19,6 +38,14 @@ class PagesShow extends React.Component {
       }
     }
   }
+
+  /* componentDidUpdate (prevProps) {
+    if (this.props.content && this.props.content.raw !== prevProps.content.raw) {
+      this.setState({
+        rendered: this.props.post.content.raw,
+      });
+    }
+  } */
 
   render () {
     if (isEmpty(this.props.post)) {
@@ -53,6 +80,7 @@ class PagesShow extends React.Component {
         }
 
         {
+          // TODO: parse content.raw and render dynamic blocks
           renderHTML(content.rendered)
         }
 

@@ -10,6 +10,7 @@ const WatchMissingNodeModulesPlugin = require( 'react-dev-utils/WatchMissingNode
 const eslintFormatter = require( 'react-dev-utils/eslintFormatter' );
 const ModuleScopePlugin = require( 'react-dev-utils/ModuleScopePlugin' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // internal
 const getClientEnvironment = require( './env' );
@@ -29,6 +30,15 @@ const distPath = {
 	js: 'static/js/',
 	css: 'static/css/',
 };
+
+// Main CSS loader for everything but blocks..
+const blocksCSSPlugin = new ExtractTextPlugin({
+  filename: './css/block-library/style.css',
+});
+
+const editorCSSPlugin = new ExtractTextPlugin({
+	filename: './css/gutenberg/style.css',
+});
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -119,11 +129,45 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-        		use: [
+				exclude: [
+					/build\/css\/block-library\/style.css/,
+					/build\/css\/style.css/,
+					/build\/css\/nux\/style.css/,
+					/build\/css\/editor\/style.css/,
+					/build\/css\/block-library\/theme.css/,
+					/build\/css\/block-library\/edit-blocks.css/,
+					/build\/css\/list-reusable\/style.css/,
+				],
+				use: [
 					{ loader: "style-loader" },
 					{ loader: "css-loader" }
-        		]
-        	},
+        ],
+			},
+			{
+				test: /\.css$/,
+				include: [
+					/build\/css\/block-library\/style.css/
+				],
+				use: blocksCSSPlugin.extract({
+					fallback: 'style-loader',
+          use: 'css-loader',
+				})
+			},
+			{
+				test: /\.css$/,
+				include: [
+					/build\/css\/style.css/,
+					/build\/css\/nux\/style.css/,
+					/build\/css\/editor\/style.css/,
+					/build\/css\/block-library\/theme.css/,
+					/build\/css\/block-library\/edit-blocks.css/,
+					/build\/css\/list-reusable\/style.css/,
+				],
+				use: editorCSSPlugin.extract({
+					fallback: 'style-loader',
+          use: 'css-loader',
+				})
+			},
 			{
 				test: /\.scss$/,
 				use: [
@@ -184,6 +228,8 @@ module.exports = {
 			{ from: 'node_modules/tinymce/themes', to: `${ distPath.js }themes` },
 			{ from: 'node_modules/tinymce/skins', to: `${ distPath.js }skins` },
 		], {} ),
+		blocksCSSPlugin,
+		editorCSSPlugin,
 	],
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.
