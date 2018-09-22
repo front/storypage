@@ -8,16 +8,18 @@ import {
   data,
   editPost,
   plugins,
+  domReady,
 } from '@frontkom/gutenberg-js';
 
 // Gutenberg JS Style
 import '@frontkom/gutenberg-js/build/css/block-library/style.css';
-import '@frontkom/gutenberg-js/build/css/style.css'; // components and edit-post
+import '@frontkom/gutenberg-js/build/css/components/style.css';
 import '@frontkom/gutenberg-js/build/css/nux/style.css';
 import '@frontkom/gutenberg-js/build/css/editor/style.css';
 import '@frontkom/gutenberg-js/build/css/block-library/theme.css';
 import '@frontkom/gutenberg-js/build/css/block-library/edit-blocks.css';
-import '@frontkom/gutenberg-js/build/css/list-reusable-blocks/style.css';
+// import '@frontkom/gutenberg-js/build/css/list-reusable-blocks/style.css';
+import '@frontkom/gutenberg-js/build/css/style.css';  // edit-post + custom
 
 // Internal Dependencies
 // import { initStorypageBlocks } from '../../blocks/storypage';
@@ -70,7 +72,11 @@ class Editor extends React.Component {
     }
 
     // Initializing Editor
-    editPost.initializeEditor('editor', type, id,  { ...this.props.settings, template }, overridePost);
+    window._wpLoadGutenbergEditor = new Promise(resolve => {
+      domReady(() => {
+        resolve(editPost.initializeEditor('editor', type, id,  { ...this.props.settings, template }, overridePost));
+      });
+    });
 
     // Setting Storypage/Section as default block
     // data.dispatch( 'core/blocks' ).setDefaultBlockName( 'storypage/section' );
@@ -96,15 +102,15 @@ class Editor extends React.Component {
   componentDidMount () {
     const { template } = this.props;
 
-    if (template === 'minerva') {
+    /* if (template === 'minerva') {
       this.props.fetchPosts({ type: 'post' });
     }
-    else {
-      this.initEditor(template);
-    }
+    else {*/
+    this.initEditor(template);
+    // }
   }
 
-  componentDidUpdate (prevProps) {
+  /* componentDidUpdate (prevProps) {
     const { template } = this.props;
 
     if (template === 'minerva') {
@@ -113,7 +119,7 @@ class Editor extends React.Component {
         this.initEditor(template);
       }
     }
-  }
+  } */
 
   componentWillUnmount () {
     // Unregistering blocks
