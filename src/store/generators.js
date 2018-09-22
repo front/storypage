@@ -138,14 +138,14 @@ export function generateTypes () {
       viewable: true,
     },
     {
-    	id: 3,
-    	description: '',
-    	hierarchical: false,
-    	name: 'Media', rest_base: 'media', slug: 'attachment',
-    	taxonomies: [],
-    	// publishable: false, // * hide publish toggle
-    	// saveable: false, // * show save button
-    	// autosaveable: false, // * disable autosave
+      id: 3,
+      description: '',
+      hierarchical: false,
+      name: 'Media', rest_base: 'media', slug: 'attachment',
+      taxonomies: [],
+      // publishable: false, // * hide publish toggle
+      // saveable: false, // * show save button
+      // autosaveable: false, // * disable autosave
     },
     {
       id: 4,
