@@ -46,6 +46,15 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths ? // Making sure th
 { publicPath: Array( cssFilename.split( '/' ).length ).join( '../' ) } :
 	{};
 
+// Main CSS loader for everything but blocks..
+const blocksCSSPlugin = new ExtractTextPlugin({
+  filename: './css/block-library/style.css',
+});
+
+const editorCSSPlugin = new ExtractTextPlugin({
+	filename: './css/gutenberg/style.css',
+});
+
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
@@ -72,6 +81,9 @@ module.exports = {
 			path
 				.relative( paths.appSrc, info.absoluteResourcePath )
 				.replace( /\\/g, '/' ),
+	},
+	externals: {
+		wp: 'wp',
 	},
 	resolve: {
 		// This allows you to set a fallback for where Webpack should look for modules.
@@ -121,7 +133,6 @@ module.exports = {
 						options: {
 							formatter: eslintFormatter,
 							eslintPath: require.resolve( 'eslint' ),
-
 						},
 						loader: require.resolve( 'eslint-loader' ),
 					},
@@ -211,6 +222,49 @@ module.exports = {
 							)
 						),
 						// Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+					},
+					{
+						test: /\.css$/,
+						exclude: [
+							/build\/css\/block-library\/style.css/,
+							/build\/css\/style.css/,
+							/build\/css\/components\/style.css/,
+							/build\/css\/nux\/style.css/,
+							/build\/css\/editor\/style.css/,
+							/build\/css\/block-library\/theme.css/,
+							/build\/css\/block-library\/edit-blocks.css/,
+							/build\/css\/list-reusable\/style.css/,
+						],
+						use: [
+							{ loader: "style-loader" },
+							{ loader: "css-loader" }
+						],
+					},
+					{
+						test: /\.css$/,
+						include: [
+							/build\/css\/block-library\/style.css/
+						],
+						use: blocksCSSPlugin.extract({
+							fallback: 'style-loader',
+							use: 'css-loader',
+						})
+					},
+					{
+						test: /\.css$/,
+						include: [
+							/build\/css\/style.css/,
+							/build\/css\/components\/style.css/,
+							/build\/css\/nux\/style.css/,
+							/build\/css\/editor\/style.css/,
+							/build\/css\/block-library\/theme.css/,
+							/build\/css\/block-library\/edit-blocks.css/,
+							/build\/css\/list-reusable\/style.css/,
+						],
+						use: editorCSSPlugin.extract({
+							fallback: 'style-loader',
+							use: 'css-loader',
+						})
 					},
 					{
 						test: /\.scss$/,
@@ -353,6 +407,8 @@ module.exports = {
 			{ from: 'node_modules/tinymce/themes', to: 'static/js/themes' },
 			{ from: 'node_modules/tinymce/skins', to: 'static/js/skins' },
 		], {} ),
+		blocksCSSPlugin,
+		editorCSSPlugin,
 	],
 	// Some libraries import Node modules but don't use them in the browser.
 	// Tell Webpack to provide empty mocks for them so importing them works.

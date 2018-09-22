@@ -132,6 +132,7 @@ module.exports = {
 				exclude: [
 					/build\/css\/block-library\/style.css/,
 					/build\/css\/style.css/,
+					/build\/css\/components\/style.css/,
 					/build\/css\/nux\/style.css/,
 					/build\/css\/editor\/style.css/,
 					/build\/css\/block-library\/theme.css/,
@@ -157,6 +158,7 @@ module.exports = {
 				test: /\.css$/,
 				include: [
 					/build\/css\/style.css/,
+					/build\/css\/components\/style.css/,
 					/build\/css\/nux\/style.css/,
 					/build\/css\/editor\/style.css/,
 					/build\/css\/block-library\/theme.css/,
