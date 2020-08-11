@@ -37,7 +37,7 @@
         "resolve": "1.6.0",
         "serve": "^9.2.0",
         "sinon": "^4.5.0",
-        "tinymce": "4.7.2",
+        "tinymce": "5.4.1",
         "whatwg-fetch": "2.0.3"
     },
     "devDependencies": {
